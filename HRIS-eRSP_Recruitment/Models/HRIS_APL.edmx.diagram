@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4edac2f7afae4efa984f5079a8b72992" Name="Diagram1" ZoomLevel="114">
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_children_tbl" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_conflict_tbl" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_contact_id_tbl" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_csceligibilty_tbl" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_educ_tbl" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_learnanddevt_tbl" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_register_tbl" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_tbl" Width="1.5" PointX="6.75" PointY="8.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_usersprofile_tbl" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_voluntarywork_tbl" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnel_workexprnce_tbl" Width="1.5" PointX="9.75" PointY="4.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personneladdresses_tbl" Width="1.5" PointX="10.75" PointY="8.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.personnelnames_tbl" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.available_item_hdr_tbl" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.available_item_tbl" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.adds_images_tbl" Width="1.5" PointX="0.75" PointY="11.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

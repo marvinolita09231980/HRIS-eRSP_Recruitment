@@ -1,0 +1,260 @@
+﻿@model HRIS_eRSP_Recruitment.Models.Dev_Version_Name
+@{
+    Layout = null;
+}
+
+<html>
+
+
+<!-- Mirrored from webapplayers.com/inspinia_admin-v2.5/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 May 2016 13:21:22 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HRIS-eRSP_Recruitment | Login</title>
+
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+    <!-- Data picker -->
+    <link href="~/Content/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="~/Content/plugins/dataTables/datatables.min.css" rel="stylesheet" />
+
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+
+
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <!-- Toastr style -->
+    <link href="~/Content/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="~/Content/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet" />
+    <link href="~/Content/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet" />
+    <!-- Gritter -->
+    @*<link href="~/Content/plugins/gritter/jquery.gritter.css" rel="stylesheet">*@
+    <link href="~/Content/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/plugins/dropzone/basic.css" rel="stylesheet" />
+    <link href="~/Content/plugins/dropzone/dropzone.css" rel="stylesheet" />
+
+    <link href="~/Content/style.css" rel="stylesheet">
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/ngSweetAlert.js"></script>
+
+    <script src="~/Angular/Angular.js"></script>
+    
+    <script src="~/Angular/ng-Login.js"></script>
+
+    <style type="text/css">
+        .body-login {
+            padding: 5%;
+            /*background-image: url('../../ResourcesImages/DDO Building Blur.jpg');*/
+            background-image: url('../../ResourcesImages/bg-login-system.jpg');
+            background-size: cover;
+        }
+
+        .screen-login {
+            /*background: url('../../ResourcesImages/Davao de Oro Provincial Capitol Building.JPG') no-repeat;
+            background-size: contain;
+            box-shadow: 5px 10px 20px 0px #606060;
+            padding: 15px !important;
+            background-color: #f3f3f3;
+            border-radius: 10px;
+            border: 1px solid #f5f5f5;*/
+            background: url('../../ResourcesImages/Davao de Oro Provincial Capitol Building.JPG') no-repeat;
+            background-size: contain;
+            box-shadow: 5px 10px 20px 0px #606060;
+            padding: 15px !important;
+            background-color: #00419b;
+            background-image: url('../../ResourcesImages/bg-login-system.jpg');
+            border-radius: 10px;
+            border: 1px solid;
+            z-index: 950;
+        }
+
+    </style>
+
+
+
+</head>
+
+
+
+
+
+
+<body class="gray-bg body-login" ng-app="ng_eRSP_App2" ng-controller="LoginCtrlr">
+    <h2></h2>
+
+
+    <div class="middle-box text-center loginscreen animated fadeInDown screen-login">
+        <div style="margin-bottom:5px;">
+            <h1 class="logo-name">
+                <img src="/ResourcesImages/ddo logo.png" height="200" width="200" />
+            </h1>
+        </div>
+        <div style="font-size:14px;color:darkgoldenrod;margin-top:10px;">
+            <small style="font-size:16px;font-weight:bolder;color:white">Welcome to</small>
+            <small style="font-size:16px;font-weight:bolder">  </small>
+        </div>
+        <hr style="margin-top:4px;margin-bottom:4px;border-color:darkgoldenrod;" />
+        <h2 style="margin-top:3px;color:white"><strong>HRIS - RECRUITMENT</strong></h2>
+
+        <hr style="margin-top:4px;margin-bottom:0px;border-color:darkgoldenrod;" />
+        <form class="m-t" role="form" ng-model="lgn" style="margin-top:4px;">
+            <div class="form-group">
+                @*<label id="lbl_txtb_password_req" class="lbl_required text-center" style="width:100%;"></label>
+                    <input type="text" id="txtb_username" class="form-control" placeholder="Username" ng-model="txt_username" required="">
+                    <label id="lbl_txtb_username_req" class="lbl_required"></label>*@
+                <input type="text" class="form-control removeReq" placeholder="Username" id="username" ng-model="lgn.username" required>
+                <small class="text-center username hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+            </div>
+            <div class="form-group">
+                @*<input type="password" id="txtb_password" class="form-control" placeholder="Password" style="padding-right:33px !important;" ng-model="txt_password" required="">
+        <span class="fa fa-eye-slash pull-right" id="show_pass_icn" onclick="showpassword()" style="margin-top:-32px;margin-right:2px;z-index:1000;background-color:white;padding:8px;cursor:pointer;"></span>*@
+                <input type="password" class="form-control removeReq" placeholder="Password" id="password" style="padding-right:33px !important;" ng-model="lgn.password" required>
+                <span class="fa fa-eye-slash pull-right" id="show_pass_icn" onclick="showpassword()" style="margin-top:-32px;margin-right:2px;z-index:1000;background-color:white;padding:8px;cursor:pointer;"></span>
+                <small class="text-center password hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+            </div>
+            <button type="submit" ng-click="btn_Login_Submit(lgn)" class="btn btn-primary block full-width"><i class="fa fa-sign-in"></i> Login</button>
+            <br />
+        </form>
+        <p class="m-t-n"> <small>Provincial Government of Davao de Oro &copy; 2020</small> </p>
+    </div>
+
+
+    @*<div class="middle-box text-center loginscreen animated fadeInDown screen-login">
+            <div>
+                <div>
+
+                    <h1 class="logo-name">
+                        <img src="~/ResourcesImages/ddo logo.png" height="250" width="250" />
+                    </h1>
+
+                </div>
+                <h2>Welcome to &nbsp;<strong>@Model.DVName</strong></h2>
+                <p>
+
+                </p>
+
+                <form class="m-t" role="form" ng-model="lgn">
+                    <div class="form-group">
+                        <input type="text" class="form-control removeReq" placeholder="Username" id="username" ng-model="lgn.username" required>
+                        <small class="text-center username hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control removeReq" placeholder="Password" id="password" ng-model="lgn.password" required>
+                        <small class="text-center password hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                    </div>
+                    <button type="submit" ng-click="btn_Login_Submit(lgn)" class="btn btn-primary block full-width m-b">Login</button>
+
+
+                </form>
+
+
+            </div>
+        </div>*@
+    <script src="/Scripts/jquery-2.1.1.js"></script>
+   
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+    <script src="~/Scripts/plugins/chosen/chosen.jquery.js"></script>
+    <script src="~/Scripts/plugins/jsKnob/jquery.knob.js"></script>
+    <!-- Flot -->
+    <script src="~/Scripts/plugins/flot/jquery.flot.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.spline.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.pie.js"></script>
+
+
+    <!-- Peity -->
+    <script src="~/Scripts/plugins/peity/jquery.peity.min.js"></script>
+    <script src="~/Scripts/demo/peity-demo.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="~/Scripts/inspinia.js"></script>
+    <script src="~/Scripts/plugins/pace/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="~/Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- GITTER -->
+    <script src="~/Scripts/plugins/gritter/jquery.gritter.min.js"></script>
+
+    <!-- Sparkline -->
+    <script src="~/Scripts/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="~/Scripts/demo/sparkline-demo.js"></script>
+
+    <!-- ChartJS-->
+    <script src="~/Scripts/plugins/chartJs/Chart.min.js"></script>
+    <!-- Data picker -->
+    <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="~/Scripts/plugins/toastr/toastr.min.js"></script>
+
+    <script src="~/Scripts/inspinia.js"></script>
+    <script src="~/Scripts/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <!-- iCheck -->
+    <script src="~/Scripts/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Date range picker -->
+    <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+
+
+            $('#datepicker').datepicker({
+                "z-index": 99999
+            });
+
+
+
+
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        function myFunction() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+        function showpassword() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+                $("#show_pass_icn").removeClass('fa-eye-slash');
+                $("#show_pass_icn").addClass('fa-eye');
+            }
+            else {
+                $("#show_pass_icn").removeClass('fa-eye');
+                $("#show_pass_icn").addClass('fa-eye-slash');
+                x.type = "password";
+            }
+        }
+    </script>
+
+</body>
+
+
+<!-- Mirrored from webapplayers.com/inspinia_admin-v2.5/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 May 2016 13:21:22 GMT -->
+</html>

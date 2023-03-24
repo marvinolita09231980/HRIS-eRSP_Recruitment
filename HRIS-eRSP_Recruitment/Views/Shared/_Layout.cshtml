@@ -1,0 +1,560 @@
+﻿
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRIS-eRSP_Recruitment</title>
+    <base href="/" />
+
+
+
+
+    <link href="~/Content/plugins/select2/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="~/Content/plugins/dataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/Content/common.css" rel="stylesheet" />
+
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/plugins/dropzone/basic.css" rel="stylesheet" />
+    <link href="~/Content/plugins/dropzone/dropzone.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet">
+    <link href="~/Content/plugins/summernote/summernote.css" rel="stylesheet" />
+    <link href="~/Content/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+
+
+
+    <script src="~/Angular/Angular.js"></script>
+    <script src="~/Angular/ngApp.js"></script>
+    <script src="~/Angular/ng-FileUpload.js"></script>
+    <script src="~/Angular/ng-SharedLayout.js"></script>
+    <script src="~/Scripts/ngSweetAlert.js"></script>
+
+
+
+
+
+
+    <script language="javascript" type="text/javascript">
+
+    var sessionTimeoutWarning   = @System.Configuration.ConfigurationManager.AppSettings["SessionWarning"].ToString(); //get session warning value from web config variable
+    var sessionTimeout          = @Session.Timeout; //get session timeout value from web config variable
+    var sTimeout                = sessionTimeoutWarning * 60000; //time to pop-up warning message
+    var set_time_var            = "";
+    var count                   = sessionTimeout * 60;
+    var counter                 = "";
+
+    //detect mouse click then call reset session time function
+    function mouse_detect(event) {
+        reset_session();
+    }
+
+    //detect mouse scroll then call reset session time function
+    function wheel_detect() {
+        reset_session();
+    }
+
+    //start session timer on page load
+    function onload_body() {
+        set_time();
+        timer();
+    }
+
+    function set_time() {
+        set_time_var = setTimeout('session_warning();', sTimeout);
+        counter = setInterval(timer, 1000);
+    }
+
+    function timer() {
+        count = count - 1;
+        if (count <= 0) {
+            setTimeout(function () {
+                swal({
+                    title: "Session Timeout",
+                    text: "You will be redirected to Login Page.",
+                    icon: "error",
+                    allowOutsideClick: false,
+                })
+                    .then(function () {
+                        clearInterval(counter);
+                        sessionStorage.clear();
+                        location.href = "../Login/Index"
+                        return;
+                    });
+            }, 1000);
+        }
+        $('#time_left').text(count);
+    }
+
+    function session_warning() {
+        setTimeout(function () {
+            toastr.options = {
+                closeOnHover: true,
+                closeButton: false,
+                progressBar: true,
+                showMethod: 'slideDown',
+                timeOut: 30000
+            };
+            toastr.error('Your session is about to end in ' + sessionTimeoutWarning + ' minutes, try refreshing the page!', 'You have been idle for too long.');
+
+        }, 1000);
+    }
+
+    function reset_session() {
+        toastr.clear();
+        var xmlHttp = null;
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "KeepAlive.aspx", true);
+        xmlHttp.send(null);
+
+        count = sessionTimeout * 60;
+        toast_time_out = 1;
+        clearTimeout(set_time_var);
+        clearInterval(counter);
+        set_time();
+    }
+    </script>
+
+    <style>
+        .row-height {
+            height: 40px !important;
+        }
+
+        .imgProfile {
+            border-radius: 50%;
+        }
+
+        .checkbx {
+        }
+        /* The container */
+        .container {
+            width: 10px;
+            display: block;
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            /* Hide the browser's default checkbox */
+            .container input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #2C8F7B;
+            border-radius: 3px;
+            /*border:2px solid #49e40b*/
+        }
+
+        /* On mouse-over, add a grey background color */
+        .container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .container input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .ngDD:hover {
+            background-color: gray;
+        }
+
+        .font-xxsm {
+            font-size: xx-small
+        }
+
+        .font-xsm {
+            font-size: x-small
+        }
+
+        .font-smr {
+            font-size: smaller
+        }
+
+        .font-sm {
+            font-size: small
+        }
+
+        .font-md {
+            font-size: medium
+        }
+
+        .font-lg {
+            font-size: large
+        }
+
+        .font-lgr {
+            font-size: larger
+        }
+
+        .font-xl {
+            font-size: x-large
+        }
+
+        .font-xxl {
+            font-size: xx-large
+        }
+
+        .ddo-bg {
+            background-color: #412C12 !important;
+        }
+
+        .font-15 {
+            margin-top: 9.2px;
+            margin-bottom: 9.2px;
+            font-size: 15px;
+        }
+
+        .font-10 {
+            margin-top: 11.4px;
+            margin-bottom: 11.4px;
+            font-size: 10px;
+        }
+
+        .font-11 {
+            margin-top: 11.2px;
+            margin-bottom: 11.2px;
+            font-size: 11px;
+        }
+
+        .font-12 {
+            margin-top: 10.7px;
+            margin-bottom: 10.7px;
+            font-size: 12px;
+        }
+
+        .font-13 {
+            margin-top: 1.5px;
+            margin-bottom: 1.5px;
+            font-size: 13px;
+        }
+
+        .font-14 {
+            margin-top: 9.7px;
+            margin-bottom: 9.7px;
+            font-size: 14px;
+        }
+
+        .font-size-10 {
+            font-size: 10px !important;
+        }
+
+        .font-size-11 {
+            font-size: 11px !important;
+        }
+
+        .font-size-12 {
+            font-size: 12px !important;
+        }
+
+        .font-size-13 {
+            font-size: 13px !important;
+        }
+
+        .font-size-14 {
+            font-size: 14px !important;
+        }
+
+        .font-size-15 {
+            font-size: 15px !important;
+        }
+
+        .font-size-16 {
+            font-size: 16px !important;
+        }
+
+        .font-size-17 {
+            font-size: 17px !important;
+        }
+
+        .font-size-18 {
+            font-size: 18px !important;
+        }
+
+        .ddo-font {
+            color: #F1D640 !important;
+        }
+
+            .ddo-font:hover {
+                color: white !important;
+            }
+
+            .ddo-font:active {
+                color: white !important;
+            }
+
+        nav-header {
+            background-color: #412C12 !important;
+        }
+
+        nav.navbar.navbar-static-top {
+            background-color: #412C12 !important;
+        }
+
+        .hangingindent {
+            padding-left: 22px;
+        }
+
+        .hangingindent {
+            padding-left: 22px;
+            text-indent: -22px;
+        }
+
+        .header-label {
+            color: #F1D640;
+            font-size: medium;
+        }
+
+        .lable-cont {
+            margin-top: 5px;
+        }
+
+        .active-menu {
+            background-color: #293846 !important;
+            color: white !important;
+        }
+    </style>
+    <meta name="description" content="The description of my page" />
+</head>
+<body class="ddo-bg" ng-app="ng_eRSP_App" ng-controller="SharedLayoutCtrlr" id="main-body" onload="onload_body()" onmousedown="mouse_detect(event)" onwheel="wheel_detect()">
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side ddo-bg" role="navigation">
+            <div class="sidebar-collapse ">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element ">
+                            <span>
+                                <img alt="" class="img-circle" src="{{imgprofile}}" height="90" width="90" />
+                            </span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="text-muted text-xs block">{{username}} <b class="caret"></b></span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a href="profile.html">My Profile</a></li>
+                                <li><a href="contacts.html">My Worklist</a></li>
+                                <li><a href="mailbox.html">My Password</a></li>
+                                <li class="divider"></li>
+                                <li><a ng-model="logout" ng-click="logout()">Logout</a></li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">
+                            <span>
+                                @*<img alt="image" class="img-circle" src="{{imgprofile}}" height="50" width="50" />*@
+                            </span>
+                        </div>
+                    </li>
+
+                    <li ng-repeat="lst1 in MenuList" ng-if="lst1.menu_level == 1" class="ddo-font">
+
+                        <a class="ddo-font {{lst2.activeclass}}" ng-if="lst2.hasUrl == 1" href="" ng-click="setActive(lst1)">{{lst1.menu_name}}<span class=""></span></a>
+
+                        <a class="ddo-font" ng-if="lst1.hasUrl == 0" ng-click="collapse(lst1.isOpen,lst1.id,lst1.hasUrl)" id="{{lst1.id}}">
+                            <i class="{{lst1.menu_icon}}"></i><span class="nav-label">{{lst1.menu_name}}</span>
+                            <span ng-show="!lst1.isOpen" class="fa fa-angle-right pull-right"></span>
+                            <span ng-show="lst1.isOpen" class="fa fa-angle-down pull-right"></span>
+                        </a>
+                        <ul class="tranx nav nav-second-level" ng-show="lst1.isOpen == 1">
+                            <li style="color:#F1D640 !important" ng-repeat="lst2 in MenuList" ng-if="lst2.menu_id_link == lst1.id ">
+                                <a class="ddo-font {{lst2.activeclass}}" id="{{lst2.id}}" ng-if="lst2.hasUrl == 1" href="" ng-click="setActive(lst2)">{{lst2.menu_name}}<span class=""></span></a>
+                                <a class="ddo-font" ng-if="lst2.hasUrl == 0" ng-click="collapse(lst2.isOpen,lst2.id,lst2.hasUrl)">
+                                    {{lst2.menu_name}}
+                                    <span ng-show="!lst2.isOpen" class="fa fa-angle-right pull-right"></span>
+                                    <span ng-show="lst2.isOpen" class="fa fa-angle-down pull-right"></span>
+                                </a>
+                                <ul class=" nav nav-third-level ddo-font" ng-show="lst2.isOpen == 1">
+                                    <li ng-repeat="lst3 in MenuList" ng-if="lst2.id == lst3.menu_id_link">
+                                        <a class="ddo-font {{lst2.activeclass}}" id="{{lst3.id}}" href="" ng-click="setActive(lst3)">{{lst3.menu_name}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" style="background-color:#F1D640 !important;" href=""><i class="fa fa-bars"></i> </a>
+                </div>
+                @*<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 no-padding lable-cont">
+                           <span class="pull-left m-l-sm font-13 header-label"><b>EMPLOYMENT TYPE: &nbsp;&nbsp;</b></span><span class="fa fa-book m-r-sm m-t-xs header-label"></span>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
+                            <select class="form-control disable-white employmentType" id="employment_type" ng-model="employment_type" >
+                                <option value="" selected>--Select Here--</option>
+                                <option value="RE">Permanent</option>
+                                <option value="CE">Casual</option>
+                                <option value="JO">Job Order</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 no-padding lable-cont">
+                            <span class="pull-left m-l-sm font-13 header-label"><b>BUDGET YEAR:&nbsp;&nbsp;</b></span><span class="fa fa-calendar pull-right m-r-sm m-t-xs header-label"></span>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
+                            <select class="form-control disable-white norequired budgetCode" id="budget_code" ng-model="budget_code" required>
+                                <option value="">--Select Here--</option>
+                                <option ng-repeat="l in budget_year " value="{{l.budget_code}}">{{l.budget_description}}</option>
+                            </select>
+                        </div>
+                    </div>*@
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a ng-click="logout()">
+                            <i class="fa fa-sign-out"></i> Log Out
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+        @RenderBody()
+    </div>
+    <div class="modal fade" id="common_loading_modal">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+                @*<span class="fa fa-spinner fa-spin fa-3x text-white"></span>*@
+                <div class="spiner-example" style="padding:0px; margin:0px; height:auto !important;">
+                    <div class="sk-spinner sk-spinner-fading-circle" style="width:150px;height:150px; margin-top:150px !important;">
+                        <div class="sk-circle1 sk-circle"></div>
+                        <div class="sk-circle2 sk-circle"></div>
+                        <div class="sk-circle3 sk-circle"></div>
+                        <div class="sk-circle4 sk-circle"></div>
+                        <div class="sk-circle5 sk-circle"></div>
+                        <div class="sk-circle6 sk-circle"></div>
+                        <div class="sk-circle7 sk-circle"></div>
+                        <div class="sk-circle8 sk-circle"></div>
+                        <div class="sk-circle9 sk-circle"></div>
+                        <div class="sk-circle10 sk-circle"></div>
+                        <div class="sk-circle11 sk-circle"></div>
+                        <div class="sk-circle12 sk-circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/plugins/jsKnob/jquery.knob.js"></script>
+
+    <script src="~/Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+    <script src="~/Scripts/inspinia.js"></script>
+    <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/plugins/select2/select2.min.js"></script>
+    <script src="~/Scripts/plugins/pace/pace.min.js"></script>
+    <script src="~/Scripts/plugins/iCheck/icheck.min.js"></script>
+    <script src="~/Scripts/plugins/summernote/summernote.min.js"></script>
+    <script src="~/Scripts/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(document).ready(function () {
+                $('.i-checks').iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+
+
+                $('.summernote').summernote();
+
+            });
+            var edit = function () {
+                $('.click2edit').summernote({ focus: true });
+            };
+            var save = function () {
+                var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
+                $('.click2edit').destroy();
+            };
+
+            $('.datepicker').datepicker({
+                "z-index": 99999
+            });
+
+
+            $(".select2_demo_3").select2({
+                placeholder: "Select employee name. . . ",
+                allowClear: true,
+                //dropdownParent: $("#main_modal")
+            });
+
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

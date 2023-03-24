@@ -1,0 +1,355 @@
+﻿@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .mm {
+        width: 800px;
+    }
+</style>
+<script src="~/Angular/ng-AddGuestUser.js"></script>
+
+<section ng-app="ng_eRSP_App" ng-controller="cAddGuestUser_Ctrlr">
+
+
+    <div class="modal fade" id="extracting_data" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+            <div class="spiner-example">
+                <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="row" style="padding-top:5px;">
+
+                        <div class="col-sm-12">
+                            <div style="width:50%; float:left;" class="no-padding">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Extracting data</span>
+                            </div>
+                            <div style="width:50%; float:right;" class="no-padding">
+                                <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                    <div class="sk-bounce1" style="background-color:white"></div>
+                                    <div class="sk-bounce2" style="background-color:white"></div>
+                                    <div class="sk-bounce3" style="background-color:white"></div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-4">
+            <h2 class="text-white"><b>Add Guest User Info</b></h2>
+        </div>
+
+        <div class="col-sm-2 m-t-xs pull-right">
+            <div class="btn-group pull-left">
+                <button class="btn btn-primary" ng-click="BackToGrid()">Back To Grid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fa fa-arrow-circle-left"></span></button>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="ibox-title m-top-n20">
+            <div class="row no-padding" style="margin-top:-10px!important;">
+                <div class="col-lg-2 tabs-container m-b-md">
+                </div>
+                <div class="col-lg-8 tabs-container m-b-md">
+                    <form ng-model="gu" novalidate>
+                        <div class="row m-top-30">
+                            <div class="col-sm-2 no-padding">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>User Id:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 dt-hdr-rw">
+                                <div style="padding-right:0!important;height:32px!important; margin-bottom:25px!important;">
+                                    <input type="text" id="g_user_id" ng-model="gu.g_user_id" class="form-control text-center removeReq" required disabled />
+                                    <small class="text-center g_user_id hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 no-padding">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Status:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 dt-hdr-rw">
+                                <div style="padding-right:0!important;height:32px!important; margin-bottom:25px!important;">
+                                    <select name="boolval" class="form-control removeReqOption" id="g_status" ng-model="gu.g_status" bit required>
+                                        <option value="0" selected>Inactive</option>
+                                        <option value="1">Active</option>
+                                    </select>
+                                    <small class="text-center g_status hidden pull-left" style="font-size:12px;height:15px;color:red"><i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-sm-2 no-padding">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Last name:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-10 dt-hdr-rw">
+
+                                <div style="padding-right:0!important;margin-bottom:25px!important;">
+                                    <input type="text" id="last_name" ng-model="gu.last_name" class="form-control text-left removeReq" required />
+                                    <small class="text-center last_name hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-sm-2 no-padding">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>First name:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-10 dt-hdr-rw">
+
+                                <div style="padding-right:0!important;margin-bottom:25px!important;">
+                                    <input type="text" id="first_name" ng-model="gu.first_name" class="form-control text-left removeReq" required />
+                                    <small class="text-center first_name hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-top-10">
+                            <div class="col-sm-2 no-padding">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Middle name:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-10 dt-hdr-rw">
+                                <div style="margin-bottom:25px!important;">
+                                    <input type="text" id="middle_name" ng-model="gu.middle_name" class="form-control text-left removeReq"/>
+                                    <small class="text-center middle_name hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-sm-2 no-padding">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Civil Status:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 dt-hdr-rw">
+                                <div style="margin-bottom:25px!important;">
+                                    <select class="form-control removeReqOption" id="civil_status" ng-model="gu.civil_status" required>
+                                        <option value="">--</option>
+                                        <option ng-repeat="l in civil_status" value="{{l.civil_status}}">{{l.civil_status_descr}}</option>
+                                    </select>
+                                    <small class="text-center civil_status hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Gender:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 dt-hdr-rw">
+                                <div style="margin-bottom:25px!important;">
+                                    <select class="form-control removeReqOption" id="gender" ng-model="gu.gender" required>
+                                        <option value="">--</option>
+                                        <option value="F">Female</option>
+                                        <option value="M">Male</option>
+                                    </select>
+                                    <small class="text-center gender hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-1 no-padding">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Birthdate:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 dt-hdr-rw">
+                                <div style="margin-bottom:25px!important;">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="birth_date" ng-model="gu.birth_date" class="form-control text-center" required />
+                                        <div class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center birth_date hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-top-10">
+                            <div class="col-sm-2 no-padding">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Address:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-10 dt-hdr-rw">
+                                <div style="margin-bottom:25px!important;">
+                                    <input type="text" id="g_address" ng-model="gu.g_address" class="form-control text-left removeReq" required />
+                                    <small class="text-center g_address hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-sm-2 no-padding">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Agency:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-10 dt-hdr-rw">
+                                <div style="margin-bottom:25px!important;">
+                                    <input type="text" id="agency" ng-model="gu.agency" class="form-control text-left removeReq" required />
+                                    <small class="text-center agency hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-sm-2 no-padding">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Position:</b></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-10 dt-hdr-rw">
+                                <div style="margin-bottom:25px!important;">
+                                    <input type="text" id="position" ng-model="gu.position" class="form-control text-left removeReq" required />
+                                    <small class="text-center position hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-top-40">
+                            <div class="col-sm-12">
+                                <center>
+                                    <button class="btn btn-success font-bold pull-right" ng-click="saveGuestUser(gu)">
+                                        &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;<i id="add" class="fa fa-save"></i>
+                                    </button>
+                                    <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                                        <i class="fa fa-close"></i>&nbsp;&nbsp;Cancel
+                                    </button>
+                                </center>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-2 tabs-container m-b-md">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"> </script>
+<script>
+    $(document).ready(function () {
+
+    });
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+

@@ -1,0 +1,247 @@
+﻿@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+
+    div.datepicker {
+        z-index: 3000 !important;
+    }
+
+    .modal-llg {
+        width: 900px;
+    }
+
+    .success-bg {
+        background-color: #23C6C8;
+    }
+
+    .action-btn button {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    span.checkmark {
+        margin-top: 0 !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: 0 !important;
+    }
+
+    label input[type="checkbox"] {
+        font-size: xx-large !important;
+        margin-top: -.5px !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: 100px !important;
+    }
+
+    label.container {
+        font-size: large !important;
+        margin-top: -.5px !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: 76px !important;
+    }
+
+        label.container span.fa.fa-spinner.fa-spin {
+            margin-top: 5px !important;
+            margin-left: -20px !important;
+            color: red;
+        }
+</style>
+
+<script src="~/Angular/ng-cPrintScoreSheet.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cPrintScoreSheet_Ctrlr">
+
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="row">
+            <div class="col-lg-4">
+                <h2 class="text-white"><b>Print Score Sheet</b></h2>
+            </div>
+            <div class="col-lg-2 pull-right" style="margin-top:12px;">
+                <button class="btn btn-primary pull-right" ng-click="back()"><i class="fa fa-arrow-circle-left"></i> Back</button>
+            </div>
+            <div class="col-lg-6 pull-right" style="margin-top:12px;">
+                <input type="search" class="form-control block headerSearch" ng-model="search_name" tableref="Data_List_Grid" placeholder="Search ....">
+            </div>
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight no-padding">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-sm-3 m-t-xs pull-left">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Show</b></span>
+                            <select class="form-control field-select-sm setTableRow" tableref="Data_List_Grid" style="width:30%;float:left;" ng-model="rowLen">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span class="font-bold" style="float:left;margin-top:9px;margin-left:10px;"><b>Entries</b></span>
+                        </div>
+                        <div class="col-sm-3">
+
+                        </div>
+                        <div class="col-sm-6 m-t-xs">
+                            <div style="width:19.5%;float:left;margin-bottom:15px;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Position:</b></span>
+                            </div>
+                            <div style="width:80.5%; float:left;padding-right:0!important;margin-top:0;padding-top:0">
+                                <select class="form-control disable-white norequired" id="item_no" ng-model="item_no" ng-change="selectPSBSchedApplicant(item_no)" required>
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in psbsched_item" value="{{l.item_no}}">Item#&nbsp;{{l.item_no}}&nbsp;-&nbsp;{{l.position_long_title}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-padding" style="margin-top:-10px!important;">
+                        <div class="col-lg-12 tabs-container m-b-md">
+                            <table id="Data_List_Grid" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width=25%">OFFICE</th>
+                                        <th width="7%">ITEM NO</th>
+                                        <th width="25%">POSITION</th>
+                                        <th width="25%">NAME</th>
+                                        <th width="10%">SEX</th>
+                                        <th width="5%">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog" style="width:90% !important;height:100% !important;">
+            <div class="modal-content modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                </div>
+                <div class="modal-body" style="padding:0px !important">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <iframe style="width:100% !important;height:90% !important;border:0px none;" id="iframe_print_preview"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"> </script>
+<script>
+   
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+
+
+

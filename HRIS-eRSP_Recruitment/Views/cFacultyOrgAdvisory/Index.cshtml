@@ -1,0 +1,326 @@
+﻿@*
+    ****Page Created by     :   Joseph M. Tombo Jr
+    ****Page Started date   :   03/10/2020
+    ****Page Description    :   This facility is for Faculty Group Advisory.
+*@
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Angular/ng-cFacultyOrgAdvisory.js"></script>
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    @@media only screen and (max-width: 768px) {
+
+        div.input_responsive_c 
+        {
+            width:50% !important;
+            float:right;
+        }
+        span.input_responsive_c {
+            width: 50% !important;
+        }
+        div.input_responsive_full {
+            width: 100% !important;
+        }
+
+        span.mt5 {
+            padding-top: 9px !important;
+        }
+        .mt5 {
+            margin-top: 5px !important;
+        }
+    }
+    @@media only screen and (max-width: 761px) {
+
+        div.input_responsive_c {
+            width: 50% !important;
+            /*float: right;*/
+        }
+        span.input_responsive_c {
+            width:50% !important;
+        }
+    }
+
+    @@media only screen and (max-width: 1330px) {
+        div.sch_rating_responsive_filter 
+        {
+            width:75% !important;
+        }
+
+        span.sch_rating_responsive_filter {
+            width: 25% !important;
+        }
+    }
+
+    @@media only screen and (max-width: 1199px) {
+        div.sch_rating_responsive_filter {
+            width: 65% !important;
+        }
+
+        span.sch_rating_responsive_filter {
+            width: 35% !important;
+        }
+        label.sch_rating_responsive_filter {
+            width: 35% !important;
+        }
+    }
+    @@media only screen and (max-width:874px) {
+        div.show_responsive_container {
+            padding-right:0px !important;
+        }
+    }
+
+    @@media only screen and (max-width:815px) {
+        div.show_responsive_container {
+            padding-right: 0px !important;
+            width: 100% !important;
+            margin-top:5px;
+        }
+        div.sch_rating_responsive_filter_container {
+            width: 100% !important;
+            margin-top: 5px;
+        }
+    }
+
+    @@media only screen and (max-width:767px) 
+    {
+        div.sch_rating_responsive_filter_container {
+            width: 100% !important;
+        }
+        div.sch_rating_responsive_filter {
+            width: 100% !important;
+            float:right !important;
+        }
+
+        span.sch_rating_responsive_filter {
+            width: 100% !important;
+            float: left !important;
+        }
+
+        label.sch_rating_responsive_filter {
+            width: 100% !important;
+            float:left !important;
+        }
+    }
+    
+</style>
+<section ng-app="ng_eSMIS_App" ng-controller="cFacultyOrgAdvisory_ctrlr">
+    <!-- Modal Loading -->
+    <div class="modal fade" id="modal_generating_remittance">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+                @*<span class="fa fa-spinner fa-spin fa-3x text-white"></span>*@
+                <div class="spiner-example">
+                    <div class="sk-spinner sk-spinner-cube-grid" style="width:250px;height:250px;">
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="row">
+                            <div class="spiner-example text-white" style="margin-left:20px;">
+                                <span style="float:left;font-size:16px;" id="loading_msg">LOADING</span>
+                                <div style="float:left;width:150px;" class="sk-spinner sk-spinner-three-bounce">
+                                    <div class="sk-bounce1" style="background-color:white;"></div>
+                                    <div class="sk-bounce2" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="clear_time_out()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span class="pull-left" style="margin-top:9px;"><b style="color:red;">*</b><b>School Calendar</b><b>: </b></span>
+                            <div class="input_responsive_c" style="width:54.5%; float:right;">
+                                <b>
+                                    <input class="form-control" id="txtb_school_calendar" ng-model="txtb_school_calendar" disabled />
+                                </b>
+                                <label id="lbl_txtb_school_calendar_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                        <div  class="col-sm-6">
+                            <span class="input_responsive_c pull-left mt5" style="margin-top:9px;"><b style="color:red;">*</b><b>Status</b><b>: </b></span>
+                            <div class="input_responsive_c mt5" style="width:58%; float:right;">
+                                <select class="form-control text-left" id="ddl_status" ng-model="ddl_status">
+                                    <option value="">Select Here</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">In-Active</option>
+                                </select>
+                                <label id="lbl_ddl_status_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-sm-12">
+                            <span class="pull-left" style="margin-top:9px;"><b style="color:red;">*</b><b>Academic Group </b><b>: </b></span>
+                            <div  class="input_responsive_full mt5" style="width:78.5%; float:right;">
+                                <b>
+                                    <input class="form-control" id="txtb_academic_group" ng-model="txtb_academic_group" disabled />
+                                </b>
+                                <label id="lbl_txtb_academic_group_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <span class="pull-left" style="margin-top:9px;"><b style="color:red;">*</b><b>Faculty Name </b><b>: </b></span>
+                            <div class="input_responsive_full mt5" style="width:78.5%; float:right;">
+                                <select class="form-control text-left" ng-show="isAdd" id="ddl_personnel_name" ng-model="ddl_personnel_name" ng-change="ddl_personnel_change(ddl_personnel_name)">
+                                    <option value="">--Select Here</option>
+                                    <option ng-repeat="lst in list_of_personnel" value="{{lst.f_empl_id}}">{{lst.personnel_name}}</option>
+                                </select>
+                                <b><input class="form-control" ng-show="!isAdd" id="txtb_personnel_name" ng-model="txtb_personnel_name" disabled /></b>
+                                <label id="lbl_ddl_personnel_name_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:4px;">
+                        <div class="col-sm-12">
+                            <span class="pull-left" style="margin-top:9px;"><b>Details Remarks: </b></span>
+                            <div class="input_responsive_full mt5" style="width:78.5%; float:right;">
+                               <textarea class="form-control" id="txtb_details_remarks" ng-model="txtb_details_remarks"></textarea>
+                               <label id="lbl_txtb_details_remarks_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="clear_time_out()"><i class="fa fa-close"></i> Close</button>
+                    <button id="addFinal" ng-show="isAdd" ng-click="btn_save_click()" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                    <button id="edit" ng-show="!isAdd" ng-click="SaveEdit()" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End of Add Modal-->
+    <!-- Tickets and Issue Log Page Header-->
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title blue-bg">
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h2 class="text-white">@Model.menu_name</h2>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col-sm-4 show_responsive_container">
+                                <span class="pull-left" style="margin-top:9px;"><strong>Show&nbsp;</strong></span>
+                                <div class="show_responsive" style="width:30%;float:left;">
+                                    <select class="form-control field-select-sm" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
+                                        <option value="5">5</option>
+                                        <option value="10" selected>10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                                <span class="pull-left" style="margin-top:9px;"><strong>&nbsp;entries</strong></span>
+                            </div>
+                            <div class="col-sm-7 sch_rating_responsive_filter_container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <b><label class="pull-left sch_rating_responsive_filter" style="margin-top:9px;"><b style="color:red;">*</b>School Calendar:&nbsp;</label></b>
+                                        <div class="sch_rating_responsive_filter" style="width:75%;float:right;">
+                                            <select class="form-control field-select-sm" id="ddl_school_calendar" ng-model="ddl_school_calendar" ng-change="FilterPageGrid()">
+                                                <option value="" selected>--Select Here--</option>
+                                                <option ng-repeat="lst in list_of_school_year track by $index" ngx-data="{{$index}}" value="{{lst.f_calendar}}">{{lst.f_calendar_descr}}</option>
+                                            </select>
+                                            <label id="lbl_ddl_school_calendar_req" class="lbl_required"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-7 sch_rating_responsive_filter_container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <b><label class="sch_rating_responsive_filter pull-left" style="margin-top:9px;"><b style="color:red;">*</b>Academic Group:&nbsp;</label></b>
+                                        <div class="sch_rating_responsive_filter" style="width:75%;float:right;">
+                                            <select class="form-control field-select-sm" id="ddl_academic_group" ng-model="ddl_academic_group" ng-change="FilterPageGrid()">
+                                                <option value="" selected>--Select Here--</option>
+                                                <option ng-repeat="lst in list_of_acad_group track by $index" ngx-data="{{$index}}" value="{{lst.f_group_code}}">{{lst.f_group_descr}}</option>
+                                            </select>
+                                            <label id="lbl_ddl_academic_group_req" class="lbl_required"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 sch_rating_responsive_filter_container">
+                                <button id="add" ng-show="allowAdd" class="btn btn-success pull-right font-bold" ng-click="btn_add_click()"><i class="fa fa-plus-circle"> </i> Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="col-12 table-responsive">
+                            <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th width="20%">EMPL ID</th>
+                                        <th width="53%">FACULTY NAME</th>
+                                        <th width="12%">STATUS</th>
+                                        <th width="15%">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

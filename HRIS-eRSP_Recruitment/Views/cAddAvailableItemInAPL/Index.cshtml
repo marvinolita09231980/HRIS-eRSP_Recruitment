@@ -1,0 +1,537 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .mm {
+        width: 800px;
+    }
+
+    .ll {
+        width: 900px;
+    }
+
+    .llg {
+        width: 1200px;
+    }
+    .modal-lllg {
+        width: 900px;
+    }
+
+    .modal-llllg {
+        width: 1200px;
+    }
+
+    .modal-header {
+        background-color: #0074E8 !important;
+    }
+    .fa-stack2x {
+        position: absolute;
+        top: 1.5px;
+        left: 3.5px;
+        font-size:20px;
+    }
+</style>
+
+<script src="~/Angular/ng-cAddAvailableItemInApl.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cAddAvailableItemInAPL_Ctrlr">
+
+    
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-6">
+            <h2 class="text-white"><b>Add Item To Online Recruitment</b></h2>
+        </div>
+        <div class="col-lg-6" style="margin-top:12px;">
+            <div style="width:100%;float:left;">
+                <input type="search" ng-show="!show_btn" class="form-control block filterMultipleItem2" ng-model="search_name" tableref="online_available_item_grid" placeholder="Search ....">
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title">
+                    <form id="hdr_frm" novalidate>
+                        <div class="row">
+                            <div class="col-sm-3 m-t-xs pull-left">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Show</b></span>
+                                <select class="form-control field-select-sm setTableRow" style="width:30%;float:left;" ng-model="rowLen" tableref="available_item_grid">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span class="font-bold" style="float:left;margin-top:9px;margin-left:10px;"><b>Entries</b></span>
+                            </div>
+
+
+                            <div class="col-lg-4 m-t-xs" style="">
+                                <div style="width:30%; float:left;padding-top:5px;">
+                                    <label>Budget Code:</label>
+                                </div>
+                                <div style="width:70%; float:right;">
+                                    <select id="budget_code" ng-model="budget_code" maxlength="100" class="form-control norequired" style="font-weight:bold;" ng-change="ngF_Budget_code(budget_code)" required>
+                                        <option value="">--Select--</option>
+                                        <option ng-repeat="l in budgetyears" value="{{l.budget_code}}">{{l.budget_description}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 m-t-xs" style="">
+                                <div style="width:50%; float:left;padding-top:5px;">
+                                    <label>Employment Type:</label>
+                                </div>
+                                <div style="width:50%; float:right;">
+                                    <select id="employment_type" ng-model="employment_type" maxlength="100" class="form-control" style="font-weight:bold;" ng-change="ngF_Employment_type(employment_type)">
+                                        <option value="" selected>-- --</option>
+                                        <option value="RE">Permanent</option>
+                                        <option value="CE">Casual</option>
+                                        <option value="JO">Job Order</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2 m-t-xs pull-right">
+                                <div class="btn-group pull-left">
+                                    <button data-toggle="dropdown" ng-show="show_btn" id="additems" class="btn btn-primary dropdown-toggle" ng-click='openAddModal()'>Add Items &nbsp;&nbsp;<span class="fa fa-user-plus"></span></button>
+                                   @*<button data-toggle="dropdown" ng-show="!show_btn" id="removeitems" class="btn btn-primary dropdown-toggle" ng-click='remove_ItemsToOnline()'>Remove Items &nbsp;&nbsp;<span class="fa fa-user-plus"></span></button>*@
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper wrapper-content animated fadeInRight no-padding">
+            <div class="row">
+                <div class="col-lg-12 m-b-md">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" ng-click="tab_active(1)">PUBLICATION ITEM</a></li>
+                            @*<li class=""><a data-toggle="tab" href="#tab-2" ng-click="tab_active(2)">ONLINE AVAILABLE ITEM</a></li>*@
+                            @*<li class="pull-right"><button data-toggle="dropdown" style="margin-top:5px;margin-right:50px;" ng-show="!show_btn" id="removeitems" class="btn btn-primary dropdown-toggle pull-right" ng-click='remove_AllItemsToOnline()'>Remove All Items &nbsp;&nbsp;<span class="fa fa-user-plus"></span></button></li>*@
+
+                        </ul>
+                        <button data-toggle="dropdown" ng-show="!show_btn" id="removeitems" class="btn btn-primary dropdown-toggle pull-right" ng-click='remove_ItemsToOnline()'>Remove Items &nbsp;&nbsp;<span class="fa fa-user-plus"></span></button>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <table id="online_item_hdr_grid" class="table table-striped table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:6% !important;">CTRL NO.</th>
+                                                <th style="width:10% !important;">POST DATE</th>
+                                                <th style="width:10% !important;">VALID UNTIL</th>
+                                                <th style="width:55% !important;">DESCRIPTION</th>
+                                                <th style="width:15% !important;">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            @*<div id="tab-5" class="tab-pane">
+                                    <div class="panel-body">
+                                    </div>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <div class="modal fade" id="onlineItemSetup" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+           <div class="modal-dialog modal-lllg">
+               <div class="modal-content animated slideInLeft">
+                   <div class="modal-header text-white">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                           <span aria-hidden="true">&times;</span>
+                       </button>
+                       <center><h2 class="modal-title" id="modalLabelSmall"><b>ADD ITEMS TO ONLINE APPLICATION</b></h2></center>
+                   </div>
+                   <div class="modal-body">
+                       <div class="row">
+                           <div class="row m-t-md">
+                               <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+                                   <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+                                       <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Employment Type:</span><span class="fa fa-user pull-right m-r-sm"></span></button>
+                                   </div>
+                                   <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+                                       <select id="employment_type_2" ng-model="employment_type_2" maxlength="100" class="form-control text-center border-blue" style="border-color: rgb(229, 230, 231); border-width: 1px; border-style: solid;" disabled>
+                                           <option value="" selected>-- --</option>
+                                           <option value="RE">Permanent</option>
+                                           <option value="CE">Casual</option>
+                                           <option value="JO">Job Order</option>
+                                       </select>
+                                   </div>
+                               </div>
+                               <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+                                   <div class="col-sm-12 col-xs-12 col-md-5 col-lg-5">
+                                       <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Budget Code:</span><span class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                   </div>
+                                   <div class="col-sm-12 col-xs-12 col-md-7 col-lg-7">
+                                       <select id="budget_code_2" ng-model="budget_code_2" maxlength="100" class="form-control norequired" style="border-color: rgb(229, 230, 231); border-width: 1px; border-style: solid;" disabled>
+                                           <option value="">--Select--</option>
+                                           <option ng-repeat="l in budgetyears" value="{{l.budget_code}}">{{l.budget_description}}</option>
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row m-t-md">
+                               <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+                                   <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+                                       <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Post Date:</span><span class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                   </div>
+                                   <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+
+                                       <div ng-show="!edit" class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                           <input type="text" id="post_date" ng-model="post_date" class="form-control text-center" required />
+                                           <div class="input-group-addon">
+                                               <span class="fa fa-calendar"></span>
+                                           </div>
+                                       </div>
+                                       <input ng-show="edit" type="text" id="post_date_disp" placeholder="Click to select" ng-model="post_date_disp" class="form-control text-center border-blue" style="border-color: rgb(229, 230, 231); border-width: 1px; border-style: solid;" disabled>
+                                   </div>
+                               </div>
+                               <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+                                   <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+                                       <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Valid Until:</span><span class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                   </div>
+                                   <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+                                       <div ng-show="!edit" class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                           <input type="text" id="valid_until" ng-model="valid_until" class="form-control text-center" required="">
+                                           <div class="input-group-addon">
+                                               <span class="fa fa-calendar"></span>
+                                           </div>
+                                       </div>
+                                       <input ng-show="edit" type="text" id="valid_until_disp" placeholder="Click to select" ng-model="valid_until_disp" class="form-control text-center border-blue" required="" style="border-color: rgb(229, 230, 231); border-width: 1px; border-style: solid;" disabled>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row m-t-md">
+                               <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                   <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 ">
+                                       <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Description:</span><span class="fa fa-book pull-right m-r-sm"></span></button>
+                                   </div>
+                                   <div class="col-sm-12 col-xs-12 col-md-9 col-lg-9">
+                                       <textarea ng-show="!edit" type="search" class="col-lg-12 form-control block " id="descr" ng-model="descr" placeholder="Description...."></textarea>
+                                       <textarea ng-show="edit" type="search" class="col-lg-12 form-control block " id="descr_disp" ng-model="descr_disp" placeholder="Description...." disabled></textarea>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row m-t-md">
+                               <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                   <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 m-t-xs" style="">
+                                       <div style="width:30%; float:left;padding-top:5px;">
+                                           <label>Department:</label>
+                                       </div>
+                                       <div style="width:70%; float:right;">
+                                           <select id="department_code" ng-model="department_code" maxlength="100" class="form-control norequired" style="font-weight:bold;" ng-change="ngF_departments(department_code)" required>
+                                               <option value="">--Select--</option>
+                                               <option ng-repeat="l in departments" value="{{l.department_code}}">{{l.department_name1}}</option>
+                                           </select>
+                                       </div>
+                                   </div>
+                                   <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 m-t-xs" style="">
+                                       <div style="width:40%; float:left;padding-top:5px;">
+                                           <label>Position:</label>
+                                       </div>
+                                       <div style="width:60%; float:right;">
+                                           <select id="position_code" ng-model="position_code" maxlength="100" class="form-control norequired" style="font-weight:bold;" ng-change="ngF_positions(position_code)" required>
+                                               <option value="">--Select--</option>
+                                               <option ng-repeat="l in positions" value="{{l.position_code}}">{{l.position_title1}}</option>
+                                           </select>
+                                       </div>
+                                   </div>
+
+                               </div>
+
+                           </div>
+                           <div class="row m-t-md">
+                               <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                   <textarea type="search" class="form-control block filterMultipleItem m-b-sm" ng-model="search_name" tableref="available_item_grid" value="" placeholder="Search ...."></textarea>
+                                   <table id="available_item_grid" class="table table-striped table-bordered table-hover table-responsive">
+                                       <thead>
+                                           <tr>
+                                               <th style="width:1% !important;"></th>
+                                               <th style="width:6% !important;">ITEM NO.</th>
+                                               <th style="width:30% !important;">POSITION</th>
+                                               <th style="width:40% !important;">DEPARTMENT</th>
+                                               <th style="width:4% !important;">STATUS</th>
+                                               <th style="width:10% !important;">ACTION</th>
+                                           </tr>
+                                       </thead>
+                                       <tbody></tbody>
+                                   </table>
+                               </div>
+                               <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                   <center>
+                                       <button id="submitItems_btn" class="btn btn-success font-bold pull-right" ng-click="fn_addItemsOnline()">
+                                           &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;<i id="submitItems_i" class="fa fa-thumbs-up"></i>
+                                       </button>
+                                       <button id="cancel1_btn" class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                                           Cancel&nbsp;<i class="fa fa-close"></i>
+                                       </button>
+                                   </center>
+                               </div>
+                           </div>
+
+
+
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+      <div class="modal fade" id="onlineItemSetupEdit" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+           <div class="modal-dialog modal-lllg">
+               <div class="modal-content animated slideInLeft">
+                   <div class="modal-header text-white">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                           <span aria-hidden="true">&times;</span>
+                       </button>
+                       <center><h2 class="modal-title" id="modalLabelSmall"><b>ADD ITEMS TO ONLINE APPLICATION</b></h2></center>
+                   </div>
+                   <div class="modal-body">
+                       <div class="row">
+                           <form ng-model="item" novalidate>
+                               <div class="row m-t-md">
+                                   <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                       <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
+                                           <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Post Date:</span><span class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                          
+                                       </div>
+                                       <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
+                                           <span ng-show="!edit" class="input-group date no-padding no-margins btn-block" data-provide="datepicker">
+                                               <input type="text" id="post_date" placeholder="Click to select" ng-model="post_date_edit" class="form-control text-center border-blue" required="" style="border-color: rgb(229, 230, 231); border-width: 1px; border-style: solid;">
+                                               <div class="input-group-addon valid_until hidden">
+                                                   <span class="fa fa-calendar"></span>
+                                               </div>
+                                           </span>
+                                           <input ng-show="edit" type="text" id="post_date_disp2" placeholder="Click to select" ng-model="post_date_disp2" class="form-control text-center border-blue" style="border-color: rgb(229, 230, 231); border-width: 1px; border-style: solid;" disabled>
+                                       </div>
+
+                                   </div>
+                               </div>
+                               <div class="row m-t-md">
+                                   <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                       <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
+                                           <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Valid Until:</span><span class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                         
+                                       </div>
+                                       <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
+                                           <span ng-show="!edit" class="input-group date no-padding no-margins btn-block" data-provide="datepicker">
+                                               <input type="text" id="valid_until" placeholder="Click to select" ng-model="valid_until_edit" class="form-control text-center border-blue" required="" style="border-color: rgb(229, 230, 231); border-width: 1px; border-style: solid;">
+                                               <div class="input-group-addon valid_until hidden">
+                                                   <span class="fa fa-calendar"></span>
+                                               </div>
+                                           </span>
+                                           <input ng-show="edit" type="text" id="valid_until_disp2" placeholder="Click to select" ng-model="valid_until_disp2" class="form-control text-center border-blue" required="" style="border-color: rgb(229, 230, 231); border-width: 1px; border-style: solid;" disabled>
+                                       </div>
+
+                                   </div>
+                               </div>
+                               <div class="row m-t-md">
+                                   <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                       <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 ">
+                                           <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Description:</span><span class="fa fa-book pull-right m-r-sm"></span></button>
+                                       </div>
+                                       <div class="col-sm-12 col-xs-12 col-md-9 col-lg-9">
+                                           <textarea ng-show="!edit" type="search" class="col-lg-12 form-control block " id="descr" ng-model="descr_edit" placeholder="Description...."></textarea>
+                                           <textarea ng-show="edit" type="search" class="col-lg-12 form-control block " id="descr_disp2" ng-model="descr_disp2" placeholder="Description...." disabled></textarea>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="row m-t-md">
+                                   <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                       <table id="available_item_grid_edit" class="table table-striped table-bordered table-hover table-responsive">
+                                           <thead>
+                                               <tr>
+                                                   <th style="width:6% !important;">ITEM NO.</th>
+                                                   <th style="width:30% !important;">POSITION</th>
+                                                   <th style="width:48% !important;">DEPARTMENT</th>
+                                                   <th style="width:6% !important;">STATUS</th>
+                                                   <th style="width:10% !important;">ACTION</th>
+                                               </tr>
+                                           </thead>
+                                           <tbody></tbody>
+                                       </table>
+                                   </div>
+                                   <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                       <center>
+                                           <button class="btn btn-success font-bold pull-right" ng-click="fn_activatedallItem()">
+                                               &nbsp;&nbsp;&nbsp;Activate All Item&nbsp;&nbsp;&nbsp;<i id="add" class="fa fa-thumbs-up"></i>
+                                           </button>
+                                           <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                                               Cancel&nbsp;<i class="fa fa-close"></i>
+                                           </button>
+                                       </center>
+                                   </div>
+                               </div>
+
+                           </form>
+
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+      <div class="modal fade" id="item_exist" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-llg">
+                <div class="modal-content animated slideInLeft">
+                    <div class="modal-header text-white">
+                        <button type="button" class="close cancelItem" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <center><h2 class="modal-title" id="modalLabelSmall"><b>Posted Item</b></h2></center>
+                    </div>
+                    <div class="modal-body">
+
+                        <ul class="sortable-list connectList agile-list" id="todo">
+                            <li class="" id="task1">
+                                <h3 class="text-warning"><i class="fa fa-warning">&nbsp;&nbsp;This item is already in the following posting which validity is still active.</i></h3>
+                            </li>
+                            <li ng-repeat="l in item_exist_list" class="warning-element" id="task1">
+                                {{l.descr}}
+                                <div class="agile-detail">
+                                    <span class="pull-right"><i class="fa fa-cog"></i>Control No.: {{l.ctrl_no}}</span>
+                                    <i class="fa fa-clock-o"></i>Valid Until: {{l.expiry_dttm | filterdate}}
+                                </div>
+                                <button ng-hide="l.active_status" class=" btn btn-warning font-bold m-right-10">
+                                    activate ?&nbsp;<i class="fa fa-toggle-on"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                            <center>
+                                @*<button class="btn btn-success font-bold addItem">
+                                    Do you still want to add this item?<i id="add" class="fa fa-thumbs-up"></i>
+                                </button>*@
+                                <button class=" btn btn-danger font-bold m-right-10 cancelItem" data-dismiss="modal">
+                                    Close&nbsp;<i class="fa fa-close"></i>
+                                </button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+</section>
+
+
+
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"> </script>
+<script>
+   
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+

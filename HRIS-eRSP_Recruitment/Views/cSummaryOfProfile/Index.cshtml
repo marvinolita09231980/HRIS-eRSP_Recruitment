@@ -1,0 +1,566 @@
+﻿@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+
+    div.datepicker {
+        z-index: 3000 !important;
+    }
+
+    .modal-llg {
+        width: 900px;
+    }
+
+    .success-bg {
+        background-color: #23C6C8;
+    }
+
+    .action-btn button {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    span.checkmark {
+        margin-top: 0 !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: 0 !important;
+    }
+
+    label input[type="checkbox"] {
+        font-size: xx-large !important;
+        margin-top: -.5px !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: 100px !important;
+    }
+
+    label.container {
+        font-size: large !important;
+        margin-top: -.5px !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: 76px !important;
+    }
+
+        label.container span.fa.fa-spinner.fa-spin {
+            margin-top: 5px !important;
+            margin-left: -20px !important;
+            color: red;
+        }
+        th.qs{
+            font-size:small !important;
+        }
+</style>
+<script src="~/Angular/ng-cSummaryOfProfile.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cSummaryOfProfile_Ctrlr">
+    <!-- The modal -->
+    <div class="modal fade" id="addToPsbSched" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-llg">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Add Application To HRMPSB Schedule </b></h2></center>
+                </div>
+                <div class="modal-body">
+                    <form id="ps" ng-model="ps">
+                        <div class="row">
+                            <div class="col-sm-4 m-t-xs no-padding">
+                                <div style="width:45%;float:left;margin-bottom:15px;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>App Control No.:</b></span>
+                                </div>
+                                <div style="width:55%; float:left;padding-right:0!important;margin-top:0;padding-top:0">
+                                    <input type="text" class="form-control" id="app_ctrl_nbr" ng-model="ps.app_ctrl_nbr" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-t-xs">
+                                <div style="width:45%;float:left;margin-bottom:15px;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>HRMPSB Control No.:</b></span>
+                                </div>
+                                <div style="width:55%; float:left;padding-right:0!important;margin-top:0;padding-top:0">
+                                    <input type="text" class="form-control" ng-model="ps.psb_ctrl_nbr" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div style="width:30%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Schedule.:</b></span>
+                                </div>
+                                <div style="width:70%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" class="form-control" id="psb_date" ng-model="ps.psb_date" disabled />
+                                    <small class="text-center psb_date hidden pull-right" style="font-size:12px;height:15px;color:red"><i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7 no-padding">
+                                <div class="col-sm-8 m-t-xs no-padding">
+                                    <div style="width:25%;float:left;margin-bottom:15px;">
+                                        <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Remarks:</b></span>
+                                    </div>
+                                    <div style="width:75%; float:left;padding-right:0!important;margin-top:0;padding-top:0">
+                                        <textarea style="width:100%;" cols=" 300" class="form-control" id="remarks_details" ng-model="ps.remarks_details"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5 no-padding">
+                                <div class="col-sm-12">
+                                    <div style="width:45%;float:left;margin-bottom:15px;">
+                                        <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employment Type:</b></span>
+                                    </div>
+                                    <div style="width:55%; float:left;padding-right:0!important;margin-top:0;padding-top:0">
+                                        <input type="text" class="form-control" id="employment_type_descr" ng-model="ps.employment_type_descr" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 m-top-50">
+                                    <center>
+                                        <button id="save_btn" class="btn btn-success font-bold pull-right" ng-click="SaveForPsbScreening(ps)">
+                                            Add&nbsp;&nbsp;&nbsp;<i id="save" class="fa fa-plus"></i>
+                                        </button>
+                                        <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                                            Close&nbsp;<i class="fa fa-close"></i>
+                                        </button>
+                                    </center>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer m-top-n30">
+                    <div class="col-lg-12 tabs-container m-b-md">
+                        <table id="psb_panel" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="10%">CTRL NBR</th>
+                                    <th width="30%">PANEL NAME</th>
+                                    <th width="30%">ROLE</th>
+                                    <th width="30%">AGENCY</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addexamresult" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Add Applicants Examination Result</b></h2></center>
+                </div>
+
+                <form id="app_review" novalidate ng-model="app_review">
+                    <div class="modal-footer">
+                        <div class="row">
+                            <input type="text" id="app_ctrl_nbr" class="hidden" ng-model="app_review.app_ctrl_nbr">
+                            <div class="col-sm-12">
+                                <div style="width:21%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>App. Ctrl Nbr.:</b></span>
+                                </div>
+                                <div style="width:79%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" id="app_ctrl_nbr_disp" class="form-control block" ng-model="app_review.app_ctrl_nbr_disp" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer m-top-n30">
+                        <div class="row">
+                            <div class="col-sm-6 m-top-n10">
+                                <div style="width:45%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employment:</b></span>
+                                </div>
+                                <div style="width:55%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <select class="form-control block" id="employment_type" ng-model="app_review.employment_type" ng-change="selectEmployment(app_review.employment_type)" disabled>
+                                        <option value="">--Select--</option>
+                                        <option value="JO">Job Order</option>
+                                        <option value="CE">Casual</option>
+                                        <option value="RE">Permanent</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 m-top-n10">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Budget Year:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <select class="form-control block" id="budget_code" ng-model="app_review.budget_code" ng-change="selectBudgetCode(app_review.budget_code)" disabled>
+                                        <option value="">--Select Postion--</option>
+                                        <option ng-repeat="l in budget_year" value="{{l.budget_code}}">{{l.budget_code}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div style="width:21%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Position:</b></span>
+                                </div>
+                                <div style="width:79%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <select class="form-control block" id="position_code" ng-model="app_review.position_code" ng-change="selectPosition(app_review.position_code)" disabled>
+                                        <option value="">--Select Postion--</option>
+                                        <option ng-repeat="l in position_tbl" value="{{l.position_code}}">{{l.position_long_title}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 m-top-n10">
+                                <div style="width:45%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Item Nbr.:</b></span>
+                                </div>
+                                <div style="width:55%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input name="scorerendered" type="tex" id="item_no" class="form-control block max25" ng-model="app_review.item_no" disabled>
+                                </div>
+                            </div>
+                            <input type="tex" id="department_code" class="hidden" ng-model="app_review.department_code">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer m-top-n20">
+                        <div class="row">
+                            <div class="col-sm-12 m-top-n10">
+                                <div style="width:21%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Exam Descr.:</b></span>
+                                </div>
+                                <div style="width:79%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" id="exam_type_descr" class="form-control block norequired" ng-model="app_review.exam_type_descr" required />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 m-top-n10">
+                                <div style="width:45%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Score Perc. %:</b></span>
+                                </div>
+                                <div style="width:55%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input name="scorerendered" type="number" min="0" max="25" id="score_rendered" class="form-control block max25 norequired" ng-model="app_review.score_rendered" required />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 m-top-n10">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Exam Date:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="exam_date" ng-model="app_review.exam_date" class="form-control text-center norequired" mydate required />
+                                        <div id="cal" class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-6 pull-right">
+                                <center>
+                                    <button id="saveExam" class="btn btn-success font-bold pull-right" ng-click="SaveOtherDetails(app_review,'saveExam')">
+                                        Save&nbsp;&nbsp;&nbsp;<i id="save" class="save_btn fa fa-save"></i>
+                                    </button>
+                                    <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                                        Cancel&nbsp;<i class="fa fa-close"></i>
+                                    </button>
+                                </center>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="row">
+            <div class="col-lg-4">
+                <h2 class="text-white"><b>Summary of Profile</b></h2>
+            </div>
+            <div class="col-lg-6 pull-right" style="margin-top:12px;">
+                <input type="search" class="form-control block" ng-model="search_name" ng-keyup="search_in_list(search_name,'Applicant_List_Grid')" placeholder="Search ....">
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight no-padding">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-sm-3 m-t-xs pull-left">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Show</b></span>
+                            <select class="form-control field-select-sm" style="width:30%;float:left;" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'Applicant_List_Grid')">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span class="font-bold" style="float:left;margin-top:9px;margin-left:10px;"><b>Entries</b></span>
+                        </div>
+                        @*<div class="col-sm-5 m-t-xs pull-left">
+                            <div style="width:30%; float:left;margin-bottom:15px;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>HRMPSB Schedule:</b></span>
+                            </div>
+                            <div style="width:70%; float:right;padding-right:0!important;margin-top:0;padding-top:0">
+                                <select class="form-control disable-white norequired" id="psb_ctrl_nbr" ng-model="psb_ctrl_nbr" ng-change="selectPsb_date(psb_ctrl_nbr)" required>
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in psbschedule" value="{{l.psb_ctrl_nbr}}">{{l.psb_date}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 m-t-xs">
+                            <div style="width:40%;float:left;margin-bottom:15px;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Item No:</b></span>
+                            </div>
+                            <div style="width:60%; float:left;padding-right:0!important;margin-top:0;padding-top:0">
+                                <select class="form-control removeReqOption" id="item_no" ng-model="item_no" ng-change="selectItem(item_no)" required>
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in items" value="{{l.item_no}}">&nbsp;{{l.item_no}}&nbsp;-&nbsp;{{l.position_long_title}}</option>
+                                </select>
+                            </div>
+                        </div>*@
+
+                    </div>
+
+                    <div class="row m-top-n40">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <div class="col-12 table-responsive">
+                                        <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="17%" rowspan="2">Name of Applicant</th>
+                                                    <th width="17%">Education</th>
+                                                    <th width="17%">Exeperience</th>
+                                                    <th width="17%">Training</th>
+                                                    <th width="17%">Eligibility</th>
+                                                    <th width="15%" rowspan="2">Remarks</th>
+                                                </tr>
+                                                <tr>
+
+                                                   
+
+
+                                                    <th class="qs">{{eduactionqs  }}</th>
+                                                    <th class="qs">{{experienceqs }}</th>
+                                                    <th class="qs">{{trainingqs   }}</th>
+                                                    <th class="qs">{{eligibilityqs}}</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal fade" id="spinner_load" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+            <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+                <div class="spiner-example">
+                    <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="row" style="padding-top:5px;">
+
+                            <div class="col-sm-12">
+                                <div style="width:50%; float:left;" class="no-padding">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Initializing data</span>
+                                </div>
+                                <div style="width:50%; float:right;" class="no-padding">
+                                    <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                        <div class="sk-bounce1" style="background-color:white"></div>
+                                        <div class="sk-bounce2" style="background-color:white"></div>
+                                        <div class="sk-bounce3" style="background-color:white"></div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+</section>
+
+
+
+
+
+
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"> </script>
+<script>
+    $(document).ready(function () {
+
+        //Dropzone.options.myAwesomeDropzone = {
+
+        //    autoProcessQueue: false,
+        //    uploadMultiple: true,
+        //    parallelUploads: 100,
+        //    maxFiles: 100,
+
+        //    // Dropzone settings
+        //    init: function () {
+        //        var myDropzone = this;
+
+        //        this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+        //            e.preventDefault();
+        //            e.stopPropagation();
+        //            myDropzone.processQueue();
+        //        });
+        //        this.on("sendingmultiple", function () {
+        //        });
+        //        this.on("successmultiple", function (files, response) {
+        //        });
+        //        this.on("errormultiple", function (files, response) {
+        //        });
+        //    }
+
+        //}
+        //$('.i-checks').iCheck({
+        //    checkboxClass: 'icheckbox_square-green',
+        //    radioClass: 'iradio_square-green',
+        //});
+
+        //$('#data_1 .input-group.date').datepicker({
+        //    todayBtn: "linked",
+        //    keyboardNavigation: false,
+        //    forceParse: false,
+        //    calendarWeeks: true,
+        //    autoclose: true,
+        //    format: "yyyy/mm/dd"
+        //});
+
+
+    });
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+
+
+

@@ -1,0 +1,1031 @@
+﻿
+@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+                height:35px !important;
+            }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+                padding: 0;
+                padding-right: 4px;
+                padding-left: 5px;
+                text-align: center !important;
+                vertical-align: middle !important;
+            }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .modal-xsm {
+        width: 400px;
+    }
+
+    .modal-lllg {
+        width: 900px;
+    }
+
+    .modal-llllg {
+        width: 1200px;
+    }
+
+    .success-bg {
+        background-color: #23C6C8;
+    }
+
+    .m-l-b-w-5 { /*border left white 5px*/
+        border-left: 2px solid white;
+    }
+
+    .b-w-5 { /*border left white 5px*/
+        border: 2px solid white;
+    }
+
+    .b-w-8 { /*border left white 5px*/
+        border: 2px solid white;
+    }
+
+    .action-btn button {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    label span.checkmark {
+        margin-top: 0 !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: -5px !important;
+    }
+
+    label input[type="checkbox"] {
+        font-size: large !important;
+        margin-top: -.5px !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: 56px !important;
+    }
+
+    label.container {
+        font-size: large !important;
+        margin-top: -.5px !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: 56px !important;
+    }
+
+        label.container span.fa.fa-spinner.fa-spin {
+            margin-top: 3px !important;
+            margin-left: -23px !important;
+            color: red;
+        }
+
+    .tabtxt {
+        font-size: 12.5px;
+    }
+
+    .grid-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .btn-grid {
+        height: 28px;
+        padding: 2px 2px 2px 2px;
+        font-size: 10px;
+        width: 70px;
+        margin-top: 3px;
+        margin-right: 3px;
+    }
+
+    .dropdown-menu {
+        margin-left: -200px !important;
+    }
+</style>
+
+<script src="~/Angular/ng-cHRMPSBScreening.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cHRMPSBScreening_Ctrlr">
+
+    <div class="modal fade" id="spinner_load" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+            <div class="spiner-example">
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="row" style="padding-top:5px;">
+
+                    <div class="col-sm-12">
+                        <div style="width:50%; float:left;" class="no-padding">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Initializing data</span>
+                        </div>
+                        <div style="width:50%; float:right;" class="no-padding">
+                            <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                <div class="sk-bounce1" style="background-color:white"></div>
+                                <div class="sk-bounce2" style="background-color:white"></div>
+                                <div class="sk-bounce3" style="background-color:white"></div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="modal fade" id="extracting_data" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+            <div class="spiner-example">
+                <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="row" style="padding-top:5px;">
+
+                        <div class="col-sm-12">
+                            <div style="width:50%; float:left;" class="no-padding">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Extracting data</span>
+                            </div>
+                            <div style="width:50%; float:right;" class="no-padding">
+                                <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                    <div class="sk-bounce1" style="background-color:white"></div>
+                                    <div class="sk-bounce2" style="background-color:white"></div>
+                                    <div class="sk-bounce3" style="background-color:white"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="add_rating_panel" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title text-center" id="modalLabelSmall"><b>RATINGS</b></h2>
+                </div>
+                <div class="modal-footer detail">
+                    <div class="modal-footer detail">
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">KNOWLEDGE:</span><span style="" class="fa fa-institution pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <span class="no-padding no-margins" style="margin-bottom:-2px!important;">
+                                        @*<input type="number" name="" id="knowledge_rating" min-max="{{min_rate  | initial_min}},{{max_rate}}" ng-model="knowledge_rating" ng-value="{{min_rate}}" class="form-control text-center">*@
+                                        <input type="number" name="" id="knowledge_rating" ng-model="knowledge_rating" class="form-control text-center">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">SKILLS:</span><span style="" class="fa fa-tasks pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <span class="no-padding no-margins" style="margin-bottom:-2px!important;">
+                                        @*<input type="number" name="" id="skills_rating" min-max="{{min_rate}},{{max_rate}}" ng-model="skills_rating" min="{{min_rate}}" max="{{max_rate}}" ng-value="{{min_rate}}" class="form-control text-center">*@
+                                        <input type="number" name="" id="skills_rating" ng-model="skills_rating" class="form-control text-center">
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">ATTITUDE:</span><span style="" class="fa fa-certificate pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <span class="no-padding no-margins" style="margin-bottom:-2px!important;">
+                                        @*<input type="number" name="" id="attitude_rating" min-max="{{min_rate}},{{max_rate}}" ng-model="attitude_rating" min="{{min_rate}}" max="{{max_rate}}" ng-value="{{min_rate}}" class="form-control text-center">*@
+                                        <input type="number" name="" id="attitude_rating" ng-model="attitude_rating" class="form-control text-center">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                            </button>
+
+                            <button class=" btn btn-success font-bold">
+                                <i class="fa fa-save"></i>&nbsp;&nbsp;Save
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="list_of_panel" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title text-center" id="modalLabelSmall"><b>RATINGS</b></h2>
+                </div>
+                <div class="modal-footer detail">
+                 
+                </div>
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                            </button>
+
+                            <button class=" btn btn-success font-bold">
+                                <i class="fa fa-save"></i>&nbsp;&nbsp;Save
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="PSB_rating_grid_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lllg">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Panel Ratings</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <div class="row no-padding" style="margin-top:-10px!important;">
+                        <div class="col-lg-12 tabs-container m-b-md">
+                            <table id="psbrating_table_Grid" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">USER ID</th>
+                                        <th width="50%">PANEL NAME</th>
+                                        <th width="10%">KNOWLEDGE</th>
+                                        <th width="10%">SKILLS</th>
+                                        <th width="10%">ATTITUDE</th>
+                                        <th width="10%">TOTAL</th>
+                                        <th width="10%">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td width="10%"></td>
+                                        <td width="50%"></td>
+                                        <td width="10%"></td>
+                                        <td width="10%"></td>
+                                        <td width="10%"></td>
+                                        <td width="10%"></td>
+                                        <td width="10%"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="PSB_manual_rating_input_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lllg">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Add HRMPSB Ratings</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+
+                        <div id="prof1" class="col-md-8">
+                            <form ng-model="profile">
+                                <div class="row success-bg">
+                                    <div class="profile-image m-top-20 m-left-1">
+                                        <img src="{{profile_img | encode_idv}}" class="img-circle circle-border m-b-md" alt="profile">
+                                    </div>
+                                    <div class="profile-info ">
+                                        <div class="row m-top-10 text-white text-left">
+                                            <h2 class="m-left-30">
+                                                {{profile.applicant_name}}
+                                            </h2>
+                                            <span class="m-left-18 m-top-n20">
+                                                {{profile.app_address}}
+                                            </span>
+                                            <br />
+                                            <span class="m-left-18 m-top-30">Applying for:&nbsp;&nbsp;<span>{{profile.position_long_title}}</span></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row success-bg ">
+                                    <table class="table m-top-n30 text-white">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>Birth Date:</strong>
+                                                </td>
+                                                <td>
+                                                    {{profile.birth_date}}
+                                                </td>
+                                                <td><strong>Appointment:</strong></td>
+                                                <td>{{profile.appointment_descr}}</td>
+                                                <td><strong>Status:</strong></td>
+                                                <td>{{profile.civil_status_descr}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Gender:</strong>
+                                                </td>
+                                                <td>
+                                                    {{profile.gender_descr}}
+                                                </td>
+                                                <td><strong>Budget Year:</strong></td>
+                                                <td colspan="3">{{profile.budget_description}}</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Office:</strong></td>
+                                                <td colspan="5">{{profile.department_name}}</td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row success-bg ">
+                                    <div class="col-lg-3">
+                                        <div class="widget style1 lazur-bg b-w-8">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-tasks fa-2x"></i>
+                                                </div>
+                                                <div class="col-xs-8 text-right">
+                                                    <span class="">Exam Score </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 text-left">
+                                                    <h2 class="font-bold" style="height:32.8px;">{{total_rating[0].exam_rating}}</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="widget style1 navy-bg">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-university fa-2x m-left-n19"></i>
+                                                </div>
+                                                <div class="col-xs-8 text-left">
+                                                    <span class="m-left-n22">Qualification</span><br />
+                                                    <span class="m-left-n16">Standards</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 text-left">
+                                                    <h2 class="font-bold" style="height:32.8px;">{{total_rating[0].qs_rating}}</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="widget style1 yellow-bg">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-calculator fa-2x"></i>
+                                                </div>
+                                                <div class="col-xs-8 text-left">
+                                                    <span>CBI Rating</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 text-right">
+                                                    <h2 class="font-bold" style="height:32.8px;">{{total_rating[0].cbi_rating}}</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="widget style1 red-bg">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-trophy fa-2x"></i>
+                                                </div>
+                                                <div class="col-xs-8 text-left">
+                                                    <span>Total Rating</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 text-right">
+                                                    <h2 class="font-bold" style="height:32.8px;">{{total_rating[0].total_rating}}</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-4 m-l-b-w-5">
+                            <div class="row success-bg" style="height:358.50px;">
+                                <form id="dial">
+                                    <div class="row m-top-10">
+                                        <div class="col-sm-12 text-left m-left-20">
+                                            <div class="row">
+                                                <h3 class="text-white"><strong>KNOWLEDGE</strong></h3>
+                                                <div class="col-sm-6 text-white">
+                                                    <strong>Max Rating&nbsp;:&nbsp;{{slideInnerText[4].sub_max_rate}}</strong>
+                                                </div>
+                                                <div class="col-sm-6 text-white m-top-n30">
+                                                    <input name="r008" class="dial m-r-sm cb005" type="text" data-max="0" value="" data-fgcolor="#ED5565" data-width="80" data-height="80" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row m-top-10">
+
+                                        <div class="col-sm-12  text-left m-left-20">
+                                            <div class="row">
+                                                <h3 class="text-white"><strong>SKILLS</strong></h3>
+                                                <div class="col-sm-6 text-white">
+                                                    <strong>Max Rating&nbsp;:&nbsp;{{slideInnerText[5].sub_max_rate}}</strong>
+                                                </div>
+                                                <div class="col-sm-6 text-white m-top-n30">
+                                                    <input name="r009" class="dial m-r-sm cb006" type="text" data-max="0" value="" data-fgcolor="#ED5565" data-width="80" data-height="80" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row m-top-10">
+                                        <div class="col-sm-12 text-left m-left-20">
+                                            <div class="row">
+                                                <h3 class="text-white"><strong>ATTITUDE</strong></h3>
+                                                <div class="col-sm-6 text-white">
+                                                    <strong>Max Rating&nbsp;:&nbsp;{{slideInnerText[6].sub_max_rate}}</strong>
+                                                </div>
+                                                <div class="col-sm-6 text-white m-top-n30">
+                                                    <input name="r010" class="dial m-r-sm cb007" type="text" data-max="0" value="" data-fgcolor="#ED5565" data-width="80" data-height="80" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row m-top-30">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <div style="width:40%; float:left;margin-bottom:15px;margin-left:15px;">
+                                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Panel id:</b></span>
+                                            </div>
+                                            <div style="width:50%; float:right;padding-right:0!important;">
+                                                <input name="panel_id" class="form-control" type="text" id="panel_id" ng-model="panel_id" ng-keyup="validate_panel(panel_id)" disabled/>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button ng-disabled="btn_disabled" class="btn btn-success btn-block pull-right m-r-sm" ng-click="SaveRating()">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="submit_comparative_all" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-xsm">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Submit All</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <form ng-model="item" novalidate>
+
+                        <div class="row">
+                            <div class="col-lg-12 tabs-container m-b-md text-center">
+                                <i id="start_psb" class="text-success fa fa-paper-plane fa-5x"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 tabs-container m-b-md text-center">
+                                <h2>Submit List To Comparative</h2>
+                            </div>
+                        </div>
+                        <div class="row m-top-40">
+                            <div class="col-sm-12">
+                                <center>
+                                    <button class=" btn btn-danger font-bold text-right" data-dismiss="modal">
+                                        &nbsp;&nbsp;No&nbsp;<i class="fa fa-close"></i>
+                                    </button>
+                                    <button class="btn btn-success font-bold text-right" ng-click="submit_list_comparative_btn()">
+                                        &nbsp;Yes&nbsp;<i id="start" class="fa fa-paper-plane"></i>
+                                    </button>
+                                </center>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="start_psb_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-xsm">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Your Action</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <form ng-model="item" novalidate>
+
+                        <div class="row">
+                            <div class="col-lg-12 tabs-container m-b-md text-center">
+                                <i id="start_psb" class="text-success fa fa-rocket fa-5x"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 tabs-container m-b-md text-center">
+                                Start HRMPSB screening
+                            </div>
+                        </div>
+                        <div class="row m-top-40">
+                            <div class="col-sm-12">
+                                <center>
+                                    <button class=" btn btn-danger font-bold text-right" data-dismiss="modal">
+                                        &nbsp;&nbsp;&nbsp;<i class="fa fa-close"></i>&nbsp;Close&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </button>
+                                    <button class="btn btn-success font-bold text-right" ng-click="set_start_psb()">
+                                        &nbsp;Start&nbsp;<i id="start" class="fa fa-rocket"></i>
+                                    </button>
+                                </center>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="conclude_psb" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-xsm">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Your Action</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <form ng-model="item" novalidate>
+
+                        <div class="row">
+                            <div class="col-lg-12 tabs-container m-b-md text-center">
+                                <i id="ongoing_psb" class="text-success fa fa-check-circle fa-5x"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 tabs-container m-b-md text-center">
+                                Conclude this HRMPSB screening?
+                            </div>
+                        </div>
+                        <div class="row m-top-40">
+                            <div class="col-sm-12">
+                                <center>
+                                    <button class=" btn btn-danger font-bold text-right" data-dismiss="modal">
+                                        &nbsp;&nbsp;&nbsp;<i class="fa fa-close"></i>&nbsp;Close&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </button>
+                                    <button class="btn btn-success font-bold text-right" ng-click="concludePSb()">
+                                        &nbsp;Conclude&nbsp;<i id="add" class="fa fa-thumbs-up"></i>
+                                    </button>
+                                </center>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-4">
+            <h2 class="text-white"><b>HRMPSB Screening</b></h2>
+        </div>
+        <div class="col-lg-6" style="margin-top:12px;">
+            <input type="search" class="form-control block headerSearch" tableref="Data_List_Grid" ng-model="search_name" placeholder="Search ....">
+        </div>
+        @*<div class="col-lg-2" style="margin-top:12px;">
+            <button class="btn btn-info pull-right" ng-click="gotoEmbed()">Embed Zoom Meeting</button>
+        </div>*@
+    </div>
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="ibox-title">
+            <form id="head-filter" novalidate>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 m-t-xs pull-left">
+                        <button data-toggle="dropdown" class="btn btn-success pull-left">Show&nbsp;&nbsp;&nbsp;</button>
+                        @*<span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Show</b></span>*@
+                        <select class="form-control field-select-sm setTableRow" style="width:30%;float:left;" ng-model="rowLen" tableref="Data_List_Grid">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <button data-toggle="dropdown" class="btn btn-success">Entries</button>
+                        @*<span class="font-bold" style="float:left;margin-top:9px;margin-left:10px;"><b>Entries</b></span>*@
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">EMPLOYMENT TYPE:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
+                                <select class="form-control disable-white text-left vald norequired" id="employment_type" ng-model="employment_type" ng-change="selectEmploymentType(employment_type)" required>
+                                    <option value="">-- --</option>
+                                    <option value="CE">Casual</option>
+                                    <option value="RE">Permanent</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">BUDGET YEAR:</span><span style="" class="fa fa-calendar pull-right m-r-sm m-t-xs"></span></button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
+                                <select class="form-control disable-white norequired" id="budget_code" ng-model="budget_code" ng-change="selectBudgetCode(budget_code)" required>
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in budget_year " value="{{l.budget_code}}">{{l.budget_description}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 m-t-xs pull-right">
+                        <div class="btn-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-warning btn-block" ng-disabled="psb_status < 2 || psb_status > 2" ng-click="reactivateHRMPSB()">Re-Activate<span class="fa fa-refresh"></span>&nbsp;</button>
+                            @*<button id="reports_btn" data-toggle="dropdown" class="btn btn-success dropdown-toggle">Reports&nbsp;&nbsp;&nbsp;<span style="" class="fa fa-caret-down"></span></button>
+                                <button class="btn btn-primary" style="border-radius:3px;height:33.6px;"><span style="" class="fa fa-refresh"></span></button>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a ng-click='summaryOfProfile()'>Summary Of Profile</a></li>
+                                </ul>*@
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
+                    </div>
+
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HRMPSB DATE:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 no-padding">
+                                <select class="form-control disable-white norequired" id="psb_ctrl_nbr" ng-model="psb_ctrl_nbr" ng-change="selectPsb_date(psb_ctrl_nbr)" required>
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in psbschedule" value="{{l.psb_ctrl_nbr}}">{{l.psb_date}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">POSITION:</span><span style="" class="fa fa-calendar pull-right m-r-sm m-t-xs"></span></button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
+                                <select class="form-control disable-white norequired" id="item_no" ng-model="item_no" ng-change="selectPSBSchedApplicant()" required>
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in psbsched_item" value="{{l.item_no}}">{{l.item_no}}&nbsp;-&nbsp;{{l.position_title1}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 m-t-xs pull-right">
+                        <div class="btn-group col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                            <button ng-show="psb_status == 0" class="btn btn-primary btn-block" ng-click="start_psb_modal()">Start HRMPSB<span class="fa fa-hourglass-start"></span></button>
+                            <button ng-show="psb_status == 1" class="btn btn-warning btn-block" ng-click="ongoing_psb_modal()">HRMPSB In-progress<span class="fa fa-spinner fa-spin"></span></button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+            <div class="row no-padding">
+                <div class="col-lg-12 tabs-container m-b-md">
+                    <table id="Data_List_Grid" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th width="32%">OFFICE</th>
+                                <th width="7%">ITEM NO</th>
+                                <th width="31%">NAME</th>
+                                <th width="5%">EXAM</th>
+                                <th width="5%">QS</th>
+                                <th width="5%">CBI</th>
+                                <th width="5%">TOTAL</th>
+                                <th width="10%">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="rating_err_notif" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title text-warning" id="modalLabelSmall"><b>Warning Notifications</b></h2></center>
+                </div>
+                <div class="modal-body">
+                    <div class="row no-padding" style="margin-top:-10px!important;">
+                        <div class="col-lg-12 tabs-container m-b-md">
+                            <center><h1 class="text-danger"><i class="fa fa-warning"></i></h1></center>
+                        </div>
+                    </div>
+                    <div class="row no-padding" style="margin-top:-10px!important;">
+                        <div class="col-lg-12 tabs-container m-b-md">
+                            <center><h4 class="text-warning">{{rt_err_ntf.rating_error}}</h4></center>
+                        </div>
+                    </div>
+                    <div class="row m-top-40">
+                        <div class="col-sm-12">
+                            <center>
+                                <button ng-show="!rt_err_ntf.qs_israted" class=" btn btn-warning font-bold text-right" data-dismiss="modal" ng-click="goToQS(rt_err_ntf.app_ctrl_nbr)">
+                                    Go to Qualification Rating
+                                </button>
+                                <button ng-show="!rt_err_ntf.exam_israted" class="btn btn-danger font-bold text-right" ng-click="goToExam(rt_err_ntf.app_ctrl_nbr)">
+                                    Go to Exam Rating
+                                </button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row no-padding" style="margin-top:-10px!important;">
+                        <div class="col-sm-12">
+
+                            <button class=" btn btn-danger font-bold text-right pull-right" data-dismiss="modal">
+                                &nbsp;&nbsp;&nbsp;<i class="fa fa-close"></i>&nbsp;Close&nbsp;&nbsp;&nbsp;&nbsp;
+                            </button>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+<!-- Toastr script -->
+
+<script type="text/javascript">
+
+    //$(function () {
+    //    var i = -1;   
+    //    var toastCount = 0;
+    //    var $toastlast;
+    //    var getMessage = function () {
+    //        var msg = 'Hi, welcome to Inspinia. This is example of Toastr notification box.';
+    //        return msg;
+    //    };
+
+    //    $('#showsimple').click(function () {
+    //        // Display a success toast, with a title
+    //        toastr.success('Without any options', 'Simple notification!')
+    //    });
+    //    $('#showtoast').click(function () {
+    //        var shortCutFunction = $("#toastTypeGroup input:radio:checked").val();
+    //        var msg = $('#message').val();
+    //        var title = $('#title').val() || '';
+    //        var $showDuration = $('#showDuration');
+    //        var $hideDuration = $('#hideDuration');
+    //        var $timeOut = $('#timeOut');
+    //        var $extendedTimeOut = $('#extendedTimeOut');
+    //        var $showEasing = $('#showEasing');
+    //        var $hideEasing = $('#hideEasing');
+    //        var $showMethod = $('#showMethod');
+    //        var $hideMethod = $('#hideMethod');
+    //        var toastIndex = toastCount++;
+    //        toastr.options = {
+    //            closeButton: $('#closeButton').prop('checked'),
+    //            debug: $('#debugInfo').prop('checked'),
+    //            progressBar: $('#progressBar').prop('checked'),
+    //            preventDuplicates: $('#preventDuplicates').prop('checked'),
+    //            positionClass: $('#positionGroup input:radio:checked').val() || 'toast-top-right',
+    //            onclick: null
+    //        };
+    //        if ($('#addBehaviorOnToastClick').prop('checked')) {
+    //            toastr.options.onclick = function () {
+    //                alert('You can perform some custom action after a toast goes away');
+    //            };
+    //        }
+    //        if ($showDuration.val().length) {
+    //            toastr.options.showDuration = $showDuration.val();
+    //        }
+    //        if ($hideDuration.val().length) {
+    //            toastr.options.hideDuration = $hideDuration.val();
+    //        }
+    //        if ($timeOut.val().length) {
+    //            toastr.options.timeOut = $timeOut.val();
+    //        }
+    //        if ($extendedTimeOut.val().length) {
+    //            toastr.options.extendedTimeOut = $extendedTimeOut.val();
+    //        }
+    //        if ($showEasing.val().length) {
+    //            toastr.options.showEasing = $showEasing.val();
+    //        }
+    //        if ($hideEasing.val().length) {
+    //            toastr.options.hideEasing = $hideEasing.val();
+    //        }
+    //        if ($showMethod.val().length) {
+    //            toastr.options.showMethod = $showMethod.val();
+    //        }
+    //        if ($hideMethod.val().length) {
+    //            toastr.options.hideMethod = $hideMethod.val();
+    //        }
+    //        if (!msg) {
+    //            msg = getMessage();
+    //        }
+    //        $("#toastrOptions").text("Command: toastr["
+    //            + shortCutFunction
+    //            + "](\""
+    //            + msg
+    //            + (title ? "\", \"" + title : '')
+    //            + "\")\n\ntoastr.options = "
+    //            + JSON.stringify(toastr.options, null, 2)
+    //        );
+    //        var $toast = toastr[shortCutFunction](msg, title); // Wire up an event handler to a button in the toast, if it exists
+    //        $toastlast = $toast;
+    //        if ($toast.find('#okBtn').length) {
+    //            $toast.delegate('#okBtn', 'click', function () {
+    //                alert('you clicked me. i was toast #' + toastIndex + '. goodbye!');
+    //                $toast.remove();
+    //            });
+    //        }
+    //        if ($toast.find('#surpriseBtn').length) {
+    //            $toast.delegate('#surpriseBtn', 'click', function () {
+    //                alert('Surprise! you clicked me. i was toast #' + toastIndex + '. You could perform an action here.');
+    //            });
+    //        }
+    //    });
+    //    function getLastToast() {
+    //        return $toastlast;
+    //    }
+    //    $('#clearlasttoast').click(function () {
+    //        toastr.clear(getLastToast());
+    //    });
+    //    $('#cleartoasts').click(function () {
+    //        toastr.clear();
+    //    });
+    //})
+</script>
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"></script>
+<script>
+  
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+

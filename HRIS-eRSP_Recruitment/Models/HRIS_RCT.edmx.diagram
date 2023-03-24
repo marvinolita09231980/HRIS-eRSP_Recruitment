@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e4927b911d9f443dbdfc2c59b5d16eb5" Name="Diagram1">
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicant_attachment_tbl" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicant_educ_tbl" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicant_eligibilty_tbl" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicant_examination" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicant_learnanddevt_tbl" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicant_workexprnce_tbl" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicant_workexprnce_temp_tbl" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicants_email_sent_items" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicants_review_tbl" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicants_review_tbl_olddata" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicants_tbl" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.application_status_tbl" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.document_type_tbl" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.guest_user_info_tbl" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_cbirating_tbl" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_hiring_period_tbl" Width="1.5" PointX="10.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_mbr_role_tbl" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_panel_permanent_mbr_tbl" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_pnl_rtg_tbl" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_rating_dtl_tbl" Width="1.5" PointX="8.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_rating_hdr_tbl" Width="1.5" PointX="10.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_remarks_tbl" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_app_tbl" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_hdr_tbl" Width="1.5" PointX="2.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_hdr_tbl_olddata" Width="1.5" PointX="4.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_item_nbrs" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_item_nbrs_olddata" Width="1.5" PointX="14.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_mbr_tbl" Width="1.5" PointX="14.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_mbr_tbl_olddata" Width="1.5" PointX="14.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_mbr_tbl_original" Width="1.5" PointX="6.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_systemsetup_rating_tbl" Width="1.5" PointX="8.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.sysdiagram" Width="1.5" PointX="10.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.workexp_combine_hdr_tbl" Width="1.5" PointX="12.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.zoomcredential_tbl" Width="1.5" PointX="14.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicant_educ_tbl_list" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicant_educ_type_tbl" Width="1.5" PointX="16.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicant_eligibility_tbl_list" Width="1.5" PointX="16.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicant_examination_tbl" Width="1.5" PointX="16.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicant_learnanddevt_tbl_list" Width="1.5" PointX="16.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicant_tbl_list" Width="1.5" PointX="0.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicant_workexprnce_tbl_list" Width="1.5" PointX="2.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_available_item_tbl_active" Width="1.5" PointX="18.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_budgetyears_tbl" Width="1.5" PointX="18.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_civilstatus_tbl_RCT" Width="1.5" PointX="18.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_departments_tbl" Width="1.5" PointX="8.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_educ_type_tbl_sort" Width="1.5" PointX="18.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_guest_user_info_tbl" Width="1.5" PointX="10.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_open_vacant_publication_list" Width="1.5" PointX="12.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_personnel_tbl_image_RCT" Width="1.5" PointX="18.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_personnelnames_tbl_RCT" Width="1.5" PointX="18.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_plantilla_items" Width="1.5" PointX="4.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_positions_tbl" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_panel_permanent_mbr_tbl" Width="1.5" PointX="20.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_sked_hdr_tbl" Width="1.5" PointX="20.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_sked_mbr_tbl" Width="1.5" PointX="20.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_return_compentency" Width="1.5" PointX="14.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_salary_grade_list" Width="1.5" PointX="16.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_score_sheet_details_educ_rpt" Width="1.5" PointX="20.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_score_sheet_details_elig_rpt" Width="1.5" PointX="22.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_score_sheet_details_lnd_rpt" Width="1.5" PointX="22.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_score_sheet_details_wexp_rpt" Width="1.5" PointX="22.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_userroles_tbl_RCT" Width="1.5" PointX="22.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_vacant_position_list" Width="1.5" PointX="16.75" PointY="22.75" IsExpanded="true" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

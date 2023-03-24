@@ -1,0 +1,282 @@
+﻿@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+    .modal-xl {
+        width: 90% !important;
+    }
+</style>
+<script src="~/Angular/ng-cViewUploadedFileFromAPL.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cViewUploadedFileFromAPL_Ctrlr">
+    <!-- The modal -->
+    <div class="modal inmodal text-center" id="pdfview_modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div id="pdfview_body" class="modal-dialog modal-xl">
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header navy-bg">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    @*<i class="fa fa-graduation-cap modal-icon"></i>*@
+                    <h6 class="modal-title">PDF VIEW</h6>
+                    @*<small class="font-bold">Discover great features</small>*@
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <embed id="pdfview" width="{{body_client_width | body_clientwidth}}" height="{{body_client_height | body_clientheigth}}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="choose_action" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h1 class="modal-title" id="modalLabelSmall"><b>Choose Action</b></h1></center>
+                </div>
+                <div class="modal-content">
+
+                </div>
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12">
+                            <center>
+                                <button class="btn btn-success font-bold" ng-click="show_file(file_index)">
+                                    View File&nbsp;<i id="add" class="fa fa-plus"></i>
+                                </button>
+                            </center>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <h2 class="text-white"><b>Attachements</b></h2>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pull-right">
+            <button class="btn btn-block btn-info" ng-click="PreviousPage()">Back</button>
+        </div>
+
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight no-padding">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div style="float:left;margin-bottom:15px;">
+                                <img alt="image" class="img-circle m-t-xs img-responsive" style="width:70px;height:70px;" src="{{app_info.empl_photo_img | encode_idv}}">
+                            </div>
+                            <div style="float:left;padding-right:0!important;margin-top:25px;padding-left:30px;vertical-align:central;height:70px;">
+                                <h2>{{applicant_name}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        @*<button ng-show="!dropzone" class="btn btn-danger {{attach}}" ng-click="changeZone(1,0)">Attach Files&nbsp;<i class="fa fa-paperclip"></i></button>
+                        <button ng-show="dropzone" class="btn btn-danger {{attach}}" ng-click="changeZone(2,0)">See Attached Files&nbsp;<i class="fa fa-paperclip"></i></button>*@
+                        <div class="btn-group" style="margin-left:20px;">
+                            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle {{dropz}}">Document Type&nbsp;&nbsp;<span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a ng-click="changeZone(1,1)">Personal Data Sheet</a></li>
+                                <li><a ng-click="changeZone(1,2)">Application Letter</a></li>
+                                <li><a ng-click="changeZone(1,3)">IPCR</a></li>
+                                <li><a ng-click="changeZone(1,4)">Transcript Of Record</a></li>
+                                <li><a ng-click="changeZone(1,5)">Eligibility</a></li>
+                                <li><a ng-click="changeZone(1,6)">Others</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group" style="margin-left:20px;">
+                            <input ng-show="dropzone" type="text" class="form-control" style="background-color:white;color:black;display:inline-block;width:300px;" ng-model="doctype_disp" disabled />
+                        </div>
+
+
+                    </div>
+
+                    @*<div class="ibox-content" ng-show="dropzone">
+                        <form id="my-awesome-dropzone" class="dropzone" action="#">
+                            <div class="dropzone-previews"></div>
+                            <button type="submit" id="submitFile" class="btn btn-primary pull-right">Submit Attachments!</button>
+                            <div class="col-12">Note: Upload PDF files only</div>
+                        </form>
+                    </div>*@
+                    <div class="ibox-content" ng-show="!nofile">
+                        <div class="dropzone">
+                            <div class="col-sm-3 dropzone-previews" ng-repeat="l in att_dtl track by $index" ng-click="choose_file($index)">
+                                <img src="~/ResourcesImages/pdf_icon.png" alt="" height="136" width="114">
+                                <div>{{split_filename(l.file_path)}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content" ng-show="nofile">
+                        <div class="dropzone">
+                            <center><h1 class="text-danger">No File Uploaded!</h1></center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"></script>
+<script>
+    $(document).ready(function () {
+
+        //Dropzone.options.myAwesomeDropzone = {
+
+        //    autoProcessQueue: false,
+        //    uploadMultiple: true,
+        //    parallelUploads: 100,
+        //    maxFiles: 100,
+
+        //    // Dropzone settings
+        //    init: function () {
+        //        var myDropzone = this;
+
+        //        this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+        //            e.preventDefault();
+        //            e.stopPropagation();
+        //            myDropzone.processQueue();
+        //        });
+        //        this.on("sendingmultiple", function () {
+        //        });
+        //        this.on("successmultiple", function (files, response) {
+        //        });
+        //        this.on("errormultiple", function (files, response) {
+        //        });
+        //    }
+
+        //}
+        //$('.i-checks').iCheck({
+        //    checkboxClass: 'icheckbox_square-green',
+        //    radioClass: 'iradio_square-green',
+        //});
+
+        //$('#data_1 .input-group.date').datepicker({
+        //    todayBtn: "linked",
+        //    keyboardNavigation: false,
+        //    forceParse: false,
+        //    calendarWeeks: true,
+        //    autoclose: true,
+        //    format: "yyyy/mm/dd"
+        //});
+
+
+    });
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+
+
+

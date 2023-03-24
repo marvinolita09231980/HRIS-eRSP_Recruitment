@@ -1,0 +1,1123 @@
+﻿@model  eSMIS.Models.GetSubjectList
+@{
+    Layout = null;
+}
+<html>
+<head>
+
+    <script type="text/javascript">
+
+        function DisableBackButton() {
+            var mySession = '@Session["user_id"]';
+            if (mySession == null || mySession == '') {
+                window.history.forward();
+            }
+        }
+        window.onload = DisableBackButton();
+        window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton() }
+        //window.onunload = function() { void (0) }
+
+
+    </script>
+
+
+
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIS</title>
+    <base href="/" />
+
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Data picker -->
+    <link href="~/Content/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="~/Content/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
+    <link href="~/Content/plugins/dataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <!-- Toastr style -->
+    <link href="~/Content/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <!-- Gritter -->
+    <link href="~/Content/plugins/footable/footable.core.css" rel="stylesheet">
+    <link href="~/Content/plugins/summernote/summernote.css" rel="stylesheet">
+    @*<link href="~/Content/plugins/summernote/summernote-bs3.css" rel="stylesheet">*@
+
+    <link href="~/Content/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+
+    <script src="~/Scripts/ngSweetAlert.js"></script>
+
+    <script src="~/Angular/angular.min.js"></script>
+
+
+
+
+
+    <link href="~/Content/plugins/slick/slick.css" rel="stylesheet" />
+    <link href="~/Content/plugins/slick/slick-theme.css" rel="stylesheet" />
+
+    <link href="~/Content/plugins/steps/jquery.steps.css" rel="stylesheet" />
+
+    <link href="~/Content/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" />
+
+    <style>
+        .row-height {
+            height: 40px !important;
+        }
+
+        .imgProfile {
+            border-radius: 50%;
+        }
+
+        .btn-action {
+            width: 34px !important;
+            height: 24px !important;
+        }
+    </style>
+
+    <script language="javascript" type="text/javascript">
+            var sessionTimeoutWarning   = @System.Configuration.ConfigurationManager.AppSettings["SessionWarning"].ToString(); //get session warning value from web config variable
+            var sessionTimeout          = @Session.Timeout; //get session timeout value from web config variable
+            var sTimeout                = sessionTimeoutWarning * 60000; //time to pop-up warning message
+            var set_time_var            = "";
+            var count                   = sessionTimeout * 60;
+            var counter = "";
+
+            var time_left = (sessionTimeout - sessionTimeoutWarning) * 60000;
+            var time_left2 = sessionTimeout - sessionTimeoutWarning;
+
+            //detect mouse click then call reset session time function
+            function mouse_detect(event) {
+                reset_session();
+            }
+
+            //detect mouse scroll then call reset session time function
+            function wheel_detect() {
+                reset_session();
+            }
+
+            //start session timer on page load
+            function onload_body() {
+                set_time();
+                timer();
+            }
+
+            function set_time() {
+                set_time_var = setTimeout('session_warning();', sTimeout);
+                counter = setInterval(timer, 1000);
+            }
+
+            function timer() {
+                count = count - 1;
+                if (count <= 0) {
+                    setTimeout(function () {
+                        swal({
+                            title: "Session Timeout",
+                            text: "You will be redirected to Login Page.",
+                            icon: "error",
+                            allowOutsideClick: false,
+                        })
+                            .then(function () {
+                                clearInterval(counter);
+                                sessionStorage.clear();
+                                location.href = "../Login/Index"
+                                return;
+                            });
+                    }, 1000);
+                }
+                $('#time_left').text(count);
+            }
+
+            function session_warning() {
+                setTimeout(function () {
+                    toastr.options = {
+                        closeOnHover: true,
+                        closeButton: false,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: time_left
+                    };
+                    toastr.error('Your session is about to end in ' + time_left2 + ' minutes, try refreshing the page!', 'You have been idle for too long.');
+
+                }, 1000);
+            }
+
+            function reset_session() {
+                toastr.clear();
+                var xmlHttp = null;
+                xmlHttp = new XMLHttpRequest();
+                xmlHttp.open("GET", "KeepAlive.aspx", true);
+                xmlHttp.send(null);
+
+                count = sessionTimeout * 60;
+                toast_time_out = 1;
+                clearTimeout(set_time_var);
+                clearInterval(counter);
+                set_time();
+            }
+    </script>
+
+    <script src="~/Angular/ng-file-upload.min.js"></script>
+    <script src="~/Angular/ngApp.js"></script>
+    @*<script src="~/Angular/ng-SharedLayout.js"></script>*@
+
+    <script src="~/Angular/ng-StudentMainPage.js"></script>
+
+    <style>
+            .top-navigation .nav > li > a {
+                padding: 15px 20px;
+                color: #676a6c;
+            }
+
+            .top-navigation .nav > li a:hover,
+            .top-navigation .nav > li a:focus {
+                background: #fff;
+                color: #1c84c6;
+            }
+
+            .top-navigation .nav > li.active {
+                background: #fff;
+                border: none;
+            }
+
+            /*.top-navigation .nav > li.active > a
+        {
+                color: #fff;
+                background: #1c84c6;
+                border: none;
+        }*/
+
+    </style>
+</head>
+
+
+
+@*<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="-1">*@
+
+
+<body id="main_body" onload="onload_body()" onmousedown="mouse_detect(event)" onwheel="wheel_detect()" style="background-color:white;">
+
+    <div class="modal fade" id="common_loading_modal">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+                @*<span class="fa fa-spinner fa-spin fa-3x text-white"></span>*@
+                <div class="spiner-example">
+                    <div class="sk-spinner sk-spinner-cube-grid" style="width:250px;height:250px;">
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="row">
+                            <div class="spiner-example text-white" style="margin-left:20px;">
+                                <span style="float:left;font-size:16px;" id="loading_msg">Processing</span>
+                                <div style="float:left;width:150px;" class="sk-spinner sk-spinner-three-bounce">
+                                    <div class="sk-bounce1" style="background-color:white;"></div>
+                                    <div class="sk-bounce2" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="animated fadeInDown" ng-app="ng_eSMIS_App" ng-controller="StudentMainPage_ctrlr">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+           
+            <ul class="nav navbar-top-links navbar-right">
+
+
+                
+                <li>
+                        @Html.ActionLink("Log out", "LogOff", "Login")
+                   
+                </li>
+
+
+
+            </ul>
+
+        </nav>
+        <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated tada" style="background-color: #273A4A;border-radius:20px !important;" id="modal_content">
+                    <div class="modal-header">
+                        @*<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>*@
+                        <i class="fa fa-wrench modal-icon"></i>
+                        <h4 class="modal-title text-white">Currently under maintenance</h4>
+                        <small style="color: #369AFD;font-size:11pt;font-weight:bold;">ACSoft</small><small style="color: #FE6500;font-size:11pt;font-weight:bold;">Tek</small>
+                    </div>
+                    <div class="modal-body">
+                        <p style="font-size:14pt;" class="text-center" ;>
+                            We're currently making an upgrade on this feature to better assist you in the future! <br /><strong>This feature will be available soon!</strong>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-rounded center-block" data-dismiss="modal">Got it</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal_loading" style="background-color:gray;">
+            <div class="modal-dialog">
+                <div class="modal-dialog text-center">
+                    <div class="spiner-example">
+                        <div class="sk-spinner sk-spinner-cube-grid" style="width:250px;height:250px;">
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="row">
+                                <div class="spiner-example text-white" style="margin-left:20px;">
+                                    <span style="float:left;font-size:16px;" id="loading_msg">LOADING</span>
+                                    <div style="float:left;width:150px;" class="sk-spinner sk-spinner-three-bounce">
+                                        <div class="sk-bounce1" style="background-color:white;"></div>
+                                        <div class="sk-bounce2" style="background-color:white;"></div>
+                                        <div class="sk-bounce3" style="background-color:white;"></div>
+                                        <div class="sk-bounce3" style="background-color:white;"></div>
+                                        <div class="sk-bounce3" style="background-color:white;"></div>
+                                        <div class="sk-bounce3" style="background-color:white;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*---SCHEDULE MODAL-----*@
+        <div class="modal fade" id="subject_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content animated flipInY modal-content-add-edit">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="modalLabelSmall">View Subjects Information</h4>
+                    </div>
+                    <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+
+                        <div class="row" style="margin-top:5px;overflow-y: auto;max-height:400px;">
+                            <div class="ibox float-e-margins">
+
+                                <div class="ibox-content inspinia-timeline">
+                                    @{
+                                        foreach (var modellist in Model.ListOfSubject)
+                                        {
+                                            <div class="timeline-item">
+                                                <div class="row">
+                                                    <div class="col-xs-3 date">
+                                                        <i class="fa fa-calendar-o"><b></b></i>
+                                                        <b class="text-danger">@modellist.f_daysched_descr</b>
+                                                        <br />
+                                                        <small class="text-navy">@modellist.f_timeinterval_start</small>
+                                                    </div>
+                                                    <div class="col-xs-7 content">
+                                                        <br />
+                                                        <p class="m-b-xs text-success"><strong>@modellist.f_subject_title</strong></p>
+                                                        <p class="">Teacher: @modellist.personnel_name_format2</p>
+                                                        <p style="visibility:hidden;">Lorem Ipsum is simply dummy text</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        }
+                                    }
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*---ADD MODAL-----*@
+        <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content animated flipInY modal-content-add-edit">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                    </div>
+                    <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+
+                        <div class="row" style="margin-top:5px;">
+                            <div class="form-group row">
+
+                                <div class="col-lg-12">
+                                    <div class="col-md-3">
+                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>Priority Level:&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                                    </div>
+                                    <div class="col-sm-9" style="padding-top:5px;">
+                                        <div class="progress progress-striped m-b-sm active">
+                                            <div id="progress_level" style="width: 100%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" role="progressbar">
+                                                <span class="font-bold" style="padding-top: 5px;"><b>{{priority_descr}} Priority</b></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>Progress Status:</b></span>
+                                    </div>
+                                    <div class="col-sm-9" style="padding-top:5px;">
+                                        <div class="progress progress-striped m-b-sm active">
+                                            <div style="width: 100%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" role="progressbar" class="progress-bar progress-bar-{{progress_flag}}">
+                                                <span class="font-bold" style="padding-top: 5px;"><b>{{viewed_flag}}</b></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" style="margin-top:5px;">
+                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>Subject Title:</b></span>
+                                    </div>
+                                    <div class="col-md-9" style="margin-top:5px;">
+                                        <input type="text" id="txtb_subject_title" ng-model="txtb_subject_title" class="form-control font-bold" disabled />
+                                        <label id="lbl_txtb_subject_title_req" class="lbl_required"></label>
+                                    </div>
+                                    <div class="col-md-3" style="margin-top:5px;">
+                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>Purpose:</b></span>
+                                    </div>
+                                    <div class="col-md-9" style="margin-top:5px;">
+                                        <textarea type="text" id="txtb_purpose" ng-model="txtb_purpose" class="form-control font-bold" disabled> </textarea>
+                                        <label id="lbl_txtb_purpose_req" class="lbl_required"></label>
+
+                                    </div>
+
+                                    <div class="col-md-3" style="margin-top:5px;">
+                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>Completion Date:</b></span>
+                                    </div>
+                                    <div class="col-md-4" style="margin-top:5px;">
+                                        <div class="input-group">
+                                            <input type="text" id="txtb_activity_date" ng-model="txtb_activity_date" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled />
+
+                                        </div>
+                                        <label id="lbl_txtb_activity_date_req" class="lbl_required"></label>
+                                    </div>
+                                    <div class="col-md-5"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*---END ADD MODAL-----*@
+
+
+        @*---ADD MODAL-----*@
+        <div class="modal fade" id="student_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content animated flipInY modal-content-add-edit">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="modalLabelSmall">View Student Information</h4>
+                    </div>
+                    <div class="modal-body with-background" style="padding-bottom:5px;padding-top:20px;">
+                        <div class="row">
+                            <div class="tabs-container ">
+                                <ul class="nav nav-tabs">
+                                    <li class="active" ng-click="ForNavigation(1)"><a data-toggle="tab" href="#tab-1" id="tab1"> <i class="fa fa-user"></i> <b style="{{nav_color1}}">Student Information</b> </a></li>
+                                    <li class="" ng-click="ForNavigation(2)">      <a data-toggle="tab" href="#tab-2" id="tab2"> <i class="fa fa-map-marker"></i>  <b style="{{nav_color2}}">Student Address</b> </a></li>
+                                    <li class="" ng-click="ForNavigation(3)">      <a data-toggle="tab" href="#tab-3" id="tab3"> <i class="fa fa-info"></i> <b style="{{nav_color3}}">Other Information </b> </a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab-1" class="tab-pane active">
+                                        <div class="panel-body " style="min-height:315px;">
+                                            @*<div class="panel-body " style="min-height:315px;">*@
+                                            <div class="form-group row">
+                                                <div class="col-md-3 border-right" style="padding-left:0px;">
+                                                    <div class="col-lg-12">
+                                                        <img id="preview_img_only" src="{{imgDataURL}}" width="160" height="150" style="border:0px;background-color:white;padding:5px" />
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>Student ID:</b></span>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <input type="text" id="txtb_student_id" ng-model="txtb_student_id" class="form-control font-bold text-center" maxlength="10" disabled />
+                                                        <label id="lbl_txtb_student_id_req" class="lbl_required" style="width: 100%;"></label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>Student LRN :</b></span>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <input type="text" id="txtb_student_lrn" ng-model="txtb_student_lrn" class="form-control font-bold text-center" maxlength="25" disabled />
+                                                        <label id="lbl_txtb_student_lrn_req" class="lbl_required"></label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b> Student Status :</b></span>
+                                                    </div>
+                                                    <div class="col-md-12" style="margin-top:5px;">
+
+                                                        <input type="text" id="txtb_student_status" ng-model="txtb_student_status" class="form-control font-bold text-center" maxlength="25" disabled />
+                                                        <label id="lbl_ddl_student_status_req" class="lbl_required" style="width:100%"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-9" style="padding-right:0px">
+                                                    <div class="row">
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>Last Name :</b></span>
+                                                        </div>
+                                                        <div class="col-md-9" style="margin-top:5px;">
+
+                                                            <input type="text" id="txtb_student_lname" ng-model="txtb_student_lname" class="form-control font-bold" maxlength="50" disabled />
+                                                            <label id="lbl_txtb_student_lname_req" class="lbl_required"></label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>First Name :</b></span>
+                                                        </div>
+                                                        <div class="col-md-9" style="margin-top:5px;">
+                                                            <input type="text" id="txtb_student_fname" ng-model="txtb_student_fname" class="form-control font-bold" maxlength="50" disabled />
+                                                            <label id="lbl_txtb_student_fname_req" class="lbl_required"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>Middle Name:</b></span>
+                                                        </div>
+                                                        <div class="col-md-9" style="margin-top:5px;">
+                                                            <input type="text" id="txtb_student_mname" ng-model="txtb_student_mname" class="form-control font-bold" maxlength="50" disabled />
+                                                            <label id="lbl_txtb_student_mname_req" class="lbl_required"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>Suffix Name:</b></span>
+                                                        </div>
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <input type="text" id="txtb_student_sname" ng-model="txtb_student_sname" class="form-control font-bold" maxlength="5" disabled />
+                                                            <label id="lbl_txtb_student_sname_req" class="lbl_required"></label>
+                                                        </div>
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <span class="pull-left font-bold" style="padding-top:5px;"><b> Courtesy Title:</b></span>
+                                                        </div>
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <input type="text" id="txtb_courtisy" ng-model="txtb_courtisy" class="form-control font-bold" maxlength="5" disabled />
+                                                            <label id="lbl_txtb_courtisy_req" class="lbl_required"></label>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr style="border:0.5px solid cadetblue;padding:0px;margin-top:4px;margin-bottom:4px;" />
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>Gender :</b></span>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" id="txtb_gender" ng-model="txtb_gender" class="form-control font-bold" disabled />
+                                                            <label id="lbl_ddl_gender_req" class="lbl_required" style="width:100%"></label>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>Date of Birth:</b></span>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" id="txtb_bdate" ng-model="txtb_bdate" class="form-control font-bold text-center" maxlength="10" disabled />
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>Civil Status :</b></span>
+                                                        </div>
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <input type="text" id="txtb_civil" ng-model="txtb_civil" class="form-control font-bold" disabled />
+                                                            <label id="lbl_ddl_civil_status_req" class="lbl_required"></label>
+                                                        </div>
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>Citizenship:</b></span>
+                                                        </div>
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <input type="text" id="txtb_citizenship" ng-model="txtb_citizenship" class="form-control font-bold text-center" disabled />
+                                                            <label id="lbl_ddl_citizenship_req" class="lbl_required" style="width:100%"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3" style="margin-top:5px;">
+                                                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>Religion:</b></span>
+                                                        </div>
+                                                        <div class="col-md-9" style="margin-top:5px;">
+                                                            <input type="text" id="txtb_religion" ng-model="txtb_religion" class="form-control font-bold" disabled />
+                                                            <label id="lbl_ddl_religion_req" class="lbl_required" style="width:100%"></label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-2" class="tab-pane">
+                                        <div class="panel-body" style="min-height: 315px;">
+                                            @*<div class="panel-body" style="min-height: 315px;">*@
+                                            <div class="form-group row">
+                                                <div class="col-md-2" style="margin-top:5px;">
+                                                    <span class="pull-left font-bold" style="padding-top: 5px;"><b>Street Address:</b></span>
+                                                </div>
+                                                <div class="col-md-10" style="margin-top:5px;">
+                                                    <input type="text" id="txtb_current_add" ng-model="txtb_current_add" class="form-control font-bold" maxlength="100" placeholder="House Nbr./Blk/Street Address" disabled />
+                                                    <label id="lbl_txtb_current_add_req" class="lbl_required"></label>
+                                                </div>
+                                                <div class="col-md-2" style="margin-top:5px;">
+                                                    <span class="pull-left font-bold" style="padding-top: 5px;"><b>Province:</b></span>
+                                                </div>
+                                                <div class="col-md-10" style="margin-top:5px;">
+                                                    <input type="text" id="txtb_province" ng-model="txtb_province" class="form-control font-bold" disabled />
+                                                    <label id="lbl_ddl_province_req" class="lbl_required" style="width:100%"></label>
+                                                </div>
+                                                <div class="col-md-2" style="margin-top:5px;">
+                                                    <span class="pull-left font-bold" style="padding-top: 5px;"><b>Municipality:</b></span>
+                                                </div>
+                                                <div class="col-md-10" style="margin-top:5px;">
+                                                    <input type="text" id="txtb_municipality" ng-model="txtb_municipality" class="form-control font-bold" disabled />
+                                                    <label id="lbl_ddl_municipality_req" class="lbl_required" style="width:100%"></label>
+                                                </div>
+                                                <div class="col-md-2" style="margin-top:5px;">
+                                                    <span class="pull-left font-bold" style="padding-top: 5px;"><b>Barangay:</b></span>
+                                                </div>
+                                                <div class="col-md-10" style="margin-top:5px;">
+                                                    <input type="text" id="txtb_brgy" ng-model="txtb_brgy" class="form-control font-bold" disabled />
+                                                    <label id="lbl_ddl_brgy_req" class="lbl_required" style="width:100%"></label>
+                                                </div>
+                                                <div class="col-md-2" style="margin-top:5px;">
+                                                    <span class="pull-left font-bold" style="padding-top: 5px;"><b>Contact Nbr(s):</b></span>
+                                                </div>
+                                                <div class="col-md-10" style="margin-top:5px;">
+                                                    <input type="text" id="txtb_contact_nbr" ng-model="txtb_contact_nbr" class="form-control font-bold" maxlength="30" style="width:50%" disabled /><br />
+                                                    <label id="lbl_txtb_contact_nbr_req" class="lbl_required"></label>
+                                                </div>
+
+                                                <div class="col-md-2" style="margin-top:5px;">
+                                                    <span class="pull-left font-bold" style="padding-top: 5px;"><b>Email Address:</b></span>
+                                                </div>
+                                                <div class="col-md-10" style="margin-top:5px;">
+                                                    <input type="text" id="txtb_email_add" ng-model="txtb_email_add" class="form-control font-bold" maxlength="100" disabled />
+                                                    <label id="lbl_txtb_email_add_req" class="lbl_required"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-3" class="tab-pane">
+                                        <div class="panel-body" style="min-height: 315px;">
+                                            @*<div class="panel-body" style="min-height: 315px;">*@
+                                            <div class="form-group row">
+
+                                                <div class="row">
+                                                    <div class="col-md-2" style="margin-top:5px;">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>&nbsp;&nbsp;&nbsp;Father's Name:</b></span>
+                                                    </div>
+                                                    <div class="col-md-10" style="margin-top:5px;">
+                                                        <input type="text" id="txtb_father_name" ng-model="txtb_father_name" class="form-control font-bold" maxlength="100" disabled />
+                                                        <label id="lbl_txtb_father_name_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2" style="margin-top:5px;">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>&nbsp;&nbsp;&nbsp;Father's Occ.:</b></span>
+                                                    </div>
+                                                    <div class="col-md-10" style="margin-top:5px;">
+                                                        <input type="text" id="txtb_father_occupation" ng-model="txtb_father_occupation" class="form-control font-bold" maxlength="100" disabled />
+                                                        <label id="lbl_txtb_father_occupation_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2" style="margin-top:5px;">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>&nbsp;&nbsp;&nbsp;Mother's Name:</b></span>
+                                                    </div>
+                                                    <div class="col-md-10" style="margin-top:5px;">
+                                                        <input type="text" id="txtb_mother_name" ng-model="txtb_mother_name" class="form-control font-bold" maxlength="100" disabled />
+                                                        <label id="lbl_txtb_mother_name_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2" style="margin-top:5px;">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>&nbsp;&nbsp;&nbsp;Mother's Occ.:</b></span>
+                                                    </div>
+                                                    <div class="col-md-10" style="margin-top:5px;">
+                                                        <input type="text" id="txtb_mother_occupation" ng-model="txtb_mother_occupation" class="form-control font-bold" maxlength="100" disabled />
+                                                        <label id="lbl_txtb_father_occupation_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-2" style="margin-top:5px;">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>&nbsp;&nbsp;&nbsp;Guardian Name:</b></span>
+                                                    </div>
+                                                    <div class="col-md-10" style="margin-top:5px;">
+                                                        <input type="text" id="txtb_guardian_name" ng-model="txtb_guardian_name" class="form-control font-bold" maxlength="100" disabled />
+                                                        <label id="lbl_txtb_guardian_name_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2" style="margin-top:5px;">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>&nbsp;&nbsp;&nbsp;Guardian Occ.:</b></span>
+                                                    </div>
+                                                    <div class="col-md-10" style="margin-top:5px;">
+                                                        <input type="text" id="txtb_guardian_occupation" ng-model="txtb_guardian_occupation" class="form-control font-bold" maxlength="100" disabled />
+                                                        <label id="lbl_txtb_father_occupation_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2" style="margin-top:5px;">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>&nbsp;&nbsp;&nbsp;Emrgncy. Name:</b></span>
+                                                    </div>
+                                                    <div class="col-md-10" style="margin-top:5px;">
+                                                        <input type="text" id="txtb_emergency_name" ng-model="txtb_emergency_name" class="form-control font-bold" maxlength="100" disabled />
+                                                        <label id="lbl_txtb_emergency_name_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2" style="margin-top:5px;">
+                                                        <span class="pull-left font-bold" style="padding-top: 5px;"><b>&nbsp;&nbsp;&nbsp;Emrgncy. No.:</b></span>
+                                                    </div>
+                                                    <div class="col-md-10" style="margin-top:5px;">
+                                                        <input type="text" id="txtb_emergency_nbr" ng-model="txtb_emergency_nbr" class="form-control font-bold" maxlength="30" style="width:50%" disabled />
+                                                        <label id="lbl_txtb_emergency_nbr_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*---END ADD MODAL-----*@
+
+        <div class="wrapper wrapper-content">
+
+            <div class="ibox-content m-b-sm navy-bg">
+                <div class="row">
+                    <div class="col-md-5 b-r">
+
+                        <div class="profile-image m-t-sm">
+                            <img id="profile" src="{{imgDataURL}}" class="img-circle circle-border m-b-md" alt="profile">
+                        </div>
+                        <div class="profile-info">
+                            <div class="hidden" id="name_format">
+                                <div>
+
+                                    <h2 class="no-margins font-weight-bold" style="font-weight:bolder">
+                                        {{f_student_name_format2}}
+
+                                    </h2>
+                                    <br />
+                                    <ul class="list-unstyled m-t-sm small">
+                                        <li class="hidden" id="lrn_format">
+                                            <span class="fa fa-user m-r-xs"></span>
+                                            <label>LRN/ID #:</label>
+                                            {{f_student_lrn}} - {{f_student_id}}
+                                        </li>
+                                        <li class="hidden" id="section_format">
+                                            <span class="fa fa-info-circle m-r-xs"></span>
+                                            <label>Grade/Section:</label>
+                                            {{f_class_section_descr}}
+                                        </li>
+                                        <li class="hidden" id="address_format">
+                                            <span class="fa fa-home m-r-xs"></span>
+                                            <label>Address:</label>
+                                            {{f_currentaddress}}
+                                        </li>
+                                        <li class="hidden" id="contact_format">
+                                            <span class="fa fa-phone m-r-xs"></span>
+                                            <label>Contact:</label>
+                                            {{f_contactnbrs}}
+                                        </li>
+                                    </ul>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+
+
+
+                        <div class="form-group row">
+                            <div class="col-lg-4">
+                                <button class="btn btn-success btn-block" ng-click="btn_student_info()">
+                                    <i class="fa fa-graduation-cap fa-4x"></i>
+                                    <p><h5>Student Information</h5></p>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn btn-danger btn-block" ng-click="btn_subject_info()">
+                                    <i class="fa fa-book fa-4x"></i>
+                                    <p><h5>Subjects Information</h5></p>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn btn-warning btn-block" ng-click="btn_exam_info()">
+                                    <i class="fa fa-file fa-4x"></i>
+                                    <p><h5>Exams Information</h5></p>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="row">
+
+                @*<div class="col-lg-2">
+
+                    <button class="btn btn-success btn-block">
+                        <i class="fa fa-graduation-cap fa-4x"></i>
+                        <p><h5>Student Information</h5></p>
+                    </button>
+
+
+                    <button class="btn btn-danger btn-block">
+                        <i class="fa fa-book fa-4x"></i>
+                        <p><h5>Subjects Information</h5></p>
+                    </button>
+
+
+                    <button class="btn btn-warning btn-block">
+                        <i class="fa fa-file fa-4x"></i>
+                        <p><h5>Exams Information</h5></p>
+                    </button>
+
+
+                </div>*@
+
+                <div class="col-lg-12">
+
+                    <div class="ibox-title blue-bg">
+
+                        <div class="form-group row">
+                            <div class="col-lg-2">
+                                <h5 class="text-white" style="padding-top:5px;">SEARCH..</h5>
+                            </div>
+                            <div class="col-lg-10">
+                                <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-goup row m-b-sm">
+                            <div class="col-sm-2">
+                                <div class="row">
+                                    <span class="pull-left col-lg-3" style="padding-top:5px"><b>Show</b>&nbsp;</span>
+                                    <div class="col-lg-6">
+                                        <select class="form-control" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
+                                            <option>5</option>
+                                            <option>10</option>
+                                            <option>20</option>
+                                            <option>30</option>
+                                            <option>50</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="col-lg-1"></div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <span class="pull-left col-lg-5" style="padding-top:5px"><b><span class="text-danger">*</span>School Calendar:</b>&nbsp;</span>
+                                    <div class="col-lg-7">
+                                        <input type="text" id="txtb_calendar_year" ng-model="txtb_calendar_year" class="form-control font-bold text-center font-bold" disabled />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="row">
+                                    <span class="pull-left col-lg-3" style="padding-top:5px"><b><span class="text-danger">*</span>Month:</b>&nbsp;</span>
+                                    <div class="col-lg-9">
+                                        <select id="ddl_month" ng-model="ddl_month" ng-change="FilterGrid()" class="form-control field-select-sm text-center font-bold">
+                                            <option value="00" selected>-Select Here-</option>
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="row">
+                                    <span class="pull-left col-lg-3" style="padding-top:5px"><b><span class="text-danger">*</span>Status:</b>&nbsp;</span>
+                                    <div class="col-lg-9">
+                                        <select id="ddl_status_header" ng-model="ddl_status_header" ng-change="FilterGrid()" class="form-control field-select-sm text-center font-bold">
+                                            <option value="true">Completed</option>
+                                            <option value="false">Incomplete</option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-2 m-t-sm">
+
+                            </div>
+                            <div class="col-lg-10 m-t-sm">
+                                <div class="row">
+                                    <span class="col-sm-2" style="padding-top:5px"><b><span class="text-danger">*</span>Subject Title:</b>&nbsp;</span>
+                                    <div class="col-lg-10">
+                                        <select class="form-control text-left font-bold hidden" ng-change="FilterGrid()" id="ddl_subject_title" ng-model="ddl_subject_title">
+                                            <option value="" selected>--Select Here--</option>
+                                            <option ng-repeat="lst in subject_title_list" value="{{lst.f_subject_id}}">{{lst.f_subject_title}}</option>
+
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="tabs-container">
+                            <ul class="nav nav-pills">
+                                <li class="active" ng-click="getTab(0)"><a data-toggle="tab" href="#tabref-1">LEARNING MATERIALS</a></li>
+                                <li class="" ng-click="getTab(1)"><a data-toggle="tab" href="#tabref-2">EXAMS/QUIZES &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content">
+                            <div id="tabref-1" class="tab-pane active">
+                                <div class="panel-body table-responsive">
+
+                                    <table id="datalist_grid" class="table table-striped table-bordered table-hover dataTables-example">
+                                        <thead>
+                                            <tr>
+                                                <th width="70%">PURPOSE</th>
+
+                                                <th width="20%">PRIORITY</th>
+                                                <th width="10%">ACTIONS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="tabref-2" class="tab-pane">
+                                <div class="panel-body table-responsive">
+                                    <table id="datalist_gridExam" class="table table-striped table-bordered table-hover dataTables-example">
+                                        <thead>
+                                            <tr>
+                                                <th width="70%">PURPOSE</th>
+                                                <th width="20%">PRIORITY</th>
+                                                <th width="10%">ACTIONS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar/moment.min.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FooTable -->
+    <script src="~/Scripts/plugins/footable/footable.all.min.js"></script>
+
+    <!-- SUMMERNOTE -->
+    <script src="~/Scripts/plugins/summernote/summernote.min.js"></script>
+    <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+
+    <!-- Flot -->
+    <script src="~/Scripts/plugins/flot/jquery.flot.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.spline.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.pie.js"></script>
+
+
+    <!-- Peity -->
+    <script src="~/Scripts/plugins/peity/jquery.peity.min.js"></script>
+    <script src="~/Scripts/demo/peity-demo.js"></script>
+
+    <!-- Custom and plugin javascript -->
+
+    <script src="~/Scripts/plugins/pace/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="~/Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- GITTER -->
+    <script src="~/Scripts/plugins/gritter/jquery.gritter.min.js"></script>
+
+    <!-- Sparkline -->
+    <script src="~/Scripts/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- slick carousel-->
+    <script src="~/Scripts/plugins/slick/slick.min.js"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="~/Scripts/demo/sparkline-demo.js"></script>
+
+    <!-- ChartJS-->
+    <script src="~/Scripts/plugins/chartJs/Chart.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="~/Scripts/plugins/toastr/toastr.min.js"></script>
+
+    <script src="~/Scripts/inspinia.js"></script>
+
+    <!-- iCheck -->
+    <script src="~/Scripts/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Data picker -->
+    <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/plugins/clockpicker/clockpicker.js"></script>
+    <!-- Date range picker -->
+    <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
+
+    <script src="~/Scripts/plugins/steps/jquery.steps.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+            $('.clockpicker').clockpicker({
+                autoclose: false,
+                placement: 'bottom',
+                align: 'left',
+                twelvehour: true,
+                donetext: 'Done',
+                afterHide: function () {
+                    console.log($('.clockpicker').clockpicker().val())
+                }
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: "yyyy/mm/dd"
+            });
+
+            $('#datetimepicker1').datepicker({
+                format: 'hh:mm A',
+            });
+
+        });
+    </script>
+
+    <!-- Page-Level Scripts -->
+    <script>
+        $(document).ready(function () {
+
+            $('.footable').footable();
+            $('.footable2').footable();
+
+        });
+
+    </script>
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('.summernote').summernote();
+
+        });
+        var edit = function () {
+            $('.click2edit').summernote({ focus: true });
+        };
+        var save = function () {
+            var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
+            $('.click2edit').destroy();
+        };
+    </script>
+
+</body>
+</html>

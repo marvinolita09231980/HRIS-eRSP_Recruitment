@@ -1,0 +1,452 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+
+    div.datepicker {
+        z-index: 3000 !important;
+    }
+
+    .modal-lllg {
+        width: 900px;
+    }
+
+    .modal-llllg {
+        width: 1200px;
+    }
+
+    .modal-header {
+        background-color: #0074E8 !important;
+    }
+</style>
+<script src="~/Angular/ng-cAddGeneralPanel.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cAddGeneralPanel_Ctrlr">
+
+
+    <div class="wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="row">
+            <div class="col-lg-7">
+                <h2 class="text-white"><b>Add General Panel</b></h2>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight no-padding">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3  m-t-xs pull-left">
+                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Show</b></span>
+                <select class="form-control field-select-sm setTableRow" style="width:30%;float:left;" tableref="psb_panel">
+                    <option value="8">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <span class="font-bold" style="float:left;margin-top:9px;margin-left:10px;"><b>Entries</b></span>
+            </div>
+            <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 m-t-xs pull-right">
+                <div class="btn-group pull-left">
+                    <button class="btn btn-primary" ng-click="addPanel()">Add General Panel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                </div>
+            </div>
+        </div>
+        <div class="row no-padding" style="margin-top:-10px!important;">
+            <div class="col-lg-12 tabs-container m-b-md">
+                <table id="psb_panel" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="9%">USER ID</th>
+                            <th width="29%">NAME</th>
+                            <th width="23%">HRMPSB ROLE</th>
+                            <th width="29%">AGENCY</th>
+                            <th width="10%">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="add_panel" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-llllg">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Panel Data</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <form id="a" ng-model="a" novalidate="">
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">BRANCH:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <select class="form-control removeReqOption" id="branch" ng-model="a.branch" ng-change="selectBranch(a.branch)" required="">
+                                        <option value="" selected="selected">-- --</option>
+                                        <option value="1">Executive</option>
+                                        <option value="2">Legislative</option>
+                                        <option value="3">Legislative and Executive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">PANEL TYPE:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <select class="form-control removeReqOption" id="inhouse" ng-model="a.psb_inhouse" ng-change="selectUserType(a.inhouse)" required="">
+                                        <option value="" selected="selected">-- --</option>
+                                        <option value="0">Guest</option>
+                                        <option value="1">Employee</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">ROLE:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <select class="form-control removeReqOption" id="psb_mbr_role" ng-model="a.psb_mbr_role" ng-change="Select_Role()" required="">
+                                        <option value="" selected="selected">--Select Here--</option>
+                                        <option ng-repeat="l in psb_mbr_role_list" value="{{l.psb_mbr_role}}">{{l.mbr_role_descr}}</option>
+                                    </select>
+                                    <small class="text-center psb_mbr_role hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">USER ID:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <input type="text" id="psb_user_id" ng-model="a.psb_user_id" ng-keyup="findUser(a.psb_user_id)" ng-blur="blurUser_id()" class="form-control text-left removeReq" required="">
+                                    <small class="text-center panel_user_id hidden pull-left" style="font-size:12px;height:15px;color:red">
+                                        <i class="fa fa-info-circle"></i>&nbsp;Required field!
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">FIRST NAME:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" id="psb_first_name" ng-model="a.psb_first_name" class="form-control text-left removeReq" disabled>
+                                    <small class="text-center psb_name hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">MIDDLE NAME:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" id="psb_middle_name" ng-model="a.psb_middle_name" class="form-control text-left removeReq" disabled>
+                                    <small class="text-center psb_name hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">LAST NAME:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" id="psb_last_name" ng-model="a.psb_last_name" class="form-control text-left removeReq" disabled>
+                                    <small class="text-center psb_name hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">DEPARTMENT:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" id="psb_agency" ng-model="a.psb_agency" class="form-control text-left" disabled>
+                                    <small class="text-center agency hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Status:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <select class="form-control removeReqOption" id="active_status" ng-model="a.active_status" required="">
+                                        <option value="" selected="selected">-- --</option>
+                                        <option value="0">In-active</option>
+                                        <option value="1">Active</option>
+                                    </select>
+                                    <small class="text-center agency hidden pull-left" style="font-size:12px;height:15px;color:red"><i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-40">
+                            <div class="col-sm-12">
+                                <center>
+                                    <button class="btn btn-success font-bold pull-right" ng-click="savePSBPanel(a)">
+                                        &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;<i id="add" class="fa fa-thumbs-up"></i>
+                                    </button>
+                                    <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal" ng-click="clearAddPanel()">
+                                        Cancel&nbsp;<i class="fa fa-close"></i>
+                                    </button>
+                                </center>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="edit_panel" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lllg">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>HRMPSB Application List</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <form id="e" ng-model="e" novalidate="">
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">BRANCH:</span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <select class="form-control removeReqOption" id="ebranch" ng-model="e.ebranch" ng-change="selectBranch(e.ebranch)" required="">
+                                        <option value="" selected="selected">-- --</option>
+                                        <option value="1">Executive</option>
+                                        <option value="2">Legislative</option>
+                                        <option value="3">Legislative and Executive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">PANEL TYPE:</span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <select class="form-control removeReqOption" id="einhouse" ng-model="e.epsb_inhouse" ng-change="selectUserType(e.einhouse)" required="">
+                                        <option value="" selected="selected">-- --</option>
+                                        <option value="0">Guest</option>
+                                        <option value="1">Employee</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">ROLE:</span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <select class="form-control removeReqOption" id="epsb_mbr_role" ng-model="e.epsb_mbr_role" ng-change="Select_Role()" required="">
+                                        <option value="" selected="selected">--Select Here--</option>
+                                        <option ng-repeat="l in psb_mbr_role_list" value="{{l.psb_mbr_role}}">{{l.mbr_role_descr}}</option>
+                                    </select>
+                                    <small class="text-center psb_mbr_role hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">USER ID:</span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <input type="text" id="epsb_user_id" ng-model="e.epsb_user_id" ng-keyup="findUser(e.epsb_user_id)" ng-blur="blurUser_id()" class="form-control text-left removeReq" disabled>
+                                    <small class="text-center panel_user_id hidden pull-left" style="font-size:12px;height:15px;color:red">
+                                        <i class="fa fa-info-circle"></i>&nbsp;Required field!
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">FIRST NAME:</span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" id="epsb_first_name" ng-model="e.epsb_first_name" class="form-control text-left removeReq" disabled>
+                                    <small class="text-center psb_name hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">MIDDLE NAME:</span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" id="epsb_middle_name" ng-model="e.epsb_middle_name" class="form-control text-left removeReq" disabled>
+                                    <small class="text-center psb_name hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">LAST NAME:</span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" id="epsb_last_name" ng-model="e.epsb_last_name" class="form-control text-left removeReq" disabled>
+                                    <small class="text-center psb_name hidden pull-left" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">DEPARTMENT:</span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" id="epsb_agency" ng-model="e.epsb_agency" class="form-control text-left" disabled>
+                                    <small class="text-center agency hidden pull-left" style="font-size:12px;height:15px;color:red"><i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Status:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <select class="form-control removeReqOption" id="eactive_status" ng-model="e.eactive_status" required="">
+                                        <option value="" selected="selected">-- --</option>
+                                        <option value="0">In-active</option>
+                                        <option value="1">Active</option>
+                                    </select>
+                                    <small class="text-center agency hidden pull-left" style="font-size:12px;height:15px;color:red"><i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-40">
+                            <div class="col-sm-12">
+                                <center>
+                                    <button class="btn btn-success font-bold pull-right" ng-click="editPSBPanel(e)">
+                                        &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;<i id="add" class="fa fa-thumbs-up"></i>
+                                    </button>
+                                    <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal" ng-click="clearAddPanel()">
+                                        Cancel&nbsp;<i class="fa fa-close"></i>
+                                    </button>
+                                </center>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+</section>

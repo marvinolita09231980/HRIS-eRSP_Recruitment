@@ -1,0 +1,360 @@
+﻿@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+</style>
+
+
+<script src="~/Angular/ng-cUploadAddsImage.js"></script>
+
+
+<section ng-app="ng_eRSP_App" ng-controller="cUploadAddsImage_ctrlr">
+    <!-- The modal -->
+    <div class="modal fade" id="choose_action" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h1 class="modal-title" id="modalLabelSmall"><b>Choose Action</b></h1></center>
+                </div>
+                <div class="modal-content">
+
+                </div>
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12">
+                            <center>
+                                <button class=" btn btn-danger font-bold" ng-click="delete_file()">
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Delete File
+                                </button>
+                                <button class="btn btn-success font-bold" ng-click="show_file()">
+                                    View File&nbsp;<i id="add" class="fa fa-plus"></i>
+                                </button>
+                            </center>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-6">
+            <h2 class="text-white"><b>Attachements</b></h2>
+        </div>
+
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight no-padding">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title">
+                    <div class="row">
+                        <form id="form_hdr_filter" novalidate>
+                            <div class="col-sm-4 ">
+                                <div style="width:40%;float:left;margin-bottom:15px;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Hiring Period:</b></span>
+                                </div>
+                                <div style="width:60%; float:left;padding-right:0!important;margin-top:0;padding-top:0">
+                                    <select class="form-control norequired" id="hiring_period" ng-model="hiring_period" ng-click="ngF_Hiring_period(hiring_period)" required>
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="l in hiring_periods" value="{{l.ctrl_nbr}}">{{l.period_descr}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                        </form>
+                    </div>
+
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <button ng-show="!dropzone" class="btn btn-danger {{attach}}" ng-click="changeZone(1,0)">Attach Files&nbsp;<i class="fa fa-paperclip"></i></button>
+                        <button ng-show="dropzone" class="btn btn-danger {{attach}}" ng-click="changeZone(2,0)">See Attached Files&nbsp;<i class="fa fa-paperclip"></i></button>
+                        <button class="btn btn-warning pull-right" ng-click="deleteAllImg()">Delete All Images&nbsp;<i class="fa fa-trash"></i></button>
+                    </div>
+
+                    <div class="ibox-content" ng-show="dropzone">
+                        <form id="my-awesome-dropzone" class="dropzone" action="#">
+                            <div class="dropzone-previews"></div>
+                            <button type="submit" id="submitFile" class="btn btn-primary pull-right">Submit Attachments!</button>
+                            <div class="col-12">Note: Upload JPG and PNG files only</div>
+                        </form>
+                    </div>
+
+                    <div class="ibox-content" ng-show="!dropzone">
+                       
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-content">
+                                            <h2>Available Positions Online</h2>
+                                            <p>
+                                                <strong>Posted Items</strong> images are available within a specific period set by DDO PHRMDO - recruitment division during the recruitment process. After the set period expires, the items will not be visible to the site visitors.
+
+                                            </p>
+
+                                            <div class="lightBoxGallery">
+                                                <div>
+                                                    <div style="display:inline-block" ng-repeat="i in att_dtl">
+                                                        <a href="{{i.img_file | encode_idv}}" title="Images from DDO-PHRMDO" data-gallery=""><img height="200" width="200" src="{{i.img_file | encode_idv}}" /></a><br />
+                                                        <div style="display:inline-block"><button class="form-control" ng-click="removeImg(i.id)">Remove</button></div>
+                                                    </div>
+                                                </div>
+
+                                                @*<div>
+                                                    <a ng-repeat="i in att_dtl" href="{{i.img_file | encode_idv}}" title="Images from DDO-PHRMDO" data-gallery=""><img height="200" width="200" src="{{i.img_file | encode_idv}}" /></a><br />
+                                                </div>*@
+
+                                                <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                                                <div id="blueimp-gallery" class="blueimp-gallery">
+                                                    <div class="slides"></div>
+                                                    <h3 class="title"></h3>
+                                                    <a class="prev">‹</a>
+                                                    <a class="next">›</a>
+                                                    <a class="close">×</a>
+                                                    <a class="play-pause"></a>
+                                                    <ol class="indicator"></ol>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-sm-3 dropzone-previews" ng-repeat="l in att_dtl track by $index" ng-click="choose_file($index)">
+                                <img src="~/ResourcesImages/pdf_icon.png" alt="" height="136" width="114">
+                                <div style="display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; flex-wrap: wrap;">{{split_filename(l.file_path)}}</div>
+                            </div>*@
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="added_img_exist" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content animated slideInLeft">
+                    <div class="modal-header text-warning">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h2 class="modal-title text-center" id="modalLabelSmall"><b>Duplicate Upload</b></h2>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="text-left">
+                            <p class="text-navy">
+                                &nbsp;&nbsp;&nbsp;&nbsp;The following images has already a duplicate item in the database. I you want to upload this file delete the existing file in your list or rename the file.
+                            </p>
+                        </div>
+                       
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-control text-left text-danger" ng-repeat="l in img_name_exist">
+                            {{l}}
+                        </div>
+                       
+                    </div>
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+
+<div class="modal fade" id="spinner_load" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+    <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="row" style="padding-top:5px;">
+
+                    <div class="col-sm-12">
+                        <div style="width:50%; float:left;" class="no-padding">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Initializing data</span>
+                        </div>
+                        <div style="width:50%; float:right;" class="no-padding">
+                            <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                <div class="sk-bounce1" style="background-color:white"></div>
+                                <div class="sk-bounce2" style="background-color:white"></div>
+                                <div class="sk-bounce3" style="background-color:white"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="extracting_data" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+    <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="row" style="padding-top:5px;">
+
+                    <div class="col-sm-12">
+                        <div style="width:50%; float:left;" class="no-padding">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Extracting data</span>
+                        </div>
+                        <div style="width:50%; float:right;" class="no-padding">
+                            <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                <div class="sk-bounce1" style="background-color:white"></div>
+                                <div class="sk-bounce2" style="background-color:white"></div>
+                                <div class="sk-bounce3" style="background-color:white"></div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"></script>
+<script>
+      
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+
+
+

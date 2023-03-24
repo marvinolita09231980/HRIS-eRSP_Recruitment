@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Angular/ng-cEmbedScreening.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cEmbedScreening_Ctrlr">
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-4">
+            <h2 class="text-white"><b>Screening View</b></h2>
+        </div>
+        <div class="col-lg-6" style="margin-top:12px;">
+            <input type="search" class="form-control block headerSearch" tableref="Data_List_Grid" ng-model="search_name" placeholder="Search ....">
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="ibox-title">
+            <form id="head-filter" novalidate>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">Zoom Id:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
+                                <input type="search" class="form-control block" id="zoomid" ng-model="zoomid">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">Password:</span><span style="" class="fa fa-calendar pull-right m-r-sm m-t-xs"></span></button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
+                                <input type="search" class="form-control block" id="password" ng-model="password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 m-t-xs pull-right">
+                        <div class="btn-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success btn-block" ng-click="embedzoomcredentials()"><i class="fa fa-save"></i>Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row no-padding">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="iframe-container" style="overflow: hidden;padding-top: 90.25%;position: relative;">
+                        <iframe id="zoomframe" allow="microphone; camera" style="border: 0; height: 100%; left: 0; position: absolute; top: 0; width: 100%;" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

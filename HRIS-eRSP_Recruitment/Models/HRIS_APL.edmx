@@ -1,0 +1,932 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HRIS_APLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="adds_images_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="hiring_period" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hiring_period" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="img_file" Type="varbinary(max)" Nullable="false" />
+          <Property Name="img_name" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="available_item_hdr_tbl">
+          <Key>
+            <PropertyRef Name="ctrl_no" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+          </Key>
+          <Property Name="ctrl_no" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="budget_code" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="descr" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_userby" Type="varchar" MaxLength="8" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_userby" Type="varchar" MaxLength="8" />
+          <Property Name="active_dttm" Type="datetime" Nullable="false" />
+          <Property Name="expiry_dttm" Type="date" Nullable="false" />
+          <Property Name="active_forpsb" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="available_item_tbl">
+          <Key>
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="position_code" />
+            <PropertyRef Name="position_title1" />
+          </Key>
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="budget_code" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="position_title1" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="position_long_title" Type="varchar" MaxLength="255" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="department_name1" Type="varchar" MaxLength="100" />
+          <Property Name="inPublication" Type="bit" />
+          <Property Name="ctrl_no" Type="varchar" MaxLength="15" />
+          <Property Name="active_status" Type="bit" />
+        </EntityType>
+        <EntityType Name="personnel_children_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="children_name" Type="varchar" MaxLength="255" />
+          <Property Name="birth_date" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="personnel_conflict_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="100" />
+          <Property Name="first_name" Type="varchar" MaxLength="100" />
+          <Property Name="middle_name" Type="varchar" MaxLength="100" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" />
+          <Property Name="source_table" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="personnel_contact_id_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="gsis_id_no" Type="varchar" MaxLength="50" />
+          <Property Name="hdmf_id_no" Type="varchar" MaxLength="50" />
+          <Property Name="phic_id_no" Type="varchar" MaxLength="50" />
+          <Property Name="sss_id_no" Type="varchar" MaxLength="50" />
+          <Property Name="tel_no" Type="varchar" MaxLength="20" />
+          <Property Name="mobile_no" Type="varchar" MaxLength="20" />
+          <Property Name="email_add" Type="varchar" MaxLength="50" />
+          <Property Name="blood_type" Type="varchar" MaxLength="5" />
+          <Property Name="gsis_bp_id_no" Type="varchar" MaxLength="50" />
+          <Property Name="bir_tin" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="personnel_csceligibilty_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="cscsrvc_ra1080" Type="varchar" MaxLength="150" />
+          <Property Name="rating" Type="varchar" MaxLength="50" />
+          <Property Name="examination_date" Type="varchar" MaxLength="20" />
+          <Property Name="examination_place" Type="varchar" MaxLength="255" />
+          <Property Name="number" Type="varchar" MaxLength="50" />
+          <Property Name="validity_date" Type="varchar" MaxLength="20" />
+          <Property Name="csc_type_code" Type="varchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="personnel_educ_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="educ_type" Type="varchar" MaxLength="2" />
+          <Property Name="school_name" Type="varchar" MaxLength="255" />
+          <Property Name="basic_educ_deg" Type="varchar" MaxLength="150" />
+          <Property Name="period_from" Type="varchar" MaxLength="20" />
+          <Property Name="period_to" Type="varchar" MaxLength="20" />
+          <Property Name="highest_lvl_earned" Type="varchar" MaxLength="50" />
+          <Property Name="year_graduated" Type="varchar" MaxLength="20" />
+          <Property Name="schlr_acdmic_rcvd" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="personnel_learnanddevt_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="learn_devt_title" Type="varchar" MaxLength="255" />
+          <Property Name="learn_devt_from" Type="varchar" MaxLength="20" />
+          <Property Name="learn_devt_to" Type="varchar" MaxLength="20" />
+          <Property Name="no_of_hrs" Type="float" />
+          <Property Name="learn_devt_type" Type="varchar" MaxLength="50" />
+          <Property Name="conducted_by" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="personnel_register_tbl">
+          <Key>
+            <PropertyRef Name="birthdate" />
+            <PropertyRef Name="email" />
+            <PropertyRef Name="firstname" />
+            <PropertyRef Name="gender" />
+            <PropertyRef Name="lastname" />
+          </Key>
+          <Property Name="birthdate" Type="datetime" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="firstname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="gender" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="lastname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="middlename" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="personnel_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="bir_tin" Type="varchar" MaxLength="20" />
+          <Property Name="empl_photo" Type="varchar" MaxLength="255" />
+          <Property Name="umid" Type="varchar" MaxLength="20" />
+          <Property Name="birth_date" Type="date" />
+          <Property Name="csc_eligibility" Type="varchar" MaxLength="30" />
+          <Property Name="emp_status" Type="bit" />
+          <Property Name="civil_status" Type="varchar" MaxLength="1" />
+          <Property Name="status_details" Type="varchar" MaxLength="1" />
+          <Property Name="gender" Type="varchar" MaxLength="1" />
+          <Property Name="date_original_appointment" Type="date" />
+          <Property Name="emp_height" Type="varchar" MaxLength="10" />
+          <Property Name="emp_weight" Type="varchar" MaxLength="10" />
+          <Property Name="citizenship" Type="varchar" MaxLength="30" />
+          <Property Name="birth_place" Type="varchar" MaxLength="255" />
+          <Property Name="maiden_name" Type="varchar" MaxLength="100" />
+          <Property Name="father_birth_place" Type="varchar" MaxLength="255" />
+          <Property Name="mother_birth_place" Type="varchar" MaxLength="255" />
+          <Property Name="empl_photo_img" Type="image" />
+          <Property Name="spouse_last_name" Type="varchar" MaxLength="100" />
+          <Property Name="spouse_first_name" Type="varchar" MaxLength="100" />
+          <Property Name="spouse_middle_name" Type="varchar" MaxLength="100" />
+          <Property Name="spouse_suffix_name" Type="varchar" MaxLength="5" />
+          <Property Name="spouse_occupation" Type="varchar" MaxLength="100" />
+          <Property Name="spouse_employer_name" Type="varchar" MaxLength="255" />
+          <Property Name="spouse_business_address" Type="varchar" MaxLength="255" />
+          <Property Name="spouse_tel_no" Type="varchar" MaxLength="20" />
+          <Property Name="father_last_name" Type="varchar" MaxLength="100" />
+          <Property Name="father_middle_name" Type="varchar" MaxLength="100" />
+          <Property Name="father_first_name" Type="varchar" MaxLength="100" />
+          <Property Name="father_suffix_name" Type="varchar" MaxLength="5" />
+          <Property Name="mother_last_name" Type="varchar" MaxLength="100" />
+          <Property Name="mother_middle_name" Type="varchar" MaxLength="100" />
+          <Property Name="mother_first_name" Type="varchar" MaxLength="100" />
+          <Property Name="citizenship_type" Type="bit" />
+          <Property Name="citizenship_nature" Type="bit" />
+          <Property Name="citizenship_country" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="personnel_usersprofile_tbl">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="user_password" />
+          </Key>
+          <Property Name="user_id" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="user_password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="status" Type="bit" />
+          <Property Name="locked_account" Type="bit" />
+          <Property Name="created_date" Type="date" />
+          <Property Name="created_by" Type="varchar" MaxLength="30" />
+          <Property Name="last_updated_date" Type="date" />
+          <Property Name="last_updated_by" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="personnel_voluntarywork_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="voluntarywork_from" Type="varchar" MaxLength="20" />
+          <Property Name="voluntarywork_to" Type="varchar" MaxLength="20" />
+          <Property Name="name_address_org" Type="varchar" MaxLength="255" />
+          <Property Name="no_of_hrs" Type="float" />
+          <Property Name="position_title" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="personnel_workexprnce_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="workexp_from" Type="varchar" MaxLength="20" />
+          <Property Name="workexp_to" Type="varchar" MaxLength="20" />
+          <Property Name="position_title" Type="varchar" MaxLength="150" />
+          <Property Name="dept_agncy_offc_co" Type="varchar" MaxLength="100" />
+          <Property Name="monthly_salary" Type="money" />
+          <Property Name="salary_job_grade" Type="varchar" MaxLength="4" />
+          <Property Name="appt_status" Type="varchar" MaxLength="30" />
+          <Property Name="gov_srvc" Type="bit" />
+        </EntityType>
+        <EntityType Name="personneladdresses_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="address_type" />
+          </Key>
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="province_code" Type="varchar" MaxLength="5" />
+          <Property Name="municipality_code" Type="varchar" MaxLength="5" />
+          <Property Name="street" Type="varchar" MaxLength="255" />
+          <Property Name="purok" Type="varchar" MaxLength="255" />
+          <Property Name="zip_code" Type="varchar" MaxLength="10" />
+          <Property Name="address_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="houselot_nbr" Type="varchar" MaxLength="50" />
+          <Property Name="barangay_name" Type="varchar" MaxLength="100" />
+          <Property Name="municipality_name" Type="varchar" MaxLength="100" />
+          <Property Name="province_name" Type="varchar" MaxLength="100" />
+          <Property Name="barangay_code" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="personnelnames_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="100" />
+          <Property Name="first_name" Type="varchar" MaxLength="100" />
+          <Property Name="middle_name" Type="varchar" MaxLength="100" />
+          <Property Name="suffix_name" Type="varchar" MaxLength="5" />
+          <Property Name="courtisy_title" Type="varchar" MaxLength="5" />
+          <Property Name="postfix_name" Type="varchar" MaxLength="35" />
+        </EntityType>
+        <Function Name="sp_activate_availableitemapl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_ctrl_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_item_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="p_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_deactive_availableitemapl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_ctrl_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_item_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="p_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_deactive_availableitemaplall" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_ctrl_no" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_remove_availableitemapl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_ctrl_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_item_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="p_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="HRIS_APLModelStoreContainer">
+          <EntitySet Name="adds_images_tbl" EntityType="Self.adds_images_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="available_item_hdr_tbl" EntityType="Self.available_item_hdr_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_children_tbl" EntityType="Self.personnel_children_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_conflict_tbl" EntityType="Self.personnel_conflict_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_contact_id_tbl" EntityType="Self.personnel_contact_id_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_csceligibilty_tbl" EntityType="Self.personnel_csceligibilty_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_educ_tbl" EntityType="Self.personnel_educ_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_learnanddevt_tbl" EntityType="Self.personnel_learnanddevt_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_register_tbl" EntityType="Self.personnel_register_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_usersprofile_tbl" EntityType="Self.personnel_usersprofile_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_voluntarywork_tbl" EntityType="Self.personnel_voluntarywork_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_workexprnce_tbl" EntityType="Self.personnel_workexprnce_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personneladdresses_tbl" EntityType="Self.personneladdresses_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnelnames_tbl" EntityType="Self.personnelnames_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="available_item_tbl" EntityType="Self.available_item_tbl" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [available_item_tbl].[item_no] AS [item_no], 
+    [available_item_tbl].[budget_code] AS [budget_code], 
+    [available_item_tbl].[employment_type] AS [employment_type], 
+    [available_item_tbl].[position_code] AS [position_code], 
+    [available_item_tbl].[position_title1] AS [position_title1], 
+    [available_item_tbl].[position_long_title] AS [position_long_title], 
+    [available_item_tbl].[department_code] AS [department_code], 
+    [available_item_tbl].[department_name1] AS [department_name1], 
+    [available_item_tbl].[inPublication] AS [inPublication], 
+    [available_item_tbl].[ctrl_no] AS [ctrl_no], 
+    [available_item_tbl].[active_status] AS [active_status]
+    FROM [dbo].[available_item_tbl] AS [available_item_tbl]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRIS_APLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HRIS_APLEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="sp_remove_availableitemhdrdtlapl">
+          <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_activate_availableitemapl_all">
+          <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="personnel_children_tbl" EntityType="HRIS_APLModel.personnel_children_tbl" />
+          <EntitySet Name="personnel_conflict_tbl" EntityType="HRIS_APLModel.personnel_conflict_tbl" />
+          <EntitySet Name="personnel_contact_id_tbl" EntityType="HRIS_APLModel.personnel_contact_id_tbl" />
+          <EntitySet Name="personnel_csceligibilty_tbl" EntityType="HRIS_APLModel.personnel_csceligibilty_tbl" />
+          <EntitySet Name="personnel_educ_tbl" EntityType="HRIS_APLModel.personnel_educ_tbl" />
+          <EntitySet Name="personnel_learnanddevt_tbl" EntityType="HRIS_APLModel.personnel_learnanddevt_tbl" />
+          <EntitySet Name="personnel_register_tbl" EntityType="HRIS_APLModel.personnel_register_tbl" />
+          <EntitySet Name="personnel_tbl" EntityType="HRIS_APLModel.personnel_tbl" />
+          <EntitySet Name="personnel_usersprofile_tbl" EntityType="HRIS_APLModel.personnel_usersprofile_tbl" />
+          <EntitySet Name="personnel_voluntarywork_tbl" EntityType="HRIS_APLModel.personnel_voluntarywork_tbl" />
+          <EntitySet Name="personnel_workexprnce_tbl" EntityType="HRIS_APLModel.personnel_workexprnce_tbl" />
+          <EntitySet Name="personneladdresses_tbl" EntityType="HRIS_APLModel.personneladdresses_tbl" />
+          <EntitySet Name="personnelnames_tbl" EntityType="HRIS_APLModel.personnelnames_tbl" />
+          <EntitySet Name="available_item_hdr_tbl" EntityType="HRIS_APLModel.available_item_hdr_tbl" />
+          <EntitySet Name="available_item_tbl" EntityType="HRIS_APLModel.available_item_tbl" />
+          <EntitySet Name="adds_images_tbl" EntityType="HRIS_APLModel.adds_images_tbl" />
+          <FunctionImport Name="sp_deactive_availableitemaplall">
+          <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_remove_availableitemapl">
+            <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+            <Parameter Name="p_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_deactive_availableitemapl">
+            <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+            <Parameter Name="p_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_activate_availableitemapl">
+            <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+            <Parameter Name="p_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="personnel_children_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="children_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="birth_date" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_conflict_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="source_table" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_contact_id_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="gsis_id_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="hdmf_id_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phic_id_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sss_id_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tel_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="mobile_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email_add" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="blood_type" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="gsis_bp_id_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bir_tin" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_csceligibilty_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="cscsrvc_ra1080" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="rating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="examination_date" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="examination_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="validity_date" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="csc_type_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_educ_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="educ_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="school_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="basic_educ_deg" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="period_from" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="period_to" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="highest_lvl_earned" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="year_graduated" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="schlr_acdmic_rcvd" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_learnanddevt_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="learn_devt_title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="learn_devt_from" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="learn_devt_to" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="no_of_hrs" Type="Double" />
+          <Property Name="learn_devt_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="conducted_by" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_register_tbl">
+          <Key>
+            <PropertyRef Name="birthdate" />
+            <PropertyRef Name="email" />
+            <PropertyRef Name="firstname" />
+            <PropertyRef Name="gender" />
+            <PropertyRef Name="lastname" />
+          </Key>
+          <Property Name="birthdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="firstname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="lastname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="middlename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="bir_tin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="empl_photo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="umid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="birth_date" Type="DateTime" Precision="0" />
+          <Property Name="csc_eligibility" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="emp_status" Type="Boolean" />
+          <Property Name="civil_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="status_details" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="date_original_appointment" Type="DateTime" Precision="0" />
+          <Property Name="emp_height" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="emp_weight" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="citizenship" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="maiden_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="mother_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="empl_photo_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="spouse_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_occupation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_employer_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_business_address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_tel_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="father_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="mother_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mother_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mother_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="citizenship_type" Type="Boolean" />
+          <Property Name="citizenship_nature" Type="Boolean" />
+          <Property Name="citizenship_country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_usersprofile_tbl">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="user_password" />
+          </Key>
+          <Property Name="user_id" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="user_password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="locked_account" Type="Boolean" />
+          <Property Name="created_date" Type="DateTime" Precision="0" />
+          <Property Name="created_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="last_updated_date" Type="DateTime" Precision="0" />
+          <Property Name="last_updated_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_voluntarywork_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="voluntarywork_from" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="voluntarywork_to" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="name_address_org" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="no_of_hrs" Type="Double" />
+          <Property Name="position_title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_workexprnce_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="seq_no" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="workexp_from" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="workexp_to" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="position_title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="dept_agncy_offc_co" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="monthly_salary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="salary_job_grade" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="appt_status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="gov_srvc" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="personneladdresses_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="address_type" />
+          </Key>
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="province_code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="municipality_code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="street" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="purok" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="zip_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="address_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="houselot_nbr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="barangay_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="municipality_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="province_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="barangay_code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnelnames_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="courtisy_title" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="postfix_name" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="available_item_hdr_tbl">
+          <Key>
+            <PropertyRef Name="ctrl_no" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+          </Key>
+          <Property Name="ctrl_no" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="descr" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_userby" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_userby" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="active_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="expiry_dttm" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="active_forpsb" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="available_item_tbl">
+          <Key>
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="position_code" />
+            <PropertyRef Name="position_title1" />
+          </Key>
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="position_code" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="position_title1" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="position_long_title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="department_name1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="inPublication" Type="Boolean" />
+          <Property Name="ctrl_no" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="active_status" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="adds_images_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="hiring_period" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="img_file" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="img_name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRIS_APLModelStoreContainer" CdmEntityContainer="HRIS_APLEntities">
+          <EntitySetMapping Name="personnel_children_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_children_tbl">
+              <MappingFragment StoreEntitySet="personnel_children_tbl">
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="children_name" ColumnName="children_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="seq_no" ColumnName="seq_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_conflict_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_conflict_tbl">
+              <MappingFragment StoreEntitySet="personnel_conflict_tbl">
+                <ScalarProperty Name="source_table" ColumnName="source_table" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_contact_id_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_contact_id_tbl">
+              <MappingFragment StoreEntitySet="personnel_contact_id_tbl">
+                <ScalarProperty Name="bir_tin" ColumnName="bir_tin" />
+                <ScalarProperty Name="gsis_bp_id_no" ColumnName="gsis_bp_id_no" />
+                <ScalarProperty Name="blood_type" ColumnName="blood_type" />
+                <ScalarProperty Name="email_add" ColumnName="email_add" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="tel_no" ColumnName="tel_no" />
+                <ScalarProperty Name="sss_id_no" ColumnName="sss_id_no" />
+                <ScalarProperty Name="phic_id_no" ColumnName="phic_id_no" />
+                <ScalarProperty Name="hdmf_id_no" ColumnName="hdmf_id_no" />
+                <ScalarProperty Name="gsis_id_no" ColumnName="gsis_id_no" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_csceligibilty_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_csceligibilty_tbl">
+              <MappingFragment StoreEntitySet="personnel_csceligibilty_tbl">
+                <ScalarProperty Name="csc_type_code" ColumnName="csc_type_code" />
+                <ScalarProperty Name="validity_date" ColumnName="validity_date" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="examination_place" ColumnName="examination_place" />
+                <ScalarProperty Name="examination_date" ColumnName="examination_date" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="cscsrvc_ra1080" ColumnName="cscsrvc_ra1080" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="seq_no" ColumnName="seq_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_educ_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_educ_tbl">
+              <MappingFragment StoreEntitySet="personnel_educ_tbl">
+                <ScalarProperty Name="schlr_acdmic_rcvd" ColumnName="schlr_acdmic_rcvd" />
+                <ScalarProperty Name="year_graduated" ColumnName="year_graduated" />
+                <ScalarProperty Name="highest_lvl_earned" ColumnName="highest_lvl_earned" />
+                <ScalarProperty Name="period_to" ColumnName="period_to" />
+                <ScalarProperty Name="period_from" ColumnName="period_from" />
+                <ScalarProperty Name="basic_educ_deg" ColumnName="basic_educ_deg" />
+                <ScalarProperty Name="school_name" ColumnName="school_name" />
+                <ScalarProperty Name="educ_type" ColumnName="educ_type" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="seq_no" ColumnName="seq_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_learnanddevt_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_learnanddevt_tbl">
+              <MappingFragment StoreEntitySet="personnel_learnanddevt_tbl">
+                <ScalarProperty Name="conducted_by" ColumnName="conducted_by" />
+                <ScalarProperty Name="learn_devt_type" ColumnName="learn_devt_type" />
+                <ScalarProperty Name="no_of_hrs" ColumnName="no_of_hrs" />
+                <ScalarProperty Name="learn_devt_to" ColumnName="learn_devt_to" />
+                <ScalarProperty Name="learn_devt_from" ColumnName="learn_devt_from" />
+                <ScalarProperty Name="learn_devt_title" ColumnName="learn_devt_title" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="seq_no" ColumnName="seq_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_register_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_register_tbl">
+              <MappingFragment StoreEntitySet="personnel_register_tbl">
+                <ScalarProperty Name="middlename" ColumnName="middlename" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="birthdate" ColumnName="birthdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_tbl">
+              <MappingFragment StoreEntitySet="personnel_tbl">
+                <ScalarProperty Name="citizenship_country" ColumnName="citizenship_country" />
+                <ScalarProperty Name="citizenship_nature" ColumnName="citizenship_nature" />
+                <ScalarProperty Name="citizenship_type" ColumnName="citizenship_type" />
+                <ScalarProperty Name="mother_first_name" ColumnName="mother_first_name" />
+                <ScalarProperty Name="mother_middle_name" ColumnName="mother_middle_name" />
+                <ScalarProperty Name="mother_last_name" ColumnName="mother_last_name" />
+                <ScalarProperty Name="father_suffix_name" ColumnName="father_suffix_name" />
+                <ScalarProperty Name="father_first_name" ColumnName="father_first_name" />
+                <ScalarProperty Name="father_middle_name" ColumnName="father_middle_name" />
+                <ScalarProperty Name="father_last_name" ColumnName="father_last_name" />
+                <ScalarProperty Name="spouse_tel_no" ColumnName="spouse_tel_no" />
+                <ScalarProperty Name="spouse_business_address" ColumnName="spouse_business_address" />
+                <ScalarProperty Name="spouse_employer_name" ColumnName="spouse_employer_name" />
+                <ScalarProperty Name="spouse_occupation" ColumnName="spouse_occupation" />
+                <ScalarProperty Name="spouse_suffix_name" ColumnName="spouse_suffix_name" />
+                <ScalarProperty Name="spouse_middle_name" ColumnName="spouse_middle_name" />
+                <ScalarProperty Name="spouse_first_name" ColumnName="spouse_first_name" />
+                <ScalarProperty Name="spouse_last_name" ColumnName="spouse_last_name" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="mother_birth_place" ColumnName="mother_birth_place" />
+                <ScalarProperty Name="father_birth_place" ColumnName="father_birth_place" />
+                <ScalarProperty Name="maiden_name" ColumnName="maiden_name" />
+                <ScalarProperty Name="birth_place" ColumnName="birth_place" />
+                <ScalarProperty Name="citizenship" ColumnName="citizenship" />
+                <ScalarProperty Name="emp_weight" ColumnName="emp_weight" />
+                <ScalarProperty Name="emp_height" ColumnName="emp_height" />
+                <ScalarProperty Name="date_original_appointment" ColumnName="date_original_appointment" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="status_details" ColumnName="status_details" />
+                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
+                <ScalarProperty Name="emp_status" ColumnName="emp_status" />
+                <ScalarProperty Name="csc_eligibility" ColumnName="csc_eligibility" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="umid" ColumnName="umid" />
+                <ScalarProperty Name="empl_photo" ColumnName="empl_photo" />
+                <ScalarProperty Name="bir_tin" ColumnName="bir_tin" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_usersprofile_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_usersprofile_tbl">
+              <MappingFragment StoreEntitySet="personnel_usersprofile_tbl">
+                <ScalarProperty Name="last_updated_by" ColumnName="last_updated_by" />
+                <ScalarProperty Name="last_updated_date" ColumnName="last_updated_date" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="locked_account" ColumnName="locked_account" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_voluntarywork_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_voluntarywork_tbl">
+              <MappingFragment StoreEntitySet="personnel_voluntarywork_tbl">
+                <ScalarProperty Name="position_title" ColumnName="position_title" />
+                <ScalarProperty Name="no_of_hrs" ColumnName="no_of_hrs" />
+                <ScalarProperty Name="name_address_org" ColumnName="name_address_org" />
+                <ScalarProperty Name="voluntarywork_to" ColumnName="voluntarywork_to" />
+                <ScalarProperty Name="voluntarywork_from" ColumnName="voluntarywork_from" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="seq_no" ColumnName="seq_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_workexprnce_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_workexprnce_tbl">
+              <MappingFragment StoreEntitySet="personnel_workexprnce_tbl">
+                <ScalarProperty Name="gov_srvc" ColumnName="gov_srvc" />
+                <ScalarProperty Name="appt_status" ColumnName="appt_status" />
+                <ScalarProperty Name="salary_job_grade" ColumnName="salary_job_grade" />
+                <ScalarProperty Name="monthly_salary" ColumnName="monthly_salary" />
+                <ScalarProperty Name="dept_agncy_offc_co" ColumnName="dept_agncy_offc_co" />
+                <ScalarProperty Name="position_title" ColumnName="position_title" />
+                <ScalarProperty Name="workexp_to" ColumnName="workexp_to" />
+                <ScalarProperty Name="workexp_from" ColumnName="workexp_from" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="seq_no" ColumnName="seq_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personneladdresses_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personneladdresses_tbl">
+              <MappingFragment StoreEntitySet="personneladdresses_tbl">
+                <ScalarProperty Name="barangay_code" ColumnName="barangay_code" />
+                <ScalarProperty Name="province_name" ColumnName="province_name" />
+                <ScalarProperty Name="municipality_name" ColumnName="municipality_name" />
+                <ScalarProperty Name="barangay_name" ColumnName="barangay_name" />
+                <ScalarProperty Name="houselot_nbr" ColumnName="houselot_nbr" />
+                <ScalarProperty Name="address_type" ColumnName="address_type" />
+                <ScalarProperty Name="zip_code" ColumnName="zip_code" />
+                <ScalarProperty Name="purok" ColumnName="purok" />
+                <ScalarProperty Name="street" ColumnName="street" />
+                <ScalarProperty Name="municipality_code" ColumnName="municipality_code" />
+                <ScalarProperty Name="province_code" ColumnName="province_code" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnelnames_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnelnames_tbl">
+              <MappingFragment StoreEntitySet="personnelnames_tbl">
+                <ScalarProperty Name="postfix_name" ColumnName="postfix_name" />
+                <ScalarProperty Name="courtisy_title" ColumnName="courtisy_title" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="available_item_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.available_item_hdr_tbl">
+              <MappingFragment StoreEntitySet="available_item_hdr_tbl">
+                <ScalarProperty Name="active_forpsb" ColumnName="active_forpsb" />
+                <ScalarProperty Name="expiry_dttm" ColumnName="expiry_dttm" />
+                <ScalarProperty Name="active_dttm" ColumnName="active_dttm" />
+                <ScalarProperty Name="updated_userby" ColumnName="updated_userby" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_userby" ColumnName="created_userby" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="ctrl_no" ColumnName="ctrl_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="available_item_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.available_item_tbl">
+              <MappingFragment StoreEntitySet="available_item_tbl">
+                <ScalarProperty Name="active_status" ColumnName="active_status" />
+                <ScalarProperty Name="ctrl_no" ColumnName="ctrl_no" />
+                <ScalarProperty Name="inPublication" ColumnName="inPublication" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="adds_images_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.adds_images_tbl">
+              <MappingFragment StoreEntitySet="adds_images_tbl">
+                <ScalarProperty Name="img_name" ColumnName="img_name" />
+                <ScalarProperty Name="img_file" ColumnName="img_file" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_deactive_availableitemaplall" FunctionName="HRIS_APLModel.Store.sp_deactive_availableitemaplall" />
+          <FunctionImportMapping FunctionImportName="sp_remove_availableitemapl" FunctionName="HRIS_APLModel.Store.sp_remove_availableitemapl" />
+          <FunctionImportMapping FunctionImportName="sp_deactive_availableitemapl" FunctionName="HRIS_APLModel.Store.sp_deactive_availableitemapl" />
+          <FunctionImportMapping FunctionImportName="sp_activate_availableitemapl" FunctionName="HRIS_APLModel.Store.sp_activate_availableitemapl" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

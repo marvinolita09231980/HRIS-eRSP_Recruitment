@@ -1,0 +1,495 @@
+﻿@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+
+     
+    .bdr{
+        border:1px solid black;
+    }
+    /*.col-sm-3, .col-sm-2 {
+        border:1px solid black;
+    }*/
+    /*div.datepicker.datepicker-dropdown.datepicker-orient-bottom.datepicker-orient-left*/
+</style>
+<script src="~/Angular/ng-cAddApplicant.js"></script>
+
+<section ng-app="ng_eRSP_App" ng-controller="cAddApplicant_Ctrlr">
+    <!-- The modal -->
+
+
+
+    <div class="wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="row">
+            <div class="col-lg-7">
+                <h2 class="text-white"><b>Add Applicant Information</b></h2>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight no-padding">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title">
+                    <div class="row">
+
+                        <div class="col-sm-2 m-t-xs no-padding ">
+                            <div style="float:right;padding-right:0!important;margin-top:0;padding-top:0">
+                                <div class="btn-group pull-right">
+                                    <button id="dd-applicant-type" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Select Applicant Type&nbsp;&nbsp;&nbsp;<span style="" class="fa fa-caret-down"></button>
+                                     
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a ng-click='Select_ApplType(0)'>New Applicant</a></li>
+                                        <li><a ng-click='Select_ApplType(1)'>Get Applicant Data From PDS</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title">
+                    <form ng-model="fd" novalidate>
+                        <div class="row">
+                            <div class="col-sm-4 dt-hdr-rw">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Application Ctrl Nbr.:</b></span>
+                                </div>
+                                <div style="width:50%; float:right;padding-right:0!important;">
+                                    <input class="form-control removeReq" id="app_ctrl_nbr_disp" ng-model="fd.info_ctrl_nbr_disp" disabled required alwaysdisabled noclear />
+                                    <small class="text-center app_ctrl_nbr_disp hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row m-top-10">
+
+                            <div class="col-sm-4 dt-hdr-rw">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Last Name:<span style="color:red">*</span></b></span>
+                                </div>
+                                <div style="width:59%; float:right;padding-right:0!important;margin-bottom:25px!important;">
+                                    <input class="form-control removeReq" id="last_name" ng-model="fd.last_name" required />
+                                    <small class="text-center last_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 dt-hdr-rw">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>First Name:<span style="color:red">*</span></b></span>
+                                </div>
+                                <div style="width:64%; float:right;padding-right:0!important;margin-bottom:25px!important;">
+                                    <input class="form-control {{cfname}} removeReq" id="first_name" ng-model="fd.first_name" required />
+                                    <small class="text-center first_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4 dt-hdr-rw">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Middle Name:</b></span>
+                                </div>
+                                <div style="width:60%; float:right;padding-right:0!important;margin-bottom:25px!important;">
+                                    <input class="form-control removeReq" id="middle_name" ng-model="fd.middle_name" />
+                                    <small class="text-center middle_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-sm-4 dt-hdr-rw">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Birthdate:<span style="color:red">*</span></b></span>
+                                </div>
+                                <div style="width:59%; float:right;padding-right:0!important;height:32px!important; margin-bottom:25px!important;">
+                                    <span class="input-group date no-padding no-margins removeReqOption" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="birth_date" ng-model="fd.birth_date" class="form-control text-center" required />
+                                        <div class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center birth_date hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4 dt-hdr-rw">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-left:6px;"><b>Gender:<span style="color:red">*</span></b></span>
+                                </div>
+                                <div style="width:64%; float:right;padding-right:0!important;margin-bottom:25px!important;">
+                                    <select class="form-control removeReqOption" id="gender" ng-model="fd.gender" ng-change="Select_Gender()" required>
+                                        <option value="">Select</option>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                    </select>
+                                    <small class="text-center birth_date hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4 dt-hdr-rw">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Status:<span style="color:red">*</span></b></span>
+                                </div>
+                                <div style="width:60%; float:right;padding-right:0!important;margin-bottom:25px!important;">
+                                    <select class="form-control {{cstatus}} removeReqOption" id="civil_status" ng-model="fd.civil_status" ng-change="Select_Civil_Status()" required>
+                                        <option value="">Select</option>
+                                        <option value="S">Single</option>
+                                        <option value="M">Married</option>
+                                        <option value="W">Widowed</option>
+                                    </select>
+                                    <small class="text-center civil_status hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row m-top-10">
+                            <div class="col-sm-12 dt-hdr-rw">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Address:<span style="color:red">*</span></b></span>
+                                </div>
+                                <div style="width:87.2%; float:right;padding-right:0!important;margin-bottom:25px!important;">
+                                    <input class="form-control" id="app_address" ng-model="fd.app_address" required />
+                                    <small class="text-center app_address hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row m-top-n10">
+                            <div class="col-sm-4 dt-hdr-rw">
+                                <div style=" float:left;margin-bottom:25px!important;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Date Applied:<span style="color:red">*</span></b></span>
+                                </div>
+                                <div style="width:59%; float:right;padding-right:0!important;height:32px!important; margin-bottom:25px!important;">
+                                    <span class="input-group date {{capplied}} no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="applied_dttm" ng-model="fd.applied_dttm" class="form-control text-center" required>
+                                        <div class="input-group-addon applied_dttm">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center applied_dttm hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4 dt-hdr-rw pull-right">
+                                <div class="pull-right block" style="margin-top:10px;" ng-show="!allow_type_id">
+                                    <div style="float:right;margin-right:16px;">
+                                        <button class="btn btn-success pull-right" ng-show="!allow_type_id" id="save_fd" ng-click="Save_Application()"><span id="" class="fa fa-save"></span>&nbsp;&nbsp;Save</button>
+                                    </div>
+                                    <div style="float:right;width:10px;">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row no-padding" style="margin-top:-10px!important;">
+            <div class="col-lg-12 tabs-container m-b-md">
+                <table id="Applicant_List_Grid" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="10%">APP. NBR</th>
+                            <th width="32">APPLICANT NAME</th>
+                            <th width="12%">DATE APPLIED</th>
+                            <th width="15%">GENDER</th>
+                            <th width="12%">AGE</th>
+                            <th width="12%">STATUS</th>
+                            <th width="7%">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="choose_applicanttype" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Fetch Data From PDS</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div style="width:50%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee ID:</b></span>
+                            </div>
+                            <div style="width:50%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <input type="text" style="color:black!important" class="form-control" maxlength="8" ng-model="current_empl_id" ng-keyup="FindPersonnel(current_empl_id)">
+                                <small ng-show="person_warning" class="text-center hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;{{person_message}} </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div style="width:23.5%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee Name:</b></span>
+                            </div>
+                            <div style="width:76.5%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <input type="text" style="color:black!important" class="form-control" maxlength="8" ng-model="current_employee_name" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12 pull-right">
+
+                            <button class=" btn btn-danger font-bold" ng-click="cancelfetch()">
+                                <i class="fa fa-close"></i>&nbsp;&nbsp;Cancel
+                            </button>
+                            <button class="btn btn-success font-bold" ng-click="fetchfromPDS()">
+                                OK&nbsp;<i id="add" class="fa fa-thumbs-up"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"> </script>
+<script>
+    $(document).ready(function () {
+
+        //Dropzone.options.myAwesomeDropzone = {
+
+        //    autoProcessQueue: false,
+        //    uploadMultiple: true,
+        //    parallelUploads: 100,
+        //    maxFiles: 100,
+
+        //    // Dropzone settings
+        //    init: function () {
+        //        var myDropzone = this;
+
+        //        this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+        //            e.preventDefault();
+        //            e.stopPropagation();
+        //            myDropzone.processQueue();
+        //        });
+        //        this.on("sendingmultiple", function () {
+        //        });
+        //        this.on("successmultiple", function (files, response) {
+        //        });
+        //        this.on("errormultiple", function (files, response) {
+        //        });
+        //    }
+
+        //}
+        //$('.i-checks').iCheck({
+        //    checkboxClass: 'icheckbox_square-green',
+        //    radioClass: 'iradio_square-green',
+        //});
+
+        //$('#data_1 .input-group.date').datepicker({
+        //    todayBtn: "linked",
+        //    keyboardNavigation: false,
+        //    forceParse: false,
+        //    calendarWeeks: true,
+        //    autoclose: true,
+        //    format: "yyyy/mm/dd"
+        //});
+
+
+    });
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+
+
+
+
+<div class="modal fade" id="spinner_load" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+    <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="row" style="padding-top:5px;">
+
+                    <div class="col-sm-12">
+                        <div style="width:50%; float:left;" class="no-padding">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Initializing data</span>
+                        </div>
+                        <div style="width:50%; float:right;" class="no-padding">
+                            <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                <div class="sk-bounce1" style="background-color:white"></div>
+                                <div class="sk-bounce2" style="background-color:white"></div>
+                                <div class="sk-bounce3" style="background-color:white"></div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<div class="modal fade" id="extracting_data" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+    <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="row" style="padding-top:5px;">
+
+                    <div class="col-sm-12">
+                        <div style="width:50%; float:left;" class="no-padding">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Extracting data</span>
+                        </div>
+                        <div style="width:50%; float:right;" class="no-padding">
+                            <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                <div class="sk-bounce1" style="background-color:white"></div>
+                                <div class="sk-bounce2" style="background-color:white"></div>
+                                <div class="sk-bounce3" style="background-color:white"></div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

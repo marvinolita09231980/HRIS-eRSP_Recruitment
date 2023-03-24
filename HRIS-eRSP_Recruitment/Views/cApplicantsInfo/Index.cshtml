@@ -1,0 +1,1492 @@
+﻿@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+    .mm{
+        width:800px;
+    }
+    .ll{
+        width:900px;
+    }
+    .llg{
+        width:1200px;
+    }
+
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+        /*border: 1px solid red !important;*/
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+    #select2-item_no-container
+    {
+        width:100% !important;
+        float:left !important;
+    }
+    /*.select2-selection__arrow {
+        height: 34px !important;
+    }*/
+    .modal-header {
+        background-color: #0074E8 !important;
+    }
+    .border-blue {
+        border: 1px solid #0074E8;
+    }
+    .label-blue {
+        background-color: #0074E8;
+        color:white;
+        border-radius:4px;
+    }
+    .grid-img {
+        width: 50px;
+        height: 50px;
+    }
+</style>
+
+<script src="~/Angular/ng-cApplicantsInfo.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cApplicantsInfo_Ctrlr">
+    <div class="modal fade" id="applicantsDetails" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-keyboard="false">
+        <div class="modal-dialog llg">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Applicants Qualification Details</b></h2></center>
+                </div>
+                <div class="modal-footer detail">
+                    <div class="col-lg-12 m-b-md">
+                        <div class="tabs-container">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab-1">EDUCATION</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-2">ELIGIBILITY</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-3">TRAINING</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-4">EXPERIENCE</a></li>
+                                @*<li class=""><a data-toggle="tab" href="#tab-5">ATTACHEMENTS</a></li>*@
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                    <div class="panel-body">
+                                        <div class="row m-top-n10">
+                                            <div class="col-sm-2 pull-right no-padding">
+                                                <div class="btn-group pull-right">
+                                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" ng-click="show_add_modal('educ_dtl_modal')">Add Education Details<span class="caret"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row no-padding" style="margin-top:-10px!important;">
+                                            <table id="appl_edu_grid" class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="">SCHOOL NAME</th>
+                                                        <th width="30%">DEGREE</th>
+                                                        <th width="10%">PERIOD FROM</th>
+                                                        <th width="10%">PERIOD TO</th>
+                                                        <th width="8%">GRADUATED</th>
+                                                        <th width="7%">ACTION</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <div class="panel-body">
+                                        <div class="row m-top-n10">
+                                            <div class="col-sm-2 pull-right no-padding">
+                                                <div class="btn-group pull-right">
+                                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" ng-click="show_add_modal('eligib_dtl_modal')">Add Eligibility Details<span class="caret"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row no-padding" style="margin-top:-10px!important;">
+                                            <table id="appl_elegib_grid" class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="15%">NUMBER</th>
+                                                        <th width="">ELIGIBILITY NAME</th>
+                                                        <th width="6%">RATING</th>
+                                                        <th width="12%">VALIDITY</th>
+                                                        <th width="7%">ACTION</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab-3" class="tab-pane">
+                                    <div class="panel-body">
+                                        <div class="row m-top-n10">
+                                            <div class="col-sm-2 pull-right no-padding">
+                                                <div class="btn-group pull-right">
+                                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" ng-click="show_add_modal('lnd_dtl_modal')">Add Training Details<span class="caret"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row no-padding" style="margin-top:-10px!important;">
+                                            <table id="appl_lnd_grid" class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th rowspan="2" width="40%">L&D TITLE</th>
+                                                        <th colspan="2" width="22%">TRAINING DATE</th>
+                                                        <th rowspan="2" width="7%">NBR. OF HOURS</th>
+                                                        <th rowspan="2" width="18%">TYPE</th>
+                                                        <th rowspan="2" width="15%">CONDUCTED BY</th>
+                                                        <th rowspan="2" width="7%">ACTION</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th width="11%">START</th>
+                                                        <th width="11%">END</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab-4" class="tab-pane">
+                                    <div class="panel-body">
+                                        <div class="row m-top-n10">
+                                            <div class="col-sm-2 pull-right no-padding">
+                                                <div class="btn-group pull-right">
+                                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" ng-click="show_add_modal('workexp_dtl_modal')">Add Experience Details<span class="caret"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row no-padding" style="margin-top:-10px!important;">
+                                            <table id="appl_workexp_grid" class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2" width="">WORK EXPERIENCE</th>
+                                                        <th rowspan="2" width="20%">POSITION</th>
+                                                        <th rowspan="2" width="">AGENCY/COMPANY</th>
+                                                        <th rowspan="2" width="5%">SECTOR</th>
+                                                        <th rowspan="2" width="7%">ACTION</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th width="12%">FROM</th>
+                                                        <th width="12%">TO</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div id="tab-5" class="tab-pane">
+                                        <div class="panel-body">v
+
+                                        </div>
+                                    </div>*@
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Details Modal -->
+    <div class="modal fade" id="educ_dtl_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="modalLabelSmall"><b>Education</b></h2>
+                </div>
+                <form id="ed" ng-model="ed" novalidate>
+                    <div class="modal-footer detail">
+                        <div class="row" style="">
+                            <div class="col-sm-12">
+                                <div class="no-padding" style=" float:left;">
+                                    <span class="pull-left font-bold" style="">School Name:</span>
+                                </div>
+                                <div style="width:80%; float:right;">
+                                    <input type="text" class="form-control removeReq" id="school_name" ng-model="ed.school_name" required />
+                                    <small class="text-center school_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-12">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Degree:</span>
+                                </div>
+                                <div style="width:80%; float:right;">
+                                    <input type="text" class="form-control removeReq" id="basic_educ_deg" ng-model="ed.basic_educ_deg" required />
+                                    <small class="text-center basic_educ_deg hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Period From:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input name="minDate" type="text" id="period_from" ng-model="ed.period_from" class="form-control text-center dateMinVal removeReqDate" required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center period_from hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="width:30%; float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Period To:</span>
+                                </div>
+                                <div style="width:70%; float:right;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input name="maxDate" type="text" id="period_to" ng-model="ed.period_to" class="form-control text-center dateMaxVal removeReqDate" required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+                                    <small class="text-center period_to hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Level Earned:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <input type="text" class="form-control removeReq" id="highest_lvl_earned" ng-model="ed.highest_lvl_earned" required />
+                                    <small class="text-center highest_lvl_earned hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div style="width:30%; float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Honors:</span>
+                                </div>
+                                <div style="width:70%; float:right;">
+                                    <input type="text" class="form-control removeReq" id="schlr_acdmic_rcvd" ng-model="ed.schlr_acdmic_rcvd" required />
+                                    <small class="text-center schlr_acdmic_rcvd hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Year Grad:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <input type="text" class="form-control removeReq" maxlength="4" id="year_graduated" ng-model="ed.year_graduated" required />
+                                    <small class="text-center year_graduated hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div style="width:30%; float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Edu. Type:</span>
+                                </div>
+                                <div style="width:70%; float:right;">
+
+                                    <select class="form-control removeReqOption" id="educ_type" ng-model="ed.educ_type" required>
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="l in ddl_educ_type" value="{{l.educ_type}}">{{l.educ_short_descr}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    Close&nbsp;<i class="fa fa-close"></i>
+                                </button>
+                                <button class="btn btn-success font-bold" ng-click="edu_btn_add(ed)">
+                                    Save&nbsp;<i id="add" class="fa fa-save"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="workexp_dtl_modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="modalLabelSmall"><b>WORK EXPERIENCE</b></h2>
+                </div>
+                <form id="wx" ng-model="wx">
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px">
+
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Work Exp. From:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" name="minDate" id="workexp_from" ng-model="wx.workexp_from" class="form-control text-center dateMinVal" required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center workexp_from hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Work Exp. To:</span>
+                                </div>
+                                <div style="width:65%; float:right;">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+
+                                        <input type="text" name="maxDate" id="workexp_to" ng-model="wx.workexp_to" class="form-control text-center dateMaxVal" required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center workexp_to hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Position:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <input type="text" class="form-control" id="position_title" ng-model="wx.position_title" required />
+                                    <small class="text-center position_title hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Agency:</span>
+                                </div>
+                                <div style="width:65%; float:right;">
+                                    <input type="text" class="form-control" id="dept_agncy_offc_co" ng-model="wx.dept_agncy_offc_co" required />
+                                    <small class="text-center dept_agncy_offc_co hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Monthly Salary:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <input type="text" class="form-control" id="monthly_salary" ng-model="wx.monthly_salary" />
+                                    <small class="text-center monthly_salary hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Salary Grade:</span>
+                                </div>
+                                <div style="width:65%; float:right;">
+                                    <select class="form-control" id="salary_job_grade" ng-model="wx.salary_job_grade" required>
+                                        <option value="NA">NA</option>
+                                        <option ng-repeat="l in salgrade" value="{{l.salary_grade}}">{{l.salary_grade}}</option>
+                                    </select>
+                                    <small class="text-center salary_job_grade hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Employ Status:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <select class="form-control" id="appt_status" ng-model="wx.appt_status" required>
+                                        <option value="">--Select Here--</option>
+                                        <option value="RE">Permanent</option>
+                                        <option value="CE">Casual</option>
+                                        <option value="JO">Job Order</option>
+                                    </select>
+                                    <small class="text-center appt_status hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Sector:</span>
+                                </div>
+                                <div style="width:65%;float:right;">
+                                    <select class="form-control" id="gov_srvc" ng-model="wx.gov_srvc" required>
+                                        <option value="">--Select Here--</option>
+                                        <option value="1">Government Service</option>
+                                        <option value="0">Private Organization</option>
+                                    </select>
+                                    <small class="text-center gov_srvc hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    Close&nbsp;<i class="fa fa-close"></i>
+                                </button>
+                                <button class="btn btn-success font-bold" ng-click="exp_btn_add(wx)">
+                                    Save&nbsp;<i id="add" class="fa fa-save"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="eligib_dtl_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="modalLabelSmall"><b>ELIGIBILITY</b></h2>
+                </div>
+                <form id="el" ng-model="el" novalidate>
+                    <div class="modal-footer detail">
+                        <div class="row" style="">
+                            <div class="col-sm-12">
+                                <div class="no-padding" style=" float:left;">
+                                    <span class="pull-left font-bold" style="">Eligibility Title:</span>
+                                </div>
+                                <div style="width:77%; float:right;">
+                                    <input type="text" class="form-control" id="cscsrvc_ra1080" ng-model="el.cscsrvc_ra1080" required />
+                                    <small class="text-center cscsrvc_ra1080 hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Rating:</span>
+                                </div>
+                                <div style="width:51.5%; float:right;">
+                                    <input type="text" class="form-control" id="rating" ng-model="el.rating" required />
+                                    <small class="text-center rating hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Exam Date:</span>
+                                </div>
+                                <div style="width:53%; float:right;">
+
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="examination_date" ng-model="el.examination_date" class="form-control text-center" required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center examination_date hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-12">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Exam Place:</span>
+                                </div>
+                                <div style="width:77%; float:right;">
+                                    <input type="text" class="form-control" id="examination_place" ng-model="el.examination_place" required />
+                                    <small class="text-center examination_place hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">License No.:</span>
+                                </div>
+                                <div style="width:51.5%; float:right;">
+                                    <input type="text" class="form-control" id="number" ng-model="el.number" required />
+                                    <small class="text-center number hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="width:30%; float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Validity:</span>
+                                </div>
+                                <div style="width:70%; float:right;">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="validity_date" ng-model="el.validity_date" class="form-control text-center">
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <p ng-show="p_validity" style="color:red;float:left;margin-top:-4px;">Required Field!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    Close&nbsp;<i class="fa fa-close"></i>
+                                </button>
+                                <button class="btn btn-success font-bold" ng-click="elig_btn_add(el)">
+                                    Save&nbsp;<i id="add" class="fa fa-save"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="lnd_dtl_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="modalLabelSmall"><b>LEARNING AND DEVELOPMENT</b></h2>
+                </div>
+
+                <form id="ld" ng-model="ld" novalidate>
+                    <div class="modal-footer detail">
+                        <div class="row" style="">
+                            <div class="col-sm-12">
+                                <div class="no-padding" style=" float:left;">
+                                    <span class="pull-left font-bold" style="">L&D Title:</span>
+                                </div>
+                                <div style="width:77%; float:right;">
+                                    <input type="text" class="form-control" id="learn_devt_title" ng-model="ld.learn_devt_title" required />
+                                    <small class="text-center learn_devt_title hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">From:</span>
+                                </div>
+                                <div style="width:51.5%; float:right;">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" name="minDate" id="learn_devt_from" ng-model="el.learn_devt_from" class="form-control text-center dateMinVal" required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center learn_devt_from hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">To  :</span>
+                                </div>
+                                <div style="width:53%; float:right;">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" name="maxDate" id="learn_devt_to" ng-model="el.learn_devt_to" class="form-control text-center dateMaxVal" required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center learn_devt_to hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Nbr. of Hours:</span>
+                                </div>
+                                <div style="width:51.5%; float:right;">
+                                    <input type="number" class="form-control" id="no_of_hrs" ng-model="ld.no_of_hrs" required />
+                                    <small class="text-center no_of_hrs hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div style="width:30%; float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Devt. Type:</span>
+                                </div>
+                                <div style="width:70%; float:right;">
+                                    <input type="text" class="form-control" id="learn_devt_type" ng-model="ld.learn_devt_type" required />
+                                    <small class="text-center learn_devt_type hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Conducted By:</span>
+                                </div>
+                                <div style="width:51.5%; float:right;">
+                                    <input type="text" class="form-control" id="conducted_by" ng-model="ld.conducted_by" required />
+                                    <small class="text-center conducted_by hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    Close&nbsp;<i class="fa fa-close"></i>
+                                </button>
+                                <button class="btn btn-success font-bold" ng-click="lnd_btn_add(ld)">
+                                    Save&nbsp;<i id="add" class="fa fa-save"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addItemNo" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-keyboard="false">
+        <div class="modal-dialog mm">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title text-white" id="modalLabelSmall"><b>Add Applicant To Review</b></h2></center>
+                </div>
+                <form id="itm" ng-model="itm">
+                    <div class="modal-footer detail">
+
+                        <div class=" row" style="padding-top:5px">
+                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">EMPLOYMENT TYPE:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
+                                    <select class="form-control disable-white removeReqOption" id="employment_type" ng-model="itm.employment_type" ng-change="selectEmploymentType(itm.employment_type)" required>
+                                        <option value="">--Select Year--</option>
+                                        <option value="RE">Permanent</option>
+                                        <option value="CE">Casual</option>
+                                        <option value="JO">Job Order</option>
+                                    </select>
+                                    <small class="text-center employment_type hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-7 col-lg-7 m-t-xs">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
+                                        <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">BUDGET CODE:</span><span style="" class="fa fa-calendar pull-right m-r-sm m-t-xs"></span></button>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
+                                        <select class="form-control disable-white removeReqOption" id="budget_code" ng-model="itm.budget_code" ng-change="selectBudgetYear(itm.budget_code)" required>
+                                            <option value="">--Select Year--</option>
+                                            <option ng-repeat="l in budget_year" value="{{l.budget_code}}">{{l.budget_description}}</option>
+                                        </select>
+                                        <button id="icon_spinner2" style="height:34px;display:inline-block!important;position:absolute;float:right" class="btn btn-primary hidden pull-right">
+                                            <i class="text-info fa fa-spinner fa-spin "></i>
+                                        </button>
+                                        <small class="text-center budget_code hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 m-t-xs">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3  no-padding">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HIRING PERIOD:</span><span style="" class="fa fa-cubes pull-right m-r-sm m-t-xs"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9  no-padding">
+                                    <select class="form-control disable-white btn-block" style="width:100%!important" id="ctrl_nbr" ng-model="itm.ctrl_nbr" ng-change="selectHiringPeriod(itm.ctrl_nbr)" required>
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="l in hiring_period" value="{{l.ctrl_nbr}}">&nbsp;{{l.period_descr}}&nbsp;</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 m-t-xs">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3  no-padding">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">POSITION:</span><span style="" class="fa fa-cubes pull-right m-r-sm m-t-xs"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9  no-padding">
+                                    <select class="form-control disable-white btn-block" style="width:100%!important" id="item_no" ng-model="itm.item_no" ng-change="selectItem(itm.item_no)" required>
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="l in items" value="{{l.item_no}}">&nbsp;{{l.item_no}}&nbsp;-&nbsp;{{l.position_long_title}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 m-t-xs">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3  no-padding">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">Department:</span><span style="" class="fa fa-cubes pull-right m-r-sm m-t-xs"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9  no-padding">
+                                    <input class="form-control" id="department_name1" ng-model="itm.department_name1" disabled required />
+                                    <input class="form-control hidden" id="position_code" ng-model="itm.position_code" />
+                                    <input class="form-control hidden" id="department_code" ng-model="itm.department_code" />
+                                </div>
+                            </div>
+
+                        </div>
+                       
+                    </div>
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button id="btncancelsavetoreview" class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    Close&nbsp;<i class="fa fa-close"></i>
+                                </button>
+                                <button id="btnsavetoreview" class=" btn btn-success font-bold" ng-click="addItem(itm)">
+                                    Save&nbsp;<i id="icnsavetoreview" class="fa fa-save"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addApplicants" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-keyboard="false">
+        <div class="modal-dialog lg">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button id="closebtn1" type="button" class="close slideOutLeft" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Applicants Information</b></h2></center>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox-title">
+                            <form ng-model="fd" novalidate>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 btn-group" ng-show="toggle_data_btn == true">
+                                            <button id="updateprofilebtn" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Update Profile From&nbsp;&nbsp;&nbsp;<span id="updateproficon" class="fa fa-caret-down"></span></button>
+                                            @*<button class="btn btn-primary" style="border-radius:3px;height:33.6px;"><span style="" class="fa fa-refresh"></span></button>*@
+                                            <ul class="dropdown-menu">
+                                                <li><a ng-click='identifyidPDS()'>HRIS PDS</a></li>
+                                                <li><a ng-click='updateDataFrom(2)'>ONLINE APPLICATION</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 btn-group" ng-show="toggle_data_btn == true">
+                                            <button id="updateqsbtn" data-toggle="dropdown" class="btn btn-warning dropdown-toggle">Get QS Data From&nbsp;&nbsp;&nbsp;<span id="updateqsicon" class="fa fa-caret-down"></span></button>
+                                            @*<button class="btn btn-primary" style="border-radius:3px;height:33.6px;"><span style="" class="fa fa-refresh"></span></button>*@
+                                            <ul class="dropdown-menu">
+                                                <li><a ng-click='identifyidQS()'>QS FROM HRIS PDS</a></li>
+                                                <li><a ng-click='updatefromqsapl()'>ONLINE APPLICATION</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-20">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">APPLICATION NO:</span><span style="" class="fa fa-book pull-right m-r-sm"></span></button>
+                                            @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <input class="form-control removeReq border-blue" id="app_ctrl_nbr_disp" ng-model="fd.info_ctrl_nbr_disp" disabled required alwaysdisabled noclear />
+                                            <small class="text-center app_ctrl_nbr_disp hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dt-hdr-rw">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">LAST NAME:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                            @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;margin-right:10px;"><b>LAST NAME:<span style="color:red">*</span></b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <input class="form-control removeReq border-blue" id="last_name" ng-model="fd.last_name" required />
+                                            <small class="text-center last_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dt-hdr-rw">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">FIRST NAME:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                            @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;"><b>FIRST NAME:<span style="color:red">*</span></b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <input class="form-control {{cfname}} removeReq border-blue" id="first_name" ng-model="fd.first_name" required />
+                                            <small class="text-center first_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dt-hdr-rw">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">MIDDLE NAME</span><span style="" class="fa fa-user-md pull-right m-r-sm"></span></button>
+                                            @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;margin-right:10px;"><b>MIDDLE NAME:</b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <input class="form-control removeReq border-blue" id="middle_name" ng-model="fd.middle_name" />
+                                            <small class="text-center middle_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">BIRTHDATE:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                            @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;margin-right:10px;"><b>BIRTHDATE:<span style="color:red">*</span></b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <span class="input-group date removeReqOption btn-block" data-provide="datepicker">
+                                                <input type="text" id="birth_date" ng-model="fd.birth_date" class="form-control text-center border-blue" required />
+                                                <div class="input-group-addon birth_date">
+                                                    <span class="fa fa-calendar"></span>
+                                                </div>
+                                            </span>
+                                            <small class="text-center birth_date hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dt-hdr-rw">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">GENDER:</span><span style="" class="fa fa-genderless pull-right m-r-sm"></span></button>
+                                            @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;"><b>GENDER:<span style="color:red">*</span></b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <select class="form-control removeReqOption border-blue" id="gender" ng-model="fd.gender" ng-change="Select_Gender()" required>
+                                                <option value="">Select</option>
+                                                <option value="M">Male</option>
+                                                <option value="F">Female</option>
+                                            </select>
+                                            <small class="text-center birth_date hidden pull-right" style="font-size:12px;height:15px;color:red"><i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dt-hdr-rw">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">STATUS:</span><span style="" class="fa fa-bar-chart pull-right m-r-sm"></span></button>
+                                            @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;margin-right:10px;"><b>STATUS:<span style="color:red">*</span></b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <select class="form-control {{cstatus}} removeReqOption border-blue" id="civil_status" ng-model="fd.civil_status" ng-change="Select_Civil_Status()" required>
+                                                <option value="">Select</option>
+                                                <option value="S">Single</option>
+                                                <option value="M">Married</option>
+                                                <option value="W">Widowed</option>
+                                            </select>
+                                            <small class="text-center civil_status hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dt-hdr-rw">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">ADDRESS:</span><span style="" class="fa fa-location-arrow pull-right m-r-sm"></span></button>
+                                            @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;margin-right:10px;"><b>ADDRESS:<span style="color:red">*</span></b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <textarea class="form-control border-blue" id="app_address" ng-model="fd.app_address" required></textarea>
+                                            <small class="text-center app_address hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dt-hdr-rw">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">MOBILE NO.:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                            @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;"><b>FIRST NAME:<span style="color:red">*</span></b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <input class="form-control removeReq border-blue" id="first_name" ng-model="fd.mobile_no" required />
+                                            <small class="text-center first_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dt-hdr-rw">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">EMAIL ADDRESS:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                            @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;"><b>FIRST NAME:<span style="color:red">*</span></b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <input class="form-control  removeReq border-blue" id="first_name" ng-model="fd.email_address" required />
+                                            <small class="text-center first_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dt-hdr-rw">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">DATE APPLIED:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                            @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;margin-right:10px;"><b>DATE APPLIED:<span style="color:red">*</span></b></span>*@
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <span class="input-group date {{capplied}} no-padding no-margins btn-block" data-provide="datepicker">
+                                                <input type="text" id="applied_dttm" ng-model="fd.applied_dttm" class="form-control text-center border-blue" required>
+                                                <div class="input-group-addon applied_dttm">
+                                                    <span class="fa fa-calendar"></span>
+                                                </div>
+                                            </span>
+                                            <small class="text-center applied_dttm hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-top-10">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dt-hdr-rw">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pull-right">
+                                            <button class="btn btn-success btn-block pull-right" id="savebtn" ng-click="Save_Application()"><span id="" class="fa fa-save"></span>&nbsp;&nbsp;Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="choose_applicanttype" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Fetch Data From PDS</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3" style="padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee ID:</b></span>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6" style="padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <input type="text" style="color:black!important;display:inline-block!important;" class="form-control" maxlength="8" id="current_empl_id" ng-model="current_empl_id" ng-keyup="FindPersonnel(current_empl_id)">
+                                
+                                <button id="icon_spinner1" style="height:34px;display:inline-block!important;position:absolute;float:right" class="btn btn-primary hidden pull-right">
+                                    <i  class="text-info fa fa-spinner fa-spin "></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3"  style="padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee Name:</b></span>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8" style="padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <input type="text" style="color:black!important" class="form-control" id="current_employee_name" maxlength="8" ng-model="current_employee_name" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div  ng-show="empl_id_added" class="row" style="padding-top:5px;">
+                        <div class="col-sm-12 pull-right">
+
+                            <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                Cancel&nbsp;<i class="fa fa-close"></i>
+                            </button>
+                            <button class="btn btn-success font-bold" ng-click="searchByid()">
+                                View&nbsp;<i id="add" class="fa fa-save"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+                    <div ng-show="!empl_id_added" class="row" style="padding-top:5px;">
+                        <div class="col-sm-12 pull-right">
+
+                            <button id="fetchbtncancel" class=" btn btn-danger font-bold" ng-click="cancelfetch()">
+                                Cancel&nbsp;<i class="fa fa-close"></i>
+                            </button>
+                            <button id="fetchbtn" class="btn btn-success font-bold" ng-click="fetchfromPDS()">
+                                Fetch&nbsp;<i id="iconfetchpds" class="fa fa-save"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @*<div class="modal fade" id="choose_applicanttype2" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideOutLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Fetch Data From PDS</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div style="width:50%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee ID:</b></span>
+                            </div>
+                            <div style="width:50%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <input type="text" style="color:black!important" class="form-control" maxlength="8" ng-model="current_empl_id2" disabled>
+                                <small ng-show="person_warning" class="text-center hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;{{person_message}} </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div style="width:23.5%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee Name:</b></span>
+                            </div>
+                            <div style="width:76.5%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <input type="text" style="color:black!important" class="form-control" maxlength="8" ng-model="current_employee_name2" disabled>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12 pull-right">
+
+                            <button class=" btn btn-danger font-bold" ng-click="cancelfetch2()">
+                                Cancel&nbsp;<i class="fa fa-close"></i>
+                            </button>
+                            <button class="btn btn-success font-bold" ng-click="fetchfromPDS2()">
+                                Fetch&nbsp;<i id="add" class="fa fa-save"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>*@
+    <div class="modal fade" id="select_id_employee" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>SELECT EMPLOYEE</b></h2></center>
+                </div>
+                <div class="modal-footer">
+                    <table id="select_id_employee_grid" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">ID</th>
+                                <th width="32">FIRST NAME</th>
+                                <th width="12%">LAST NAME</th>
+                                <th width="12%">BIRTH DATE</th>
+                                <th width="10%">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="select_id_employee_APL" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
+                </div>
+                <div class="modal-footer">
+                    <table id="select_id_employee_APL_grid" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">ID</th>
+                                <th width="32">FIRST NAME</th>
+                                <th width="12%">LAST NAME</th>
+                                <th width="12%">BIRTH DATE</th>
+                                <th width="10%">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="select_id_employee_PDS" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
+                </div>
+                <div class="modal-footer">
+                    <table id="select_id_employee_PDS_grid" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">ID</th>
+                                <th width="32">FIRST NAME</th>
+                                <th width="12%">LAST NAME</th>
+                                <th width="12%">BIRTH DATE</th>
+                                <th width="10%">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="select_id_employee_QS" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
+                </div>
+                <div class="modal-footer">
+                    <table id="select_id_employee_QS_grid" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">ID</th>
+                                <th width="32">FIRST NAME</th>
+                                <th width="12%">LAST NAME</th>
+                                <th width="12%">BIRTH DATE</th>
+                                <th width="10%">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-4">
+            <h2 class="text-white"><b>{{pageTitle}}</b></h2>
+        </div>
+        <div class="col-lg-6" style="margin-top:12px;">
+            <div style="width:80%;float:left;">
+                <input type="search" class="form-control block" ng-model="search_name" ng-keyup="search_in_list(search_name,'Applicant_List_Grid')" placeholder="Search ....">
+            </div>
+            <div style="width:20%;float:left;">
+                <button style="height:34px;" class="btn btn-primary" ng-click="search_applicant()"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 m-t-xs pull-left m-t-md">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Show</b></span>
+                            <select class="form-control field-select-sm" style="width:30%;float:left;" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'Applicant_List_Grid')">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span class="font-bold" style="float:left;margin-top:9px;margin-left:10px;"><b>Entries</b></span>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 m-t-xs m-t-md" ng-show="!filter_show">
+                            <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">YEAR:</span><span class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                @*<span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Year:</b></span>*@
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 no-padding">
+                                <select class="form-control disable-white" id="yr" ng-model="yr" ng-change="selectDate()">
+                                    <option value="">-- --</option>
+                                    <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 m-t-xs m-t-md" ng-show="!filter_show">
+                            <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">SEMESTER:</span><span class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                @*<span clX ass="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Month:</b></span>*@
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 no-padding">
+                                <select class="form-control disable-white" id="mo" ng-model="mo" ng-change="selectDate()">
+                                    <option value="">--Select Semester--</option>
+                                    <option value="1">First Semester</option>
+                                    <option value="2">Second Semester</option>
+                                </select>
+                            </div>
+                            @*<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 no-padding">
+                                <select class="form-control disable-white" id="mo" ng-model="mo" ng-change="selectDate()">
+                                    <option value="">--Select Month--</option>
+                                    <option ng-repeat="l in month" value="{{l.id}}">{{l.text}}</option>
+                                </select>
+                            </div>*@
+                        </div>
+                        <div class="col-sm-12 col-xs-12 col-md-5 col-lg-5 m-t-xs  m-t-md" ng-show="filter_show">
+                            <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Last Name:</span><span class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                @*<span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Item Nbr:</b></span>*@
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 no-padding">
+                                <input class="form-control fltr_item_no" id="last_name" ng-model="last_name" />
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-1 col-lg-1 no-padding">
+                                <button style="height:34px;" class="btn btn-primary" ng-click="searchByLastname()"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 m-t-xs btn-group pull-right m-t-md">
+                            <button id="dd-filter-type" data-toggle="dropdown" class="btn btn-success btn-block dropdown-toggle">Select Filter Type&nbsp;&nbsp;&nbsp;<span style="" class="fa fa-caret-down"></span></button>
+                            @*<button class="btn btn-primary" style="border-radius:3px;height:33.6px;"><span style="" class="fa fa-refresh"></span></button>*@
+                            <ul class="dropdown-menu pull-right">
+                                <li><a ng-click='Select_filterType(0)'>By Month</a></li>
+                                <li><a ng-click='Select_filterType(1)'>By Last Name</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 m-t-xs btn-group  pull-left m-t-md">
+                            <button id="dd-applicant-type" data-toggle="dropdown" class="btn btn-primary btn-block dropdown-toggle">Add Applicants&nbsp;&nbsp;<span style="" class="fa fa-user-plus"></span></button>
+                            @*<button class="btn btn-primary" style="border-radius:3px;height:33.6px;"><span style="" class="fa fa-refresh"></span></button>*@
+                            <ul class="dropdown-menu">
+                                <li><a ng-click='AddApplicant("cAddApplicants")'>NEW APPLICANT</a></li>
+                                <li><a ng-click='Select_ApplType(1)'>EMPLOYEE FROM HRIS</a></li>
+                                <li><a ng-click='Select_ApplType(2)'>SELECT FROM ONLINE APPLICATION</a></li>
+                            </ul>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="ibox-title">
+            <div class="row no-padding" style="margin-top:-10px!important;">
+                <div class="col-lg-12 tabs-container m-b-md">
+                    <table id="Applicant_List_Grid" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">APP. NBR</th>
+                                <th width="32">APPLICANT NAME</th>
+                                <th width="12%">DATE APPLIED</th>
+                                <th width="12%">GENDER</th>
+                                <th width="12%">AGE</th>
+                                <th width="12%">STATUS</th>
+                                <th width="10%">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"> </script>
+<script>
+    //$(document).ready(function () {
+
+    //    //Dropzone.options.myAwesomeDropzone = {
+
+    //    //    autoProcessQueue: false,
+    //    //    uploadMultiple: true,
+    //    //    parallelUploads: 100,
+    //    //    maxFiles: 100,
+
+    //    //    // Dropzone settings
+    //    //    init: function () {
+    //    //        var myDropzone = this;
+
+    //    //        this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+    //    //            e.preventDefault();
+    //    //            e.stopPropagation();
+    //    //            myDropzone.processQueue();
+    //    //        });
+    //    //        this.on("sendingmultiple", function () {
+    //    //        });
+    //    //        this.on("successmultiple", function (files, response) {
+    //    //        });
+    //    //        this.on("errormultiple", function (files, response) {
+    //    //        });
+    //    //    }
+
+    //    //}
+    //    //$('.i-checks').iCheck({
+    //    //    checkboxClass: 'icheckbox_square-green',
+    //    //    radioClass: 'iradio_square-green',
+    //    //});
+
+    //    $('.input-group.date').datepicker({
+    //        todayBtn: "linked",
+    //        keyboardNavigation: false,
+    //        forceParse: false,
+    //        calendarWeeks: true,
+    //        autoclose: true,
+    //        format: "yyyy/mm/dd"
+    //    });
+
+
+    //});
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+

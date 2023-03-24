@@ -1,0 +1,1311 @@
+﻿@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .fa.fa-spinner.fa-spin {
+        margin-left: -18px !important;
+        margin-top: 5px !important;
+    }
+    .checkmark{
+        width:21.6px !important;
+        height:25px !important;
+    }
+     tr.selected{
+       background-color :gray !important;
+    }
+    .modal-llg{
+        width:900px !important;
+    }
+    .modal-header {
+        background-color: #0074E8 !important;
+    }
+    .combine_btn{
+        margin-top:0 !important;
+        margin-right:-60px !important;
+    }
+</style>
+
+<script src="~/Angular/ng-cAddReviewQS.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cAddReviewQS_Ctrlr">
+    <!-- The modal -->
+    <div class="modal fade" id="educ_dtl_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title text-center" id="modalLabelSmall"><b>EDUCATION</b></h2>
+                </div>
+                <form id="ed" ng-model="ed" novalidate>
+                    <div class="modal-footer detail">
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">SCHOOL NAME:</span><span style="" class="fa fa-book pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control removeReq disable-white" id="school_name" ng-model="ed.school_name" required />
+                                    <small class="text-center school_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">DEGREE:</span><span style="" class="fa fa-database pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control removeReq disable-white" id="basic_educ_deg" ng-model="ed.basic_educ_deg" required />
+                                    <small class="text-center basic_educ_deg hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">PERIOD FROM:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input name="minDate" type="text" id="period_from" ng-model="ed.period_from" class="form-control text-center dateMinVal removeReqDate disable-white" required>
+                                        @*<div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>*@
+                                    </span>
+                                    <small class="text-center period_from hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">PERIOD TO:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input name="maxDate" type="text" id="period_to" ng-model="ed.period_to" class="form-control text-center dateMaxVal removeReqDate disable-white" required>
+                                        @*<div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>*@
+                                    </div>
+                                    <small class="text-center period_to hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">LEVEL EARNED:</span><span style="" class="fa fa-graduation-cap pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control removeReq disable-white" id="highest_lvl_earned" ng-model="ed.highest_lvl_earned" required />
+                                    <small class="text-center highest_lvl_earned hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">HONORS:</span><span style="" class="fa fa-trophy pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control removeReq disable-white" id="schlr_acdmic_rcvd" ng-model="ed.schlr_acdmic_rcvd" required />
+                                    <small class="text-center schlr_acdmic_rcvd hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">GRADUATED:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control removeReq disable-white" maxlength="4" id="year_graduated" ng-model="ed.year_graduated" required />
+                                    <small class="text-center year_graduated hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">EDUC. TYPE:</span><span style="" class="fa fa-book pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <select class="form-control removeReqOption disable-white" id="educ_type" ng-model="ed.educ_type" required>
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="l in ddl_educ_type" value="{{l.educ_type}}">{{l.educ_short_descr}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+                @*<form id="ed" ng-model="ed" novalidate>
+                    <div class="modal-footer detail">
+                        <div class="row" style="">
+                            <div class="col-sm-12">
+                                <div class="no-padding" style=" float:left;">
+                                    <span class="pull-left font-bold" style="">School Name:</span>
+                                </div>
+                                <div style="width:80%; float:right;">
+                                    <input type="text" class="form-control removeReq" id="school_name" ng-model="ed.school_name" required />
+                                    <small class="text-center school_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-12">
+                                <div style=" float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Degree:</span>
+                                </div>
+                                <div style="width:80%; float:right;">
+                                    <input type="text" class="form-control removeReq" id="basic_educ_deg" ng-model="ed.basic_educ_deg" required />
+                                    <small class="text-center basic_educ_deg hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Period From:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input name="minDate" type="text" id="period_from" ng-model="ed.period_from" class="form-control text-center dateMinVal removeReqDate" required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center period_from hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="width:30%; float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Period To:</span>
+                                </div>
+                                <div style="width:70%; float:right;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input name="maxDate" type="text" id="period_to" ng-model="ed.period_to" class="form-control text-center dateMaxVal removeReqDate" required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+                                    <small class="text-center period_to hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Level Earned:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <input type="text" class="form-control removeReq" id="highest_lvl_earned" ng-model="ed.highest_lvl_earned" required />
+                                    <small class="text-center highest_lvl_earned hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div style="width:30%; float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Honors:</span>
+                                </div>
+                                <div style="width:70%; float:right;">
+                                    <input type="text" class="form-control removeReq" id="schlr_acdmic_rcvd" ng-model="ed.schlr_acdmic_rcvd" required />
+                                    <small class="text-center schlr_acdmic_rcvd hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Year Grad:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <input type="text" class="form-control removeReq" maxlength="4" id="year_graduated" ng-model="ed.year_graduated" required />
+                                    <small class="text-center year_graduated hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div style="width:30%; float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Edu. Type:</span>
+                                </div>
+                                <div style="width:70%; float:right;">
+
+                                    <select class="form-control removeReqOption" id="educ_type" ng-model="ed.educ_type" required>
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="l in ddl_educ_type" value="{{l.educ_type}}">{{l.educ_short_descr}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>*@
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="workexp_dtl_modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title text-center" id="modalLabelSmall"><b>WORK EXPERIENCE</b></h2>
+                </div>
+                <form id="wx" ng-model="wx">
+                    <div class="modal-footer detail">
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">EXP. FROM:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" name="minDate" id="workexp_from" ng-model="wx.workexp_from" class="form-control text-center dateMinVal disable-white" required>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">EXP. TO:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" name="maxDate" id="workexp_to" ng-model="wx.workexp_to" class="form-control text-center dateMaxVal disable-white" required>
+
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">POSITION:</span><span style="" class="fa fa-user-circle-o pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <textarea type="text" class="form-control disable-white" id="position_title" ng-model="wx.position_title" disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">AGENCY:</span><span style="" class="fa fa-institution pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <textarea type="text" class="form-control disable-white" id="dept_agncy_offc_co" ng-model="wx.dept_agncy_offc_co" disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">SALARY:</span><span style="" class="fa fa-money pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control disable-white" id="monthly_salary" ng-model="wx.monthly_salary" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">SALARY GRADE:</span><span style="" class="fa fa-bars pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <select class="form-control disable-white" id="salary_job_grade" ng-model="wx.salary_job_grade" required>
+                                        <option value="NA">NA</option>
+                                        <option ng-repeat="l in salgrade" value="{{salary_grade}}">{{l.salary_grade}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">EMPLOYMENT:</span><span style="" class="fa fa-users pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control disable-white" id="appt_status" ng-model="wx.appt_status" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">SECTOR:</span><span style="" class="fa fa-cogs pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <select class="form-control disable-white" id="gov_srvc" ng-model="wx.gov_srvc" noinclude required>
+                                        <option value="">--Select Here--</option>
+                                        <option value="1">Government Service</option>
+                                        <option value="0">Private Organization</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+                @*<form id="wx" ng-model="wx">
+            <div class="modal-footer detail">
+                <div class="row" style="padding-top:5px">
+
+                    <div class="col-sm-6">
+                        <div style="float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px;">Work From:</span>
+                        </div>
+                        <div style="width:58%; float:right;">
+
+                            <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                <input type="text" name="minDate" id="workexp_from" ng-model="wx.workexp_from" class="form-control text-center dateMinVal" required>
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </span>
+                            <small class="text-center workexp_from hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        <div style="float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px">Work To:</span>
+                        </div>
+                        <div style="width:65%; float:right;">
+                            <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                <input type="text" name="maxDate" id="workexp_to" ng-model="wx.workexp_to" class="form-control text-center dateMaxVal" required>
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </span>
+                            <small class="text-center workexp_to hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row" style="padding-top:5px">
+                    <div class="col-sm-6">
+                        <div style="float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px;">Position:</span>
+                        </div>
+                        <div style="width:58%; float:right;">
+                            <input type="text" class="form-control" id="position_title" ng-model="wx.position_title" required />
+                            <small class="text-center position_title hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        <div style="float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px">Agency:</span>
+                        </div>
+                        <div style="width:65%; float:right;">
+                            <input type="text" class="form-control" id="dept_agncy_offc_co" ng-model="wx.dept_agncy_offc_co" required />
+                            <small class="text-center dept_agncy_offc_co hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top:5px">
+
+                    <div class="col-sm-6">
+                        <div style="float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px">Monthly Salary:</span>
+                        </div>
+                        <div style="width:58%; float:right;">
+                            <input type="text" class="form-control" id="monthly_salary" ng-model="wx.monthly_salary" />
+                            <small class="text-center monthly_salary hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div style="float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px">Sal. Grade:</span>
+                        </div>
+                        <div style="width:65%; float:right;">
+                            <select class="form-control" id="salary_job_grade" ng-model="wx.salary_job_grade" required>
+                                <option value="NA">NA</option>
+                                <option ng-repeat="l in salgrade" value="{{l.salary_grade}}">{{l.salary_grade}}</option>
+                            </select>
+                            <small class="text-center salary_job_grade hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" style="padding-top:5px">
+
+                    <div class="col-sm-6">
+                        <div style="float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px">Employ Status:</span>
+                        </div>
+                        <div style="width:58%; float:right;">
+                            <input type="text" class="form-control" id="appt_status" ng-model="wx.appt_status" />
+
+                            <small class="text-center appt_status hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div style="float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px">Sector:</span>
+                        </div>
+                        <div style="width:65%;float:right;">
+                            <select class="form-control" id="gov_srvc" ng-model="wx.gov_srvc" noinclude required>
+                                <option value="">--Select Here--</option>
+                                <option value="1">Government Service</option>
+                                <option value="0">Private Organization</option>
+                            </select>
+                            <small class="text-center gov_srvc hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer detail">
+                <div class="row" style="padding-top:5px;">
+                    <div class="col-sm-12">
+                        <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                            <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </form>*@
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="eligib_dtl_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title text-center" id="modalLabelSmall"><b>ELIGIBILITY</b></h2>
+                </div>
+                <form id="el" ng-model="el" novalidate>
+                    <div class="modal-footer detail">
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">EMPLOYMENT:</span><span style="" class="fa fa-users pull-right m-r-sm"></span></button>
+                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control disable-white" id="appt_status" ng-model="wx.appt_status" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">TITLE:</span><span style="" class="fa fa-header pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control disable-white" id="cscsrvc_ra1080" ng-model="el.cscsrvc_ra1080" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">RATING:</span><span style="" class="fa fa-trophy pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control disable-white" id="rating" ng-model="el.rating" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">DATE OF EXAM:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="examination_date" ng-model="el.examination_date" class="form-control text-center disable-white" required>
+
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">PLACE OF EXAM:</span><span style="" class="fa fa-globe pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control disable-white" id="examination_place" ng-model="el.examination_place" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">NUMBER:</span><span style="" class="fa fa-sort-numeric-asc pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control disable-white" id="number" ng-model="el.number" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">VALIDITY:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="validity_date" ng-model="el.validity_date" class="form-control text-center disable-white" required>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+                @*<form id="el" ng-model="el" novalidate>
+            <div class="modal-footer detail">
+                <div class="row" style="">
+                    <div class="col-sm-12">
+                        <div class="no-padding" style=" float:left;">
+                            <span class="pull-left font-bold" style="">Eligibility Title:</span>
+                        </div>
+                        <div style="width:77%; float:right;">
+                            <input type="text" class="form-control" id="cscsrvc_ra1080" ng-model="el.cscsrvc_ra1080" required />
+                            <small class="text-center cscsrvc_ra1080 hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top:5px">
+                    <div class="col-sm-6">
+                        <div style="float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px;">Rating:</span>
+                        </div>
+                        <div style="width:51.5%; float:right;">
+                            <input type="text" class="form-control" id="rating" ng-model="el.rating" required />
+                            <small class="text-center rating hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div style=" float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px">Exam Date:</span>
+                        </div>
+                        <div style="width:53%; float:right;">
+
+                            <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                <input type="text" id="examination_date" ng-model="el.examination_date" class="form-control text-center" required>
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </span>
+                            <small class="text-center examination_date hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:5px">
+                    <div class="col-sm-12">
+                        <div style=" float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px;">Exam Place:</span>
+                        </div>
+                        <div style="width:77%; float:right;">
+                            <input type="text" class="form-control" id="examination_place" ng-model="el.examination_place" required />
+                            <small class="text-center examination_place hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row" style="padding-top:5px">
+                    <div class="col-sm-6">
+                        <div style="float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px">Number:</span>
+                        </div>
+                        <div style="width:51.5%; float:right;">
+                            <input type="text" class="form-control" id="number" ng-model="el.number" required />
+                            <small class="text-center number hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div style="width:30%; float:left;">
+                            <span class="pull-left font-bold" style="margin-right:10px">Validity:</span>
+                        </div>
+                        <div style="width:70%; float:right;">
+                            <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                <input type="text" id="validity_date" ng-model="el.validity_date" class="form-control text-center" required>
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </span>
+                            <p ng-show="p_validity" style="color:red;float:left;margin-top:-4px;">Required Field!</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer detail">
+                <div class="row" style="padding-top:5px;">
+                    <div class="col-sm-12">
+                        <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                            <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </form>*@
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="lnd_dtl_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title text-center" id="modalLabelSmall"><b>LEARNING AND DEVELOPMENT</b></h2>
+                </div>
+
+                <form id="ld" ng-model="ld" novalidate>
+                    <div class="modal-footer detail">
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">TITLE:</span><span style="" class="fa fa-header pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control" id="learn_devt_title" ng-model="ld.learn_devt_title" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">L&D FROM:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" name="minDate" id="learn_devt_from" ng-model="el.learn_devt_from" class="form-control text-center dateMinVal" required>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">L&D TO:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" name="maxDate" id="learn_devt_to" ng-model="el.learn_devt_to" class="form-control text-center dateMaxVal" required>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">HOURS:</span><span style="" class="fa fa-hourglass pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="number" class="form-control" id="no_of_hrs" ng-model="ld.no_of_hrs" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">L&D TYPE:</span><span style="" class="fa fa-object-group pull-right m-r-sm"></span></button>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control" id="learn_devt_type" ng-model="ld.learn_devt_type" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">CONDUCTED:</span><span style="" class="fa fa-user pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <input type="text" class="form-control" id="conducted_by" ng-model="ld.conducted_by" required />
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-8">
+            <h2 class="text-white"><b>{{pageTitle}}</b></h2>
+        </div>
+        <div class="col-lg-4" style="margin-top:12px;">
+            @*<button class="btn btn-primary pull-right" onclick="window.location.href='@Session["history_page"].ToString()'"><i class="fa fa-arrow-circle-left"></i> Back</button>*@
+            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle pull-right" onclick="window.location.href='@Session["history_page"].ToString()'">
+                <span class="fa fa-arrow-left pull-right m-t-xs"></span>
+                Return
+            </button>
+            @*<input ng-show="main_edit == false" type="search" class="form-control block" ng-model="search_name" ng-keyup="search_in_list(search_name,'Applicant_List_Grid')" placeholder="Search ....">*@
+        </div>
+    </div>
+    <div class="modal fade" id="workexp_combine_modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-llg">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="modalLabelSmall"><b>COMBINE WORK EXPERIENCE</b></h2>
+                </div>
+                <form id="cm">
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px">
+
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Work From:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" name="minDate" id="workexp_from" ng-model="workexp_from" class="form-control text-center dateMinVal" disabled required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center workexp_from hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Work To:</span>
+                                </div>
+                                <div style="width:65%; float:right;">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" name="maxDate" id="workexp_to" ng-model="workexp_to" class="form-control text-center dateMaxVal" disabled required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center workexp_to hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-sm-12">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Position:</span>
+                                </div>
+                                <div style="width:79.6%; float:right;">
+                                    <input type="text" class="form-control" id="position_title" ng-model="position_title" required />
+                                    <small class="text-center position_title hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                           
+
+
+                            <div class="col-sm-12">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Agency:</span>
+                                </div>
+                                <div style="width:79.6%; float:right;">
+                                    <input type="text" class="form-control" id="dept_agncy_offc_co" ng-model="dept_agncy_offc_co" required />
+                                    <small class="text-center dept_agncy_offc_co hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Monthly Salary:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <input type="text" class="form-control" id="monthly_salary" ng-model="monthly_salary" disabled />
+                                    <small class="text-center monthly_salary hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Sal. Grade:</span>
+                                </div>
+                                <div style="width:65%; float:right;">
+                                    <select class="form-control" id="salary_job_grade" ng-model="salary_job_grade" disabled required>
+                                        <option value="NA">NA</option>
+                                        <option ng-repeat="l in salgrade" value="{{l.salary_grade}}">{{l.salary_grade}}</option>
+                                    </select>
+                                    <small class="text-center salary_job_grade hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" style="padding-top:5px">
+
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Employ Status:</span>
+                                </div>
+                                <div style="width:58%; float:right;">
+                                    <input type="text" class="form-control" id="appt_status" ng-model="appt_status" disabled/>
+
+                                    <small class="text-center appt_status hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div style="float:left;">
+                                    <span class="pull-left font-bold" style="margin-right:10px">Sector:</span>
+                                </div>
+                                <div style="width:65%;float:right;">
+                                    <select class="form-control" name="boolVal" id="gov_srvc" ng-model="gov_srvc" disabled noinclude required>
+                                        <option value="">--Select Here--</option>
+                                        <option value="1">Government Service</option>
+                                        <option value="0">Private Organization</option>
+                                    </select>
+                                    <small class="text-center gov_srvc hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                               
+                                <button class=" btn btn-info font-bold pull-left" ng-click="SelectExperience()">
+                                    <i class="fa fa-search-plus"></i>&nbsp;&nbsp;Select Experience to Combine
+                                </button>
+                                <button class=" btn btn-success font-bold pull-left" ng-click="CombineExperience()">
+                                    <i class="fa fa-anchor"></i>&nbsp;&nbsp;Combine Experience
+                                </button>
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                                </button>
+                                @*<button class="btn btn-success font-bold" ng-click="exp_btn_add(wx)">
+                                        Add&nbsp;<i id="add" class="fa fa-plus"></i>
+                                    </button>*@
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="workexp_combine_modal_grid" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-llg">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="modalLabelSmall"><b>SELECT WORK EXPERIENCE</b></h2>
+                </div>
+                <form id="wx" ng-model="wx">
+                    <div class="modal-footer detail">
+                        <table id="combine_wexp_grid" style="width:100%" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    
+                                    <th width="40%">AGENCY/COMPANY</th>
+                                    <th width="25%">POSITION</th>
+                                    <th width="17%">PERIOD COVERED</th>
+                                    <th width="5%">SECTOR</th>
+                                    <th width="10%">ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button class=" btn btn-success font-bold" ng-click="CombinedSelectedExperience()">
+                                    <i class="fa fa-google-plus-square"></i>&nbsp;&nbsp;Combine Selected Exeprience
+                                </button>
+                                <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                                </button>
+                                @*<button class="btn btn-success font-bold" ng-click="exp_btn_add(wx)">
+                                        Add&nbsp;<i id="add" class="fa fa-plus"></i>
+                                    </button>*@
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight no-padding">
+        <div class="row">
+            <div class="col-lg-12 m-b-md">
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active "><a data-toggle="tab" href="#tab-1">EDUCATION</a></li>
+                        <li class=""><a data-toggle="tab" href="#tab-2">ELIGIBILITY</a></li>
+                        <li class=""><a data-toggle="tab" href="#tab-3">TRAINING</a></li>
+                        <li class=""><a data-toggle="tab" href="#tab-4">EXPERIENCE</a></li>
+                        @*<li class=""><a data-toggle="tab" href="#tab-5">ATTACHEMENTS</a></li>*@
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <div class="panel-body">
+                                <table id="educ_grid" style="width:100%" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th width="3%">NO.</th>
+                                            <th width="42%">SCHOOL NAME</th>
+                                            <th width="25%">BASIC EDUC./DEGREE</th>
+                                            <th width="18%">PERIOD</th>
+                                            <th width="5%">GRADUATED</th>
+                                            <th width="7%">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="tab-2" class="tab-pane">
+                            <div class="panel-body">
+                                <table id="elig_grid" style="width:100%" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th width="3%">NO.</th>
+                                            <th width="57">ELIGIBILITY NAME</th>
+                                            <th width="6%">RATING</th>
+                                            <th width="15%">NUMBER</th>
+                                            <th width="12%">VALIDITY</th>
+                                            <th width="7%">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="tab-3" class="tab-pane">
+                            <div class="panel-body">
+                                <table id="LnD_grid" style="width:100%" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th width="3%">NO.</th>
+                                            <th width="">&nbsp;&nbsp;&nbsp;&nbsp; TRAINING TITLE&nbsp;&nbsp;&nbsp;&nbsp; </th>
+                                            <th width="7%">HOURS</th>
+                                            <th width="20%">TYPE</th>
+                                            <th width="20%">CONDUCTED</th>
+                                            <th width="7%">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="tab-4" class="tab-pane">
+                            <div class="panel-body">
+                                <table id="wexp_grid" style="width:100%" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th width="3%">NO.</th>
+                                            <th width="40%">AGENCY/COMPANY</th>
+                                            <th width="25%">POSInTION</th>
+                                            <th width="17%">PERIOD COVERED</th>
+                                            <th width="5%">SECTOR</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        @*<div id="tab-5" class="tab-pane">
+                                <div class="panel-body">v
+                                </div>
+                        </div>*@
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+
+
+
+
+
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"> </script>
+<script>
+    $(document).ready(function () {
+
+        //Dropzone.options.myAwesomeDropzone = {
+
+        //    autoProcessQueue: false,
+        //    uploadMultiple: true,
+        //    parallelUploads: 100,
+        //    maxFiles: 100,
+
+        //    // Dropzone settings
+        //    init: function () {
+        //        var myDropzone = this;
+
+        //        this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+        //            e.preventDefault();
+        //            e.stopPropagation();
+        //            myDropzone.processQueue();
+        //        });
+        //        this.on("sendingmultiple", function () {
+        //        });
+        //        this.on("successmultiple", function (files, response) {
+        //        });
+        //        this.on("errormultiple", function (files, response) {
+        //        });
+        //    }
+
+        //}
+        //$('.i-checks').iCheck({
+        //    checkboxClass: 'icheckbox_square-green',
+        //    radioClass: 'iradio_square-green',
+        //});
+
+        //$('#data_1 .input-group.date').datepicker({
+        //    todayBtn: "linked",
+        //    keyboardNavigation: false,
+        //    forceParse: false,
+        //    calendarWeeks: true,
+        //    autoclose: true,
+        //    format: "yyyy/mm/dd"
+        //});
+
+
+    });
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+
+
+

@@ -1,0 +1,364 @@
+﻿@{
+
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+</style>
+<script src="~/Angular/ng-cAppInfoAttacheDetail.js"></script>
+
+<section ng-app="ng_eRSP_App" ng-controller="cAppInfoAttachDetails_Ctrlr">
+    <!-- The modal -->
+    <div class="modal fade" id="choose_action" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h1 class="modal-title" id="modalLabelSmall"><b>Choose Action</b></h1></center>
+                </div>
+                <div class="modal-content">
+
+                </div>
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12">
+                            <center>
+                                <button class=" btn btn-danger font-bold" ng-click="delete_file()">
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Delete File
+                                </button>
+                                <button class="btn btn-success font-bold" ng-click="show_file()">
+                                    View File&nbsp;<i id="add" class="fa fa-plus"></i>
+                                </button>
+                            </center>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-6">
+            <h2 class="text-white"><b>Attachements</b></h2>
+        </div>
+       
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight no-padding">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-sm-3 no-padding">
+                            <div style="width:16%;float:left;margin-bottom:15px;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Name:</b></span>
+                            </div>
+                            <div style="width:82%; float:left;padding-right:0!important;margin-top:0;padding-top:0">
+                                <input type="search" class="form-control disable-white" ng-model="applicant_name" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 no-padding">
+                            <div style="width:17%;float:left;margin-bottom:15px;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Position:</b></span>
+                            </div>
+                            <div style="width:80%; float:left">
+                                <select class="form-control disable-white" ng-model="item_no" disabled>
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in position_from_publication" value="{{l.item_no}}">{{l.position_long_title}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 no-padding">
+                            <div style="width:30%;float:left;margin-bottom:15px;">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Appointment:</b></span>
+                            </div>
+                            <div style="width:70%; float:left;padding-right:0!important;margin-top:0;padding-top:0">
+                                <select class="form-control disable-white" ng-model="appointment" ng-click="selectPosition(appointment)" disabled>
+                                    <option value="">--Select Here--</option>
+                                    <option value="JO">Job Order</option>
+                                    <option value="CE">Casual</option>
+                                    <option value="RE">Permanent</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 no-padding">
+                            <div class="btn-group pull-right">
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Select Action <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a ng-click='AddDetails("cApplicantsInfo/Index")'>Back To Applicant List </a></li>
+                                    <li><a ng-click='AddDetails("cApplicationInfoDetails/Index")'>Edit Applicants Info</a></li>
+                                    <li><a ng-click='AddDetails("cApplicationInfoDetails/Education")'>Add Education</a></li>
+                                    <li><a ng-click='AddDetails("cApplicationInfoDetails/Training")'>Add Training  </a></li>
+                                    <li><a ng-click='AddDetails("cApplicationInfoDetails/Eligibility")'>Add Eligibility</a></li>
+                                    <li><a ng-click='AddDetails("cApplicationInfoDetails/Experience")'>Add Experience</a></li>
+                                    <li><a ng-click='AddDetails("cApplicationInfoDetails/Attachements")'>Add Attachements</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <button ng-show="!dropzone" class="btn btn-danger {{attach}}" ng-click="changeZone(1,0)">Attach Files&nbsp;<i class="fa fa-paperclip"></i></button>
+                        <button ng-show="dropzone" class="btn btn-danger {{attach}}" ng-click="changeZone(2,0)">See Attached Files&nbsp;<i class="fa fa-paperclip"></i></button>
+                        <div class="btn-group" style="margin-left:20px;" ng-show="dropzone">
+                            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle {{dropz}}">Document Type&nbsp;&nbsp;<span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a ng-click="changeZone(1,1)">Personal Data Sheet</a></li>
+                                <li><a ng-click="changeZone(1,2)">Application Letter</a></li>
+                                <li><a ng-click="changeZone(1,3)">IPCR</a></li>
+                                <li><a ng-click="changeZone(1,4)">Transcript Of Record</a></li>
+                                <li><a ng-click="changeZone(1,5)">Eligibility</a></li>
+
+
+                            </ul>
+                        </div>
+                        <input ng-show="dropzone" type="text" class="form-control" style="background-color:white;color:black;display:inline-block;width:300px;" ng-model="doctype_disp" disabled />
+                    </div>
+
+                    <div class="ibox-content" ng-show="dropzone">
+                        <form id="my-awesome-dropzone" class="dropzone" action="#">
+                            <div class="dropzone-previews"></div>
+                            <button type="submit" id="submitFile" class="btn btn-primary pull-right">Submit Attachments!</button>
+                            <div class="col-12">Note: Upload PDF files only</div>
+                        </form>
+                    </div>
+                    <div class="ibox-content" ng-show="!dropzone">
+                        <div class="dropzone">
+                            <div class="col-sm-3 dropzone-previews" ng-repeat="l in att_dtl track by $index" ng-click="choose_file($index)">
+                                <img src="~/ResourcesImages/pdf_icon.png" alt="" height="136" width="114">
+                                <div>{{split_filename(l.file_path)}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+<div class="modal fade" id="spinner_load" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+    <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="row" style="padding-top:5px;">
+
+                    <div class="col-sm-12">
+                        <div style="width:50%; float:left;" class="no-padding">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Initializing data</span>
+                        </div>
+                        <div style="width:50%; float:right;" class="no-padding">
+                            <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                <div class="sk-bounce1" style="background-color:white"></div>
+                                <div class="sk-bounce2" style="background-color:white"></div>
+                                <div class="sk-bounce3" style="background-color:white"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="extracting_data" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+    <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="sk-cube"></div>
+                <div class="row" style="padding-top:5px;">
+
+                    <div class="col-sm-12">
+                        <div style="width:50%; float:left;" class="no-padding">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Extracting data</span>
+                        </div>
+                        <div style="width:50%; float:right;" class="no-padding">
+                            <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                <div class="sk-bounce1" style="background-color:white"></div>
+                                <div class="sk-bounce2" style="background-color:white"></div>
+                                <div class="sk-bounce3" style="background-color:white"></div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"> </script>
+<script>
+    $(document).ready(function () {
+
+        //Dropzone.options.myAwesomeDropzone = {
+
+        //    autoProcessQueue: false,
+        //    uploadMultiple: true,
+        //    parallelUploads: 100,
+        //    maxFiles: 100,
+
+        //    // Dropzone settings
+        //    init: function () {
+        //        var myDropzone = this;
+
+        //        this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+        //            e.preventDefault();
+        //            e.stopPropagation();
+        //            myDropzone.processQueue();
+        //        });
+        //        this.on("sendingmultiple", function () {
+        //        });
+        //        this.on("successmultiple", function (files, response) {
+        //        });
+        //        this.on("errormultiple", function (files, response) {
+        //        });
+        //    }
+
+        //}
+        //$('.i-checks').iCheck({
+        //    checkboxClass: 'icheckbox_square-green',
+        //    radioClass: 'iradio_square-green',
+        //});
+
+        //$('#data_1 .input-group.date').datepicker({
+        //    todayBtn: "linked",
+        //    keyboardNavigation: false,
+        //    forceParse: false,
+        //    calendarWeeks: true,
+        //    autoclose: true,
+        //    format: "yyyy/mm/dd"
+        //});
+
+
+    });
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+
+
+
