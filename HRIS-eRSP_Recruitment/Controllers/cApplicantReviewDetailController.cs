@@ -472,7 +472,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             string elig_rating,
             string score_rendered,
             string exam_type_descr,
-            string exam_date
+            string exam_date,
+            string ipcr_rating
         )
         {
             CheckSession();
@@ -593,6 +594,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                             exam.score_rendered = Convert.ToDouble(score_rendered);
                             exam.exam_type_descr = exam_type_descr;
                             exam.exam_date = Convert.ToDateTime(exam_date);
+                            exam.ipcr_rating = ipcr_rating.ToString();
                             exam.updated_dttm = DateTime.Now;
                             exam.updated_by_user = user_id;
                         }
@@ -611,19 +613,18 @@ namespace HRIS_eRSP_Recruitment.Controllers
                             exm.created_by_user = user_id;
                             exm.updated_dttm = Convert.ToDateTime("1900-01-01 00:00:00");
                             exm.updated_by_user = "";
+                            exm.ipcr_rating = ipcr_rating.ToString();
                             db2.applicant_examination.Add(exm);
                         }
 
                     }
+
                     db2.SaveChanges();
 
                     var reviewer_list = db2.sp_reviewer_screening_list(app_ctrl_nbr).ToList();
                     var rtn = db2.sp_getqsrating(app_ctrl_nbr).FirstOrDefault();
                     return JSON(new { message = update.success, icon = icon.success, reviewer_list, rtn }, JsonRequestBehavior.AllowGet);
                 }
-
-
-                   
               
             }
             catch (DbEntityValidationException exp)

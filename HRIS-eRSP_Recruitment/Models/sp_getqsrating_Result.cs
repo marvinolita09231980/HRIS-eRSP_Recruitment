@@ -20,6 +20,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public double examination { get; set; }
         public string exam_type_descr { get; set; }
         public string exam_date { get; set; }
+        public string ipcr_rating { get; set; }
         public string app_ctrl_nbr { get; set; }
         public string psb_ctrl_nbr { get; set; }
     }

@@ -265,7 +265,7 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
                                // '<button type="button" class="btn btn-warning btn-sm action" data-toggle="tab" data-toggle="tooltip" data-placement="top" title="Add Item" ng-click="addItemToPanel(' + row["row"] + ')" >  <i class="fa fa-plus"></i></button >' +
                                 '<button type="button" class="btn btn-success btn-sm action" data-toggle="tab" data-toggle="tooltip" data-placement="top" title="Print Score Sheet" ng-click="printScoreSheet(' + row["row"] + ')" >  <i class="fa fa-print"></i></button >' +
                                 '<button type="button" class="btn btn-info btn-sm action" data-toggle="tab" data-toggle="tooltip" data-placement="top" title="Print Score Sheet" ng-click="gotoPanelRating(' + row["row"] + ')" >  <i class="fa fa-star"></i></button >' +
-								'<button  type="button" class="btn btn-danger btn-md action" ng-click="panel_del(' + row["row"] + ')" ng-disabled="psb_status == 1 || psb_status == 2 || '+ full["btn_disabled"] +'">   <i id="del_row' + row["row"] + '" class="fa fa-trash"></i></button>' +
+								'<button  type="button" class="btn btn-danger btn-md action" ng-click="panel_del(' + row["row"] + ')">   <i id="del_row' + row["row"] + '" class="fa fa-trash"></i></button>' +
 								'</div></center>';
 						}
 					}
@@ -1539,34 +1539,55 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
 
 	s.panel_del = function (row_id) {
 		var panel_user_id = s.PsbPanel_Data[row_id].panel_user_id
-		var psb_ctrl_nbr = s.PsbPanel_Data[row_id].psb_ctrl_nbr
-		swal({
-			title: "Are you sure to delete this panel for this schedule?",
-			text: "",
-			icon: "warning",
-			buttons: true,
-			dangerMode: true,
-		})
-				 .then(function (willDelete) {
-					 if (willDelete) {
-						 h.post("../cAddPsbSchedule/deletePanel", {
-							 panel_user_id: panel_user_id,
-							 psb_ctrl_nbr: psb_ctrl_nbr
-						 }).then(function (d) {
-							 if (d.data.icon == "success") {
-								 s.PsbPanel_Data = d.data.panels.refreshTable("psb_panel", "")
-								 swal(d.data.message, { icon: d.data.icon });
-							 }
-							 else {
-								 console.log(d.data.message)
-							 }
-							 //cs.spinnerRemove("#del_row" + row_id, "fa fa-trash")
-						 })
-					 }
-					 else {
-						 //cs.spinnerRemove("#del_row" + row_id, "fa fa-trash")
-					 }
-				 });
+        var psb_ctrl_nbr = s.PsbPanel_Data[row_id].psb_ctrl_nbr
+
+        h.post("../cAddPsbSchedule/verifyAllowDeletePanel", {
+            panel_user_id: panel_user_id,
+            psb_ctrl_nbr: psb_ctrl_nbr
+        }).then(function (d) {
+            if (d.data.icon == "success") {
+                if (d.data.hasrated.length > 0) {
+                    swal("Panel cannot be deleted, this panel has rated", { icon: "warning" })
+                }
+                else {
+
+                    swal({
+                        title: "Are you sure to delete this panel for this schedule?",
+                        text: "",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                        .then(function (willDelete) {
+                            if (willDelete) {
+                                h.post("../cAddPsbSchedule/deletePanel", {
+                                    panel_user_id: panel_user_id,
+                                    psb_ctrl_nbr: psb_ctrl_nbr
+                                }).then(function (d) {
+                                    if (d.data.icon == "success") {
+                                        s.PsbPanel_Data = d.data.panels.refreshTable("psb_panel", "")
+                                        swal(d.data.message, { icon: d.data.icon });
+                                    }
+                                    else {
+                                        console.log(d.data.message)
+                                    }
+                                    //cs.spinnerRemove("#del_row" + row_id, "fa fa-trash")
+                                })
+                            }
+                            else {
+                                //cs.spinnerRemove("#del_row" + row_id, "fa fa-trash")
+                            }
+                        });
+
+                }
+            }
+            else {
+                console.log(d.data.message)
+            }
+            //cs.spinnerRemove("#del_row" + row_id, "fa fa-trash")
+        })
+
+		
 	}
 
     s.psb_app_list = function (row_id, data) {

@@ -22,5 +22,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public string created_by_user { get; set; }
         public Nullable<System.DateTime> updated_dttm { get; set; }
         public string updated_by_user { get; set; }
+        public string ipcr_rating { get; set; }
     }
 }

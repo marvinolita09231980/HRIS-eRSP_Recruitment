@@ -41,7 +41,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                                       ,dep.department_name1
                                   };
                
-                var panel_role = db.psb_mbr_role_tbl.ToList();
+                var panel_role = db.psb_mbr_role_tbl.Where(a => a.psb_mbr_role == "03").ToList();
                 return Json(new { message = fetch.success, icon = icon.success, panel_role, departments}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -464,6 +464,21 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(e) }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult verifyAllowDeletePanel(string panel_user_id, string psb_ctrl_nbr)
+        {
+            CheckSession();
+            try
+            {
+                var hasrated = db.psb_pnl_rtg_tbl.Where(a => a.user_id == panel_user_id && a.psb_ctrl_nbr == psb_ctrl_nbr).ToList();
+                return Json(new { message = delete.success, icon = icon.success, hasrated }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(e) }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult deletePanel(string panel_user_id, string psb_ctrl_nbr)
         {
             CheckSession();

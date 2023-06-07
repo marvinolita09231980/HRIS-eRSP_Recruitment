@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_attachment_tbl" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_educ_tbl" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_eligibilty_tbl" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.applicant_examination" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_learnanddevt_tbl" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_workexprnce_tbl" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_workexprnce_temp_tbl" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
@@ -68,6 +67,7 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_score_sheet_details_wexp_rpt" Width="1.5" PointX="22.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_userroles_tbl_RCT" Width="1.5" PointX="22.75" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_vacant_position_list" Width="1.5" PointX="16.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicant_examination" Width="1.5" PointX="19.375" PointY="22.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

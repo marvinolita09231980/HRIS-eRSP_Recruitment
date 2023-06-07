@@ -238,10 +238,10 @@ namespace HRIS_eRSP_Recruitment.Controllers
             try
             {
               //  var sp_slide_rating = db.sp_slide_rating(app_ctrl_nbr, psb_ctrl_nbr, user_id).ToList();
-                var educdetails = db.applicant_educ_tbl.Where(a => a.info_ctrl_nbr == info_ctrl_nbr).ToList();
-                var eligdetails = db.applicant_eligibilty_tbl.Where(a => a.info_ctrl_nbr == info_ctrl_nbr).ToList();
-                var lnddetails = db.applicant_learnanddevt_tbl.Where(a => a.info_ctrl_nbr == info_ctrl_nbr).ToList();
-                var wexpdetails = db.applicant_workexprnce_tbl.Where(a => a.info_ctrl_nbr == info_ctrl_nbr).ToList();
+                var educdetails = db.applicant_educ_tbl.Where(a => a.info_ctrl_nbr == info_ctrl_nbr).OrderByDescending(a => a.period_from_2).ToList();
+                var eligdetails = db.applicant_eligibilty_tbl.Where(a => a.info_ctrl_nbr == info_ctrl_nbr).OrderByDescending(a => a.examination_date_2).ToList();
+                var lnddetails = db.applicant_learnanddevt_tbl.Where(a => a.info_ctrl_nbr == info_ctrl_nbr).OrderByDescending(a => a.learn_devt_from_2).ToList();
+                var wexpdetails = db.applicant_workexprnce_tbl.Where(a => a.info_ctrl_nbr == info_ctrl_nbr).OrderByDescending(a => a.workexp_from).ToList();
                 var reviewer_list = db.sp_reviewer_screening_list(app_ctrl_nbr).ToList();
                 var cbrating = db.psb_pnl_rtg_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr && a.app_ctrl_nbr == app_ctrl_nbr && a.user_id == user_id).ToList();
               //  var zoomcred = db.zoomcredential_tbl.FirstOrDefault();

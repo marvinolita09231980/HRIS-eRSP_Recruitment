@@ -574,6 +574,7 @@ ng_eRSP_App.controller("cHRMPSBRating_Ctrlr", function (commonScript, $scope, $h
         cs.loading("show")
         console.log(item)
         h.post("../cHRMPSBRating/getPSBList2", { item: item }).then(function (d) {
+            console.log(d.data.psblist)
             s.psb = d.data.psblist
             cs.loading("hide")
         })
@@ -604,7 +605,10 @@ ng_eRSP_App.controller("cHRMPSBRating_Ctrlr", function (commonScript, $scope, $h
             s.educdetails = d.data.educdetails
             s.eligdetails       = d.data.eligdetails
             s.lnddetails        = d.data.lnddetails
-            s.wexpdetails       = d.data.wexpdetails
+            s.wexpdetails = d.data.wexpdetails.sort(function (a, b) {
+                return b.workexp_from - a.workexp_from;
+            });
+            console.log(s.wexpdetails)
             s.cbrating          = d.data.cbrating 
             s.profile = d.data.reviewer_list[0];
 

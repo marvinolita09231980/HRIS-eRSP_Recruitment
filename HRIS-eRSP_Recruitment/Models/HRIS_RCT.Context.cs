@@ -30,7 +30,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<applicant_attachment_tbl> applicant_attachment_tbl { get; set; }
         public virtual DbSet<applicant_educ_tbl> applicant_educ_tbl { get; set; }
         public virtual DbSet<applicant_eligibilty_tbl> applicant_eligibilty_tbl { get; set; }
-        public virtual DbSet<applicant_examination> applicant_examination { get; set; }
         public virtual DbSet<applicant_learnanddevt_tbl> applicant_learnanddevt_tbl { get; set; }
         public virtual DbSet<applicant_workexprnce_tbl> applicant_workexprnce_tbl { get; set; }
         public virtual DbSet<applicant_workexprnce_temp_tbl> applicant_workexprnce_temp_tbl { get; set; }
@@ -90,6 +89,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<vw_score_sheet_details_wexp_rpt> vw_score_sheet_details_wexp_rpt { get; set; }
         public virtual DbSet<vw_userroles_tbl_RCT> vw_userroles_tbl_RCT { get; set; }
         public virtual DbSet<vw_vacant_position_list> vw_vacant_position_list { get; set; }
+        public virtual DbSet<applicant_examination> applicant_examination { get; set; }
     
         [DbFunction("HRIS_RCTEntities", "func_psb_sked_mbr_tbl_distinct")]
         public virtual IQueryable<func_psb_sked_mbr_tbl_distinct_Result> func_psb_sked_mbr_tbl_distinct()
@@ -1172,15 +1172,6 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_table_name", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_getlast_sequence", p_table_nameParameter);
-        }
-    
-        public virtual ObjectResult<sp_getqsrating_Result> sp_getqsrating(string p_app_ctrl_no)
-        {
-            var p_app_ctrl_noParameter = p_app_ctrl_no != null ?
-                new ObjectParameter("p_app_ctrl_no", p_app_ctrl_no) :
-                new ObjectParameter("p_app_ctrl_no", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getqsrating_Result>("sp_getqsrating", p_app_ctrl_noParameter);
         }
     
         public virtual ObjectResult<sp_gettransacation_approver_RCT_Result> sp_gettransacation_approver_RCT(string p_empl_id)
@@ -2677,6 +2668,15 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_panel_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_items_per_psbschedule3_Result>("sp_items_per_psbschedule3", p_panel_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_getqsrating_Result> sp_getqsrating(string p_app_ctrl_no)
+        {
+            var p_app_ctrl_noParameter = p_app_ctrl_no != null ?
+                new ObjectParameter("p_app_ctrl_no", p_app_ctrl_no) :
+                new ObjectParameter("p_app_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getqsrating_Result>("sp_getqsrating", p_app_ctrl_noParameter);
         }
     }
 }

@@ -801,45 +801,48 @@
                 </div>
                 <div class="row">
 
-                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
-                    </div>
-
-                    <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 m-t-xs">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
-                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 no-padding">
-                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HRMPSB DATE:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 no-padding">
-                                <select class="form-control disable-white norequired" id="psb_ctrl_nbr" ng-model="psb_ctrl_nbr" ng-change="selectPsb_date(psb_ctrl_nbr)" required>
-                                    <option value="">--Select Here--</option>
-                                    <option ng-repeat="l in psbschedule" value="{{l.psb_ctrl_nbr}}">{{l.psb_date}}</option>
-                                </select>
+                        <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 m-t-xs">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                                <button class="btn btn-success btn-block font-13" data-toggle="tooltip" data-placement="left" title="">PANEL&nbsp;&nbsp;&nbsp;<i class="fa fa-gears"></i></button>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 m-t-xs">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
-                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
-                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">POSITION:</span><span style="" class="fa fa-calendar pull-right m-r-sm m-t-xs"></span></button>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
-                                <select class="form-control disable-white norequired" id="item_no" ng-model="item_no" ng-change="selectPSBSchedApplicant()" required>
-                                    <option value="">--Select Here--</option>
-                                    <option ng-repeat="l in psbsched_item" value="{{l.item_no}}">{{l.item_no}}&nbsp;-&nbsp;{{l.position_title1}}</option>
-                                </select>
+                        <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 m-t-xs">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 no-padding">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HRMPSB DATE:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 no-padding">
+                                    <select class="form-control disable-white norequired" id="psb_ctrl_nbr" ng-model="psb_ctrl_nbr" ng-change="selectPsb_date(psb_ctrl_nbr)" required>
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="l in psbschedule" value="{{l.psb_ctrl_nbr}}">{{l.psb_date}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 m-t-xs pull-right">
-                        <div class="btn-group col-sm-12 col-xs-12 col-md-12 col-lg-12">
-                            <button ng-show="psb_status == 0" class="btn btn-primary btn-block" ng-click="start_psb_modal()">Start HRMPSB<span class="fa fa-hourglass-start"></span></button>
-                            <button ng-show="psb_status == 1" class="btn btn-warning btn-block" ng-click="ongoing_psb_modal()">HRMPSB In-progress<span class="fa fa-spinner fa-spin"></span></button>
+                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 m-t-xs">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">POSITION:</span><span style="" class="fa fa-calendar pull-right m-r-sm m-t-xs"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
+                                    <select class="form-control disable-white norequired" id="item_no" ng-model="item_no" ng-change="selectPSBSchedApplicant()" required>
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="l in psbsched_item" value="{{l.item_no}}">{{l.item_no}}&nbsp;-&nbsp;{{l.position_title1}}</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                </div>
+                        <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 m-t-xs pull-right">
+                            <div class="btn-group col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                <button ng-show="psb_status == 0" class="btn btn-primary btn-block" ng-click="start_psb_modal()">Start HRMPSB<span class="fa fa-hourglass-start"></span></button>
+                                <button ng-show="psb_status == 1" class="btn btn-warning btn-block" ng-click="ongoing_psb_modal()">HRMPSB In-progress<span class="fa fa-spinner fa-spin"></span></button>
+                            </div>
+                        </div>
+
+                    </div>
             </form>
             <div class="row no-padding">
                 <div class="col-lg-12 tabs-container m-b-md">

@@ -33,8 +33,10 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
     s.lnd_rating = 0
     s.elig_rating = 0
     s.score_rendered = 0
+    s.ipcr_rating = 0
     s.exam_type_descr = ""
     s.exam_date = ""
+
     s.main_edit = false
     s.dtl_edit = false
     s.showRemoveQS = false
@@ -1822,6 +1824,7 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
         var lnd_rating = s.lnd_rating
         var elig_rating = s.elig_rating
         var score_rendered = scorerendered25(s.score_rendered)
+        var ipcr_rating = s.ipcr_rating
         var exam_type_descr = s.exam_type_descr
         var exam_date = s.exam_date
 
@@ -1840,6 +1843,7 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
                 , score_rendered: score_rendered
                 , exam_type_descr: exam_type_descr
                 , exam_date: exam_date
+                , ipcr_rating: ipcr_rating
             }).then(function (d) {
                 if (d.data.icon == "success") {
                     s.getReviewer_List();
@@ -1853,6 +1857,7 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
                     s.exam_date = d.data.rtn.exam_date
                     s.appctrlnbr = d.data.rtn.app_ctrl_nbr
                     s.psbctrlnbr = d.data.rtn.psb_ctrl_nbr
+                    s.ipcr_rating = d.data.rtn.ipcr_rating
                 }
                 else {
                     swal(d.data.message, { icon: d.data.icon })
@@ -2021,6 +2026,7 @@ ng_eRSP_App.directive("openModal", ["commonScript", "$http", function (cs, h) {
                             scope.exam_date = d.data.rtn.exam_date
                             scope.appctrlnbr = d.data.rtn.app_ctrl_nbr
                             scope.psbctrlnbr = d.data.rtn.psb_ctrl_nbr
+                            scope.ipcr_rating = d.data.rtn.ipcr_rating
 
                             $("#add_rating").modal("show")
                         }
@@ -2424,7 +2430,9 @@ ng_eRSP_App.directive("rateApplicant", ["commonScript", "$http", function (cs, h
                             scope.exam_date = d.data.rtn.exam_date
                             scope.appctrlnbr = d.data.rtn.app_ctrl_nbr
                             scope.psbctrlnbr = d.data.rtn.psb_ctrl_nbr
-                         
+                            scope.ipcr_rating = d.data.rtn.ipcr_rating  
+
+                            console.log(d.data.rtn.ipcr_rating)
                             $("#add_rating").modal("show")
                         }
                     })

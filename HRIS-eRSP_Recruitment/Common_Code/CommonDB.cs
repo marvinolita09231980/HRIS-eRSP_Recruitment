@@ -406,10 +406,20 @@ namespace HRIS_Common
         //***********************************************************************************************************************
         public DataTable RetrieveDataAPL(string sp_script, string parmagr1, string parmvalue1)
         {
+            string connStr = "";
             //try
             //{
+            var userid = parmagr1.Substring(0, 1);
             DataTable dt = new DataTable();
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["HRIS_APL"].ConnectionString;
+            if(userid == "A")
+            {
+                connStr = System.Configuration.ConfigurationManager.ConnectionStrings["HRIS_APL"].ConnectionString;
+            }
+            else
+            {
+                connStr = System.Configuration.ConfigurationManager.ConnectionStrings["HRIS_PAY"].ConnectionString;
+            }
+           
             using (SqlConnection cn = new SqlConnection(connStr))
             {
                 SqlCommand cmd = new SqlCommand(sp_script, cn);

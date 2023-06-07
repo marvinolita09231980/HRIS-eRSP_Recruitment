@@ -23,7 +23,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult GetPsbRoleList()
         {
-            var psb_mbr_role_list = db.psb_mbr_role_tbl.ToList();
+            var psb_mbr_role_list = db.psb_mbr_role_tbl.Where(a => a.psb_mbr_role != "03").ToList();
             return Json(new { message = "Success", icon = "success", psb_mbr_role_list }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult editPSBPanel(psb_panel_permanent_mbr_tbl2 data)
