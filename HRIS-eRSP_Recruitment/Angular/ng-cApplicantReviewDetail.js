@@ -1817,6 +1817,7 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
 
 
     s.saveRating = function (appctrlnbr, psbctrlnbr) {
+        cs.notrequired2("ipcr_rating")
         var app_ctrl_nbr = appctrlnbr
         var psb_ctrl_nbr = psbctrlnbr
         var educ_rating = s.educ_rating
@@ -1831,7 +1832,19 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
         if (parseInt(s.score_rendered) > 0 && (!cs.Validate1Field("exam_type_descr") || !cs.Validate1Field("exam_date"))) {
             return
         }
-        console.log(score_rendered)
+       
+        if (s.ipcr_rating != "") {
+            if (isNaN(s.ipcr_rating)) {
+                cs.required2("ipcr_rating","Required a number")
+                return
+            }
+            else if (parseFloat(s.ipcr_rating) > 5) {
+                cs.required2("ipcr_rating", "Must not greater than 5")
+                return
+            }
+        }
+
+
         h.post("../cApplicantReviewDetail/SaveRating",
             {
                   app_ctrl_nbr: app_ctrl_nbr
