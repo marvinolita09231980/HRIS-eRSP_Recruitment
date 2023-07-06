@@ -1812,8 +1812,9 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
            
             swal(d.data.returnUpdate, { icon: d.data.icon })
         })
-
     }
+
+
 
 
     s.saveRating = function (appctrlnbr, psbctrlnbr) {

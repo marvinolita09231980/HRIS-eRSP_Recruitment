@@ -442,7 +442,8 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                                 //'<button  type="button" class="btn btn-info btn-sm action" data-toggle="tab" href="#tab-7" ng-click="btn_edit(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Edit">  <i class="fa fa-edit"></i></button >' +
                                 '<button  type="button" class="btn btn-warning btn-sm action" ng-click="btn_show_details(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Qualification">   <i id="det_row' + row["row"] + '" class="fa fa-bars"></i></button>' +
                                 //'<button  type="button" class="btn btn-danger btn-sm action" ng-click="btn_del_row_main_grid(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Delete">   <i class="del_row' + row["row"] + ' fa fa-trash"></i></button>' +
-                                '<button type="button"  class="btn btn-danger btn-sm action" data-toggle="tooltip" data-placement="top" title="Send email notification" ng-click="composeEmail(' + row["row"] + ')" >  <i class="fa fa-paper-plane"></i></button >' +
+                                '<button type="button" id="emailbtn' + row["row"] + '" class="btn btn-danger btn-sm action" data-toggle="tooltip" data-placement="top" title="Send email notification" ng-click="composeEmail(' + row["row"] + ')" >  <i class="fa fa-paper-plane emailbtncls' + row["row"] +'"></i></button >' +
+                               
                                 '</div></center>';
                         }
                     }
@@ -1022,16 +1023,18 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
     }
 
+    
+
     s.composeEmail = function (row_id) {
         s.includeToEmail = []
         var dt = s.APL_List_Data[row_id]
      
         s.single_email = dt.email
         s.single_empl_id = dt.empl_id
-
+      
         var data = {
               app_ctrl_nbr: dt.APL_info_ctrl_nbr
-            , empl_id : ""
+            , empl_id: dt.APL_info_ctrl_nbr
             , email_address : dt.email
             , first_name : dt.firstname
             , last_name : dt.lastname
@@ -1040,15 +1043,62 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         }
 
         s.includeToEmail.push(data)
+
+        var emails = s.includeToEmail
+        var mail = ""
+        var subject = ""
+        ////var body = document.getElementById("mail-content").innerHTML
+        //var body = $(".note-editable").html()
+        //var body_text = $(".note-editable").text()
+       
+        
+        $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
+        $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
+        $("#emailbtn" + row_id).prop("disabled", true);
+
+        h.post("../cApplicantsReview/SendToEmail2", {
+              email: emails[0]
+            , subject: subject
+            , body: ""
+        }).then(function (d) {
+
+            swal(d.data.message, {icon:d.data.icon})
          
-        if (dt.email != "") {
-            $("#email_receipent").val(dt.email)
-            $("#email_view_modal").modal("show")
-        }
-        else {
-            swal("No email address provided by the applicant!", { icon: "error" })
-        }
+            $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
+            $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
+            $("#emailbtn" + row_id).prop("disabled", false);
+        })
+       
     }
+
+
+    //s.composeEmail = function (row_id) {
+    //    s.includeToEmail = []
+    //    var dt = s.APL_List_Data[row_id]
+
+    //    s.single_email = dt.email
+    //    s.single_empl_id = dt.empl_id
+
+    //    var data = {
+    //        app_ctrl_nbr: dt.APL_info_ctrl_nbr
+    //        , empl_id: ""
+    //        , email_address: dt.email
+    //        , first_name: dt.firstname
+    //        , last_name: dt.lastname
+    //        , middle_name: dt.middlename
+    //        , hiring_period: dt.ctrl_no
+    //    }
+
+    //    s.includeToEmail.push(data)
+
+    //    if (dt.email != "") {
+    //        $("#email_receipent").val(dt.email)
+    //        $("#email_view_modal").modal("show")
+    //    }
+    //    else {
+    //        swal("No email address provided by the applicant!", { icon: "error" })
+    //    }
+    //}
     //]]]]]]]]]]]]]]]EMAIL SCRIPT 
 
     s.uploadfile = function (attachedFile) {
@@ -1235,17 +1285,20 @@ ng_eRSP_App.directive('sendEmail', ["commonScript", '$http', function (cs, http)
         restrict: 'C',
         link: function (scope, elem, attrs) {
             elem.on('click', function () {
-
+                
                 var emails = scope.includeToEmail
                 var mail = $("#email_receipent").val()
                 var subject = $("#email_subject").val()
                 //var body = document.getElementById("mail-content").innerHTML
                 var body = $(".note-editable").html()
                 var body_text = $(".note-editable").text()
+
+                
+
               
                 if (cs.valid_textbox(subject, "email_subject") && cs.valid_textbox(body_text, "")) {
                     scope.Sendemail_List_Data2 = scope.sendingEmailList.refreshTable("sendemail_List_Grid2", "")
-                    $("#sendemailgrid_modal2").modal("show")
+                    //$("#sendemailgrid_modal2").modal("show")
                     for (var x = 0; x < emails.length; x++) {
                        
                         http.post("../cApplicantsReview/SendToEmail2", {

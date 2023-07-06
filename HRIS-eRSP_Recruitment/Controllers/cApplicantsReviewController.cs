@@ -645,8 +645,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 using (MailMessage mm = new MailMessage(email_settup.email_from, x.email_address))
                 {
 
-                    mm.Subject = subject;
-                    mm.Body = email_body;
+                    mm.Subject = email_settup.email_subject;
+                    mm.Body = email_settup.email_body;
                     mm.IsBodyHtml = true;
                     using (SmtpClient smtp = new SmtpClient())
                     {
