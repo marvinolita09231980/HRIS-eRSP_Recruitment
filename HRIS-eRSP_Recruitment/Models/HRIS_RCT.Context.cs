@@ -79,7 +79,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<vw_plantilla_items> vw_plantilla_items { get; set; }
         public virtual DbSet<vw_positions_tbl> vw_positions_tbl { get; set; }
         public virtual DbSet<vw_psb_panel_permanent_mbr_tbl> vw_psb_panel_permanent_mbr_tbl { get; set; }
-        public virtual DbSet<vw_psb_sked_hdr_tbl> vw_psb_sked_hdr_tbl { get; set; }
         public virtual DbSet<vw_psb_sked_mbr_tbl> vw_psb_sked_mbr_tbl { get; set; }
         public virtual DbSet<vw_return_compentency> vw_return_compentency { get; set; }
         public virtual DbSet<vw_salary_grade_list> vw_salary_grade_list { get; set; }
@@ -90,6 +89,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<vw_userroles_tbl_RCT> vw_userroles_tbl_RCT { get; set; }
         public virtual DbSet<vw_vacant_position_list> vw_vacant_position_list { get; set; }
         public virtual DbSet<applicant_examination> applicant_examination { get; set; }
+        public virtual DbSet<vw_psb_sked_hdr_tbl> vw_psb_sked_hdr_tbl { get; set; }
     
         [DbFunction("HRIS_RCTEntities", "func_psb_sked_mbr_tbl_distinct")]
         public virtual IQueryable<func_psb_sked_mbr_tbl_distinct_Result> func_psb_sked_mbr_tbl_distinct()

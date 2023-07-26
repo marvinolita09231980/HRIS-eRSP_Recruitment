@@ -19,8 +19,10 @@ namespace HRIS_eRSP_Recruitment.Controllers
         HRIS_APLEntities db2 = new HRIS_APLEntities();
         User_Menu um = new User_Menu();
         RCT_Common rct = new RCT_Common();
-       private static Timer aTimer;
+        private static Timer aTimer;
+
         // GET: cOnlineApplicantsList
+
         public ActionResult Index()
         {
             CheckSession();

@@ -141,8 +141,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             {
                 var schd = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                 schd.psb_date = data.psb_date;
-                schd.budget_code = data.budget_code;
-                schd.employment_type = data.employment_type;
+                schd.hiring_period = data.hiring_period;
                 schd.remarks_details = data.remarks_details;
                 db.SaveChanges();
              
@@ -159,7 +158,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             int exist = 0;
             try
             {
-                var psb = db.psb_sked_hdr_tbl.Where(a => a.psb_date == data.psb_date).Count();
+                var psb = db.psb_sked_hdr_tbl.Where(a => a.psb_date == data.psb_date && a.employment_type == data.employment_type).Count();
                 if (psb > 0)
                 {
                     exist = 1;

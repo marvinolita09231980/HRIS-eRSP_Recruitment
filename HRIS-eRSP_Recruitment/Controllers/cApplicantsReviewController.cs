@@ -76,9 +76,11 @@ namespace HRIS_eRSP_Recruitment.Controllers
             try
             {
                 var department = db2.sp_department_tbl_rct(hiring_period).ToList();
+                var psb_sked_hdr = db2.vw_psb_sked_hdr_tbl.Where(a => a.hiring_period == hiring_period && a.psb_status < 2).ToList();
                 return JSON2(new
                 {
                     department
+                    ,psb_sked_hdr
 
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -765,13 +767,14 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         } 
-        public ActionResult addToPSB(string item_no, string app_ctrl_nbr, string employment_type, string budget_code,string hiring_period)
+        public ActionResult addToPSB(string item_no, string app_ctrl_nbr, string employment_type, string budget_code,string hiring_period,string psb_ctrl_nbr)
         {
             var message = "";
             var icn = "";
             try
             {
                 List<sp_review_applicant_tbl_list3_Result> review_list = new List<sp_review_applicant_tbl_list3_Result>();
+
                 var inpsb = (from p in db2.psb_sked_item_nbrs
                             where p.item_no == item_no
                              && p.employment_type == employment_type
@@ -783,24 +786,24 @@ namespace HRIS_eRSP_Recruitment.Controllers
                                 p.budget_code
                             }).FirstOrDefault();
 
-                if (inpsb == null)
+                if (psb_ctrl_nbr == "")
                 {
-                    throw new Exception("This item is not yet added to the psb schedule");
+                    throw new Exception("You have not selected a HRMSP schedule");
                 }
                 else
                 {
-                    var psbhdr = db2.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == inpsb.psb_ctrl_nbr).FirstOrDefault();
+                    var psbhdr = db2.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                     if (psbhdr.psb_status >= 2)
                     {
                         throw new Exception("Cannot add applicants from PSB schedule that is already concluded");
                     }
 
-                    var app = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == inpsb.psb_ctrl_nbr).FirstOrDefault();
+                    var app = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                     if(app == null)
                     {
                         psb_sked_app_tbl ap = new psb_sked_app_tbl();
                         ap.app_ctrl_nbr = app_ctrl_nbr;
-                        ap.psb_ctrl_nbr = inpsb.psb_ctrl_nbr;
+                        ap.psb_ctrl_nbr = psb_ctrl_nbr;
                         db2.psb_sked_app_tbl.Add(ap);
 
                         var apl = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
@@ -820,7 +823,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
-        public ActionResult removeFromPsb(string item_no, string app_ctrl_nbr,string employment_type, string budget_code, string hiring_period)
+        public ActionResult removeFromPsb(string item_no, string app_ctrl_nbr,string employment_type, string budget_code, string hiring_period, string psb_ctrl_nbr)
         {
             var message = "";
             var icn = "";
@@ -839,12 +842,12 @@ namespace HRIS_eRSP_Recruitment.Controllers
                              }).FirstOrDefault();
               
 
-                var psbhdr = db2.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == inpsb.psb_ctrl_nbr).FirstOrDefault();
+                var psbhdr = db2.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                 if(psbhdr.psb_status >= 2)
                 {
                     throw new Exception("Cannot remove applicants from PSB schedule that is already concluded");
                 }
-                var app = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == inpsb.psb_ctrl_nbr).FirstOrDefault();
+                var app = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                 if(app == null) throw new Exception("Applicants not yet in Psb Schedule");
                 db2.psb_sked_app_tbl.Remove(app);
                 var apl = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();

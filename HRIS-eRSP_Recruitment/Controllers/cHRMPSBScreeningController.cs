@@ -817,7 +817,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                
                 var items = from itm in db.psb_sked_item_nbrs
                             join pitm in db.vw_plantilla_items
-                            on new { itm.item_no, itm.budget_code, itm.employment_type } equals new { pitm.item_no, pitm.budget_code, pitm.employment_type }
+                            on new { itm.item_no, itm.budget_code} equals new { pitm.item_no, pitm.budget_code}
                             join pos in db.vw_positions_tbl
                             on pitm.position_code equals pos.position_code
                             where itm.psb_ctrl_nbr == psb_ctrl_nbr
@@ -833,7 +833,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                                 ,pos.position_title1
                             };
 
-
+              
 
                 return JSON(new { message = fetch.success, icon = icon.success, items }, JsonRequestBehavior.AllowGet);
             }

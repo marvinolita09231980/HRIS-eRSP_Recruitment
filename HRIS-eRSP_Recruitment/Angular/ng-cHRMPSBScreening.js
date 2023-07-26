@@ -507,6 +507,8 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                     employment_type: s.employment_type,
                     budget_code: s.budget_code
                 }).then(function (d) {
+
+                    console.log(d.data.items2)
                     s.psbsched_item = d.data.items
                     localStorage["items"] = JSON.stringify(d.data.items)
                     cs.loading("hide")

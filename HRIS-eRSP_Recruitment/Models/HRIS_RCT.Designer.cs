@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\New folder\RECRUITMENT\HRIS-eRSP_Recruitment\HRIS-eRSP_Recruitment\Models\HRIS_RCT.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\New folder\WORKING SOLUTION\RECRUITMENT\HRIS-eRSP_Recruitment\HRIS-eRSP_Recruitment\Models\HRIS_RCT.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

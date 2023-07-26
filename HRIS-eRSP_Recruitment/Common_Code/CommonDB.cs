@@ -238,6 +238,26 @@ namespace HRIS_Common
 				return null;
 			}
 		}
+        //****************************************************************
+        // Purpose      :   Create Connection Object
+        // Method Name  :   ConnectDB
+        // Created By   :   Ariel Cabungcal (AEC)
+        // Date Created :   09/07/2018
+        //****************************************************************
+        public SqlConnection ConnectDBPAY()
+        {
+            try
+            {
+                string ConnectString = ConfigurationManager.ConnectionStrings["HRIS_PAY"].ConnectionString;
+                SqlConnection conn;
+                conn = new SqlConnection(ConnectString);
+                return conn;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         //****************************************************************
         // Purpose      :   Create Connection Object
@@ -291,7 +311,7 @@ namespace HRIS_Common
 			DataTable dt = new DataTable();
 			DataSet ds  = new DataSet();
 			SqlDataAdapter sda;
-			con = ConnectDB();
+			con = ConnectDBPAY();
 			sda = new SqlDataAdapter(selectstring, con);
 			sda.Fill(ds);
 			dt = ds.Tables[0];
@@ -409,7 +429,7 @@ namespace HRIS_Common
             string connStr = "";
             //try
             //{
-            var userid = parmagr1.Substring(0, 1);
+            var userid = parmvalue1.Substring(0, 1);
             DataTable dt = new DataTable();
             if(userid == "A")
             {

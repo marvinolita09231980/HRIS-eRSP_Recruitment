@@ -731,14 +731,8 @@
                         </div>
                     </div>
                     <div class="row m-t-xs">
-                        <div class="col-sm-3 m-t-xs pull-left">
-                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
-                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HRMPSB Number:</span></button>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
-                                <input id="psb_ctrl_nbr_disp" ng-model="psb_ctrl_nbr_disp" class="form-control disable-white" disabled />
-                            </div>
-
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-xs">
+                           
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 m-t-xs">
                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
@@ -762,6 +756,30 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="row m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 m-t-xs">
+
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 m-t-xs pull-right">
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2  no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HRMPSB Schedule:</span></button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8  no-padding">
+                                <select class="form-control disable-white btn-block" id="psb_ctrl_nbr_disp" ng-model="psb_ctrl_nbr_disp">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in psb_sked_hdr" value="{{l.psb_ctrl_nbr}}">{{l.psb_date}} - {{l.remarks_details}}</option>
+                                    @*<option value="23-014">2023-07-26 - 3rd Quarter - Batch I (PAO,PHRMDO and DDOPH MARAGUSAN)</option>
+        <option value="23-015">
+            2023-08-03 - 3rd Quarter - Batch 2
+        </option>*@
+
+                                </select>
+                                @*<input id="psb_ctrl_nbr_disp" ng-model="psb_ctrl_nbr_disp" class="form-control disable-white" disabled />*@
+                            </div>
+
+                        </div>
+
                     </div>
                     <div class="row m-t-xs no-padding" style="">
 

@@ -19,7 +19,9 @@ namespace HRIS_eRSP_Recruitment.Models
         public string budget_code { get; set; }
         public string employment_type { get; set; }
         public string remarks_details { get; set; }
-        public Nullable<int> psb_status { get; set; }
-        public Nullable<int> panel_attended { get; set; }
+        public int psb_status { get; set; }
+        public int panel_attended { get; set; }
+        public bool disabled_rating { get; set; }
+        public string hiring_period { get; set; }
     }
 }

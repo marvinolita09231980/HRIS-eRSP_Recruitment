@@ -903,14 +903,23 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_psb_sked_hdr_tbl' does not have a 
         <EntityType Name="vw_psb_sked_hdr_tbl">
           <Key>
             <PropertyRef Name="psb_ctrl_nbr" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="remarks_details" />
+            <PropertyRef Name="psb_status" />
+            <PropertyRef Name="panel_attended" />
+            <PropertyRef Name="disabled_rating" />
+            <PropertyRef Name="hiring_period" />
           </Key>
           <Property Name="psb_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
           <Property Name="psb_date" Type="varchar" MaxLength="10" />
-          <Property Name="budget_code" Type="varchar" MaxLength="6" />
-          <Property Name="employment_type" Type="varchar" MaxLength="2" />
-          <Property Name="remarks_details" Type="varchar" MaxLength="100" />
-          <Property Name="psb_status" Type="int" />
-          <Property Name="panel_attended" Type="int" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="remarks_details" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="psb_status" Type="int" Nullable="false" />
+          <Property Name="panel_attended" Type="int" Nullable="false" />
+          <Property Name="disabled_rating" Type="bit" Nullable="false" />
+          <Property Name="hiring_period" Type="varchar" MaxLength="15" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_RCT.dbo.vw_psb_sked_mbr_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2375,7 +2384,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
     [vw_psb_sked_hdr_tbl].[employment_type] AS [employment_type], 
     [vw_psb_sked_hdr_tbl].[remarks_details] AS [remarks_details], 
     [vw_psb_sked_hdr_tbl].[psb_status] AS [psb_status], 
-    [vw_psb_sked_hdr_tbl].[panel_attended] AS [panel_attended]
+    [vw_psb_sked_hdr_tbl].[panel_attended] AS [panel_attended], 
+    [vw_psb_sked_hdr_tbl].[disabled_rating] AS [disabled_rating], 
+    [vw_psb_sked_hdr_tbl].[hiring_period] AS [hiring_period]
     FROM [dbo].[vw_psb_sked_hdr_tbl] AS [vw_psb_sked_hdr_tbl]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_psb_sked_mbr_tbl" EntityType="Self.vw_psb_sked_mbr_tbl" store:Type="Views" store:Schema="dbo">
@@ -3358,18 +3369,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="created_by_user" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="created_dttm" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="vw_psb_sked_hdr_tbl">
-          <Key>
-            <PropertyRef Name="psb_ctrl_nbr" />
-          </Key>
-          <Property Name="psb_ctrl_nbr" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="psb_date" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="remarks_details" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="psb_status" Type="Int32" />
-          <Property Name="panel_attended" Type="Int32" />
-        </EntityType>
         <EntityType Name="vw_psb_sked_mbr_tbl">
           <Key>
             <PropertyRef Name="btn_disabled" />
@@ -3616,7 +3615,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="vw_plantilla_items" EntityType="Self.vw_plantilla_items" />
           <EntitySet Name="vw_positions_tbl" EntityType="Self.vw_positions_tbl" />
           <EntitySet Name="vw_psb_panel_permanent_mbr_tbl" EntityType="Self.vw_psb_panel_permanent_mbr_tbl" />
-          <EntitySet Name="vw_psb_sked_hdr_tbl" EntityType="Self.vw_psb_sked_hdr_tbl" />
           <EntitySet Name="vw_psb_sked_mbr_tbl" EntityType="Self.vw_psb_sked_mbr_tbl" />
           <EntitySet Name="vw_return_compentency" EntityType="Self.vw_return_compentency" />
           <EntitySet Name="vw_salary_grade_list" EntityType="Self.vw_salary_grade_list" />
@@ -4388,8 +4386,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           </FunctionImport>
           <EntitySet Name="applicant_examination" EntityType="HRIS_RCTModel.applicant_examination" />
           <FunctionImport Name="sp_getqsrating" ReturnType="Collection(HRIS_RCTModel.sp_getqsrating_Result)">
-            <Parameter Name="p_app_ctrl_no" Mode="In" Type="String" />
+          <Parameter Name="p_app_ctrl_no" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="vw_psb_sked_hdr_tbl" EntityType="HRIS_RCTModel.vw_psb_sked_hdr_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_add_available_items_to_RCT_Result">
           <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
@@ -6244,6 +6243,27 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="app_ctrl_nbr" Nullable="true" MaxLength="15" />
           <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="10" />
         </ComplexType>
+        <EntityType Name="vw_psb_sked_hdr_tbl">
+          <Key>
+            <PropertyRef Name="psb_ctrl_nbr" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="remarks_details" />
+            <PropertyRef Name="psb_status" />
+            <PropertyRef Name="panel_attended" />
+            <PropertyRef Name="disabled_rating" />
+            <PropertyRef Name="hiring_period" />
+          </Key>
+          <Property Name="psb_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="psb_date" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="remarks_details" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="psb_status" Type="Int32" Nullable="false" />
+          <Property Name="panel_attended" Type="Int32" Nullable="false" />
+          <Property Name="disabled_rating" Type="Boolean" Nullable="false" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7010,19 +7030,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
                 <ScalarProperty Name="active_status" ColumnName="active_status" />
                 <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
                 <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_psb_sked_hdr_tbl">
-            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_psb_sked_hdr_tbl">
-              <MappingFragment StoreEntitySet="vw_psb_sked_hdr_tbl">
-                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
-                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
-                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
-                <ScalarProperty Name="panel_attended" ColumnName="panel_attended" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -9567,6 +9574,21 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="vw_psb_sked_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_psb_sked_hdr_tbl">
+              <MappingFragment StoreEntitySet="vw_psb_sked_hdr_tbl">
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="disabled_rating" ColumnName="disabled_rating" />
+                <ScalarProperty Name="panel_attended" ColumnName="panel_attended" />
+                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
+                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -39,6 +39,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     s.includeToEmail = []
     s.sendingEmailList = []
     s.hiringperiodlist = []
+    s.psb_sked_hdr = []
 	s.um = {}
 	s.fd = {}
 	s.wx = {}
@@ -1345,38 +1346,46 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     s.selectHiringPeriod = function (val) {
 
         localStorage['hiring_period'] = val;
-        
-        if (val == "") {
-            addvalue("department_code1", "")
-            addvalue("item_nbr1", "")
-            addvalue("app_status", "")
-            localStorage.removeItem('department_code1')
-            localStorage.removeItem('item_nbr1')
-           alert("sdas")
-        }
-        else {
-            //cs.notrequired2("hiring_period", "")
-            //if (localStorage['department']) {
 
-            //    if (localStorage['department']) {
-            //        s.department = JSON.parse(localStorage['department'])
-            //        if (localStorage['department_code1']) addvalue("department_code1", localStorage['department_code1'])
-            //    }
-            //    cs.loading("hide")
-            //}
-            //else {
-            //    h.post("../cApplicantsReview/getDepartment", { hiring_period: val} ).then(function (d) {
-            //        s.department = d.data.department
-            //        localStorage["department"] = JSON.stringify(d.data.department)
-            //        cs.loading("hide")
-            //    })
-            //}
-            h.post("../cApplicantsReview/getDepartment", { hiring_period: val }).then(function (d) {
-                s.department = d.data.department
-                localStorage["department"] = JSON.stringify(d.data.department)
-                cs.loading("hide")
-            })
-        }
+
+        h.post("../cApplicantsReview/getDepartment", { hiring_period: val }).then(function (d) {
+            s.department = d.data.department
+            s.psb_sked_hdr = d.data.psb_sked_hdr
+            localStorage["department"] = JSON.stringify(d.data.department)
+            cs.loading("hide")
+        })
+        //if (val == "") {
+        //    addvalue("department_code1", "")
+        //    addvalue("item_nbr1", "")
+        //    addvalue("app_status", "")
+        //    localStorage.removeItem('department_code1')
+        //    localStorage.removeItem('item_nbr1')
+        //   alert("sdas")
+        //}
+        //else {
+        //    //cs.notrequired2("hiring_period", "")
+        //    //if (localStorage['department']) {
+
+        //    //    if (localStorage['department']) {
+        //    //        s.department = JSON.parse(localStorage['department'])
+        //    //        if (localStorage['department_code1']) addvalue("department_code1", localStorage['department_code1'])
+        //    //    }
+        //    //    cs.loading("hide")
+        //    //}
+        //    //else {
+        //    //    h.post("../cApplicantsReview/getDepartment", { hiring_period: val} ).then(function (d) {
+        //    //        s.department = d.data.department
+        //    //        localStorage["department"] = JSON.stringify(d.data.department)
+        //    //        cs.loading("hide")
+        //    //    })
+        //    //}
+        //    h.post("../cApplicantsReview/getDepartment", { hiring_period: val }).then(function (d) {
+        //        s.department = d.data.department
+        //        s.psb_sked_hdr = d.data.psb_sked_hdr
+        //        localStorage["department"] = JSON.stringify(d.data.department)
+        //        cs.loading("hide")
+        //    })
+        //}
         addvalue("department_code1", "")
         addvalue("item_nbr1", "")
         addvalue("app_status", "")
@@ -1817,7 +1826,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         var btntopsb = "btntopsb" + row
         var icntopsb = "icntopsb" + row
         var dt = s.Applicant_List_Data[row]
-
+        var var_psb_ctrl_nbr = $("#psb_ctrl_nbr_disp").val()
 
         s.appdata_row = dt
         var item_no = dt.item_no
@@ -1825,8 +1834,10 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         var icntopsb = "icntopsb" + row
         var budget_code = dt.budget_code
         var employment_type = dt.employment_type
+      
+
        
-        if (icntopsb.hasClass("fa-check")) {
+        if (icntopsb.hasClass("fa-check") == true) {
            
             swal({
                 title: "Message",
@@ -1843,6 +1854,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                         , employment_type: employment_type
                         , budget_code: budget_code
                         , hiring_period: s.hiring_period
+                        , psb_ctrl_nbr: var_psb_ctrl_nbr
                     }).then(function (d) {
                         if (d.data.icon == "error") {
                             swal("Warning Message", d.data.message, { icon: "warning" })
@@ -1872,6 +1884,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                         , employment_type: employment_type
                         , budget_code: budget_code
                         , hiring_period: s.hiring_period
+                        , psb_ctrl_nbr: var_psb_ctrl_nbr
                     }).then(function (d) {
 
                         if (d.data.message == "This item is not yet added to the psb schedule") {

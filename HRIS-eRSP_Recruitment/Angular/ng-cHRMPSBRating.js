@@ -531,7 +531,8 @@ ng_eRSP_App.controller("cHRMPSBRating_Ctrlr", function (commonScript, $scope, $h
             + "&ReportType=" + ReportType
             + "&ReportPath=" + ReportPath
             + "&id=" + sp //+ parameters
-       // console.log(s.embed_link)
+
+        console.log(s.embed_link)
 
         if (!/*@cc_on!@*/0) { //if not IE
             iframe.onload = function () {

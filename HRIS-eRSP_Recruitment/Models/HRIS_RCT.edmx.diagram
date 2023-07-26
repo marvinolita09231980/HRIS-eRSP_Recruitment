@@ -57,7 +57,6 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_plantilla_items" Width="1.5" PointX="4.75" PointY="19.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_positions_tbl" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_panel_permanent_mbr_tbl" Width="1.5" PointX="20.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_sked_hdr_tbl" Width="1.5" PointX="20.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_sked_mbr_tbl" Width="1.5" PointX="20.75" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_return_compentency" Width="1.5" PointX="14.75" PointY="20.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_salary_grade_list" Width="1.5" PointX="16.75" PointY="20.75" IsExpanded="true" />
@@ -68,6 +67,7 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_userroles_tbl_RCT" Width="1.5" PointX="22.75" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_vacant_position_list" Width="1.5" PointX="16.75" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_examination" Width="1.5" PointX="19.375" PointY="22.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_sked_hdr_tbl" Width="1.5" PointX="21.375" PointY="22.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
