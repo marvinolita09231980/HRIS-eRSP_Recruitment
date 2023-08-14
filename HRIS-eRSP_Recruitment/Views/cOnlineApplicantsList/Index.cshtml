@@ -220,7 +220,7 @@
                         <div class="col-sm-4 m-t-xs pull-left">
 
                         </div>
-                       
+
                         <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 m-t-xs">
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  no-padding">
                                 <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">ITEM NO.:</span><span style="" class="fa fa-cubes pull-right m-r-sm m-t-xs"></span></button>
@@ -339,7 +339,110 @@
         </div>
     </div>
 
+    <div class="modal fade" id="editfetch" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Edit Acknowledge Date</b></h2></center>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  no-padding">
+                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">Acknowledge Date:</span><span style="" class="fa fa-cubes pull-right m-r-sm m-t-xs"></span></button>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8  no-padding">
+                            <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                <input type="text" id="fetch_dttm" ng-model="fetch_dttm" class="form-control text-center removeReqDate" required>
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-t-lg">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right m-b-md">
+                        <button type="button" class="btn btn-success pull-right" ng-click="editFetchDate()">Save&nbsp;&nbsp;<span style="" class="fa fa-save"></span></button>
+                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close&nbsp;&nbsp;<span style="" class="fa fa-times"></span></button>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editprescreen" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Edit Pre-screen Date</b></h2></center>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  no-padding">
+                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">Pre-screen Date:</span><span style="" class="fa fa-cubes pull-right m-r-sm m-t-xs"></span></button>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8  no-padding">
+                            <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                <input type="text" id="prescreen_dttm" ng-model="prescreen_dttm" class="form-control text-center removeReqDate" required>
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-t-lg">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right m-b-md">
+                        <button type="button" class="btn btn-success pull-right" ng-click="editPrescreenDate()">Save&nbsp;&nbsp;<span style="" class="fa fa-save"></span></button>
+                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close&nbsp;&nbsp;<span style="" class="fa fa-times"></span></button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addprescreen" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Edit Pre-screen Date</b></h2></center>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 m-t-xs">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  no-padding">
+                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">Pre-screen Date:</span><span style="" class="fa fa-cubes pull-right m-r-sm m-t-xs"></span></button>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8  no-padding">
+                            <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                <input type="text" id="add_prescreen_dttm" ng-model="add_prescreen_dttm" class="form-control text-center removeReqDate" required>
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-t-lg">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right m-b-md">
+                        <button type="button" class="btn btn-success pull-right" ng-click="addPrescreenDate()">Save&nbsp;&nbsp;<span style="" class="fa fa-save"></span></button>
+                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close&nbsp;&nbsp;<span style="" class="fa fa-times"></span></button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="sendemailgrid_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg">
             <div class="modal-content animated slideInLeft with-background">
@@ -372,6 +475,8 @@
             </div>
         </div>
     </div>
+
+
     <div class="modal fade" id="edu_tab" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall">
         <div class="modal-dialog modal-lg">
             <div class="modal-content animated slideInLeft">

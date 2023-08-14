@@ -14,12 +14,13 @@ namespace HRIS_eRSP_Recruitment.Controllers
     {
         string urlname = "cViewUploadedFileFromAPL";
         HRIS_RCTEntities db = new HRIS_RCTEntities();
+        HRIS_APLEntities db2 = new HRIS_APLEntities();
         User_Menu um;
         RCT_Common rct = new RCT_Common();
         private string destFile;
 
         // GET: cViewUploadedFileFromAPL
-        public ActionResult Index(String app_ctrl_nbr)
+        public ActionResult Index(String app_ctrl_nbr,string origin)
         {
             CheckSession();
             if (app_ctrl_nbr == null || app_ctrl_nbr == "")
@@ -29,6 +30,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             else
             {
                 Session["app_ctrl_nbr_apldocs"] = app_ctrl_nbr;
+                Session["origin"] = origin;
                 return View();
             }
            
@@ -38,24 +40,56 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             var app_ctrl_nbr = Session["app_ctrl_nbr_apldocs"].ToString();
+            var origin = Session["origin"].ToString();
 
+            List<sp_get_uploadedfile_from_APL_Result> app_uploadedfile = new List<sp_get_uploadedfile_from_APL_Result>();
+            List<sp_get_uploadedfile_from_APL2_Result> app_uploadedfile2 = new List<sp_get_uploadedfile_from_APL2_Result>();
             try
             {
-                var app_info = (from ar in db.applicants_review_tbl
-                               join ap in db.applicants_tbl
-                                on ar.info_ctrl_nbr equals ap.info_ctrl_nbr
-                               where ar.app_ctrl_nbr == app_ctrl_nbr
-                               select new
-                               {
-                                    ap.info_ctrl_nbr
-                                   ,ap.first_name
-                                   ,ap.middle_name
-                                   ,ap.last_name
-                                   ,ap.empl_id
-                                   ,ap.empl_photo_img
-                               }).FirstOrDefault();
-               var app_uploadedfile = db.sp_get_uploadedfile_from_APL(app_ctrl_nbr).ToList();
-                return JSON(new { message = fetch.success, icon = icon.success , app_uploadedfile, app_info}, JsonRequestBehavior.AllowGet);
+                if(origin == "app_review")
+                {
+                    var app_info = (from ar in db.applicants_review_tbl
+                                    join ap in db.applicants_tbl
+                                     on ar.info_ctrl_nbr equals ap.info_ctrl_nbr
+                                    where ar.app_ctrl_nbr == app_ctrl_nbr
+                                    select new
+                                    {
+                                         ap.info_ctrl_nbr
+                                        ,ap.first_name
+                                        ,ap.middle_name
+                                        ,ap.last_name
+                                        ,ap.empl_id
+                                        ,ap.empl_photo_img
+                                    }).FirstOrDefault();
+                    app_uploadedfile = db.sp_get_uploadedfile_from_APL(app_ctrl_nbr).ToList();
+                    return JSON(new { message = fetch.success, icon = icon.success, app_uploadedfile, app_info }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var app_info = (from ar in db2.onlineApplicants_register_tbl
+                                    join ap in db2.personnelnames_tbl
+                                     on ar.info_ctrl_nbr equals ap.empl_id
+                                    join az in db2.personnel_tbl
+                                    on ar.info_ctrl_nbr equals az.empl_id
+                                    where ar.info_ctrl_nbr == app_ctrl_nbr
+                                    select new
+                                    {
+                                        ar.info_ctrl_nbr,
+                                        ap.first_name
+                                        ,
+                                        ap.middle_name
+                                        ,
+                                        ap.last_name
+                                        ,
+                                        ap.empl_id
+                                        ,
+                                        az.empl_photo_img
+                                    }).FirstOrDefault();
+                    app_uploadedfile2 = db.sp_get_uploadedfile_from_APL2(app_ctrl_nbr).ToList();
+                    return JSON(new { message = fetch.success, icon = icon.success, app_info, app_uploadedfile= app_uploadedfile2}, JsonRequestBehavior.AllowGet);
+                }
+               
+               
             }
             catch (DbEntityValidationException e)
             {

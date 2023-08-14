@@ -13,10 +13,19 @@ using System.Web.Mvc;
 
 namespace HRIS_eRSP_Recruitment.Controllers
 {
+    public class Filter
+    {
+        public string employment_type { get; set; }
+        public string budget_code { get; set; }
+        public string hiring_period { get; set; }
+        public string department_code { get; set; }
+        public string item_no { get; set; }
+    }
     public class cOnlineApplicantsListController :CustomController
     {
         HRIS_RCTEntities db = new HRIS_RCTEntities();
         HRIS_APLEntities db2 = new HRIS_APLEntities();
+        HRIS_PAYEntities db3 = new HRIS_PAYEntities();
         User_Menu um = new User_Menu();
         RCT_Common rct = new RCT_Common();
         private static Timer aTimer;
@@ -32,30 +41,54 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
        
 
-        public ActionResult Initialize(string employment_type, string budget_code, string department_code, string item_no, bool departmentcount,string hiring_period)
+        public ActionResult Initialize(bool departmentcount)
         {
             CheckSession();
             List<sp_applied_item_from_APL2_Result> item_nbrs = new List<sp_applied_item_from_APL2_Result>();
-            List<sp_department_tbl_rct_Result> department = new List<sp_department_tbl_rct_Result>();
+            List<sp_department_tbl_rct_Result> departments = new List<sp_department_tbl_rct_Result>();
             List<sp_get_applicantlist_from_APL_Result> APL_list = new List<sp_get_applicantlist_from_APL_Result>();
+            List<sp_budgetyears_tbl_combolist1_Result> budget_year = new List<sp_budgetyears_tbl_combolist1_Result>();
+            List<psb_hiring_period_tbl> HiringPeriods = new List<psb_hiring_period_tbl>();
+
+
+            Filter filter = new Filter();
+
+            filter.employment_type = Session["OALemployment_type"] != null? Session["OALemployment_type"].ToString():"";
+            filter.budget_code = Session["OALbudget_code"] != null ? Session["OALbudget_code"].ToString() : "";
+            filter.hiring_period = Session["OALhiring_period"] != null ? Session["OALhiring_period"].ToString() : "";
+            filter.department_code = Session["OALdepartment_code"] != null ? Session["OALdepartment_code"].ToString() : "";
+            filter.item_no = Session["OALitem_no"] != null ? Session["OALitem_no"].ToString() : "";
+
+
+
 
             try
             {
-
-                if(employment_type != "" && budget_code != "" && department_code != "")
+                if (filter.employment_type != null)
                 {
-                    item_nbrs = db.sp_applied_item_from_APL2(employment_type, budget_code, department_code, hiring_period).ToList();
-                }
-                if (departmentcount == false)
-                {
-                    department = db.sp_department_tbl_rct(hiring_period).ToList();
-                }
-                if (employment_type != "" && budget_code != "" && item_no != "")
-                {
-                    APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, "", hiring_period).ToList();
+                     budget_year = db3.sp_budgetyears_tbl_combolist1(filter.employment_type).ToList();
                 }
 
-                return JSON2(new {department, APL_list, icon = "success" }, JsonRequestBehavior.AllowGet);
+                if(filter.employment_type != null && filter.budget_code != null)
+                {
+                     HiringPeriods = db.psb_hiring_period_tbl.Where(a => a.employment_type == filter.employment_type && a.budget_code == filter.budget_code).ToList();
+                }
+
+                if(filter.employment_type != "" && filter.budget_code != "" && filter.department_code != "")
+                {
+                    item_nbrs = db.sp_applied_item_from_APL2(filter.employment_type, filter.budget_code, filter.department_code, filter.hiring_period).ToList();
+                }
+                if (filter.hiring_period != null)
+                {
+                    departments = db.sp_department_tbl_rct(filter.hiring_period).ToList();
+                }
+
+                if (filter.employment_type != "" && filter.budget_code != "" && filter.item_no != "")
+                {
+                    APL_list = db.sp_get_applicantlist_from_APL("", filter.employment_type, filter.budget_code, filter.item_no, "", filter.hiring_period).ToList();
+                }
+
+                return JSON2(new {departments, APL_list, icon = "success", filter, budget_year, HiringPeriods, item_nbrs}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -70,7 +103,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             Session["employment_type"] = employment_type;
             try
             {
-                var budget_year = db.sp_budgetyears_tbl_combolist1_RCT(employment_type).ToList();
+                var budget_year = db3.sp_budgetyears_tbl_combolist1(employment_type).ToList();
                 //var APL_list = db.sp_get_applicantlist_from_APL("", employment_type, "", "", start).ToList();
                 return JSON2(new { budget_year, icon = "success" }, JsonRequestBehavior.AllowGet);
             }
@@ -109,6 +142,50 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, "", hiring_period).ToList();
                 }
 
+                return JSON2(new { APL_list, icon = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(e), icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult EditFetchDate(string app_ctrl_nbr, string item_no, string employment_type, string budget_code, string hiring_period,string fetch_dttm)
+        {
+            CheckSession();
+            Session["budget_code"] = budget_code;
+            var user_id = Session["user_id"].ToString();
+            List<sp_get_applicantlist_from_APL_Result> APL_list = new List<sp_get_applicantlist_from_APL_Result>();
+            try
+            {
+                var sqledit = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                sqledit.fetch_dttm = Convert.ToDateTime(fetch_dttm);
+                sqledit.fetch_by = user_id;
+                db.SaveChanges();
+
+                APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, "", hiring_period).ToList();
+                return JSON2(new { APL_list, icon = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(e), icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult EditPrescreenDate(string app_ctrl_nbr, string item_no, string employment_type, string budget_code, string hiring_period, string fetch_dttm)
+        {
+            CheckSession();
+            Session["budget_code"] = budget_code;
+
+            var user_id = Session["user_id"].ToString();
+            List<sp_get_applicantlist_from_APL_Result> APL_list = new List<sp_get_applicantlist_from_APL_Result>();
+            try
+            {
+                var sqledit = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                sqledit.prescreen_dttm = Convert.ToDateTime(fetch_dttm);
+                sqledit.presreen_by = user_id;
+                db.SaveChanges();
+
+                APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, "", hiring_period).ToList();
                 return JSON2(new { APL_list, icon = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -223,6 +300,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                                                         , l.ctrl_no
                                                         , l.email
                                                         , l.mobile_no
+                                                        , l.prescreen_dttm
                                                         );
 
                 }
@@ -369,6 +447,30 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 JsonRequestBehavior = behavior,
                 MaxJsonLength = Int32.MaxValue
             };
+        }
+
+         
+        public ActionResult SetHistoryPage1(string employment_type,string budget_code,string hiring_period,string department_code,string item_no)
+        {
+            CheckSession();
+            try
+            {
+               
+                Session["history_page"] = Request.UrlReferrer.ToString();
+
+                Session["OALemployment_type"] = employment_type;
+                Session["OALbudget_code"] = budget_code;
+                Session["OALhiring_period"] = hiring_period;
+                Session["OALdepartment_code"] = department_code;
+                Session["OALitem_no"] = item_no;
+
+                return JSON2(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                string message = e.Message;
+                return JSON2(new { message = message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
     }

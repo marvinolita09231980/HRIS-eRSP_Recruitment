@@ -346,18 +346,18 @@ ng_eRSP_App.filter("body_clientheigth", function () {
     }
 })
 
-ng_onlineRCT_App.filter("docIcon", function () {
-    return function (x) {
-        var p = x.split(".")
-        var pl = p.length
-        var ex = p[pl - 1]
-        if (ex == "pdf") {
-            return "../ResourcesImages/pdf_icon.png"
-        }
-        else {
-            return "../ResourcesImages/excel_icon.png"
-        }
+//ng_onlineRCT_App.filter("docIcon", function () {
+//    return function (x) {
+//        var p = x.split(".")
+//        var pl = p.length
+//        var ex = p[pl - 1]
+//        if (ex == "pdf") {
+//            return "../ResourcesImages/pdf_icon.png"
+//        }
+//        else {
+//            return "../ResourcesImages/excel_icon.png"
+//        }
 
-    };
-})
+//    };
+//})
 

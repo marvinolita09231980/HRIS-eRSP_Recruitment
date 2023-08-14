@@ -30,5 +30,10 @@ namespace HRIS_eRSP_Recruitment.Models
         public int review { get; set; }
         public string ctrl_no { get; set; }
         public Nullable<bool> active_forpsb { get; set; }
+        public string fetch_dttm { get; set; }
+        public string fetch_by { get; set; }
+        public string prescreen_dttm { get; set; }
+        public string prescreen_by { get; set; }
+        public string app_ctrl_nbr { get; set; }
     }
 }

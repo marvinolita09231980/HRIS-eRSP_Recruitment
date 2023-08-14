@@ -84,6 +84,7 @@ namespace eSMIS.Reports
             DataTable dtTemp = null;
             string locationpath = printfile;
             cryRpt.Load(Server.MapPath(locationpath));
+            crvPrint.SeparatePages = true;
             if (ls_splitvalue.Length == 1)
             {
 
@@ -110,6 +111,7 @@ namespace eSMIS.Reports
                 {
 
                     dt = MyCmn.RetrieveDataAPL(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2].ToString().Trim());
+                    crvPrint.SeparatePages = false;
                 }
 
                 //dt = customerdb.get_data(ls_splitvalue[1], Session["cust_account_no"].ToString(), Convert.ToInt32(Session["countryid"].ToString()), Session["comp_code"].ToString(), Session["branch_code"].ToString(), Convert.ToInt32(Session["franchise"].ToString()), );

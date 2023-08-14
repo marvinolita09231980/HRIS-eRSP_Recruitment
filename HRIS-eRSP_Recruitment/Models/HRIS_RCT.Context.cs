@@ -1052,35 +1052,6 @@ namespace HRIS_eRSP_Recruitment.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_generate_panelforpsb_Result>("sp_generate_panelforpsb", p_psb_ctrl_nbrParameter, p_budget_codeParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
         }
     
-        public virtual ObjectResult<sp_get_applicantlist_from_APL_Result> sp_get_applicantlist_from_APL(string p_online_apl_id, string p_employment_type, string p_budget_code, string p_item_no, string p_starts_with, string p_hiring_period)
-        {
-            var p_online_apl_idParameter = p_online_apl_id != null ?
-                new ObjectParameter("p_online_apl_id", p_online_apl_id) :
-                new ObjectParameter("p_online_apl_id", typeof(string));
-    
-            var p_employment_typeParameter = p_employment_type != null ?
-                new ObjectParameter("p_employment_type", p_employment_type) :
-                new ObjectParameter("p_employment_type", typeof(string));
-    
-            var p_budget_codeParameter = p_budget_code != null ?
-                new ObjectParameter("p_budget_code", p_budget_code) :
-                new ObjectParameter("p_budget_code", typeof(string));
-    
-            var p_item_noParameter = p_item_no != null ?
-                new ObjectParameter("p_item_no", p_item_no) :
-                new ObjectParameter("p_item_no", typeof(string));
-    
-            var p_starts_withParameter = p_starts_with != null ?
-                new ObjectParameter("p_starts_with", p_starts_with) :
-                new ObjectParameter("p_starts_with", typeof(string));
-    
-            var p_hiring_periodParameter = p_hiring_period != null ?
-                new ObjectParameter("p_hiring_period", p_hiring_period) :
-                new ObjectParameter("p_hiring_period", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_applicantlist_from_APL_Result>("sp_get_applicantlist_from_APL", p_online_apl_idParameter, p_employment_typeParameter, p_budget_codeParameter, p_item_noParameter, p_starts_withParameter, p_hiring_periodParameter);
-        }
-    
         public virtual ObjectResult<string> sp_get_approval_id(string p_app_ctrl_nbr)
         {
             var p_app_ctrl_nbrParameter = p_app_ctrl_nbr != null ?
@@ -1700,55 +1671,6 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_panel_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_panelrating_psblist_Result>("sp_panelrating_psblist", p_panel_user_idParameter);
-        }
-    
-        public virtual ObjectResult<string> sp_pds_data_fromAPL(string p_item_no, string p_empl_id, string p_info_ctrl_nbr, string p_user_id, string p_budget_code, string p_employment_type, string p_position_code, string p_department_code, string p_ctrl_no, string p_email, string p_mobile_no)
-        {
-            var p_item_noParameter = p_item_no != null ?
-                new ObjectParameter("p_item_no", p_item_no) :
-                new ObjectParameter("p_item_no", typeof(string));
-    
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            var p_info_ctrl_nbrParameter = p_info_ctrl_nbr != null ?
-                new ObjectParameter("p_info_ctrl_nbr", p_info_ctrl_nbr) :
-                new ObjectParameter("p_info_ctrl_nbr", typeof(string));
-    
-            var p_user_idParameter = p_user_id != null ?
-                new ObjectParameter("p_user_id", p_user_id) :
-                new ObjectParameter("p_user_id", typeof(string));
-    
-            var p_budget_codeParameter = p_budget_code != null ?
-                new ObjectParameter("p_budget_code", p_budget_code) :
-                new ObjectParameter("p_budget_code", typeof(string));
-    
-            var p_employment_typeParameter = p_employment_type != null ?
-                new ObjectParameter("p_employment_type", p_employment_type) :
-                new ObjectParameter("p_employment_type", typeof(string));
-    
-            var p_position_codeParameter = p_position_code != null ?
-                new ObjectParameter("p_position_code", p_position_code) :
-                new ObjectParameter("p_position_code", typeof(string));
-    
-            var p_department_codeParameter = p_department_code != null ?
-                new ObjectParameter("p_department_code", p_department_code) :
-                new ObjectParameter("p_department_code", typeof(string));
-    
-            var p_ctrl_noParameter = p_ctrl_no != null ?
-                new ObjectParameter("p_ctrl_no", p_ctrl_no) :
-                new ObjectParameter("p_ctrl_no", typeof(string));
-    
-            var p_emailParameter = p_email != null ?
-                new ObjectParameter("p_email", p_email) :
-                new ObjectParameter("p_email", typeof(string));
-    
-            var p_mobile_noParameter = p_mobile_no != null ?
-                new ObjectParameter("p_mobile_no", p_mobile_no) :
-                new ObjectParameter("p_mobile_no", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_pds_data_fromAPL", p_item_noParameter, p_empl_idParameter, p_info_ctrl_nbrParameter, p_user_idParameter, p_budget_codeParameter, p_employment_typeParameter, p_position_codeParameter, p_department_codeParameter, p_ctrl_noParameter, p_emailParameter, p_mobile_noParameter);
         }
     
         public virtual int sp_pds_data_fromAPL_2(string p_item_no, string p_empl_id, string p_info_ctrl_nbr, string p_user_id, string p_budget_code, string p_employment_type, string p_position_code, string p_department_code)
@@ -2677,6 +2599,97 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_app_ctrl_no", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getqsrating_Result>("sp_getqsrating", p_app_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_get_uploadedfile_from_APL2_Result> sp_get_uploadedfile_from_APL2(string info_ctrl_nbr)
+        {
+            var info_ctrl_nbrParameter = info_ctrl_nbr != null ?
+                new ObjectParameter("info_ctrl_nbr", info_ctrl_nbr) :
+                new ObjectParameter("info_ctrl_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_uploadedfile_from_APL2_Result>("sp_get_uploadedfile_from_APL2", info_ctrl_nbrParameter);
+        }
+    
+        public virtual ObjectResult<sp_get_applicantlist_from_APL_Result> sp_get_applicantlist_from_APL(string p_online_apl_id, string p_employment_type, string p_budget_code, string p_item_no, string p_starts_with, string p_hiring_period)
+        {
+            var p_online_apl_idParameter = p_online_apl_id != null ?
+                new ObjectParameter("p_online_apl_id", p_online_apl_id) :
+                new ObjectParameter("p_online_apl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_budget_codeParameter = p_budget_code != null ?
+                new ObjectParameter("p_budget_code", p_budget_code) :
+                new ObjectParameter("p_budget_code", typeof(string));
+    
+            var p_item_noParameter = p_item_no != null ?
+                new ObjectParameter("p_item_no", p_item_no) :
+                new ObjectParameter("p_item_no", typeof(string));
+    
+            var p_starts_withParameter = p_starts_with != null ?
+                new ObjectParameter("p_starts_with", p_starts_with) :
+                new ObjectParameter("p_starts_with", typeof(string));
+    
+            var p_hiring_periodParameter = p_hiring_period != null ?
+                new ObjectParameter("p_hiring_period", p_hiring_period) :
+                new ObjectParameter("p_hiring_period", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_applicantlist_from_APL_Result>("sp_get_applicantlist_from_APL", p_online_apl_idParameter, p_employment_typeParameter, p_budget_codeParameter, p_item_noParameter, p_starts_withParameter, p_hiring_periodParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_pds_data_fromAPL(string p_item_no, string p_empl_id, string p_info_ctrl_nbr, string p_user_id, string p_budget_code, string p_employment_type, string p_position_code, string p_department_code, string p_ctrl_no, string p_email, string p_mobile_no, string p_prescreen_dttm)
+        {
+            var p_item_noParameter = p_item_no != null ?
+                new ObjectParameter("p_item_no", p_item_no) :
+                new ObjectParameter("p_item_no", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_info_ctrl_nbrParameter = p_info_ctrl_nbr != null ?
+                new ObjectParameter("p_info_ctrl_nbr", p_info_ctrl_nbr) :
+                new ObjectParameter("p_info_ctrl_nbr", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            var p_budget_codeParameter = p_budget_code != null ?
+                new ObjectParameter("p_budget_code", p_budget_code) :
+                new ObjectParameter("p_budget_code", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_position_codeParameter = p_position_code != null ?
+                new ObjectParameter("p_position_code", p_position_code) :
+                new ObjectParameter("p_position_code", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_ctrl_noParameter = p_ctrl_no != null ?
+                new ObjectParameter("p_ctrl_no", p_ctrl_no) :
+                new ObjectParameter("p_ctrl_no", typeof(string));
+    
+            var p_emailParameter = p_email != null ?
+                new ObjectParameter("p_email", p_email) :
+                new ObjectParameter("p_email", typeof(string));
+    
+            var p_mobile_noParameter = p_mobile_no != null ?
+                new ObjectParameter("p_mobile_no", p_mobile_no) :
+                new ObjectParameter("p_mobile_no", typeof(string));
+    
+            var p_prescreen_dttmParameter = p_prescreen_dttm != null ?
+                new ObjectParameter("p_prescreen_dttm", p_prescreen_dttm) :
+                new ObjectParameter("p_prescreen_dttm", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_pds_data_fromAPL", p_item_noParameter, p_empl_idParameter, p_info_ctrl_nbrParameter, p_user_idParameter, p_budget_codeParameter, p_employment_typeParameter, p_position_codeParameter, p_department_codeParameter, p_ctrl_noParameter, p_emailParameter, p_mobile_noParameter, p_prescreen_dttmParameter);
         }
     }
 }

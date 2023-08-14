@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HRIS_PAYModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="sp_budgetyears_tbl_combolist1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="HRIS_PAYModelStoreContainer" />
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRIS_PAYModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HRIS_PAYEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="sp_budgetyears_tbl_combolist1" ReturnType="Collection(HRIS_PAYModel.sp_budgetyears_tbl_combolist1_Result)">
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_budgetyears_tbl_combolist1_Result">
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="budget_description" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="budget_start_date" Nullable="true" />
+          <Property Type="DateTime" Name="budget_end_date" Nullable="true" />
+          <Property Type="Boolean" Name="flag_reorg" Nullable="true" />
+          <Property Type="DateTime" Name="flag_reorg_re_from" Nullable="true" />
+          <Property Type="DateTime" Name="flag_reorg_re_to" Nullable="true" />
+          <Property Type="DateTime" Name="flag_reorg_ce_from" Nullable="true" />
+          <Property Type="DateTime" Name="flag_reorg_ce_to" Nullable="true" />
+          <Property Type="DateTime" Name="flag_reorg_jo_from" Nullable="true" />
+          <Property Type="DateTime" Name="flag_reorg_jo_to" Nullable="true" />
+          <Property Type="DateTime" Name="flag_reorg_end" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRIS_PAYModelStoreContainer" CdmEntityContainer="HRIS_PAYEntities" >
+          <FunctionImportMapping FunctionImportName="sp_budgetyears_tbl_combolist1" FunctionName="HRIS_PAYModel.Store.sp_budgetyears_tbl_combolist1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_budgetyears_tbl_combolist1_Result">
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="budget_description" ColumnName="budget_description" />
+                <ScalarProperty Name="budget_start_date" ColumnName="budget_start_date" />
+                <ScalarProperty Name="budget_end_date" ColumnName="budget_end_date" />
+                <ScalarProperty Name="flag_reorg" ColumnName="flag_reorg" />
+                <ScalarProperty Name="flag_reorg_re_from" ColumnName="flag_reorg_re_from" />
+                <ScalarProperty Name="flag_reorg_re_to" ColumnName="flag_reorg_re_to" />
+                <ScalarProperty Name="flag_reorg_ce_from" ColumnName="flag_reorg_ce_from" />
+                <ScalarProperty Name="flag_reorg_ce_to" ColumnName="flag_reorg_ce_to" />
+                <ScalarProperty Name="flag_reorg_jo_from" ColumnName="flag_reorg_jo_from" />
+                <ScalarProperty Name="flag_reorg_jo_to" ColumnName="flag_reorg_jo_to" />
+                <ScalarProperty Name="flag_reorg_end" ColumnName="flag_reorg_end" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

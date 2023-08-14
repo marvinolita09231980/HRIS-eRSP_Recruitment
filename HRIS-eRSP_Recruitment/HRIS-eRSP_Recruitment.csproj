@@ -333,6 +333,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HRIS_APL.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\HRIS_DEV.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HRIS_DEV.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HRIS_DEV.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HRIS_DEV.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HRIS_DEV.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HRIS_DEV.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\HRIS_RCT.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -347,6 +362,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HRIS_RCT.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\onlineApplicants_register_tbl.cs">
+      <DependentUpon>HRIS_APL.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\personneladdresses_tbl.cs">
       <DependentUpon>HRIS_APL.tt</DependentUpon>
@@ -516,6 +534,9 @@
     <Compile Include="Models\sp_budgetyears_tbl_combolist1_RCT_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_budgetyears_tbl_combolist1_Result.cs">
+      <DependentUpon>HRIS_DEV.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_budget_years_tbl_RCT_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -598,6 +619,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_get_psbschedule_list_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_get_uploadedfile_from_APL2_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_get_uploadedfile_from_APL_Result.cs">
@@ -2003,6 +2027,16 @@
       <DependentUpon>HRIS_APL.edmx</DependentUpon>
       <LastGenOutput>HRIS_APL.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\HRIS_DEV.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HRIS_DEV.edmx</DependentUpon>
+      <LastGenOutput>HRIS_DEV.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HRIS_DEV.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HRIS_DEV.edmx</DependentUpon>
+      <LastGenOutput>HRIS_DEV.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\HRIS_RCT.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HRIS_RCT.edmx</DependentUpon>
@@ -2153,6 +2187,13 @@
     </EntityDeploy>
     <Content Include="Models\HRIS_RCT.edmx.diagram">
       <DependentUpon>HRIS_RCT.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\HRIS_DEV.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HRIS_DEV.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\HRIS_DEV.edmx.diagram">
+      <DependentUpon>HRIS_DEV.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

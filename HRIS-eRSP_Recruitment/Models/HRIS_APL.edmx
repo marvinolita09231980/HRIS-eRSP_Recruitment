@@ -55,6 +55,21 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="ctrl_no" Type="varchar" MaxLength="15" />
           <Property Name="active_status" Type="bit" />
         </EntityType>
+        <EntityType Name="onlineApplicants_register_tbl">
+          <Key>
+            <PropertyRef Name="info_ctrl_nbr" />
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="info_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="birthdate" Type="datetime" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="firstname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="gender" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="lastname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="middlename" Type="varchar" MaxLength="50" />
+          <Property Name="user_id" Type="varchar" MaxLength="50" />
+          <Property Name="user_password" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="personnel_children_tbl">
           <Key>
             <PropertyRef Name="seq_no" />
@@ -295,6 +310,7 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
         <EntityContainer Name="HRIS_APLModelStoreContainer">
           <EntitySet Name="adds_images_tbl" EntityType="Self.adds_images_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="available_item_hdr_tbl" EntityType="Self.available_item_hdr_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="onlineApplicants_register_tbl" EntityType="Self.onlineApplicants_register_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_children_tbl" EntityType="Self.personnel_children_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_conflict_tbl" EntityType="Self.personnel_conflict_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_contact_id_tbl" EntityType="Self.personnel_contact_id_tbl" Schema="dbo" store:Type="Tables" />
@@ -372,6 +388,7 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="onlineApplicants_register_tbl" EntityType="HRIS_APLModel.onlineApplicants_register_tbl" />
         </EntityContainer>
         <EntityType Name="personnel_children_tbl">
           <Key>
@@ -636,6 +653,21 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="img_file" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="img_name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="onlineApplicants_register_tbl">
+          <Key>
+            <PropertyRef Name="info_ctrl_nbr" />
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="info_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="birthdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="firstname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="lastname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="middlename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="user_password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -906,6 +938,21 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <FunctionImportMapping FunctionImportName="sp_remove_availableitemapl" FunctionName="HRIS_APLModel.Store.sp_remove_availableitemapl" />
           <FunctionImportMapping FunctionImportName="sp_deactive_availableitemapl" FunctionName="HRIS_APLModel.Store.sp_deactive_availableitemapl" />
           <FunctionImportMapping FunctionImportName="sp_activate_availableitemapl" FunctionName="HRIS_APLModel.Store.sp_activate_availableitemapl" />
+          <EntitySetMapping Name="onlineApplicants_register_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.onlineApplicants_register_tbl">
+              <MappingFragment StoreEntitySet="onlineApplicants_register_tbl">
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="middlename" ColumnName="middlename" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="birthdate" ColumnName="birthdate" />
+                <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

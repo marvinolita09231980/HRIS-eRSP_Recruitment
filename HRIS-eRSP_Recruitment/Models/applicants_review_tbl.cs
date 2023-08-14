@@ -28,5 +28,25 @@ namespace HRIS_eRSP_Recruitment.Models
         public Nullable<System.DateTime> updated_dttm { get; set; }
         public string updated_by_user { get; set; }
         public string hiring_period { get; set; }
+        public Nullable<System.DateTime> fetch_dttm { get; set; }
+        public string fetch_by { get; set; }
+        public Nullable<System.DateTime> aknowledge_dttm { get; set; }
+        public string aknowledge_by { get; set; }
+        public Nullable<System.DateTime> endorse_dttm { get; set; }
+        public string endorse_by { get; set; }
+        public Nullable<System.DateTime> prescreen_dttm { get; set; }
+        public string presreen_by { get; set; }
+        public Nullable<System.DateTime> email_aknowldge_regret_dttm { get; set; }
+        public string email_aknowldge_regret_by { get; set; }
+        public Nullable<System.DateTime> email_regret_dttm { get; set; }
+        public string email_regret_by { get; set; }
+        public Nullable<System.DateTime> email_noti_exam_dttm { get; set; }
+        public string email_noti_exam_by { get; set; }
+        public Nullable<System.DateTime> email_notintop5_dttm { get; set; }
+        public string email_notintop5_by { get; set; }
+        public Nullable<System.DateTime> email_noti_hrmpsb_dttm { get; set; }
+        public string email_noti_hrmpsb_by { get; set; }
+        public Nullable<System.DateTime> email_congratulatory_dttm { get; set; }
+        public string email_congratulatory_by { get; set; }
     }
 }

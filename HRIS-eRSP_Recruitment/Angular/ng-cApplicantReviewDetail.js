@@ -1670,7 +1670,7 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
         }
         else {
             h.post("../cApplicantsReview/SetHistoryPage").then(function (d) {
-                location.href = "../cViewUploadedFileFromAPL/Index?app_ctrl_nbr=" + s.app_ctrl_nbr
+                location.href = "../cViewUploadedFileFromAPL/Index?app_ctrl_nbr=" + s.app_ctrl_nbr + "&origin=app_review"
             })
         }
     }

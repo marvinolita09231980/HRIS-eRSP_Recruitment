@@ -21,6 +21,7 @@
         <EntityTypeShape EntityType="HRIS_APLModel.available_item_hdr_tbl" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_APLModel.available_item_tbl" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_APLModel.adds_images_tbl" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="HRIS_APLModel.onlineApplicants_register_tbl" Width="1.5" PointX="3.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -12,10 +12,10 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_workexprnce_tbl" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_workexprnce_temp_tbl" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicants_email_sent_items" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.applicants_review_tbl" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.applicants_review_tbl_olddata" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicants_review_tbl" Width="2.375" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicants_review_tbl_olddata" Width="1.5" PointX="4.5" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicants_tbl" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.application_status_tbl" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.application_status_tbl" Width="1.5" PointX="6.75" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.document_type_tbl" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.guest_user_info_tbl" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.psb_cbirating_tbl" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
