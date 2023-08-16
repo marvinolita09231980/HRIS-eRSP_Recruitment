@@ -90,6 +90,8 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<vw_vacant_position_list> vw_vacant_position_list { get; set; }
         public virtual DbSet<applicant_examination> applicant_examination { get; set; }
         public virtual DbSet<vw_psb_sked_hdr_tbl> vw_psb_sked_hdr_tbl { get; set; }
+        public virtual DbSet<vw_exam_schedule_tbl> vw_exam_schedule_tbl { get; set; }
+        public virtual DbSet<exam_shcedule_tbl> exam_shcedule_tbl { get; set; }
     
         [DbFunction("HRIS_RCTEntities", "func_psb_sked_mbr_tbl_distinct")]
         public virtual IQueryable<func_psb_sked_mbr_tbl_distinct_Result> func_psb_sked_mbr_tbl_distinct()

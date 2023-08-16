@@ -1330,6 +1330,7 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
         for (var x = 0; x < l; x++) {
             var tp = form[x][t] //element type
             var id = form[x][i] // element id
+
             if (tp != "button" && tp != "submit")
             {
                 for(var z = 0; z < f_key.length ; z++)
@@ -1462,6 +1463,32 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
             
         }
          return data
+
+        },
+
+       getFormData: function (form) {
+
+           var data = {}
+            var i_key = document.getElementById(form)
+           for (var x = 0; x < i_key.length; x++) {
+               
+               if (i_key[x].hasAttribute("include")) {
+                   if (i_key[x].id == "gov_srvc") {
+                       if (i_key[x].value = "1") {
+                           data[i_key[x].id] = true
+                       }
+                       else {
+                           data[i_key[x].id] = false
+                       }
+
+                   }
+                   else {
+                       data[i_key[x].id] = i_key[x].value
+                   }
+               }
+
+            }
+            return data
 
         }
 

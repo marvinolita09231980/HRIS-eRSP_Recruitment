@@ -1,0 +1,349 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+
+    div.datepicker {
+        z-index: 3000 !important;
+    }
+
+    .modal-lllg {
+        width: 900px;
+    }
+
+    .modal-llllg {
+        width: 1200px;
+    }
+
+    .modal-header {
+        background-color: #0074E8 !important;
+    }
+
+    .btn-grid {
+        height: 28px;
+        padding: 2px 2px 2px 2px;
+        font-size: 10px;
+        width: 70px;
+        margin-top: 3px;
+        margin-right: 3px;
+    }
+
+    .dropdown-menu {
+        margin-left: -200px !important;
+    }
+    .clockpicker-popover {
+        z-index: 99999 !important;
+    }
+</style>
+
+<script src="~/Angular/ng-cExamSchedule.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cExamSchedule_Ctrlr">
+    <!-- The modal -->
+
+
+
+
+
+
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-4">
+            <h2 class="text-white"><b>Add HRMPSB Schedule</b></h2>
+        </div>
+        <div class="col-lg-6" style="margin-top:12px;">
+            <div style="width:100%;float:left;">
+                <input type="search" class="form-control block headerSearch" tableref="psbschedule" ng-model="search_name" placeholder="Search ....">
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3  m-t-xs pull-left">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Show</b></span>
+                            <select class="form-control field-select-sm setTableRow" style="width:30%;float:left;" ng-model="rowLen" tableref="psbschedule">
+                                <option value="8">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span class="font-bold" style="float:left;margin-top:9px;margin-left:10px;"><b>Entries</b></span>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 m-t-xs">
+                            <div class="col-sm-12 col-xs-12 col-md-7 col-lg-7 no-padding">
+                                <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">YEAR:</span><span class="fa fa-book pull-right m-r-sm"></span></button>
+                                @*<span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Appointment Type:</b></span>*@
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-5 col-lg-5 no-padding">
+                                <select class="form-control" id="f_year" ng-model="f_year" ng-change="selectYear(f_year)">
+                                    <option value="">--Select--</option>
+                                    <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 m-t-xs">
+                            <div class="btn-group pull-left">
+                                <button class="btn btn-primary" ng-click="addExamSchedule()">Add Exam Schedule&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-title">
+            <div class="row no-padding" style="margin-top:-10px!important;">
+                <div class="col-lg-12 tabs-container m-b-md">
+                    <table id="examschedule_grid" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+
+                                <th>DATE</th>
+                                <th>TYPE</th>
+                                <th>LOCATION</th>
+                                <th>TIME</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="addExamSchedule" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lllg">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>ADD EXAMINATION SCHEDULE</b></h2></center>
+                </div>
+                <div class="modal-body" style="height:700px !important;">
+                    <div class="row">
+                        <div class="col-lg-12 m-b-md">
+                            <div class="tab-content">
+                                <div class="panel-body">
+                                    <form id="exm_sched" ng-model="exm_sched" novalidate>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">EXAM TYPE:</span><span style="" class="fa fa-book pull-right m-r-sm"></span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <select class="form-control removeReqOption" id="exam_type" ng-model="exam_type" ng-change="selectExamType(exam_type)" include>
+                                                        <option value="">--Select Here--</option>
+                                                        <option value="Online Examination">Online Examination</option>
+                                                        <option value="Face to Face">Face to Face</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">EXAMINATION DATE:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <label class="font-noraml"></label>
+                                                    <div class="input-group date">
+                                                        <input type="text" id="exam_date" ng-model="exam_date" class="form-control text-center" required include>
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">EXAMINATION TIME:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                                </div>
+
+                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
+                                                    <input type="text" id="exam_time" ng-model="exam_time" class="form-control text-center" required include>
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-clock-o"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">LOCATION:</span><span style="" class="fa fa-book pull-right m-r-sm"></span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <textarea type="text" id="exam_location" ng-model="exam_location" class="form-control text-center" required include></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">ZOOM LINK:</span><span style="" class="fa fa-book pull-right m-r-sm"></span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <textarea type="text" id="zoom_link" ng-model="zoom_link" class="form-control text-center" required include></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">MEETING ID:</span><span style="" class="fa fa-book pull-right m-r-sm"></span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <input type="text" id="zoom_meeting_id" ng-model="zoom_meeting_id" class="form-control text-center" required include />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">ZOOM PASSCODE :</span><span style="" class="fa fa-book pull-right m-r-sm"></span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <input type="text" id="zoom_passcode" ng-model="zoom_passcode" class="form-control text-center" required include />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row m-top-40">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <center>
+                                                    <button class="btn btn-success font-bold pull-right" ng-click="saveExamSchedule()">
+                                                        &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;<i id="add" class="fa fa-thumbs-up"></i>
+                                                    </button>
+                                                    <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                                                        Cancel&nbsp;<i class="fa fa-close"></i>
+                                                    </button>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+
+
+
+<script src="~/Scripts/plugins/dropzone/dropzone.js"></script>
+<script>
+   
+    
+    function closeLoading() {
+        $('#spinner_load').modal("hide");
+    }
+
+</script>
+

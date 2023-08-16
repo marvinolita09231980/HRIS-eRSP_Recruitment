@@ -240,6 +240,7 @@
     <Compile Include="Controllers\cChiefExecutiveController.cs" />
     <Compile Include="Controllers\cComparativeAssessmentController.cs" />
     <Compile Include="Controllers\cEmbededScreeningController.cs" />
+    <Compile Include="Controllers\cExamScheduleController.cs" />
     <Compile Include="Controllers\cGuestUserInfoController.cs" />
     <Compile Include="Controllers\cHRMPSBRatingController.cs" />
     <Compile Include="Controllers\cHRMPSBScreeningController.cs" />
@@ -312,6 +313,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\emaildata.cs" />
+    <Compile Include="Models\exam_shcedule_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\func_psb_sked_mbr_tbl_distinct_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -867,6 +871,9 @@
     <Compile Include="Models\vw_educ_type_tbl_sort.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_exam_schedule_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_guest_user_info_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -1151,6 +1158,7 @@
     <Content Include="Angular\ng-cChiefExecutive.js" />
     <Content Include="Angular\ng-cComparativeAssessment.js" />
     <Content Include="Angular\ng-cEmbedScreening.js" />
+    <Content Include="Angular\ng-cExamSchedule.js" />
     <Content Include="Angular\ng-cGuestUserInfo.js" />
     <Content Include="Angular\ng-cHRMPSBRating.js" />
     <Content Include="Angular\ng-cHRMPSBScreening.js" />
@@ -3122,6 +3130,7 @@
     <Content Include="Template\ReviewTable_Partial.html" />
     <Content Include="Views\cEmbededScreening\Index.cshtml" />
     <Content Include="Views\cAddGeneralPanel\Index.cshtml" />
+    <Content Include="Views\cExamSchedule\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

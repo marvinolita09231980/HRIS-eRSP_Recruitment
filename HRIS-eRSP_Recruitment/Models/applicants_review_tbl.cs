@@ -48,5 +48,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public string email_noti_hrmpsb_by { get; set; }
         public Nullable<System.DateTime> email_congratulatory_dttm { get; set; }
         public string email_congratulatory_by { get; set; }
+        public Nullable<System.DateTime> email_aknowldge_dttm { get; set; }
+        public string email_aknowldge_by { get; set; }
     }
 }

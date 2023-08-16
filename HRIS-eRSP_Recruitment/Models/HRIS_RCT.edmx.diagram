@@ -68,6 +68,8 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_vacant_position_list" Width="1.5" PointX="16.75" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_examination" Width="1.5" PointX="19.375" PointY="22.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_sked_hdr_tbl" Width="1.5" PointX="21.375" PointY="22.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_exam_schedule_tbl" Width="1.5" PointX="3.375" PointY="23.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.exam_shcedule_tbl" Width="1.5" PointX="0.75" PointY="23.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

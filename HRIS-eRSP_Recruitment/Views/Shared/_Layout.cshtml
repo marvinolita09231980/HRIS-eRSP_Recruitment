@@ -14,6 +14,7 @@
     <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link href="~/Content/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="~/Content/plugins/clockpicker/clockpicker.css" rel="stylesheet">
     <link href="~/Content/plugins/dataTables/datatables.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="~/Content/common.css" rel="stylesheet" />
@@ -502,6 +503,8 @@
     <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
     <script src="~/Scripts/inspinia.js"></script>
     <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/plugins/clockpicker/clockpicker.js"></script>
+   
     <script src="~/Scripts/plugins/select2/select2.min.js"></script>
     <script src="~/Scripts/plugins/pace/pace.min.js"></script>
     <script src="~/Scripts/plugins/iCheck/icheck.min.js"></script>
@@ -534,6 +537,30 @@
                 "z-index": 99999
             });
 
+
+            $('.clockpicker1').clockpicker({
+                placement: 'bottom',
+                align: 'left',
+                donetext: 'Done',
+                twelvehour: true,
+                upperCaseAmPm: true,
+                leadingSpaceAmPm: false,
+                leadingZeroHours: true,
+                autoclose: true
+            });
+
+            $('.clockpicker').clockpicker({
+                "z-index": 99999
+            });
+
+           
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
 
             $(".select2_demo_3").select2({
                 placeholder: "Select employee name. . . ",
