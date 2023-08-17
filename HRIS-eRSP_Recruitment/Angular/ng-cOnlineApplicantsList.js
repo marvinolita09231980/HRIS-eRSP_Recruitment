@@ -475,7 +475,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         else return data
     }
     function iffetch(data) {
-        console.log(data)
+        
         if (data == "1900-01-01" || data == "") return "hidden"
         else return ""
     }

@@ -5,6 +5,7 @@ ng_eRSP_App.controller("cExamSchedule_Ctrlr", function (commonScript, $scope, $h
     var cs = commonScript
 
     s.is_edit = false
+    s.exam_rowindex = ""
     s.um = {}
     s.year = cs.RetrieveYear()
  
@@ -41,7 +42,7 @@ ng_eRSP_App.controller("cExamSchedule_Ctrlr", function (commonScript, $scope, $h
                     {
                         "mData": "exam_time",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-center btn-block'>" + data + "</span>"
+                            return "<span class='text-center btn-block'>" + convertTo12HourFormat(data) + "</span>"
                         }
                     },
                    
@@ -132,22 +133,64 @@ ng_eRSP_App.controller("cExamSchedule_Ctrlr", function (commonScript, $scope, $h
  
     s.addExamSchedule = function () {
         s.is_edit = false;
+        s.exam_rowindex = ""
         cs.clearFormFields("exm_sched")
         $("#addExamSchedule").modal("show")
-        $("#exam_type").prop("disabled", false)
-        $("#exam_date").prop("disabled", false)
-        $("#exam_time").prop("disabled", false)
+        $("#exam_date").prop("disabled", true)
 
     }
-    
+    function convertTo12HourFormat(time24hr) {
+        var timeTokens = time24hr.split(":");
+        var hours = parseInt(timeTokens[0]);
+        var minutes = parseInt(timeTokens[1]);
+
+        var ampm = "AM";
+        if (hours >= 12) {
+            ampm = "PM";
+            if (hours > 12) {
+                hours -= 12;
+            }
+        }
+        if (hours === 0) {
+            hours = 12;
+        }
+
+        // Format hours and minutes to two digits
+        var formattedHours = hours.toString().padStart(2, '0');
+        var formattedMinutes = minutes.toString().padStart(2, '0');
+
+        return formattedHours + ":" + formattedMinutes + " " + ampm;
+    }
+    function convertTo24HourFormat(time12hr) {
+        var timeTokens = time12hr.split(":");
+        var hours = parseInt(timeTokens[0]);
+        var minutes = parseInt(timeTokens[1].substr(0,3));
+        var ampm = time12hr.substr(time12hr.length - 2).toUpperCase();
+
+
+        if (ampm === "PM" && hours !== 12) {
+            hours += 12;
+        } else if (ampm === "AM" && hours === 12) {
+            hours = 0;
+        }
+
+        // Format hours and minutes to two digits
+        var formattedHours = hours.toString().padStart(2, '0');
+        var formattedMinutes = minutes.toString().padStart(2, '0');
+
+        return formattedHours + ":" + formattedMinutes;
+    }
     s.saveExamSchedule = function () {
 
         
         var year = $("#f_year").val()
         var exam_data = cs.getFormData("exm_sched")
+        var exam_time = convertTo24HourFormat($("#exam_time").val())
+      
+       
 
         if (s.is_edit == false) {
-            h.post("../cExamSchedule/SaveExamSchedule", { year: year, exam_data: exam_data }).then(function (d) {
+            h.post("../cExamSchedule/SaveExamSchedule", { year: year, exam_data: exam_data, exam_time: exam_time}).then(function (d) {
                 if (d.data.icon == "success") {
 
                     s.ExamSchedule_Data = d.data.examschedules.refreshTable("examschedule_grid", "")
@@ -159,7 +202,8 @@ ng_eRSP_App.controller("cExamSchedule_Ctrlr", function (commonScript, $scope, $h
             })
         }
         else {
-            h.post("../cExamSchedule/EditExamSchedule", { year: year, exam_data: exam_data }).then(function (d) {
+            
+            h.post("../cExamSchedule/EditExamSchedule", { exam_rowindex: s.exam_rowindex, year: year, exam_data: exam_data,exam_time: exam_time }).then(function (d) {
                 if (d.data.icon == "success") {
 
                     s.ExamSchedule_Data = d.data.examschedules.refreshTable("examschedule_grid", "")
@@ -202,14 +246,13 @@ ng_eRSP_App.controller("cExamSchedule_Ctrlr", function (commonScript, $scope, $h
         s.is_edit = true;
         cs.clearFormFields("exm_sched")
         var dt = s.ExamSchedule_Data[row]
-
+        s.exam_rowindex = dt.exam_id
         cs.populateFormFields("exm_sched",dt)
-
+        addvalue("exam_time", convertTo12HourFormat(dt.exam_time))
         $("#addExamSchedule").modal("show")
 
-        $("#exam_type").prop("disabled", true)
         $("#exam_date").prop("disabled", true)
-        $("#exam_time").prop("disabled", true)
+      
         
         en_dis_field(dt.exam_type)
 
@@ -221,11 +264,10 @@ ng_eRSP_App.controller("cExamSchedule_Ctrlr", function (commonScript, $scope, $h
     s.deleteExamSchedule = function (row) {
         var year = $("#f_year").val()
         var dt = s.ExamSchedule_Data[row]
+        
         h.post("../cExamSchedule/DeleteExamSchedule",
             {
-                 exam_date : dt.exam_date
-                ,exam_type : dt.exam_type
-                , exam_time: dt.exam_time
+                 exam_id : dt.exam_id
                 , year: year
                 
             }).then(function (d) {

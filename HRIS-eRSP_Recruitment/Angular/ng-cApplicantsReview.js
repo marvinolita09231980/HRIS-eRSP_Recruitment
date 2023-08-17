@@ -24,6 +24,8 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     s.single_email = ""
     s.item_nbr1 = ""
     s.department_code1 = ""
+    s.rowindex_forexamtimeset = ""
+    
 	s.main_edit = false
 	s.dtl_edit = false
 	s.year = []
@@ -195,7 +197,12 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                     {
                         "mData": "item_in_psb",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-center btn-block'>" + s.fn_status2(data) + "</span>"
+                            return "<span class='text-center btn-block'>" + s.fn_status2(data) + "</span>" +
+                                "<button class='text-left btn btn-block btn-primary no-padding no-margin " + ifExamNotSet(full["exam_date"])+"' style='font-size:14px;' ng-click='setExamDate(" + row["row"] + ")'>Set Exam Date</button>"+
+                                "<button class='text-left btn btn-block btn-primary no-padding no-margin " + ifExamSet(full["exam_date"]) +"' style='font-size:12px;' ng-click='setExamDate(" + row["row"] + ")'>"+
+                                    "<span class='text-left'>Exam: " + full["exam_date"] + "</span><br>" +
+                                    "<span class='text-left'>Type: " + full["exam_type"] + "</span>" +
+                                "</button>"
                         }
                     },
 					{
@@ -213,20 +220,29 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                 '<button class="btn btn-info btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Review Application" ng-click="appl_review(' + row["row"] + ')">REVIEW&nbsp;<i class="fa fa-plus"></i></button>' +
                                 '<button class="btn btn-success btn-sm btn-grid" id="btntopsb' + row["row"] + '" type="button" data-toggle="tooltip" data-placement="top" title="Add to PSB" ng-click="addtopsb(' + row["row"] + ')">' + s.fn_itemstatuslabel(full["item_in_psb"]) + '&nbsp;<i id="icntopsb' + row["row"] + '" class="fa ' + s.fn_itemstatus(full["item_in_psb"]) + '"></i></button>'+
                                 '<div class="btn-group">' +
-                                        '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">MORE ACTION</button>' +
-                                        '<ul class="dropdown-menu ">'+
-                                        '<li><a ng-click="identifyidPDS(' + row["row"] + ')">UPDATE PROFILE FROM PDS</a></li>' +
-                                        '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">UPDATE PROFILE FROM ONLINE APPLICATION</a></li>' +
-                                        '<li><a ng-click="identifyidQS(' + row["row"] + ')">UPDATE QS FROM HRIS PDS</a></li>' +
-                                        '<li><a ng-click="updatefromqsapl(' + row["row"] + ')">UPDATE QS ONLINE APPLICATION</a></li>' +
-                                        '<li><a ng-click="goToDocs(' + row["row"] + ',2)">UPLOADED DOCUMENTS</a></li>' +
-                                        '<li><a ng-click="goToDocs(' + row["row"] + ',1)">PRINT SCORE SHEET</a></li>' +
-                                        '<li><a ng-click="composeEmail(' + row["row"] + ')">SEND EMAIL NOTIFICATION</a></li>' +
-                                        '<li><a ng-click="btn_show_pds(' + row["row"] + ')">PRINT PDS FROM ONLINE APPLICATION</a></li>' +
-                                        '</ul>' +
+                                    '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">MORE ACTION</button>' +
+                                    '<ul class="dropdown-menu ">'+
+                                    '<li><a ng-click="identifyidPDS(' + row["row"] + ')">UPDATE PROFILE FROM PDS</a></li>' +
+                                    '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">UPDATE PROFILE FROM ONLINE APPLICATION</a></li>' +
+                                    '<li><a ng-click="identifyidQS(' + row["row"] + ')">UPDATE QS FROM HRIS PDS</a></li>' +
+                                    '<li><a ng-click="updatefromqsapl(' + row["row"] + ')">UPDATE QS ONLINE APPLICATION</a></li>' +
+                                    '<li><a ng-click="goToDocs(' + row["row"] + ',2)">UPLOADED DOCUMENTS</a></li>' +
+                                    '<li><a ng-click="goToDocs(' + row["row"] + ',1)">PRINT SCORE SHEET</a></li>' +
+                                    '<li><a ng-click="composeEmail(' + row["row"] + ')">SEND EMAIL NOTIFICATION</a></li>' +
+                                    '<li><a ng-click="btn_show_pds(' + row["row"] + ')">PRINT PDS FROM ONLINE APPLICATION</a></li>' +
+                                    '</ul>' +
                                 '</div>' +
                                 '<button ng-show = "'+full["app_status"]+'==1" class="btn btn-danger btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Review Application" ng-click="deleteFromReview('+row["row"]+')">DELETE&nbsp;<i class="fa fa-plus"></i></button>' +
-                                '</div>' 
+                            '<div class="btn-group">' +
+                            '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">SEND EMAIL</button>' +
+                                    '<ul class="dropdown-menu ">' +
+                                    '<li><a ng-click="identifyidPDS(' + row["row"] + ')">UPDATE PROFILE FROM PDS</a></li>' +
+                                    '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">UPDATE PROFILE FROM ONLINE APPLICATION</a></li>' +
+                                    '<li><a ng-click="identifyidQS(' + row["row"] + ')">UPDATE QS FROM HRIS PDS</a></li>' +
+                                    '</ul>' +
+                            '</div>' +
+
+                            '</div>' 
 						}
 					}
 
@@ -239,6 +255,44 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 			});
 
 		$("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+
+    function ifExamSet(data) {
+
+        if (data == "1900-01-01" || data == "") return "hidden"
+        else return ""
+    }
+    function ifExamNotSet(data) {
+        if (data == "1900-01-01" || data == "") return ""
+        else return "hidden"
+    }
+
+    function convertTo12HourFormat(time24hr) {
+        if (time24hr == "") {
+            var timeTokens = time24hr.toString().split(":");
+            var hours = parseInt(timeTokens[0]);
+            var minutes = parseInt(timeTokens[1]);
+
+            var ampm = "AM";
+            if (hours >= 12) {
+                ampm = "PM";
+                if (hours > 12) {
+                    hours -= 12;
+                }
+            }
+            if (hours === 0) {
+                hours = 12;
+            }
+
+            // Format hours and minutes to two digits
+            var formattedHours = hours.toString().padStart(2, '0');
+            var formattedMinutes = minutes.toString().padStart(2, '0');
+
+            return formattedHours + ":" + formattedMinutes + " " + ampm;
+        }
+        else {
+            return ""
+        } 
     }
     s.fn_itemstatus = function (data) {
         if (data) {
@@ -266,6 +320,8 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             return "Not in psb schedule"
         }
     }
+
+    
 
 
     var Init_sendemail_List_Grid = function (par_data) {
@@ -384,7 +440,6 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                         "mRender": function (data, type, full, row) {
                             return '<center><div class="btn-group">' +
                                 '<button type="button" class="btn btn-info btn-sm action"><i id="icnemialbtn' + row["row"] + '" class="' + sendStatusIcon(data) + '"></i></button >' +
-                             
                                 '</div></center>';
                             //return '<label class="container">' +
                             //    '<input class="includeNemail" type="checkbox" row="' + row["row"] + '"  ng-checked="' + CheckedToEmailList(data)+'"/>' +
@@ -699,7 +754,69 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 			});
 
 		$("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
-	}
+    }
+
+    var Init_ExamSchedule_Grid = function (par_data) {
+        s.ExamSchedule_Data = par_data;
+        s.ExamSchedule_Table = $('#examschedule_grid').dataTable(
+            {
+                data: s.PsbSchedule_Data,
+                sDom: 'rt<"bottom"p>',
+                pageLength: 10,
+                columns: [
+
+                    {
+                        "mData": "exam_date",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'>" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "exam_type",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'>" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "exam_location",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-left btn-block' style='font-size:13px;'>" + data + "</span><br>" +
+                                "<span class='text-left btn-block no-padding text-danger " + vw_zoomdt(full["exam_type"]) + "' style='margin-top:-18px;font-size:12px;'>Meeting ID: " + full["zoom_meeting_id"] + "</span></br>" +
+                                "<span class='text-left btn-block no-padding text-danger " + vw_zoomdt(full["exam_type"]) + "' style='margin-top:-18px;font-size:12px;'>Passcode: " + full["zoom_passcode"] + "</span></br>"
+
+                        }
+                    },
+                    {
+                        "mData": "exam_time",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'>" + convertTo12HourFormat(data) + "</span>"
+                        }
+                    },
+
+                    {
+                        "mData": "psb_status",
+                        "mRender": function (data, type, full, row) {
+                            return '<div>' +
+                                '<div class="btn-group">' +
+                                '<button class="btn btn-info btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Set exam schedule" ng-click="set_exam_schedule(' + row["row"] + ')">Set Exam</button>' +
+                               
+                                '</div>' +
+                                '</div>';
+
+                        }
+                    }
+                    //data-toggle="tab" href="#tab-7"
+                ],
+                "createdRow": function (row, data, index) {
+                    //$(row).addClass("dt-row");
+                    $compile(row)($scope);  //add this to compile the DOM
+                },
+
+            });
+
+        $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+
 
 	function fltr(data) {
 		if (cs.elEmpty(s.app_status))
@@ -714,10 +831,42 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 		
 	}
 
+    function vw_zoomdt(data) {
+        if (data == "Online Examination") {
+            return ""
+        }
+        else {
+            return "hidden"
+        }
+    }
 
 	function addvalue(id, value) {
 		$("#" + id).val(value)
 		s[id] = value
+    }
+
+
+    s.set_exam_schedule = function (row) {
+
+        var dt = s.Applicant_List_Data[s.rowindex_forexamtimeset]
+        console.log(dt)
+        console.log(s.rowindex_forexamtimeset)
+        var exam_id = s.ExamSchedule_Data[row].exam_id
+        h.post("../cApplicantsReview/SetExamSchedule", {
+              app_ctrl_nbr       :dt.app_ctrl_nbr
+             ,hiring_period      :dt.hiring_period
+             ,item_no            :dt.item_no
+             ,budget_code        :dt.budget_code
+             , employment_type: dt.employment_type 
+             ,exam_id           :exam_id 
+        }).then(function (d) {
+            swal(d.data.message, { icon: d.data.icon });
+            console.log(d.data.review_list)
+            s.Applicant_List_Data = d.data.review_list.refreshTable("Applicant_List_Grid","")
+            $("#examScheduleGridModal").modal("hide")
+        })
+        
+
     }
 
     
@@ -848,6 +997,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     Init_select_applicant_APL_Grid([])
     Init_select_applicant_QS_Grid([])
     Init_PsbSchedule_Grid([])
+    Init_ExamSchedule_Grid([])
 	init()
 
 	//header search box to search row in Main Applicant list
@@ -2039,6 +2189,22 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                 $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
 
             });
+    }
+
+    s.setExamDate = function (row) {
+        s.rowindex_forexamtimeset = row
+
+        h.post("../cApplicantsReview/GetExamSchedules").then(function (d) {
+            if (d.data.icon == "success") {
+                s.ExamSchedule_Data = d.data.examschedules.refreshTable("examschedule_grid", "")
+                $("#examScheduleGridModal").modal("show")
+            }
+            else {
+                swal(d.data.message, {icon:d.data.icon})
+            }
+          
+        })
+
     }
 
 

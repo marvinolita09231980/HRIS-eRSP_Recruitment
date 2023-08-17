@@ -877,6 +877,52 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult GetExamSchedules()
+        {
+            try
+            {
+                var examschedules = db2.vw_exam_schedule_tbl.Where(a => a.exam_status == "O").ToList();
+                return JSON2(new { icon = icon.success, examschedules }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+            
+        public ActionResult SetExamSchedule(
+             string app_ctrl_nbr
+            ,string hiring_period
+            ,string item_no
+            ,string budget_code
+            ,string employment_type
+            ,int exam_id
+            )
+        {
+            try
+            {
+                var ap_review_tbl  = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (ap_review_tbl != null)
+                {
+                    ap_review_tbl.exam_id = exam_id;
+                    db2.SaveChanges();
+
+                    var review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+
+                    return JSON2(new { message = "Successfully set exam date", icon = icon.success, review_list }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    throw new Exception("app_ctrl_nbr is null");
+                }
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         protected JsonResult JSON2(object data, JsonRequestBehavior behavior)
         {
            

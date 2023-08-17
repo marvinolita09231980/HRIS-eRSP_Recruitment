@@ -37,14 +37,17 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
-        public ActionResult SaveExamSchedule(string year, exam_shcedule_tbl exam_data)
+        public ActionResult SaveExamSchedule(string year, exam_shcedule_tbl exam_data, string exam_time)
         {
             var user_id = Session["user_id"].ToString();
             try
             {
+                var ex_time = TimeSpan.Parse(exam_time);
                 var find_data = db.exam_shcedule_tbl.Where(a => a.exam_date == exam_data.exam_date && a.exam_time == exam_data.exam_time && a.exam_type == exam_data.exam_type).FirstOrDefault();
                 if (find_data == null)
                 {
+                    exam_data.exam_time = ex_time;
+                    exam_data.exam_status = "O";
                     exam_data.created_by = user_id;
                     exam_data.created_dttm = DateTime.Now;
                     db.exam_shcedule_tbl.Add(exam_data);
@@ -64,15 +67,28 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return JSON2(new { message = e.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult EditExamSchedule(string year, exam_shcedule_tbl exam_data)
+        public ActionResult EditExamSchedule(string exam_rowindex, string year, exam_shcedule_tbl exam_data,string exam_time)
         {
+            
+           
             var user_id = Session["user_id"].ToString();
-         
+            
             try
             {
-                var find_data = db.exam_shcedule_tbl.Where(a => a.exam_date == exam_data.exam_date && a.exam_time == exam_data.exam_time && a.exam_type == exam_data.exam_type).FirstOrDefault();
+
+                if (exam_rowindex == "")
+                {
+                    throw new Exception("Exam id is empty!");
+                }
+                var exam_id = Convert.ToInt32(exam_rowindex);
+                var ex_time = TimeSpan.Parse(exam_time);
+                var find_data = db.exam_shcedule_tbl.Where(a => a.exam_id == exam_id).FirstOrDefault();
+
                 if (find_data != null)
                 {
+                    find_data.exam_date = exam_data.exam_date;
+                    find_data.exam_time = ex_time;
+                    find_data.exam_type = exam_data.exam_type;
                     find_data.exam_location = exam_data.exam_location;
                     find_data.zoom_link = exam_data.zoom_link;
                     find_data.zoom_meeting_id = exam_data.zoom_meeting_id;
@@ -94,14 +110,13 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
 
 
-        public ActionResult DeleteExamSchedule(string exam_date, string exam_type,string exam_time,string year)
+        public ActionResult DeleteExamSchedule(int exam_id, string year)
         {
             var user_id = Session["user_id"].ToString();
-            var ts = TimeSpan.Parse(exam_time);
-            var date = Convert.ToDateTime(exam_date);
+          
             try
             {
-                var find_data = db.exam_shcedule_tbl.Where(a => a.exam_date == date && a.exam_time == ts && a.exam_type == exam_type).FirstOrDefault();
+                var find_data = db.exam_shcedule_tbl.Where(a => a.exam_id == exam_id).FirstOrDefault();
                 if (find_data != null)
                 {
                     db.exam_shcedule_tbl.Remove(find_data);

@@ -14,14 +14,15 @@ namespace HRIS_eRSP_Recruitment.Models
     
     public partial class vw_exam_schedule_tbl
     {
-        public string exam_datetime { get; set; }
-        public string exam_type { get; set; }
+        public int exam_id { get; set; }
         public string exam_date { get; set; }
         public string exam_time { get; set; }
+        public string exam_type { get; set; }
         public string exam_year { get; set; }
         public string exam_location { get; set; }
         public string zoom_link { get; set; }
         public string zoom_meeting_id { get; set; }
         public string zoom_passcode { get; set; }
+        public string exam_status { get; set; }
     }
 }

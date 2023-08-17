@@ -62,5 +62,9 @@ namespace HRIS_eRSP_Recruitment.Models
         public string email_add { get; set; }
         public string i_psb_ctrl_nbr { get; set; }
         public string hiring_period { get; set; }
+        public string exam_type { get; set; }
+        public string exam_date { get; set; }
+        public System.TimeSpan exam_time { get; set; }
+        public string exam_status { get; set; }
     }
 }

@@ -175,6 +175,7 @@
           <Property Name="email_congratulatory_by" Type="varchar" MaxLength="10" />
           <Property Name="email_aknowldge_dttm" Type="datetime" />
           <Property Name="email_aknowldge_by" Type="varchar" MaxLength="10" />
+          <Property Name="exam_id" Type="int" />
         </EntityType>
         <EntityType Name="applicants_review_tbl_olddata">
           <Key>
@@ -235,10 +236,9 @@
         </EntityType>
         <EntityType Name="exam_shcedule_tbl">
           <Key>
-            <PropertyRef Name="exam_date" />
-            <PropertyRef Name="exam_time" />
-            <PropertyRef Name="exam_type" />
+            <PropertyRef Name="exam_id" />
           </Key>
+          <Property Name="exam_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="exam_date" Type="datetime" Nullable="false" />
           <Property Name="exam_time" Type="time" Precision="7" Nullable="false" />
           <Property Name="exam_type" Type="varchar" MaxLength="50" Nullable="false" />
@@ -246,6 +246,7 @@
           <Property Name="zoom_link" Type="varchar" MaxLength="300" />
           <Property Name="zoom_meeting_id" Type="varchar" MaxLength="100" />
           <Property Name="zoom_passcode" Type="varchar" MaxLength="100" />
+          <Property Name="exam_status" Type="varchar" MaxLength="1" />
           <Property Name="created_dttm" Type="datetime" />
           <Property Name="created_by" Type="varchar" MaxLength="10" />
           <Property Name="updated_dttm" Type="datetime" />
@@ -778,21 +779,24 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_educ_type_tbl_sort' does not have 
 warning 6002: The table/view 'HRIS_RCT.dbo.vw_exam_schedule_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_exam_schedule_tbl">
           <Key>
+            <PropertyRef Name="exam_id" />
             <PropertyRef Name="exam_type" />
             <PropertyRef Name="exam_location" />
             <PropertyRef Name="zoom_link" />
             <PropertyRef Name="zoom_meeting_id" />
             <PropertyRef Name="zoom_passcode" />
+            <PropertyRef Name="exam_status" />
           </Key>
-          <Property Name="exam_datetime" Type="varchar" MaxLength="30" />
-          <Property Name="exam_type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="exam_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="exam_date" Type="varchar" MaxLength="20" />
           <Property Name="exam_time" Type="varchar" MaxLength="5" />
+          <Property Name="exam_type" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="exam_year" Type="varchar" MaxLength="5" />
           <Property Name="exam_location" Type="varchar" MaxLength="300" Nullable="false" />
           <Property Name="zoom_link" Type="varchar" MaxLength="300" Nullable="false" />
           <Property Name="zoom_meeting_id" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="zoom_passcode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="exam_status" Type="varchar" MaxLength="1" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_RCT.dbo.vw_guest_user_info_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2339,15 +2343,16 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           </EntitySet>
           <EntitySet Name="vw_exam_schedule_tbl" EntityType="Self.vw_exam_schedule_tbl" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [vw_exam_schedule_tbl].[exam_datetime] AS [exam_datetime], 
-    [vw_exam_schedule_tbl].[exam_type] AS [exam_type], 
+    [vw_exam_schedule_tbl].[exam_id] AS [exam_id], 
     [vw_exam_schedule_tbl].[exam_date] AS [exam_date], 
     [vw_exam_schedule_tbl].[exam_time] AS [exam_time], 
+    [vw_exam_schedule_tbl].[exam_type] AS [exam_type], 
     [vw_exam_schedule_tbl].[exam_year] AS [exam_year], 
     [vw_exam_schedule_tbl].[exam_location] AS [exam_location], 
     [vw_exam_schedule_tbl].[zoom_link] AS [zoom_link], 
     [vw_exam_schedule_tbl].[zoom_meeting_id] AS [zoom_meeting_id], 
-    [vw_exam_schedule_tbl].[zoom_passcode] AS [zoom_passcode]
+    [vw_exam_schedule_tbl].[zoom_passcode] AS [zoom_passcode], 
+    [vw_exam_schedule_tbl].[exam_status] AS [exam_status]
     FROM [dbo].[vw_exam_schedule_tbl] AS [vw_exam_schedule_tbl]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_guest_user_info_tbl" EntityType="Self.vw_guest_user_info_tbl" store:Type="Views" store:Schema="dbo">
@@ -2719,50 +2724,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="email_subject" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="created_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="created_by_user" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="applicants_review_tbl">
-          <Key>
-            <PropertyRef Name="app_ctrl_nbr" />
-            <PropertyRef Name="info_ctrl_nbr" />
-            <PropertyRef Name="item_no" />
-            <PropertyRef Name="hiring_period" />
-          </Key>
-          <Property Name="app_ctrl_nbr" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="info_ctrl_nbr" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="item_no" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="app_status" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="approval_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="created_dttm" Type="DateTime" Precision="3" />
-          <Property Name="created_by_user" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
-          <Property Name="updated_by_user" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="hiring_period" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="fetch_dttm" Type="DateTime" Precision="3" />
-          <Property Name="fetch_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="aknowledge_dttm" Type="DateTime" Precision="3" />
-          <Property Name="aknowledge_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="endorse_dttm" Type="DateTime" Precision="3" />
-          <Property Name="endorse_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="prescreen_dttm" Type="DateTime" Precision="3" />
-          <Property Name="presreen_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="email_aknowldge_regret_dttm" Type="DateTime" Precision="3" />
-          <Property Name="email_aknowldge_regret_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="email_regret_dttm" Type="DateTime" Precision="3" />
-          <Property Name="email_regret_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="email_noti_exam_dttm" Type="DateTime" Precision="3" />
-          <Property Name="email_noti_exam_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="email_notintop5_dttm" Type="DateTime" Precision="3" />
-          <Property Name="email_notintop5_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="email_noti_hrmpsb_dttm" Type="DateTime" Precision="3" />
-          <Property Name="email_noti_hrmpsb_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="email_congratulatory_dttm" Type="DateTime" Precision="3" />
-          <Property Name="email_congratulatory_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="email_aknowldge_dttm" Type="DateTime" Precision="3" />
-          <Property Name="email_aknowldge_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="applicants_review_tbl_olddata">
           <Key>
@@ -3671,7 +3632,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="applicant_workexprnce_tbl" EntityType="Self.applicant_workexprnce_tbl" />
           <EntitySet Name="applicant_workexprnce_temp_tbl" EntityType="Self.applicant_workexprnce_temp_tbl" />
           <EntitySet Name="applicants_email_sent_items" EntityType="Self.applicants_email_sent_items" />
-          <EntitySet Name="applicants_review_tbl" EntityType="Self.applicants_review_tbl" />
           <EntitySet Name="applicants_review_tbl_olddata" EntityType="Self.applicants_review_tbl_olddata" />
           <EntitySet Name="applicants_tbl" EntityType="Self.applicants_tbl" />
           <EntitySet Name="application_status_tbl" EntityType="Self.application_status_tbl" />
@@ -4325,12 +4285,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_employmenttype" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_review_applicant_tbl_list3" ReturnType="Collection(HRIS_RCTModel.sp_review_applicant_tbl_list3_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
-            <Parameter Name="p_employmenttype" Mode="In" Type="String" />
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
-            <Parameter Name="p_hiring_period" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_review_applicant_tbl_list4" ReturnType="Collection(HRIS_RCTModel.sp_review_applicant_tbl_list4_Result)">
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_employmenttype" Mode="In" Type="String" />
@@ -4494,8 +4448,15 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_mobile_no" Mode="In" Type="String" />
             <Parameter Name="p_prescreen_dttm" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="vw_exam_schedule_tbl" EntityType="HRIS_RCTModel.vw_exam_schedule_tbl" />
           <EntitySet Name="exam_shcedule_tbl" EntityType="HRIS_RCTModel.exam_shcedule_tbl" />
+          <EntitySet Name="vw_exam_schedule_tbl" EntityType="HRIS_RCTModel.vw_exam_schedule_tbl" />
+          <EntitySet Name="applicants_review_tbl" EntityType="HRIS_RCTModel.applicants_review_tbl" />
+          <FunctionImport Name="sp_review_applicant_tbl_list3" ReturnType="Collection(HRIS_RCTModel.sp_review_applicant_tbl_list3_Result)">
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+            <Parameter Name="p_employmenttype" Mode="In" Type="String" />
+            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+            <Parameter Name="p_hiring_period" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_add_available_items_to_RCT_Result">
           <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
@@ -5867,57 +5828,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="DateTime" Name="psb_date" Nullable="false" />
           <Property Type="String" Name="remarks_details" Nullable="false" MaxLength="100" />
         </ComplexType>
-        <ComplexType Name="sp_review_applicant_tbl_list3_Result">
-          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="info_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="app_ctrl_nbr_disp" Nullable="false" MaxLength="37" />
-          <Property Type="String" Name="app_address" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="applied_dttm" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="applied_year" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="birth_date" Nullable="false" MaxLength="30" />
-          <Property Type="Int32" Name="age" Nullable="true" />
-          <Property Type="String" Name="gender" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="gender_descr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="civil_status_descr" Nullable="false" MaxLength="7" />
-          <Property Type="Boolean" Name="item_in_psb" Nullable="true" />
-          <Property Type="Boolean" Name="psb_concluded" Nullable="true" />
-          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="lastname_start" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="civil_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="applicant_name" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="employment_type_descr" Nullable="false" MaxLength="9" />
-          <Property Type="String" Name="app_status" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="app_status_short_descr" Nullable="true" MaxLength="100" />
-          <Property Type="Boolean" Name="is_employee" Nullable="true" />
-          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="DateTime" Name="psb_date" Nullable="false" />
-          <Property Type="String" Name="remarks_details" Nullable="false" MaxLength="100" />
-          <Property Type="Boolean" Name="btn_disabled" Nullable="true" />
-          <Property Type="String" Name="email_address" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="subdepartment_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="division_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="section_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="qs_eduction" Nullable="false" />
-          <Property Type="String" Name="qs_work_experience" Nullable="false" />
-          <Property Type="String" Name="qs_training" Nullable="false" />
-          <Property Type="String" Name="qs_eligibility" Nullable="false" />
-          <Property Type="Binary" Name="empl_photo_img" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="mobile_number" Nullable="true" MaxLength="16" />
-          <Property Type="String" Name="email_add" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="i_psb_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="hiring_period" Nullable="false" MaxLength="15" />
-        </ComplexType>
         <ComplexType Name="sp_review_applicant_tbl_list4_Result">
           <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
           <Property Type="String" Name="info_ctrl_nbr" Nullable="false" MaxLength="6" />
@@ -6389,30 +6299,11 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="prescreen_by" Nullable="true" MaxLength="201" />
           <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
         </ComplexType>
-        <EntityType Name="vw_exam_schedule_tbl">
-          <Key>
-            <PropertyRef Name="exam_type" />
-            <PropertyRef Name="exam_location" />
-            <PropertyRef Name="zoom_link" />
-            <PropertyRef Name="zoom_meeting_id" />
-            <PropertyRef Name="zoom_passcode" />
-          </Key>
-          <Property Name="exam_datetime" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="exam_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="exam_date" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="exam_time" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="exam_year" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="exam_location" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="zoom_link" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="zoom_meeting_id" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="zoom_passcode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="exam_shcedule_tbl">
           <Key>
-            <PropertyRef Name="exam_date" />
-            <PropertyRef Name="exam_time" />
-            <PropertyRef Name="exam_type" />
+            <PropertyRef Name="exam_id" />
           </Key>
+          <Property Name="exam_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="exam_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="exam_time" Type="Time" Nullable="false" Precision="7" />
           <Property Name="exam_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -6420,11 +6311,133 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="zoom_link" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="zoom_meeting_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="zoom_passcode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="exam_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="created_dttm" Type="DateTime" Precision="3" />
           <Property Name="created_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="updated_dttm" Type="DateTime" Precision="3" />
           <Property Name="updated_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="vw_exam_schedule_tbl">
+          <Key>
+            <PropertyRef Name="exam_id" />
+            <PropertyRef Name="exam_type" />
+            <PropertyRef Name="exam_location" />
+            <PropertyRef Name="zoom_link" />
+            <PropertyRef Name="zoom_meeting_id" />
+            <PropertyRef Name="zoom_passcode" />
+            <PropertyRef Name="exam_status" />
+          </Key>
+          <Property Name="exam_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="exam_date" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="exam_time" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="exam_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="exam_year" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="exam_location" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="zoom_link" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="zoom_meeting_id" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="zoom_passcode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="exam_status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="applicants_review_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="info_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="hiring_period" />
+          </Key>
+          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="info_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="app_status" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="approval_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by_user" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by_user" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="fetch_dttm" Type="DateTime" Precision="3" />
+          <Property Name="fetch_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="aknowledge_dttm" Type="DateTime" Precision="3" />
+          <Property Name="aknowledge_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="endorse_dttm" Type="DateTime" Precision="3" />
+          <Property Name="endorse_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="prescreen_dttm" Type="DateTime" Precision="3" />
+          <Property Name="presreen_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_regret_dttm" Type="DateTime" Precision="3" />
+          <Property Name="email_aknowldge_regret_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_regret_dttm" Type="DateTime" Precision="3" />
+          <Property Name="email_regret_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_exam_dttm" Type="DateTime" Precision="3" />
+          <Property Name="email_noti_exam_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_notintop5_dttm" Type="DateTime" Precision="3" />
+          <Property Name="email_notintop5_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_hrmpsb_dttm" Type="DateTime" Precision="3" />
+          <Property Name="email_noti_hrmpsb_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_congratulatory_dttm" Type="DateTime" Precision="3" />
+          <Property Name="email_congratulatory_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_dttm" Type="DateTime" Precision="3" />
+          <Property Name="email_aknowldge_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="exam_id" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="sp_review_applicant_tbl_list3_Result">
+          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="info_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="app_ctrl_nbr_disp" Nullable="false" MaxLength="37" />
+          <Property Type="String" Name="app_address" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="applied_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="applied_year" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="birth_date" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="age" Nullable="true" />
+          <Property Type="String" Name="gender" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="gender_descr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="civil_status_descr" Nullable="false" MaxLength="7" />
+          <Property Type="Boolean" Name="item_in_psb" Nullable="true" />
+          <Property Type="Boolean" Name="psb_concluded" Nullable="true" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="lastname_start" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="civil_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="applicant_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="employment_type_descr" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="app_status" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="app_status_short_descr" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="is_employee" Nullable="true" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="DateTime" Name="psb_date" Nullable="false" />
+          <Property Type="String" Name="remarks_details" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="btn_disabled" Nullable="true" />
+          <Property Type="String" Name="email_address" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="subdepartment_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="division_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="section_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="qs_eduction" Nullable="false" />
+          <Property Type="String" Name="qs_work_experience" Nullable="false" />
+          <Property Type="String" Name="qs_training" Nullable="false" />
+          <Property Type="String" Name="qs_eligibility" Nullable="false" />
+          <Property Type="Binary" Name="empl_photo_img" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="mobile_number" Nullable="true" MaxLength="16" />
+          <Property Type="String" Name="email_add" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="i_psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="hiring_period" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="exam_type" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="exam_date" Nullable="false" MaxLength="20" />
+          <Property Type="Time" Name="exam_time" Nullable="false" />
+          <Property Type="String" Name="exam_status" Nullable="false" MaxLength="1" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6540,48 +6553,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
                 <ScalarProperty Name="email_subject" ColumnName="email_subject" />
                 <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
                 <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="applicants_review_tbl">
-            <EntityTypeMapping TypeName="HRIS_RCTModel.applicants_review_tbl">
-              <MappingFragment StoreEntitySet="applicants_review_tbl">
-                <ScalarProperty Name="email_aknowldge_by" ColumnName="email_aknowldge_by" />
-                <ScalarProperty Name="email_aknowldge_dttm" ColumnName="email_aknowldge_dttm" />
-                <ScalarProperty Name="email_congratulatory_by" ColumnName="email_congratulatory_by" />
-                <ScalarProperty Name="email_congratulatory_dttm" ColumnName="email_congratulatory_dttm" />
-                <ScalarProperty Name="email_noti_hrmpsb_by" ColumnName="email_noti_hrmpsb_by" />
-                <ScalarProperty Name="email_noti_hrmpsb_dttm" ColumnName="email_noti_hrmpsb_dttm" />
-                <ScalarProperty Name="email_notintop5_by" ColumnName="email_notintop5_by" />
-                <ScalarProperty Name="email_notintop5_dttm" ColumnName="email_notintop5_dttm" />
-                <ScalarProperty Name="email_noti_exam_by" ColumnName="email_noti_exam_by" />
-                <ScalarProperty Name="email_noti_exam_dttm" ColumnName="email_noti_exam_dttm" />
-                <ScalarProperty Name="email_regret_by" ColumnName="email_regret_by" />
-                <ScalarProperty Name="email_regret_dttm" ColumnName="email_regret_dttm" />
-                <ScalarProperty Name="email_aknowldge_regret_by" ColumnName="email_aknowldge_regret_by" />
-                <ScalarProperty Name="email_aknowldge_regret_dttm" ColumnName="email_aknowldge_regret_dttm" />
-                <ScalarProperty Name="presreen_by" ColumnName="presreen_by" />
-                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
-                <ScalarProperty Name="endorse_by" ColumnName="endorse_by" />
-                <ScalarProperty Name="endorse_dttm" ColumnName="endorse_dttm" />
-                <ScalarProperty Name="aknowledge_by" ColumnName="aknowledge_by" />
-                <ScalarProperty Name="aknowledge_dttm" ColumnName="aknowledge_dttm" />
-                <ScalarProperty Name="fetch_by" ColumnName="fetch_by" />
-                <ScalarProperty Name="fetch_dttm" ColumnName="fetch_dttm" />
-                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
-                <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
-                <ScalarProperty Name="position_code" ColumnName="position_code" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="app_status" ColumnName="app_status" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
-                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
-                <ScalarProperty Name="updated_by_user" ColumnName="updated_by_user" />
-                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -9167,61 +9138,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_review_applicant_tbl_list2" FunctionName="HRIS_RCTModel.Store.sp_review_applicant_tbl_list2" />
-          <FunctionImportMapping FunctionImportName="sp_review_applicant_tbl_list3" FunctionName="HRIS_RCTModel.Store.sp_review_applicant_tbl_list3">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_review_applicant_tbl_list3_Result">
-                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
-                <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
-                <ScalarProperty Name="app_ctrl_nbr_disp" ColumnName="app_ctrl_nbr_disp" />
-                <ScalarProperty Name="app_address" ColumnName="app_address" />
-                <ScalarProperty Name="applied_dttm" ColumnName="applied_dttm" />
-                <ScalarProperty Name="applied_year" ColumnName="applied_year" />
-                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
-                <ScalarProperty Name="age" ColumnName="age" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="gender_descr" ColumnName="gender_descr" />
-                <ScalarProperty Name="civil_status_descr" ColumnName="civil_status_descr" />
-                <ScalarProperty Name="item_in_psb" ColumnName="item_in_psb" />
-                <ScalarProperty Name="psb_concluded" ColumnName="psb_concluded" />
-                <ScalarProperty Name="last_name" ColumnName="last_name" />
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="lastname_start" ColumnName="lastname_start" />
-                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
-                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
-                <ScalarProperty Name="position_code" ColumnName="position_code" />
-                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
-                <ScalarProperty Name="applicant_name" ColumnName="applicant_name" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="employment_type_descr" ColumnName="employment_type_descr" />
-                <ScalarProperty Name="app_status" ColumnName="app_status" />
-                <ScalarProperty Name="app_status_short_descr" ColumnName="app_status_short_descr" />
-                <ScalarProperty Name="is_employee" ColumnName="is_employee" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
-                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
-                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
-                <ScalarProperty Name="btn_disabled" ColumnName="btn_disabled" />
-                <ScalarProperty Name="email_address" ColumnName="email_address" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="subdepartment_name1" ColumnName="subdepartment_name1" />
-                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
-                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
-                <ScalarProperty Name="qs_eduction" ColumnName="qs_eduction" />
-                <ScalarProperty Name="qs_work_experience" ColumnName="qs_work_experience" />
-                <ScalarProperty Name="qs_training" ColumnName="qs_training" />
-                <ScalarProperty Name="qs_eligibility" ColumnName="qs_eligibility" />
-                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
-                <ScalarProperty Name="mobile_number" ColumnName="mobile_number" />
-                <ScalarProperty Name="email_add" ColumnName="email_add" />
-                <ScalarProperty Name="i_psb_ctrl_nbr" ColumnName="i_psb_ctrl_nbr" />
-                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_review_applicant_tbl_list4" FunctionName="HRIS_RCTModel.Store.sp_review_applicant_tbl_list4">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_review_applicant_tbl_list4_Result">
@@ -9794,21 +9710,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_pds_data_fromAPL" FunctionName="HRIS_RCTModel.Store.sp_pds_data_fromAPL" />
-          <EntitySetMapping Name="vw_exam_schedule_tbl">
-            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_exam_schedule_tbl">
-              <MappingFragment StoreEntitySet="vw_exam_schedule_tbl">
-                <ScalarProperty Name="zoom_passcode" ColumnName="zoom_passcode" />
-                <ScalarProperty Name="zoom_meeting_id" ColumnName="zoom_meeting_id" />
-                <ScalarProperty Name="zoom_link" ColumnName="zoom_link" />
-                <ScalarProperty Name="exam_location" ColumnName="exam_location" />
-                <ScalarProperty Name="exam_year" ColumnName="exam_year" />
-                <ScalarProperty Name="exam_time" ColumnName="exam_time" />
-                <ScalarProperty Name="exam_date" ColumnName="exam_date" />
-                <ScalarProperty Name="exam_type" ColumnName="exam_type" />
-                <ScalarProperty Name="exam_datetime" ColumnName="exam_datetime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="exam_shcedule_tbl">
             <EntityTypeMapping TypeName="HRIS_RCTModel.exam_shcedule_tbl">
               <MappingFragment StoreEntitySet="exam_shcedule_tbl">
@@ -9816,6 +9717,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
                 <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
                 <ScalarProperty Name="created_by" ColumnName="created_by" />
                 <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="exam_status" ColumnName="exam_status" />
                 <ScalarProperty Name="zoom_passcode" ColumnName="zoom_passcode" />
                 <ScalarProperty Name="zoom_meeting_id" ColumnName="zoom_meeting_id" />
                 <ScalarProperty Name="zoom_link" ColumnName="zoom_link" />
@@ -9823,9 +9725,128 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
                 <ScalarProperty Name="exam_type" ColumnName="exam_type" />
                 <ScalarProperty Name="exam_time" ColumnName="exam_time" />
                 <ScalarProperty Name="exam_date" ColumnName="exam_date" />
+                <ScalarProperty Name="exam_id" ColumnName="exam_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="vw_exam_schedule_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_exam_schedule_tbl">
+              <MappingFragment StoreEntitySet="vw_exam_schedule_tbl">
+                <ScalarProperty Name="exam_status" ColumnName="exam_status" />
+                <ScalarProperty Name="zoom_passcode" ColumnName="zoom_passcode" />
+                <ScalarProperty Name="zoom_meeting_id" ColumnName="zoom_meeting_id" />
+                <ScalarProperty Name="zoom_link" ColumnName="zoom_link" />
+                <ScalarProperty Name="exam_location" ColumnName="exam_location" />
+                <ScalarProperty Name="exam_year" ColumnName="exam_year" />
+                <ScalarProperty Name="exam_type" ColumnName="exam_type" />
+                <ScalarProperty Name="exam_time" ColumnName="exam_time" />
+                <ScalarProperty Name="exam_date" ColumnName="exam_date" />
+                <ScalarProperty Name="exam_id" ColumnName="exam_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="applicants_review_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.applicants_review_tbl">
+              <MappingFragment StoreEntitySet="applicants_review_tbl">
+                <ScalarProperty Name="exam_id" ColumnName="exam_id" />
+                <ScalarProperty Name="email_aknowldge_by" ColumnName="email_aknowldge_by" />
+                <ScalarProperty Name="email_aknowldge_dttm" ColumnName="email_aknowldge_dttm" />
+                <ScalarProperty Name="email_congratulatory_by" ColumnName="email_congratulatory_by" />
+                <ScalarProperty Name="email_congratulatory_dttm" ColumnName="email_congratulatory_dttm" />
+                <ScalarProperty Name="email_noti_hrmpsb_by" ColumnName="email_noti_hrmpsb_by" />
+                <ScalarProperty Name="email_noti_hrmpsb_dttm" ColumnName="email_noti_hrmpsb_dttm" />
+                <ScalarProperty Name="email_notintop5_by" ColumnName="email_notintop5_by" />
+                <ScalarProperty Name="email_notintop5_dttm" ColumnName="email_notintop5_dttm" />
+                <ScalarProperty Name="email_noti_exam_by" ColumnName="email_noti_exam_by" />
+                <ScalarProperty Name="email_noti_exam_dttm" ColumnName="email_noti_exam_dttm" />
+                <ScalarProperty Name="email_regret_by" ColumnName="email_regret_by" />
+                <ScalarProperty Name="email_regret_dttm" ColumnName="email_regret_dttm" />
+                <ScalarProperty Name="email_aknowldge_regret_by" ColumnName="email_aknowldge_regret_by" />
+                <ScalarProperty Name="email_aknowldge_regret_dttm" ColumnName="email_aknowldge_regret_dttm" />
+                <ScalarProperty Name="presreen_by" ColumnName="presreen_by" />
+                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
+                <ScalarProperty Name="endorse_by" ColumnName="endorse_by" />
+                <ScalarProperty Name="endorse_dttm" ColumnName="endorse_dttm" />
+                <ScalarProperty Name="aknowledge_by" ColumnName="aknowledge_by" />
+                <ScalarProperty Name="aknowledge_dttm" ColumnName="aknowledge_dttm" />
+                <ScalarProperty Name="fetch_by" ColumnName="fetch_by" />
+                <ScalarProperty Name="fetch_dttm" ColumnName="fetch_dttm" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="updated_by_user" ColumnName="updated_by_user" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="app_status" ColumnName="app_status" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_review_applicant_tbl_list3" FunctionName="HRIS_RCTModel.Store.sp_review_applicant_tbl_list3">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_review_applicant_tbl_list3_Result">
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
+                <ScalarProperty Name="app_ctrl_nbr_disp" ColumnName="app_ctrl_nbr_disp" />
+                <ScalarProperty Name="app_address" ColumnName="app_address" />
+                <ScalarProperty Name="applied_dttm" ColumnName="applied_dttm" />
+                <ScalarProperty Name="applied_year" ColumnName="applied_year" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="gender_descr" ColumnName="gender_descr" />
+                <ScalarProperty Name="civil_status_descr" ColumnName="civil_status_descr" />
+                <ScalarProperty Name="item_in_psb" ColumnName="item_in_psb" />
+                <ScalarProperty Name="psb_concluded" ColumnName="psb_concluded" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="lastname_start" ColumnName="lastname_start" />
+                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="applicant_name" ColumnName="applicant_name" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="employment_type_descr" ColumnName="employment_type_descr" />
+                <ScalarProperty Name="app_status" ColumnName="app_status" />
+                <ScalarProperty Name="app_status_short_descr" ColumnName="app_status_short_descr" />
+                <ScalarProperty Name="is_employee" ColumnName="is_employee" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
+                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
+                <ScalarProperty Name="btn_disabled" ColumnName="btn_disabled" />
+                <ScalarProperty Name="email_address" ColumnName="email_address" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="subdepartment_name1" ColumnName="subdepartment_name1" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="qs_eduction" ColumnName="qs_eduction" />
+                <ScalarProperty Name="qs_work_experience" ColumnName="qs_work_experience" />
+                <ScalarProperty Name="qs_training" ColumnName="qs_training" />
+                <ScalarProperty Name="qs_eligibility" ColumnName="qs_eligibility" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="mobile_number" ColumnName="mobile_number" />
+                <ScalarProperty Name="email_add" ColumnName="email_add" />
+                <ScalarProperty Name="i_psb_ctrl_nbr" ColumnName="i_psb_ctrl_nbr" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="exam_type" ColumnName="exam_type" />
+                <ScalarProperty Name="exam_date" ColumnName="exam_date" />
+                <ScalarProperty Name="exam_time" ColumnName="exam_time" />
+                <ScalarProperty Name="exam_status" ColumnName="exam_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
