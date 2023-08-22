@@ -392,6 +392,8 @@
           <Property Name="panel_attended" Type="int" />
           <Property Name="disabled_rating" Type="bit" />
           <Property Name="hiring_period" Type="varchar" MaxLength="15" />
+          <Property Name="psb_time" Type="time" Precision="7" />
+          <Property Name="psb_location" Type="varchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="psb_sked_hdr_tbl_olddata">
           <Key>
@@ -2909,20 +2911,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="psb_ctrl_nbr" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="app_ctrl_nbr" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <EntityType Name="psb_sked_hdr_tbl">
-          <Key>
-            <PropertyRef Name="psb_ctrl_nbr" />
-          </Key>
-          <Property Name="psb_ctrl_nbr" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="psb_date" Type="DateTime" Precision="0" />
-          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="remarks_details" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="psb_status" Type="Int32" />
-          <Property Name="panel_attended" Type="Int32" />
-          <Property Name="disabled_rating" Type="Boolean" />
-          <Property Name="hiring_period" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="psb_sked_hdr_tbl_olddata">
           <Key>
             <PropertyRef Name="psb_ctrl_nbr" />
@@ -3646,7 +3634,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="psb_rating_hdr_tbl" EntityType="Self.psb_rating_hdr_tbl" />
           <EntitySet Name="psb_remarks_tbl" EntityType="Self.psb_remarks_tbl" />
           <EntitySet Name="psb_sked_app_tbl" EntityType="Self.psb_sked_app_tbl" />
-          <EntitySet Name="psb_sked_hdr_tbl" EntityType="Self.psb_sked_hdr_tbl" />
           <EntitySet Name="psb_sked_hdr_tbl_olddata" EntityType="Self.psb_sked_hdr_tbl_olddata" />
           <EntitySet Name="psb_sked_item_nbrs" EntityType="Self.psb_sked_item_nbrs" />
           <EntitySet Name="psb_sked_item_nbrs_olddata" EntityType="Self.psb_sked_item_nbrs_olddata" />
@@ -4202,10 +4189,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_user_id" Mode="In" Type="String" />
             <Parameter Name="p_user_type" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_psb_sked_hdr_tbl_list" ReturnType="Collection(HRIS_RCTModel.sp_psb_sked_hdr_tbl_list_Result)">
-            <Parameter Name="p_employment_type" Mode="In" Type="String" />
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_psb_sked_mbr_tbl" ReturnType="Collection(HRIS_RCTModel.sp_psb_sked_mbr_tbl_Result)">
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
@@ -4456,6 +4439,11 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_employmenttype" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_hiring_period" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="psb_sked_hdr_tbl" EntityType="HRIS_RCTModel.psb_sked_hdr_tbl" />
+          <FunctionImport Name="sp_psb_sked_hdr_tbl_list" ReturnType="Collection(HRIS_RCTModel.sp_psb_sked_hdr_tbl_list_Result)">
+            <Parameter Name="p_employment_type" Mode="In" Type="String" />
+            <Parameter Name="p_budget_code" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_add_available_items_to_RCT_Result">
@@ -5640,25 +5628,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="middle_name" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
         </ComplexType>
-        <ComplexType Name="sp_psb_sked_hdr_tbl_list_Result">
-          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="psb_date" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
-          <Property Type="String" Name="budget_description" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="employmenttype_description" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="remarks_details" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="psb_status" Nullable="true" />
-          <Property Type="Boolean" Name="disabled_rating" Nullable="true" />
-          <Property Type="String" Name="psb_status_descr" Nullable="false" MaxLength="46" />
-          <Property Type="Boolean" Name="add_panel_disabled" Nullable="true" />
-          <Property Type="Boolean" Name="del_disabled" Nullable="true" />
-          <Property Type="Boolean" Name="edit_disabled" Nullable="true" />
-          <Property Type="String" Name="ctrl_nbr" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="period_from" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="period_to" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="period_descr" Nullable="true" MaxLength="100" />
-        </ComplexType>
         <ComplexType Name="sp_psb_sked_mbr_tbl_Result">
           <Property Type="String" Name="psb_ctrl_nbr" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="panel_user_id" Nullable="true" MaxLength="8" />
@@ -6438,6 +6407,43 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="Time" Name="exam_time" Nullable="false" />
           <Property Type="String" Name="exam_status" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <EntityType Name="psb_sked_hdr_tbl">
+          <Key>
+            <PropertyRef Name="psb_ctrl_nbr" />
+          </Key>
+          <Property Name="psb_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="psb_date" Type="DateTime" Precision="0" />
+          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="remarks_details" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="psb_status" Type="Int32" />
+          <Property Name="panel_attended" Type="Int32" />
+          <Property Name="disabled_rating" Type="Boolean" />
+          <Property Name="hiring_period" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="psb_time" Type="Time" Precision="7" />
+          <Property Name="psb_location" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_psb_sked_hdr_tbl_list_Result">
+          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="psb_date" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="budget_description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="employmenttype_description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="remarks_details" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="psb_status" Nullable="true" />
+          <Property Type="Boolean" Name="disabled_rating" Nullable="true" />
+          <Property Type="String" Name="psb_status_descr" Nullable="false" MaxLength="46" />
+          <Property Type="Boolean" Name="add_panel_disabled" Nullable="true" />
+          <Property Type="Boolean" Name="del_disabled" Nullable="true" />
+          <Property Type="Boolean" Name="edit_disabled" Nullable="true" />
+          <Property Type="String" Name="ctrl_nbr" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="period_from" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="period_to" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="period_descr" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="psb_time" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="psb_location" Nullable="true" MaxLength="300" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6740,21 +6746,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               <MappingFragment StoreEntitySet="psb_sked_app_tbl">
                 <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
                 <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="psb_sked_hdr_tbl">
-            <EntityTypeMapping TypeName="HRIS_RCTModel.psb_sked_hdr_tbl">
-              <MappingFragment StoreEntitySet="psb_sked_hdr_tbl">
-                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
-                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
-                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
-                <ScalarProperty Name="panel_attended" ColumnName="panel_attended" />
-                <ScalarProperty Name="disabled_rating" ColumnName="disabled_rating" />
-                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8893,29 +8884,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_psb_sked_hdr_tbl_list" FunctionName="HRIS_RCTModel.Store.sp_psb_sked_hdr_tbl_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_psb_sked_hdr_tbl_list_Result">
-                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
-                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="budget_description" ColumnName="budget_description" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="employmenttype_description" ColumnName="employmenttype_description" />
-                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
-                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
-                <ScalarProperty Name="disabled_rating" ColumnName="disabled_rating" />
-                <ScalarProperty Name="psb_status_descr" ColumnName="psb_status_descr" />
-                <ScalarProperty Name="add_panel_disabled" ColumnName="add_panel_disabled" />
-                <ScalarProperty Name="del_disabled" ColumnName="del_disabled" />
-                <ScalarProperty Name="edit_disabled" ColumnName="edit_disabled" />
-                <ScalarProperty Name="ctrl_nbr" ColumnName="ctrl_nbr" />
-                <ScalarProperty Name="period_from" ColumnName="period_from" />
-                <ScalarProperty Name="period_to" ColumnName="period_to" />
-                <ScalarProperty Name="period_descr" ColumnName="period_descr" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_psb_sked_mbr_tbl" FunctionName="HRIS_RCTModel.Store.sp_psb_sked_mbr_tbl">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_psb_sked_mbr_tbl_Result">
@@ -9844,6 +9812,48 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
                 <ScalarProperty Name="exam_date" ColumnName="exam_date" />
                 <ScalarProperty Name="exam_time" ColumnName="exam_time" />
                 <ScalarProperty Name="exam_status" ColumnName="exam_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="psb_sked_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.psb_sked_hdr_tbl">
+              <MappingFragment StoreEntitySet="psb_sked_hdr_tbl">
+                <ScalarProperty Name="psb_location" ColumnName="psb_location" />
+                <ScalarProperty Name="psb_time" ColumnName="psb_time" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="disabled_rating" ColumnName="disabled_rating" />
+                <ScalarProperty Name="panel_attended" ColumnName="panel_attended" />
+                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
+                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_psb_sked_hdr_tbl_list" FunctionName="HRIS_RCTModel.Store.sp_psb_sked_hdr_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_psb_sked_hdr_tbl_list_Result">
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="budget_description" ColumnName="budget_description" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="employmenttype_description" ColumnName="employmenttype_description" />
+                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
+                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
+                <ScalarProperty Name="disabled_rating" ColumnName="disabled_rating" />
+                <ScalarProperty Name="psb_status_descr" ColumnName="psb_status_descr" />
+                <ScalarProperty Name="add_panel_disabled" ColumnName="add_panel_disabled" />
+                <ScalarProperty Name="del_disabled" ColumnName="del_disabled" />
+                <ScalarProperty Name="edit_disabled" ColumnName="edit_disabled" />
+                <ScalarProperty Name="ctrl_nbr" ColumnName="ctrl_nbr" />
+                <ScalarProperty Name="period_from" ColumnName="period_from" />
+                <ScalarProperty Name="period_to" ColumnName="period_to" />
+                <ScalarProperty Name="period_descr" ColumnName="period_descr" />
+                <ScalarProperty Name="psb_time" ColumnName="psb_time" />
+                <ScalarProperty Name="psb_location" ColumnName="psb_location" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

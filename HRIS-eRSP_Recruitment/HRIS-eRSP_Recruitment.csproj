@@ -460,6 +460,7 @@
     <Compile Include="Models\psb_systemsetup_rating_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RCT_model.cs" />
     <Compile Include="Models\sp_add_available_items_to_RCT_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>

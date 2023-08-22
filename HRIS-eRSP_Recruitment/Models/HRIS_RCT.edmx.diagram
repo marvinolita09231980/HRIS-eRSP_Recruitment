@@ -26,7 +26,6 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.psb_rating_hdr_tbl" Width="1.5" PointX="10.75" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.psb_remarks_tbl" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_app_tbl" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_hdr_tbl" Width="1.5" PointX="2.75" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_hdr_tbl_olddata" Width="1.5" PointX="4.75" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_item_nbrs" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_item_nbrs_olddata" Width="1.5" PointX="14.75" PointY="4.75" IsExpanded="true" />
@@ -70,6 +69,7 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.exam_shcedule_tbl" Width="1.5" PointX="0.75" PointY="23.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_exam_schedule_tbl" Width="1.5" PointX="2.75" PointY="23.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicants_review_tbl" Width="1.5" PointX="5.375" PointY="23.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_hdr_tbl" Width="1.5" PointX="0.75" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

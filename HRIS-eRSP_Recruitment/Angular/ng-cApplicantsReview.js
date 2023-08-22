@@ -198,11 +198,11 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                         "mData": "item_in_psb",
                         "mRender": function (data, type, full, row) {
                             return "<span class='text-center btn-block'>" + s.fn_status2(data) + "</span>" +
-                                "<button class='text-left btn btn-block btn-primary no-padding no-margin " + ifExamNotSet(full["exam_date"])+"' style='font-size:14px;' ng-click='setExamDate(" + row["row"] + ")'>Set Exam Date</button>"+
-                                "<button class='text-left btn btn-block btn-primary no-padding no-margin " + ifExamSet(full["exam_date"]) +"' style='font-size:12px;' ng-click='setExamDate(" + row["row"] + ")'>"+
-                                    "<span class='text-left'>Exam: " + full["exam_date"] + "</span><br>" +
-                                    "<span class='text-left'>Type: " + full["exam_type"] + "</span>" +
-                                "</button>"
+                                   "<button class='text-left btn btn-block btn-primary no-padding no-margin " + ifExamNotSet(full["exam_date"])+"' style='font-size:14px;' ng-click='setExamDate(" + row["row"] + ")'>Set Exam Date</button>"+
+                                   "<button class='text-left btn btn-block btn-primary no-padding no-margin " + ifExamSet(full["exam_date"]) +"' style='font-size:12px;' ng-click='setExamDate(" + row["row"] + ")'>"+
+                                       "<span class='text-left'>Exam: " + full["exam_date"] + "</span><br>" +
+                                       "<span class='text-left'>Type: " + full["exam_type"] + "</span>" +
+                                   "</button>"
                         }
                     },
 					{

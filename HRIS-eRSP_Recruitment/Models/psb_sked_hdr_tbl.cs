@@ -23,5 +23,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public Nullable<int> panel_attended { get; set; }
         public Nullable<bool> disabled_rating { get; set; }
         public string hiring_period { get; set; }
+        public Nullable<System.TimeSpan> psb_time { get; set; }
+        public string psb_location { get; set; }
     }
 }

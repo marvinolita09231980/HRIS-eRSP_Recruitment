@@ -48,7 +48,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<psb_rating_hdr_tbl> psb_rating_hdr_tbl { get; set; }
         public virtual DbSet<psb_remarks_tbl> psb_remarks_tbl { get; set; }
         public virtual DbSet<psb_sked_app_tbl> psb_sked_app_tbl { get; set; }
-        public virtual DbSet<psb_sked_hdr_tbl> psb_sked_hdr_tbl { get; set; }
         public virtual DbSet<psb_sked_hdr_tbl_olddata> psb_sked_hdr_tbl_olddata { get; set; }
         public virtual DbSet<psb_sked_item_nbrs> psb_sked_item_nbrs { get; set; }
         public virtual DbSet<psb_sked_item_nbrs_olddata> psb_sked_item_nbrs_olddata { get; set; }
@@ -92,6 +91,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<exam_shcedule_tbl> exam_shcedule_tbl { get; set; }
         public virtual DbSet<vw_exam_schedule_tbl> vw_exam_schedule_tbl { get; set; }
         public virtual DbSet<applicants_review_tbl> applicants_review_tbl { get; set; }
+        public virtual DbSet<psb_sked_hdr_tbl> psb_sked_hdr_tbl { get; set; }
     
         [DbFunction("HRIS_RCTEntities", "func_psb_sked_mbr_tbl_distinct")]
         public virtual IQueryable<func_psb_sked_mbr_tbl_distinct_Result> func_psb_sked_mbr_tbl_distinct()
@@ -1845,19 +1845,6 @@ namespace HRIS_eRSP_Recruitment.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_psb_name_info_Result>("sp_psb_name_info", p_user_idParameter, p_user_typeParameter);
         }
     
-        public virtual ObjectResult<sp_psb_sked_hdr_tbl_list_Result> sp_psb_sked_hdr_tbl_list(string p_employment_type, string p_budget_code)
-        {
-            var p_employment_typeParameter = p_employment_type != null ?
-                new ObjectParameter("p_employment_type", p_employment_type) :
-                new ObjectParameter("p_employment_type", typeof(string));
-    
-            var p_budget_codeParameter = p_budget_code != null ?
-                new ObjectParameter("p_budget_code", p_budget_code) :
-                new ObjectParameter("p_budget_code", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_psb_sked_hdr_tbl_list_Result>("sp_psb_sked_hdr_tbl_list", p_employment_typeParameter, p_budget_codeParameter);
-        }
-    
         public virtual ObjectResult<sp_psb_sked_mbr_tbl_Result> sp_psb_sked_mbr_tbl(string p_psb_ctrl_nbr)
         {
             var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
@@ -2692,6 +2679,19 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_hiring_period", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_review_applicant_tbl_list3_Result>("sp_review_applicant_tbl_list3", p_item_noParameter, p_employmenttypeParameter, p_budget_codeParameter, p_hiring_periodParameter);
+        }
+    
+        public virtual ObjectResult<sp_psb_sked_hdr_tbl_list_Result> sp_psb_sked_hdr_tbl_list(string p_employment_type, string p_budget_code)
+        {
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_budget_codeParameter = p_budget_code != null ?
+                new ObjectParameter("p_budget_code", p_budget_code) :
+                new ObjectParameter("p_budget_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_psb_sked_hdr_tbl_list_Result>("sp_psb_sked_hdr_tbl_list", p_employment_typeParameter, p_budget_codeParameter);
         }
     }
 }

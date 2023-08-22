@@ -690,6 +690,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 se.applicant_name = email.first_name + " " + mi + ". " + email.last_name;
                 se.email_address = email.email_address;
                 se.status = true;
+
                 return JSON2(new { message = "Applicants is successfully notified!", icon = "success", se}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

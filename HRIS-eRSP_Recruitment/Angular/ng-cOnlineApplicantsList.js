@@ -409,7 +409,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                         "mData": null,
                         "mRender": function (data, type, full, row) {
                             return "<span class='text-left btn-block' ng-mouseover='show_child_info(" + row["row"] + ")' ng-mouseleave='hide_child_info(" + row["row"] + ")'>" + s.to_upper(full["firstname"]) + " " + s.to_upper(full["middlename"]) + ". " + s.to_upper(full["lastname"]) + "</span></br>" +
-                                "<span class='text-left btn-block no-padding text-danger " + iffetch(full["prescreen_dttm"]) + "' style='margin-top:-18px;font-size:15px;'>Pre-screen date: " + if19000101(full["prescreen_dttm"]) + "</span></br>"
+                                "<span class='text-left btn-block no-padding text-danger " + iffetch(full["prescreen_dttm"]) + "' style='margin-top:-18px;font-size:15px;'>Pre-screening date: " + if19000101(full["prescreen_dttm"]) + "</span></br>"
                               
                         }
                     },

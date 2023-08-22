@@ -102,15 +102,24 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(e) }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult savePSBSchedule(psb_sked_hdr_tbl data, string employment_type, string budget_code)
+       
+        public ActionResult savePSBSchedule(psb_data data, string employment_type, string budget_code,string psb_time)
         {
             CheckSession();
             try
             {
+                var psb_time2 = TimeSpan.Parse(psb_time);
+                psb_sked_hdr_tbl psb = new psb_sked_hdr_tbl();
                 var psb_ctrl_nbr = db.sp_autogen_psb_ctrl_nbr().FirstOrDefault();
-                data.psb_ctrl_nbr = psb_ctrl_nbr;
-                data.psb_status = 0;
-                db.psb_sked_hdr_tbl.Add(data);
+                psb.psb_ctrl_nbr = psb_ctrl_nbr;
+                psb.budget_code = data.budget_code;
+                psb.employment_type = data.employment_type;
+                psb.hiring_period = data.hiring_period;
+                psb.psb_location = data.psb_location;
+                psb.psb_time = psb_time2;
+                psb.psb_status = 0;
+                psb.remarks_details = data.remarks_details;
+                db.psb_sked_hdr_tbl.Add(psb);
                 db.SaveChanges();
                 var sched = db.sp_psb_sked_hdr_tbl_list(data.employment_type, data.budget_code).ToList();
                 var sched_itemlist = db.sp_forscheduleitem_list(psb_ctrl_nbr, data.budget_code, data.employment_type).ToList();
@@ -134,13 +143,16 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(e) }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult editPSBSchedule(string psb_ctrl_nbr, psb_sked_hdr_tbl data, string employment_type, string budget_code)
+        public ActionResult editPSBSchedule(string psb_ctrl_nbr, psb_data data, string employment_type, string budget_code,string psb_time)
         {
             CheckSession();
             try
             {
+                var psb_time2 = TimeSpan.Parse(psb_time);
                 var schd = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
-                schd.psb_date = data.psb_date;
+                schd.psb_date = Convert.ToDateTime(data.psb_date);
+                schd.psb_time = psb_time2;
+                schd.psb_location = data.psb_location;
                 schd.hiring_period = data.hiring_period;
                 schd.remarks_details = data.remarks_details;
                 db.SaveChanges();

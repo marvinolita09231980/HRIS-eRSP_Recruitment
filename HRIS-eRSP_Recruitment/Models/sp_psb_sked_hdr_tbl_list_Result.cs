@@ -30,5 +30,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public string period_from { get; set; }
         public string period_to { get; set; }
         public string period_descr { get; set; }
+        public string psb_time { get; set; }
+        public string psb_location { get; set; }
     }
 }

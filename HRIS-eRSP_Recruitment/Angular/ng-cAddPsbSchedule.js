@@ -706,6 +706,14 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
     Init_PsbItem_Grid3([])
 
     function init() {
+        $("#psbclockpicker").clockpicker({
+            format: "HH:mm",
+            align: "left",
+            autoclose: true,
+            leadingZeroHours: true,
+            twelvehour: true
+        });
+
        
         if (localStorage["employment_type"]) {
             addvalue("employmenttype", localStorage["employment_type"])
@@ -987,6 +995,48 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
 		})
     }
 
+    function convertTo12HourFormat(time24hr) {
+        var timeTokens = time24hr.split(":");
+        var hours = parseInt(timeTokens[0]);
+        var minutes = parseInt(timeTokens[1]);
+
+        var ampm = "AM";
+        if (hours >= 12) {
+            ampm = "PM";
+            if (hours > 12) {
+                hours -= 12;
+            }
+        }
+        if (hours === 0) {
+            hours = 12;
+        }
+
+        // Format hours and minutes to two digits
+        var formattedHours = hours.toString().padStart(2, '0');
+        var formattedMinutes = minutes.toString().padStart(2, '0');
+
+        return formattedHours + ":" + formattedMinutes + " " + ampm;
+    }
+    function convertTo24HourFormat(time12hr) {
+        var timeTokens = time12hr.split(":");
+        var hours = parseInt(timeTokens[0]);
+        var minutes = parseInt(timeTokens[1].substr(0, 3));
+        var ampm = time12hr.substr(time12hr.length - 2).toUpperCase();
+
+
+        if (ampm === "PM" && hours !== 12) {
+            hours += 12;
+        } else if (ampm === "AM" && hours === 12) {
+            hours = 0;
+        }
+
+        // Format hours and minutes to two digits
+        var formattedHours = hours.toString().padStart(2, '0');
+        var formattedMinutes = minutes.toString().padStart(2, '0');
+
+        return formattedHours + ":" + formattedMinutes;
+    }
+
    
     function empty_sched_form() {
         s.sched.psb_date = ""
@@ -1003,8 +1053,11 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
     }
 	s.savePSBSchedule = function (data) {
         data.psb_date = $("#psb_date").val()
-        console.log(s.sched.hiring_period)
-        console.log(data)
+      
+
+        var psb_data = cs.getFormData("sched")
+        var psb_time = convertTo24HourFormat(psb_data.psb_time)
+        console.log(psb_data.psb_time)
 
         if (cs.validatesubmit("sched")) {
 			
@@ -1012,9 +1065,11 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
 				h.post("../cAddPsbSchedule/editPSBSchedule",
 				{
 					psb_ctrl_nbr: s.psb_ctrl_nbr,
-					data: data,
+                    data: psb_data,
 					employment_type: s.employmenttype,
-					budget_code: s.budgetcode
+                    budget_code: s.budgetcode,
+                    psb_time: psb_time
+                    
 				}).then(function (d) {
                     if (d.data.icon == "success") {
                         getPSBSchedule()
@@ -1030,9 +1085,10 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
 					if (d.data.exist < 1) {
 						h.post("../cAddPsbSchedule/savePSBSchedule",
 						{
-							data: data,
+                            data: psb_data,
 							employment_type: s.employmenttype,
-							budget_code: s.budgetcode
+                            budget_code: s.budgetcode,
+                            psb_time: psb_time
 						}).then(function (d) {
                             if (d.data.icon == "success") {
                                 s.psb_ctrl_nbr = d.data.psb_ctrl_nbr
@@ -1371,11 +1427,17 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
         var tabC = "tabC"
         tabB.removeClass("hidden")
         tabC.removeClass("hidden")
-        dt.populateFields(s.sched, row)
+
+      
+        cs.populateFormFields("sched", dt[row])
+
+
+        //dt.populateFields(s.sched, row)
         s.psb_ctrl_nbr = dt[row].psb_ctrl_nbr
         s.budget_code = dt[row].budget_code
         s.employment_type = dt[row].employment_type
         addvalue("hiring_period", dt[row].ctrl_nbr)
+        addvalue("psb_time", convertTo12HourFormat(dt[row].psb_time))
         h.post("../cAddPsbSchedule/getAvailable_item_tbl", {
             psb_ctrl_nbr: dt[row].psb_ctrl_nbr,
             budget_code: dt[row].budget_code,
