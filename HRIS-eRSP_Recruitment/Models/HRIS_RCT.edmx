@@ -2048,6 +2048,8 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_email" Type="varchar" Mode="In" />
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_hiring_period" Type="varchar" Mode="In" />
+          <Parameter Name="p_email_type" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_set_psbscreening_start" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
@@ -4297,11 +4299,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_search_name" Mode="In" Type="String" />
             <Parameter Name="p_search_option" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_send_email_notification" ReturnType="Collection(HRIS_RCTModel.sp_send_email_notification_Result)">
-            <Parameter Name="p_email" Mode="In" Type="String" />
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
-            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_set_psbscreening_start" ReturnType="Collection(Int32)">
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
@@ -4444,6 +4441,13 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <FunctionImport Name="sp_psb_sked_hdr_tbl_list" ReturnType="Collection(HRIS_RCTModel.sp_psb_sked_hdr_tbl_list_Result)">
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_send_email_notification" ReturnType="Collection(HRIS_RCTModel.sp_send_email_notification_Result)">
+            <Parameter Name="p_email" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_hiring_period" Mode="In" Type="String" />
+            <Parameter Name="p_email_type" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_add_available_items_to_RCT_Result">
@@ -6000,18 +6004,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="Boolean" Name="hasChild" Nullable="true" />
           <Property Type="Binary" Name="empl_photo_img" Nullable="true" MaxLength="Max" />
         </ComplexType>
-        <ComplexType Name="sp_send_email_notification_Result">
-          <Property Type="String" Name="email_smtp" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="email_port" Nullable="true" />
-          <Property Type="Boolean" Name="email_enable_ssl" Nullable="true" />
-          <Property Type="Boolean" Name="email_default_credentials" Nullable="true" />
-          <Property Type="String" Name="email_from" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="email_from_pass" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="email_to" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="email_subject" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="email_header" Nullable="true" MaxLength="600" />
-          <Property Type="String" Name="email_body" Nullable="true" MaxLength="600" />
-        </ComplexType>
         <ComplexType Name="sp_slide_rating_Result">
           <Property Type="String" Name="psb_ctrl_nbr" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="app_ctrl_nbr" Nullable="true" MaxLength="6" />
@@ -6443,6 +6435,18 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="period_descr" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="psb_time" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="psb_location" Nullable="true" MaxLength="300" />
+        </ComplexType>
+        <ComplexType Name="sp_send_email_notification_Result">
+          <Property Type="String" Name="email_smtp" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="email_port" Nullable="true" />
+          <Property Type="Boolean" Name="email_enable_ssl" Nullable="true" />
+          <Property Type="Boolean" Name="email_default_credentials" Nullable="true" />
+          <Property Type="String" Name="email_from" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="email_from_pass" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="email_to" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="email_subject" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="email_header" Nullable="true" />
+          <Property Type="String" Name="email_body" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -9333,22 +9337,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_send_email_notification" FunctionName="HRIS_RCTModel.Store.sp_send_email_notification">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_send_email_notification_Result">
-                <ScalarProperty Name="email_smtp" ColumnName="email_smtp" />
-                <ScalarProperty Name="email_port" ColumnName="email_port" />
-                <ScalarProperty Name="email_enable_ssl" ColumnName="email_enable_ssl" />
-                <ScalarProperty Name="email_default_credentials" ColumnName="email_default_credentials" />
-                <ScalarProperty Name="email_from" ColumnName="email_from" />
-                <ScalarProperty Name="email_from_pass" ColumnName="email_from_pass" />
-                <ScalarProperty Name="email_to" ColumnName="email_to" />
-                <ScalarProperty Name="email_subject" ColumnName="email_subject" />
-                <ScalarProperty Name="email_header" ColumnName="email_header" />
-                <ScalarProperty Name="email_body" ColumnName="email_body" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_set_psbscreening_start" FunctionName="HRIS_RCTModel.Store.sp_set_psbscreening_start" />
           <FunctionImportMapping FunctionImportName="sp_slide_rating" FunctionName="HRIS_RCTModel.Store.sp_slide_rating">
             <ResultMapping>
@@ -9854,6 +9842,22 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
                 <ScalarProperty Name="period_descr" ColumnName="period_descr" />
                 <ScalarProperty Name="psb_time" ColumnName="psb_time" />
                 <ScalarProperty Name="psb_location" ColumnName="psb_location" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_send_email_notification" FunctionName="HRIS_RCTModel.Store.sp_send_email_notification">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_send_email_notification_Result">
+                <ScalarProperty Name="email_smtp" ColumnName="email_smtp" />
+                <ScalarProperty Name="email_port" ColumnName="email_port" />
+                <ScalarProperty Name="email_enable_ssl" ColumnName="email_enable_ssl" />
+                <ScalarProperty Name="email_default_credentials" ColumnName="email_default_credentials" />
+                <ScalarProperty Name="email_from" ColumnName="email_from" />
+                <ScalarProperty Name="email_from_pass" ColumnName="email_from_pass" />
+                <ScalarProperty Name="email_to" ColumnName="email_to" />
+                <ScalarProperty Name="email_subject" ColumnName="email_subject" />
+                <ScalarProperty Name="email_header" ColumnName="email_header" />
+                <ScalarProperty Name="email_body" ColumnName="email_body" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -2208,23 +2208,6 @@ namespace HRIS_eRSP_Recruitment.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_search_applicant_tbl_list_Result>("sp_search_applicant_tbl_list", p_search_nameParameter, p_search_optionParameter);
         }
     
-        public virtual ObjectResult<sp_send_email_notification_Result> sp_send_email_notification(string p_email, string p_empl_id, string p_app_ctrl_nbr)
-        {
-            var p_emailParameter = p_email != null ?
-                new ObjectParameter("p_email", p_email) :
-                new ObjectParameter("p_email", typeof(string));
-    
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            var p_app_ctrl_nbrParameter = p_app_ctrl_nbr != null ?
-                new ObjectParameter("p_app_ctrl_nbr", p_app_ctrl_nbr) :
-                new ObjectParameter("p_app_ctrl_nbr", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_send_email_notification_Result>("sp_send_email_notification", p_emailParameter, p_empl_idParameter, p_app_ctrl_nbrParameter);
-        }
-    
         public virtual ObjectResult<Nullable<int>> sp_set_psbscreening_start(string p_psb_ctrl_nbr)
         {
             var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
@@ -2692,6 +2675,31 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_budget_code", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_psb_sked_hdr_tbl_list_Result>("sp_psb_sked_hdr_tbl_list", p_employment_typeParameter, p_budget_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_send_email_notification_Result> sp_send_email_notification(string p_email, string p_empl_id, string p_app_ctrl_nbr, string p_hiring_period, string p_email_type)
+        {
+            var p_emailParameter = p_email != null ?
+                new ObjectParameter("p_email", p_email) :
+                new ObjectParameter("p_email", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_app_ctrl_nbrParameter = p_app_ctrl_nbr != null ?
+                new ObjectParameter("p_app_ctrl_nbr", p_app_ctrl_nbr) :
+                new ObjectParameter("p_app_ctrl_nbr", typeof(string));
+    
+            var p_hiring_periodParameter = p_hiring_period != null ?
+                new ObjectParameter("p_hiring_period", p_hiring_period) :
+                new ObjectParameter("p_hiring_period", typeof(string));
+    
+            var p_email_typeParameter = p_email_type != null ?
+                new ObjectParameter("p_email_type", p_email_type) :
+                new ObjectParameter("p_email_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_send_email_notification_Result>("sp_send_email_notification", p_emailParameter, p_empl_idParameter, p_app_ctrl_nbrParameter, p_hiring_periodParameter, p_email_typeParameter);
         }
     }
 }

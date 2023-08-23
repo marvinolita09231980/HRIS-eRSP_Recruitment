@@ -353,7 +353,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             {
                 foreach (var x in emx)
                 {
-                    var email_settup = db.sp_send_email_notification(x.email_address, x.empl_id, x.app_ctrl_nbr).FirstOrDefault();
+                    var email_settup = db.sp_send_email_notification(x.email_address, x.empl_id, x.app_ctrl_nbr,"","").FirstOrDefault();
                     email_body = email_settup.email_header + body;
                     using (MailMessage mm = new MailMessage(email_settup.email_from, x.email_address))
                     {
@@ -377,6 +377,84 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return JSON2(new { message = "Applicants is successfully notified!", icon = "success" }, JsonRequestBehavior.AllowGet);
 
 
+            }
+            catch (DbEntityValidationException e)
+            {
+                string message = DbEntityValidationExceptionError(e);
+                return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult AcknowledgeApplicationEmail(sp_get_applicantlist_from_APL_Result dt)
+        {
+            CheckSession();
+            
+            var user_id = Session["user_id"].ToString();
+            var mi = "";
+            DateTime dttm = DateTime.Now;
+            try
+            {
+
+               
+
+                var email_settup = db.sp_send_email_notification(dt.email, dt.APL_info_ctrl_nbr, dt.app_ctrl_nbr, dt.ctrl_no, "1").FirstOrDefault();
+                
+
+                using (MailMessage mm = new MailMessage(email_settup.email_from, dt.email))
+                {
+
+                    mm.Subject = email_settup.email_subject;
+                    mm.Body = email_settup.email_body;
+                    mm.IsBodyHtml = true;
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Host = email_settup.email_smtp;
+                        smtp.EnableSsl = (bool)email_settup.email_enable_ssl;
+                        NetworkCredential NetworkCred = new NetworkCredential(email_settup.email_from, email_settup.email_from_pass);
+                        smtp.UseDefaultCredentials = (bool)email_settup.email_default_credentials;
+                        smtp.Credentials = NetworkCred;
+                        smtp.Port = (int)email_settup.email_port;
+                        smtp.Send(mm);
+                    }
+
+                }
+
+                applicants_email_sent_items ems = new applicants_email_sent_items();
+                ems.app_ctrl_nbr = dt.app_ctrl_nbr == null ? "" : dt.app_ctrl_nbr;
+                ems.first_name = dt.firstname;
+                ems.last_name = dt.lastname;
+                ems.middle_name = dt.middlename;
+                ems.email_address = dt.email;
+                ems.hiring_period = dt.ctrl_no;
+                ems.email_subject = "Aknowledge application email";
+                ems.created_dttm = dttm.ToString();
+                ems.created_by_user = user_id;
+                db.applicants_email_sent_items.Add(ems);
+
+                if (dt.middlename == "")
+                {
+                    mi = "";
+                }
+                else
+                {
+                    mi = dt.middlename.Substring(0, 1);
+                }
+
+
+                var appreview = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                appreview.email_aknowldge_dttm = dttm;
+                appreview.email_aknowldge_by = user_id;
+                db.SaveChanges();
+
+
+                sendingEmailList se = new sendingEmailList();
+                se.app_ctrl_nbr = dt.app_ctrl_nbr == null ? "" : dt.app_ctrl_nbr;
+                se.applicant_name = dt.firstname + " " + mi + ". " + dt.lastname;
+                se.email_address = dt.email;
+                se.status = true;
+
+                return JSON2(new { message = "Applicants is successfully notified!", icon = "success", se }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

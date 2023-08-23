@@ -450,8 +450,14 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                                         //'<button  type="button" class="btn btn-info btn-sm action" data-toggle="tab" href="#tab-7" ng-click="btn_edit(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Edit">  <i class="fa fa-edit"></i></button >' +
                                         '<button  type="button" class="btn btn-warning btn-sm action" ng-click="btn_show_details(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Qualification">   <i id="det_row' + row["row"] + '" class="fa fa-bars"></i></button>' +
                                         //'<button  type="button" class="btn btn-danger btn-sm action" ng-click="btn_del_row_main_grid(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Delete">   <i class="del_row' + row["row"] + ' fa fa-trash"></i></button>' +
-                                '<button type="button" id="emailbtn' + row["row"] + '" class="btn btn-danger btn-sm action" data-toggle="tooltip" data-placement="top" title="Send email notification" ng-click="composeEmail(' + row["row"] + ')" >  <i class="fa fa-paper-plane emailbtncls' + row["row"] + '"></i></button >' +
-                                '<button type="button" id="prescrnbtn' + row["row"] + '" class="btn btn-primary btn-sm action" data-toggle="tooltip" data-placement="top" title="Pre-screening date" ng-click="prescreen_date(' + row["row"] + ')" >  <i class="fa fa-eye prescrn' + row["row"] + '"></i></button >' +
+                                        '<div class="btn-group">' +
+                                        '<button type="button" id="emailbtn' + row["row"] + '" class="btn btn-danger btn-sm action" type="button" data-toggle="dropdown" data-placement="top" title="Send email notification" >  <i class="fa fa-paper-plane emailbtncls' + row["row"] + '"></i></button >' +
+                                                '<ul class="dropdown-menu ">' +
+                                                    '<li><a ng-click="acknowledgeApplicationEmail(' + row["row"] + ')">Acknowledge Application</a></li>' +
+                                                    '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">Not Qualified for Online Exam</a></li>' +
+                                               '</ul>' +
+                                        '</div>' +
+                                       '<button type="button" id="prescrnbtn' + row["row"] + '" class="btn btn-primary btn-sm action" data-toggle="tooltip" data-placement="top" title="Pre-screening date" ng-click="prescreen_date(' + row["row"] + ')" >  <i class="fa fa-eye prescrn' + row["row"] + '"></i></button >' +
                                         '</div>' +
                                         '<button type="button" style="border:1px solid #22B9BB;margin-top:3px;" class="btn btn-default btn-sm text-danger"  ng-click="goToDocs(' + row["row"] + ')">Attachements</button>'
                                     '</center>';
@@ -1242,6 +1248,37 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
             $("#emailbtn" + row_id).prop("disabled", false);
         })
        
+    }
+
+
+
+    s.acknowledgeApplicationEmail = function (row_id) {
+     
+        var dt = s.APL_List_Data[row_id]
+
+
+        if (dt.app_ctrl_nbr == null || dt.app_ctrl_nbr == "") {
+            swal("Applicant not yet fetch!", { icon: "error" })
+            return
+        }
+
+        
+
+        $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
+        $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
+        $("#emailbtn" + row_id).prop("disabled", true);
+
+        h.post("../cOnlineApplicantsList/AcknowledgeApplicationEmail", {
+              dt: dt
+        }).then(function (d) {
+
+            swal(d.data.message, { icon: d.data.icon })
+
+            $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
+            $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
+            $("#emailbtn" + row_id).prop("disabled", false);
+        })
+
     }
 
    

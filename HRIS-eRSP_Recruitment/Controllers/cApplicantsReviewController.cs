@@ -595,7 +595,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     aTimer.Elapsed += OnTimedEvent;
                     aTimer.AutoReset = true;
 
-                    var email_settup = db2.sp_send_email_notification(x.email_address, x.empl_id, x.app_ctrl_nbr).FirstOrDefault();
+                    var email_settup = db2.sp_send_email_notification(x.email_address, x.empl_id, x.app_ctrl_nbr,"","").FirstOrDefault();
                     email_body = email_settup.email_header + body;
                     using (MailMessage mm = new MailMessage(email_settup.email_from, x.email_address))
                     {
@@ -641,7 +641,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
                 var middlename = email.middle_name == null ? "" : email.middle_name;
 
-                var email_settup = db2.sp_send_email_notification(x.email_address, x.empl_id, x.app_ctrl_nbr).FirstOrDefault();
+                var email_settup = db2.sp_send_email_notification(x.email_address, x.empl_id, x.app_ctrl_nbr,"","").FirstOrDefault();
                 email_body = email_settup.email_header + body;
 
                 using (MailMessage mm = new MailMessage(email_settup.email_from, x.email_address))
