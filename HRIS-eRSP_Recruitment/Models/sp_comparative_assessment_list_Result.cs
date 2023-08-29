@@ -15,6 +15,7 @@ namespace HRIS_eRSP_Recruitment.Models
     {
         public string app_ctrl_nbr { get; set; }
         public string psb_ctrl_nbr { get; set; }
+        public string empl_id { get; set; }
         public string applicant_name { get; set; }
         public string last_name { get; set; }
         public string first_name { get; set; }
@@ -45,5 +46,11 @@ namespace HRIS_eRSP_Recruitment.Models
         public string approval_status { get; set; }
         public Nullable<bool> hasSelected_approved { get; set; }
         public byte[] empl_photo_img { get; set; }
+        public string hiring_period { get; set; }
+        public string email { get; set; }
+        public string email_regret_dttm { get; set; }
+        public string email_regret_by { get; set; }
+        public string email_congratulatory_dttm { get; set; }
+        public string email_congratulatory_by { get; set; }
     }
 }

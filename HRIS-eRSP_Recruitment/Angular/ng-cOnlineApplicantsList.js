@@ -453,8 +453,8 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                                         '<div class="btn-group">' +
                                         '<button type="button" id="emailbtn' + row["row"] + '" class="btn btn-danger btn-sm action" type="button" data-toggle="dropdown" data-placement="top" title="Send email notification" >  <i class="fa fa-paper-plane emailbtncls' + row["row"] + '"></i></button >' +
                                                 '<ul class="dropdown-menu ">' +
-                                                    '<li><a ng-click="acknowledgeApplicationEmail(' + row["row"] + ')">Acknowledge Application</a></li>' +
-                                                    '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">Not Qualified for Online Exam</a></li>' +
+                                                    '<li><a ng-click="sendEmailNotification(' + row["row"] + ',1)">Acknowledge Application</a></li>' +
+                                                    '<li><a ng-click="sendEmailNotification(' + row["row"] + ',2)">Not Qualified for Online Exam</a></li>' +
                                                '</ul>' +
                                         '</div>' +
                                        '<button type="button" id="prescrnbtn' + row["row"] + '" class="btn btn-primary btn-sm action" data-toggle="tooltip" data-placement="top" title="Pre-screening date" ng-click="prescreen_date(' + row["row"] + ')" >  <i class="fa fa-eye prescrn' + row["row"] + '"></i></button >' +
@@ -1252,7 +1252,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
 
 
-    s.acknowledgeApplicationEmail = function (row_id) {
+    s.sendEmailNotification = function (row_id,type) {
      
         var dt = s.APL_List_Data[row_id]
 
@@ -1268,9 +1268,19 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
         $("#emailbtn" + row_id).prop("disabled", true);
 
-        h.post("../cOnlineApplicantsList/AcknowledgeApplicationEmail", {
-              dt: dt
+        h.post("../cOnlineApplicantsList/sendEmailNotification", {
+             dt: dt
+            ,email_type: type
         }).then(function (d) {
+            var se = d.data.se 
+
+            s.APL_List_Data[row_id].email_aknowldge_dttm = se.email_aknowldge_dttm
+            s.APL_List_Data[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
+            s.APL_List_Data[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
+            s.APL_List_Data[row_id].email_regret_dttm = se.email_regret_dttm
+            s.APL_List_Data[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
+            s.APL_List_Data[row_id].email_notintop5_dttm = se.email_notintop5_dttm
+            s.APL_List_Data[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm  
 
             swal(d.data.message, { icon: d.data.icon })
 
@@ -1281,8 +1291,8 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
     }
 
-   
-
+    
+    
 
     //s.composeEmail = function (row_id) {
     //    s.includeToEmail = []

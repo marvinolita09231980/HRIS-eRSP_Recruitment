@@ -386,10 +386,12 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
 
 
-        public ActionResult AcknowledgeApplicationEmail(sp_get_applicantlist_from_APL_Result dt)
+        public ActionResult sendEmailNotification(sp_get_applicantlist_from_APL_Result dt, string email_type)
         {
             CheckSession();
-            
+            var email_subject = "";
+
+
             var user_id = Session["user_id"].ToString();
             var mi = "";
             DateTime dttm = DateTime.Now;
@@ -398,8 +400,54 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
                
 
-                var email_settup = db.sp_send_email_notification(dt.email, dt.APL_info_ctrl_nbr, dt.app_ctrl_nbr, dt.ctrl_no, "1").FirstOrDefault();
+                var email_settup = db.sp_send_email_notification(dt.email, dt.APL_info_ctrl_nbr, dt.app_ctrl_nbr, dt.ctrl_no, email_type).FirstOrDefault();
                 
+
+                
+
+                
+
+                if (dt.middlename == "")
+                {
+                    mi = "";
+                }
+                else
+                {
+                    mi = dt.middlename.Substring(0, 1);
+                }
+
+                if (email_type == "1")
+                {
+                    var appreview = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_aknowldge_dttm = dttm;
+                    appreview.email_aknowldge_by = user_id;
+
+                    email_subject = "Aknowledge application email";
+
+
+                }
+                else if (email_type == "2")
+                {
+                    var appreview = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_aknowldge_regret_dttm = dttm;
+                    appreview.email_aknowldge_regret_by = user_id;
+
+                    email_subject = "email evaluated but not qualified to proceed to online exam.";
+
+                }
+
+                applicants_email_sent_items ems = new applicants_email_sent_items();
+                ems.app_ctrl_nbr = dt.app_ctrl_nbr == null ? "" : dt.app_ctrl_nbr;
+                ems.first_name = dt.firstname;
+                ems.last_name = dt.lastname;
+                ems.middle_name = dt.middlename;
+                ems.email_address = dt.email;
+                ems.hiring_period = dt.ctrl_no;
+                ems.email_subject = email_subject;
+                ems.created_dttm = dttm.ToString();
+                ems.created_by_user = user_id;
+                db.applicants_email_sent_items.Add(ems);
+
 
                 using (MailMessage mm = new MailMessage(email_settup.email_from, dt.email))
                 {
@@ -420,38 +468,23 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
                 }
 
-                applicants_email_sent_items ems = new applicants_email_sent_items();
-                ems.app_ctrl_nbr = dt.app_ctrl_nbr == null ? "" : dt.app_ctrl_nbr;
-                ems.first_name = dt.firstname;
-                ems.last_name = dt.lastname;
-                ems.middle_name = dt.middlename;
-                ems.email_address = dt.email;
-                ems.hiring_period = dt.ctrl_no;
-                ems.email_subject = "Aknowledge application email";
-                ems.created_dttm = dttm.ToString();
-                ems.created_by_user = user_id;
-                db.applicants_email_sent_items.Add(ems);
 
-                if (dt.middlename == "")
-                {
-                    mi = "";
-                }
-                else
-                {
-                    mi = dt.middlename.Substring(0, 1);
-                }
-
-
-                var appreview = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
-                appreview.email_aknowldge_dttm = dttm;
-                appreview.email_aknowldge_by = user_id;
                 db.SaveChanges();
 
+
+                var apr = db.vw_applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
 
                 sendingEmailList se = new sendingEmailList();
                 se.app_ctrl_nbr = dt.app_ctrl_nbr == null ? "" : dt.app_ctrl_nbr;
                 se.applicant_name = dt.firstname + " " + mi + ". " + dt.lastname;
                 se.email_address = dt.email;
+                se.email_aknowldge_dttm = apr.email_aknowldge_dttm.ToString();
+                se.email_aknowldge_regret_dttm = apr.email_aknowldge_regret_dttm.ToString();
+                se.email_noti_exam_dttm = apr.email_noti_exam_dttm.ToString();
+                se.email_regret_dttm = apr.email_regret_dttm.ToString();
+                se.email_noti_hrmpsb_dttm = apr.email_noti_hrmpsb_dttm.ToString();
+                se.email_notintop5_dttm = apr.email_notintop5_dttm.ToString();
+                se.email_congratulatory_dttm = apr.email_congratulatory_dttm.ToString();
                 se.status = true;
 
                 return JSON2(new { message = "Applicants is successfully notified!", icon = "success", se }, JsonRequestBehavior.AllowGet);

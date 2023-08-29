@@ -699,6 +699,146 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        public ActionResult sendEmailNotification(sp_review_applicant_tbl_list3_Result dt, string email_type)
+        {
+            CheckSession();
+            var email_subject = "";
+            var user_id = Session["user_id"].ToString();
+            var mi = "";
+
+           
+
+            DateTime dttm = DateTime.Now;    
+            try
+            {
+
+
+
+                var email_settup = db2.sp_send_email_notification(dt.email_address, dt.empl_id, dt.app_ctrl_nbr, dt.hiring_period, email_type).FirstOrDefault();
+
+
+              
+
+               
+                if (dt.middle_name == "")
+                {
+                    mi = "";
+                }
+                else
+                {
+                    mi = dt.middle_name.Substring(0, 1);
+                }
+
+                if (email_type == "1")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_aknowldge_dttm = dttm;
+                    appreview.email_aknowldge_by = user_id;
+
+                    email_subject = "Aknowledge application email";
+
+                }
+                else if (email_type == "2")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_aknowldge_regret_dttm = dttm;
+                    appreview.email_aknowldge_regret_by = user_id;
+
+                    email_subject = "email evaluated but not qualified to proceed to online exam.";
+
+                }
+                else if (email_type == "3")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_noti_exam_dttm = dttm;
+                    appreview.email_noti_exam_by = user_id;
+
+                    email_subject = "Notification for Online Examination";
+
+                }
+                else if (email_type == "5")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_noti_hrmpsb_dttm = dttm;
+                    appreview.email_noti_hrmpsb_by = user_id;
+
+                    email_subject = "Notification for HRMPSB Screening";
+
+                }
+                else if (email_type == "6")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_notintop5_dttm = dttm;
+                    appreview.email_notintop5_by = user_id;
+
+                    email_subject = "Notification not in Top 5 applicants";
+
+                }
+
+               
+                applicants_email_sent_items ems = new applicants_email_sent_items();
+                ems.app_ctrl_nbr = dt.app_ctrl_nbr == null ? "" : dt.app_ctrl_nbr;
+                ems.first_name = dt.first_name;
+                ems.last_name = dt.last_name;
+                ems.middle_name = dt.middle_name;
+                ems.email_address = dt.email_address;
+                ems.hiring_period = dt.hiring_period;
+                ems.email_subject = email_subject;
+                ems.created_dttm = dttm.ToString();
+                ems.created_by_user = user_id;
+                db2.applicants_email_sent_items.Add(ems);
+
+                using (MailMessage mm = new MailMessage(email_settup.email_from, dt.email_address))
+                {
+
+                    mm.Subject = email_settup.email_subject;
+                    mm.Body = email_settup.email_body;
+                    mm.IsBodyHtml = true;
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Host = email_settup.email_smtp;
+                        smtp.EnableSsl = (bool)email_settup.email_enable_ssl;
+                        NetworkCredential NetworkCred = new NetworkCredential(email_settup.email_from, email_settup.email_from_pass);
+                        smtp.UseDefaultCredentials = (bool)email_settup.email_default_credentials;
+                        smtp.Credentials = NetworkCred;
+                        smtp.Port = (int)email_settup.email_port;
+                        smtp.Send(mm);
+                    }
+
+                }
+
+                db2.SaveChanges();
+
+
+                var apr = db2.vw_applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+
+
+                sendingEmailList se = new sendingEmailList();
+                se.app_ctrl_nbr = dt.app_ctrl_nbr == null ? "" : dt.app_ctrl_nbr;
+                se.applicant_name = dt.first_name + " " + mi + ". " + dt.last_name;
+                se.email_address = dt.email_address;
+                se.email_aknowldge_dttm = apr.email_aknowldge_dttm.ToString();
+                se.email_aknowldge_regret_dttm = apr.email_aknowldge_regret_dttm.ToString();
+                se.email_noti_exam_dttm = apr.email_noti_exam_dttm.ToString();
+                se.email_regret_dttm = apr.email_regret_dttm.ToString();
+                se.email_noti_hrmpsb_dttm = apr.email_noti_hrmpsb_dttm.ToString();
+                se.email_notintop5_dttm = apr.email_notintop5_dttm.ToString();
+                se.email_congratulatory_dttm = apr.email_congratulatory_dttm.ToString();
+                se.status = true;
+
+                return JSON2(new { message = "Applicants is successfully notified!", icon = "success", se }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                string message = DbEntityValidationExceptionError(e);
+                return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
         private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
             aTimer.Enabled = false;

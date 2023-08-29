@@ -220,27 +220,48 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                 '<button class="btn btn-info btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Review Application" ng-click="appl_review(' + row["row"] + ')">REVIEW&nbsp;<i class="fa fa-plus"></i></button>' +
                                 '<button class="btn btn-success btn-sm btn-grid" id="btntopsb' + row["row"] + '" type="button" data-toggle="tooltip" data-placement="top" title="Add to PSB" ng-click="addtopsb(' + row["row"] + ')">' + s.fn_itemstatuslabel(full["item_in_psb"]) + '&nbsp;<i id="icntopsb' + row["row"] + '" class="fa ' + s.fn_itemstatus(full["item_in_psb"]) + '"></i></button>'+
                                 '<div class="btn-group">' +
-                                    '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">MORE ACTION</button>' +
+                                    '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">MORE...</button>' +
                                     '<ul class="dropdown-menu ">'+
-                                    '<li><a ng-click="identifyidPDS(' + row["row"] + ')">UPDATE PROFILE FROM PDS</a></li>' +
-                                    '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">UPDATE PROFILE FROM ONLINE APPLICATION</a></li>' +
-                                    '<li><a ng-click="identifyidQS(' + row["row"] + ')">UPDATE QS FROM HRIS PDS</a></li>' +
-                                    '<li><a ng-click="updatefromqsapl(' + row["row"] + ')">UPDATE QS ONLINE APPLICATION</a></li>' +
-                                    '<li><a ng-click="goToDocs(' + row["row"] + ',2)">UPLOADED DOCUMENTS</a></li>' +
-                                    '<li><a ng-click="goToDocs(' + row["row"] + ',1)">PRINT SCORE SHEET</a></li>' +
-                                    '<li><a ng-click="composeEmail(' + row["row"] + ')">SEND EMAIL NOTIFICATION</a></li>' +
-                                    '<li><a ng-click="btn_show_pds(' + row["row"] + ')">PRINT PDS FROM ONLINE APPLICATION</a></li>' +
+                                        '<li><a ng-click="identifyidPDS(' + row["row"] + ')">UPDATE PROFILE FROM PDS</a></li>' +
+                                        '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">UPDATE PROFILE FROM ONLINE APPLICATION</a></li>' +
+                                        '<li><a ng-click="identifyidQS(' + row["row"] + ')">UPDATE QS FROM HRIS PDS</a></li>' +
+                                        '<li><a ng-click="updatefromqsapl(' + row["row"] + ')">UPDATE QS ONLINE APPLICATION</a></li>' +
+                                        '<li><a ng-click="goToDocs(' + row["row"] + ',2)">UPLOADED DOCUMENTS</a></li>' +
+                                        '<li><a ng-click="goToDocs(' + row["row"] + ',1)">PRINT SCORE SHEET</a></li>' +
+                                        '<li><a ng-click="composeEmail(' + row["row"] + ')">SEND EMAIL NOTIFICATION</a></li>' +
+                                        '<li><a ng-click="btn_show_pds(' + row["row"] + ')">PRINT PDS FROM ONLINE APPLICATION</a></li>' +
+                                        '<li ng-show = "' + full["app_status"] +'==1" style="color:red;"><a ng-click="deleteFromReview(' + row["row"] + ')">DELETE APPLICANTS</a></li>' +
                                     '</ul>' +
                                 '</div>' +
-                                '<button ng-show = "'+full["app_status"]+'==1" class="btn btn-danger btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Review Application" ng-click="deleteFromReview('+row["row"]+')">DELETE&nbsp;<i class="fa fa-plus"></i></button>' +
-                            '<div class="btn-group">' +
-                            '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">SEND EMAIL</button>' +
+                                '<div class="btn-group">' +
+                                    '<button class="btn btn-danger btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">SEND EMAIL</button>' +
                                     '<ul class="dropdown-menu ">' +
-                                    '<li><a ng-click="identifyidPDS(' + row["row"] + ')">UPDATE PROFILE FROM PDS</a></li>' +
-                                    '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">UPDATE PROFILE FROM ONLINE APPLICATION</a></li>' +
-                                    '<li><a ng-click="identifyidQS(' + row["row"] + ')">UPDATE QS FROM HRIS PDS</a></li>' +
+                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',1)">Acknowledge Email</a></li>' +
+                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',2)">Not Qualified for Online Examination</a></li>' +
+                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',3)">Notification for Online Examination</a></li>' +
+                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',5)">Notification for HRMPSB Screening</a></li>' +
+                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',6)">Notification not in Top 5 applicants</a></li>' +
                                     '</ul>' +
-                            '</div>' +
+                                '</div>' +
+
+
+
+
+                                //'<button ng-show = "'+full["app_status"]+'==1" class="btn btn-danger btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Review Application" ng-click="deleteFromReview('+row["row"]+')">DELETE&nbsp;<i class="fa fa-plus"></i></button>' +
+
+
+
+
+
+
+                            //'<div class="btn-group">' +
+                            //      '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">SEND EMAIL</button>' +
+                            //        '<ul class="dropdown-menu ">' +
+                            //        '<li><a ng-click="identifyidPDS(' + row["row"] + ')">UPDATE PROFILE FROM PDS</a></li>' +
+                            //        '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">UPDATE PROFILE FROM ONLINE APPLICATION</a></li>' +
+                            //        '<li><a ng-click="identifyidQS(' + row["row"] + ')">UPDATE QS FROM HRIS PDS</a></li>' +
+                            //        '</ul>' +
+                            //'</div>' +
 
                             '</div>' 
 						}
@@ -321,7 +342,87 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         }
     }
 
-    
+
+
+    s.sendEmailNotification = function (row_id, type) {
+
+        var dt = s.Applicant_List_Data[row_id]
+
+        console.log(dt)
+   
+        if (dt.app_ctrl_nbr == null || dt.app_ctrl_nbr == "") {
+            swal("Applicant not yet fetch!", { icon: "error" })
+            return
+        }
+
+        if (dt.exam_date == "" || dt.exam_date == null) {
+            swal("No exam date added to this application", { icon: "error" })
+            return
+        }
+
+
+        if (dt.email_address == "" || dt.email_address == null) {
+            swal("This applicant has not provided email address", { icon: "error" })
+            return
+        }
+
+
+        if (type == "1" && dt.email_aknowldge_dttm != "") {
+
+            swal("You have already sent acknowldge email for this applicant", { icon: "error" })
+            return
+          
+        } else if (type == "2" && dt.email_aknowldge_regret_dttm != "") {
+
+            
+            swal("You have already sent notification email for this applicant that he/she was not qualified for the position", { icon: "error" })
+            return
+            
+        } else if (type == "3" && dt.email_noti_exam_dttm != "") {
+            
+            swal("You have already sent notification email of this applicant for the schedule of the online examination", { icon: "error" })
+            return
+            
+        } else if (type == "5" && dt.email_noti_hrmpsb_dttm != "") {
+
+           
+            swal("You have already sent notification email of this applicant for the screening schedule", { icon: "error" })
+            return
+            
+        } else if (type == "6" && dt.email_notintop5_dttm != "") {
+
+            swal("You have already sent notification email of this applicant that he/she was not included of the Top 5 examinees", { icon: "error" })
+            return
+        }
+
+
+        $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
+        $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
+        $("#emailbtn" + row_id).prop("disabled", true);
+
+        h.post("../cApplicantsReview/sendEmailNotification", {
+            dt: dt
+            , email_type: type
+        }).then(function (d) {
+            var se = d.data.se 
+
+            s.Applicant_List_Data[row_id].email_aknowldge_dttm         = se.email_aknowldge_dttm       
+            s.Applicant_List_Data[row_id].email_aknowldge_regret_dttm  = se.email_aknowldge_regret_dttm
+            s.Applicant_List_Data[row_id].email_noti_exam_dttm         = se.email_noti_exam_dttm       
+            s.Applicant_List_Data[row_id].email_regret_dttm            = se.email_regret_dttm          
+            s.Applicant_List_Data[row_id].email_noti_hrmpsb_dttm       = se.email_noti_hrmpsb_dttm     
+            s.Applicant_List_Data[row_id].email_notintop5_dttm         = se.email_notintop5_dttm       
+            s.Applicant_List_Data[row_id].email_congratulatory_dttm    = se.email_congratulatory_dttm  
+
+
+            swal(d.data.message, { icon: d.data.icon })
+
+            $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
+            $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
+            $("#emailbtn" + row_id).prop("disabled", false);
+        })
+
+    }
 
 
     var Init_sendemail_List_Grid = function (par_data) {

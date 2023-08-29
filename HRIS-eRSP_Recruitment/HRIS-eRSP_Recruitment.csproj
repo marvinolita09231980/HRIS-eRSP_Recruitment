@@ -836,6 +836,9 @@
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_applicants_review_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_applicant_educ_tbl_list.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -1128,6 +1131,7 @@
     <Content Include="Angular\Angular-route.min.js" />
     <Content Include="Angular\Angular.js" />
     <Content Include="Angular\angular.min.js" />
+    <Content Include="Angular\Data-dictionary.js" />
     <Content Include="Angular\ng-AddGuestUser.js" />
     <Content Include="Angular\ng-ApplicantDetails.js" />
     <Content Include="Angular\ng-ApplicantDetails.min.js">

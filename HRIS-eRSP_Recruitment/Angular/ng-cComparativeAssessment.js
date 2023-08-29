@@ -158,7 +158,14 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                         "mRender": function (data, type, full, row) {
                             return '<center><div class="btn-group">' +
                                 '<button  type="button" class="btn btn-danger btn-sm action chkbox" ng-click="remove_comparative(' + row["row"] + ')" ' + HSAD(full["hasSelected_approved"])+'><i class="fa fa-times"></i></button >' +
-                                '<button  type="button" class="btn btn-info btn-sm action chkbox" ng-click="approved_comparative(' + row["row"] + ')" ' + HSAD(full["hasSelected_approved"]) +'><i class="fa ' + changefa(data)+'"></i></button >' +
+                                '<button  type="button" class="btn btn-info btn-sm action chkbox" ng-click="approved_comparative(' + row["row"] + ')" ' + HSAD(full["hasSelected_approved"]) + '><i class="fa ' + changefa(data) + '"></i></button >' +
+                                '<div class="btn-group">' +
+                                    '<button class="btn btn-danger btn-sm action chkbox dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action"><i class="fa fa-paper-plane"></i></button>' +
+                                    '<ul class="dropdown-menu ">' +
+                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',7)">Congratulatory Email</a></li>' +
+                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',4)">Regret Email</a></li>' +
+                                    '</ul>' +
+                                '</div>' +
                                 '</div></center>';
                         }
                     }
@@ -205,9 +212,15 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
                             return '<div>' +
-                                '<button style="margin-top:3px;"  type="button" class="btn btn-default action text-info" ng-click="comparative_item_applicant(' + row["row"] + ')">VIEW LIST</button ><br/>' +
-                                '<button style="margin-top:3px;"  type="button" class="btn btn-default action text-success" ng-click="printEndorsement(' + row["row"] + ',4)">PRINT ENDORSEMENT</button ><br/>' +
-                                '<button style="margin-top:3px;"  type="button" class="btn btn-default action text-warning" ng-click="printComparative(' + row["row"] + ',3)">PRINT COMPARATIVE REPORT</button >' +
+                                '<button style="margin-top:3px;"  type="button" class="btn btn-default text-info" ng-click="comparative_item_applicant(' + row["row"] + ')">VIEW LIST</button>' +
+                                '<div class="btn-group">' +
+                                    '<button class="btn btn-default text-warning dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">PRINT...</button>' +
+                                    '<ul class="dropdown-menu ">' +
+                                        '<li><a ng-click="printComparative(' + row["row"] + ',3)">Print Comparative</a></li>' +
+                                        '<li><a ng-click="printEndorsement(' + row["row"] + ',4)">Print Endorsement</a></li>' +
+                                    '</ul>' +
+                                '</div>' +
+                               
                                 
                             '</div>';
                         }
@@ -419,6 +432,64 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     }
 
     init()
+
+
+
+    s.sendEmailNotification = function (row_id, type) {
+
+        var dt = s.Data_List[row_id]
+
+        console.log(dt)
+
+        if (dt.email == "" || dt.email == null) {
+            swal("This applicant has not provided email address", { icon: "error" })
+            return
+        }
+       
+
+        if (type == "4") {
+            if (dt.email_regret_dttm != "") {
+                swal("You have already sent regret email for this applicant", { icon: "error" })
+                return
+            }
+        }
+
+        if (type == "7") {
+            if (dt.email_congratulatory_dttm != "") {
+                swal("You have already sent Congratulatory email for this applicant", { icon: "error" })
+                return
+            }
+        }
+
+       
+
+        $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
+        $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
+        $("#emailbtn" + row_id).prop("disabled", true);
+
+        h.post("../cComparativeAssessment/sendEmailNotification", {
+            dt: dt
+            , email_type: type
+        }).then(function (d) {
+
+            var se = d.data.se
+
+            s.Data_List[row_id].email_aknowldge_dttm = se.email_aknowldge_dttm
+            s.Data_List[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
+            s.Data_List[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
+            s.Data_List[row_id].email_regret_dttm = se.email_regret_dttm
+            s.Data_List[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
+            s.Data_List[row_id].email_notintop5_dttm = se.email_notintop5_dttm
+            s.Data_List[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm  
+            swal(d.data.message, { icon: d.data.icon })
+
+            $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
+            $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
+            $("#emailbtn" + row_id).prop("disabled", false);
+        })
+
+    }
+
 
     s.rating_view = function (row_id) {
        

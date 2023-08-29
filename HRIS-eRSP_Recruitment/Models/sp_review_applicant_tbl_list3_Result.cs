@@ -66,5 +66,10 @@ namespace HRIS_eRSP_Recruitment.Models
         public string exam_date { get; set; }
         public System.TimeSpan exam_time { get; set; }
         public string exam_status { get; set; }
+        public string email_aknowldge_dttm { get; set; }
+        public string email_aknowldge_regret_dttm { get; set; }
+        public string email_noti_exam_dttm { get; set; }
+        public string email_noti_hrmpsb_dttm { get; set; }
+        public string email_notintop5_dttm { get; set; }
     }
 }

@@ -186,6 +186,13 @@ namespace HRIS_eRSP_Recruitment.Models
         public string app_ctrl_nbr { get; set; }
         public string applicant_name { get; set; }
         public string email_address { get; set; }
+        public string email_aknowldge_dttm          { get; set; }
+        public string email_aknowldge_regret_dttm   { get; set; }
+        public string email_noti_exam_dttm          { get; set; }
+        public string email_regret_dttm             { get; set; }
+        public string email_noti_hrmpsb_dttm        { get; set; }
+        public string email_notintop5_dttm          { get; set; }
+        public string email_congratulatory_dttm     { get; set; }
         public bool status { get; set; }
        
     }
