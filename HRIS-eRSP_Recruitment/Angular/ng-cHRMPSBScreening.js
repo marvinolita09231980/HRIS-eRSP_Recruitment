@@ -491,7 +491,36 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
        
     }
 
+    s.generateRating = function () {
+        var item_no = ""
 
+        var dt = cs.getFormData("head-filter")
+        
+        if (cs.validatesubmit("head-filter")) {
+            cs.loading("show")
+            var item_no = $("#item_no").val()
+            h.post("../cHRMPSBScreening/GenerateRating",
+                {
+                    psb_ctrl_nbr: dt.psb_ctrl_nbr
+                    , employment_type: dt.employment_type
+                    , budget_code: dt.budget_code
+                    , item_no: item_no
+                    
+                }).then(function (d) {
+                    if (d.data.icon == "success") {
+                        s.psb_status = d.data.psb_status
+                        s.Data_List_RAW = d.data.psblist
+                        s.Data_List = d.data.psblist.refreshTable("Data_List_Grid", "")
+                    } else {
+                        console.log(d.data.message)
+                    }
+                    s.disabled_ReportsBtn()
+                    cs.loading("hide")
+                  
+                })
+        }
+
+    }
     
     s.selectPsb_date = function (val) {
 
@@ -521,41 +550,42 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
     }
     
     s.selectPSBSchedApplicant = function () {
+        var dt = cs.getFormData("head-filter")
+        var item_no = $("#item_no").val()
+        
+        if (cs.validatesubmit("head-filter")) {
+           
+            cs.loading("show")
+            var psb_ctrl_nbr = dt.psb_ctrl_nbr
+            var employment_type = dt.employment_type
+            var budget_code = dt.budget_code
+            
+            if (s.psb_status == 2 && item_no != "") {
+                s.btn_text3 = "Submit"
+            }
+            else {
+                s.btn_text3 = "PSB Concluded"
+            }
 
-        var val = $("#item_no").val()
+            s.disabled_ReportsBtn()
 
-        if (val == null || val == undefined) {
-            return
+            h.post("../cHRMPSBScreening/sp_hrmpsbscreening_item_list", {
+                  item_no: item_no
+                , psb_ctrl_nbr: psb_ctrl_nbr
+                , employment_type: employment_type
+                , budget_code: budget_code
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+                    s.psb_status = d.data.psb_status
+                    s.Data_List_RAW = d.data.psblist
+                    s.Data_List = d.data.psblist.refreshTable("Data_List_Grid", "")
+                } else {
+                    console.log(d.data.message)
+                }
+                s.disabled_ReportsBtn()
+                cs.loading("hide")
+            })
         }
-        cs.loading("show")
-        var psb_ctrl_nbr = s.psb_ctrl_nbr
-        var employment_type = s.employment_type
-        var budget_code = s.budget_code
-        if (s.psb_status == 2 && val != "")
-        {
-            s.btn_text3 = "Submit"
-        }
-        else
-        {
-            s.btn_text3 = "PSB Concluded"
-        }
-        s.disabled_ReportsBtn()
-        h.post("../cHRMPSBScreening/sp_hrmpsbscreening_item_list", {
-              item_no: val
-            , psb_ctrl_nbr: psb_ctrl_nbr
-            , employment_type: employment_type
-            , budget_code: budget_code
-        }).then(function (d) {
-            if (d.data.icon == "success") {
-                   s.psb_status = d.data.psb_status
-                   s.Data_List_RAW = d.data.psblist
-                   s.Data_List = d.data.psblist.refreshTable("Data_List_Grid", "")
-               } else {
-                   console.log(d.data.message)
-               }
-               s.disabled_ReportsBtn()
-               cs.loading("hide")
-        })
     }
 
 
@@ -866,7 +896,9 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                             h.post("../cHRMPSBScreening/DeletefromComparative", {
                                 app_ctrl_nbr: dt.app_ctrl_nbr,
                             }).then(function (d) {
-                                s.Data_List = d.data.psblist.refreshTable("Data_List_Grid", "")
+                                
+                                s.Data_List[row].app_status = d.data.app_status
+                                s.Data_List = s.Data_List.refreshTable("Data_List_Grid", "")
                                 swal("Message", d.data.message, { icon: d.data.icon })
                                 cs.loading("hide")
                             })
@@ -884,7 +916,8 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                 s.rt_err_ntf = d.data.dbn
                 
                 if (d.data.icon == "success") {
-                    s.Data_List = d.data.psblist.refreshTable("Data_List_Grid", "")
+                    s.Data_List[row].app_status = d.data.app_status
+                    s.Data_List = s.Data_List.refreshTable("Data_List_Grid", "")
                     swal("Applicants is added for comparative assessment", { icon: "success", timer: 2000 })
                     cs.loading("hide")
                 }

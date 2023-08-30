@@ -7,7 +7,9 @@
         height: 35px;
         font-size: 18px;
     }
-
+    div.datepicker {
+        z-index: 3000 !important;
+    }
     .field-arrow {
         font-size: 26px;
     }
@@ -89,12 +91,14 @@
         width: 20px;
         height: 20px;
     }
-    div.modal-dialog.modal-lg{
+    /*div.modal-dialog.modal-lg{
         width:900px !important;
-    }
-    div.modal-dialog.modal-llg{
+    }*/
+    div.modal-dialog.modal-lllg{
         width:1200px !important;
     }
+
+   
     .chkbox{
         width: 25px; 
         height: 25px; 
@@ -140,6 +144,40 @@
     .dropdown-menu {
         margin-left: -150px !important;
     }
+
+    #prepareEndorsement {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+        
+        .headerendorse {
+            text-align: center !important;
+            margin-bottom:-20px;
+        }
+
+        #prepareEndorsement.date {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        #prepareEndorsement.endorsement {
+            margin-bottom: 20px;
+        }
+
+        #prepareEndorsement.applicant-list {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #prepareEndorsement.applicant-list th, #prepareEndorsement.applicant-list td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+
+        #prepareEndorsement.selected {
+            font-weight: bold;
+        }
 </style>
 <script src="~/Angular/ng-cComparativeAssessment.js"></script>
 <section ng-app="ng_eRSP_App" ng-controller="cComparativeAssessment_Ctrlr" ng-click="onclick()">
@@ -171,7 +209,7 @@
         </div>
     </div>
     <div class="modal fade" id="PSB_To_Comparative_Assessment" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-lllg">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content animated flipInY with-background">
                 <div class="modal-header modal-header-add-edit text-white">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
@@ -201,8 +239,96 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="prepareEndorsement" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Prepare Endorsement</b></h2></center>
+                </div>
+                <div class="modal-body">
+                    <form id="endorseForm">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">ENDORSEMENT DATE:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="endorse_dt" ng-model="endorse_dt" class="form-control text-center" required include />
+                                        <div class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-t-md">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">ENDORSE BY:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <div class="input-group date no-padding no-margins" style="margin-bottom:-2px!important;">
+                                        <select class="form-control disable-white text-left norequired  no-padding" id="endorse_by" ng-model="endorse_by" required>
+                                            <option value="">-- --</option>
+                                            <option value="U10601"> GRACELYN M. MABIDA</option>
+                                            <option value="U0027">	LARA ZAPHIRE KRISTY N. BERMEJO </option>
+                                            <option value="U0028"> JANET I. TANHUECO</option>
+                                            <option value="U0644">SHERYL S. MACALDE</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+                            <h1 class="headerendorse" style="font-size:25px !important;">REPUBLIC OF THE PHILIPPINES</h1>
+                            <h2 class="headerendorse" style="font-size:20px !important;">PROVINCE OF DAVAO DE ORO</h2>
+                            <br />
+                            <h2 class="headerendorse m-t-md" style="font-size:20px !important;">PROVINCIAL GOVERNOR'S OFFICE</h2>
+                            <br />
+                            <br />
+                            <br />
+                            <div style="text-align:center !important">
+                                {{endorse_date}}
+                            </div>
+                            <div class="endorsement">
+                                <p style="text-align:center !important; font-size:15px;">Endorsement</p>
+                                <p class="justified" style="max-width:600px;margin:0 auto;text-indent:0">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The applicant below who is vying for the position of <b>{{endorse_position}}</b>, <b>SG-{{endorse_salary_grade}}</b>
+                                    with <b>item no. {{endorse_item_no}}</b> at <b>{{endorse_department_name1}}</b> has complied with the minimum requirements and passed the screening
+                                    of the Human Resource Merit Promotion and Selection Board (HRMPSB). His/her application is respectfully endorsed to
+                                    the Honorable Governor for her final action/appointment:
+                                </p>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <div>
+                                <center>
+                                    <div ng    -repeat="l in endorse_list">{{l.applicant_rank}}&nbsp;&nbsp;-&nbsp;&nbsp;<b  style="text-transform:capitalize !important;">{{l.applicant_name}}</b></div>
+                                </center>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-info pull-right" ng-click="printEndorsement()"><span id="" class="fa fa-arrow-right"></span>&nbsp;&nbsp;Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="applicant_rating_detail" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-llg">
+        <div class="modal-dialog modal-lllg">
             <div class="modal-content animated flipInY with-background">
                 <div class="modal-header modal-header-add-edit text-white">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
@@ -502,7 +628,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-3 m-t-xs pull-left">
-                       
+
                     </div>
                     <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 m-t-xs no-padding">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
@@ -540,7 +666,7 @@
     </div>
 
     <div class="modal fade" id="comparative_item_applicant" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-llg">
+        <div class="modal-dialog modal-lllg">
             <div class="modal-content animated slideInLeft">
                 <div class="modal-header text-white" style="background-color:#507CD1">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">

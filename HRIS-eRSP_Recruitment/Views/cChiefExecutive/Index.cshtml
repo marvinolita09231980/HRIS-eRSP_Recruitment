@@ -440,7 +440,7 @@
             <h2 class="text-white"><b>Chief Executive List</b></h2>
         </div>
         <div class="col-lg-6" style="margin-top:12px;">
-            <input type="search" class="form-control block headerSearch" tableref="Data_List_Grid" ng-model="search_name" placeholder="Search ....">
+            <input type="search" class="form-control block headerSearch" tableref="Data_item_Grid" ng-model="search_name" placeholder="Search ....">
         </div>
     </div>
     <div class="wrapper wrapper-content animated fadeIn">
@@ -460,6 +460,17 @@
                 </div>
                 <div class="col-sm-12 col-xs-12 col-md-7 col-lg-7 m-t-xs">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding" ng-show="firstGrid">
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 no-padding">
+                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HRMPSB DATE:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
+                            <select class="form-control disable-white removeReqOption" id="psb_ctrl_nbr" ng-model="psb_ctrl_nbr" ng-change="selectPsb_date(psb_ctrl_nbr)">
+                                <option value="">--Select Here--</option>
+                                <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding" ng-show="firstGrid">
                         <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2  no-padding">
                             <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HRMPSB DATE:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
                         </div>
@@ -469,7 +480,7 @@
                                 <option ng-repeat="l in psbschedule" value="{{l.psb_ctrl_nbr}}">{{l.psb_date}}&nbsp;&nbsp;&nbsp;{{l.remarks_details}}</option>
                             </select>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding" ng-show="!firstGrid">
                         <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2  no-padding">
                             <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">ITEM:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
@@ -532,49 +543,7 @@
 
 <script src="~/Scripts/plugins/dropzone/dropzone.js"> </script>
 <script>
-    $(document).ready(function () {
-
-        //Dropzone.options.myAwesomeDropzone = {
-
-        //    autoProcessQueue: false,
-        //    uploadMultiple: true,
-        //    parallelUploads: 100,
-        //    maxFiles: 100,
-
-        //    // Dropzone settings
-        //    init: function () {
-        //        var myDropzone = this;
-
-        //        this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
-        //            e.preventDefault();
-        //            e.stopPropagation();
-        //            myDropzone.processQueue();
-        //        });
-        //        this.on("sendingmultiple", function () {
-        //        });
-        //        this.on("successmultiple", function (files, response) {
-        //        });
-        //        this.on("errormultiple", function (files, response) {
-        //        });
-        //    }
-
-        //}
-        //$('.i-checks').iCheck({
-        //    checkboxClass: 'icheckbox_square-green',
-        //    radioClass: 'iradio_square-green',
-        //});
-
-        //$('#data_1 .input-group.date').datepicker({
-        //    todayBtn: "linked",
-        //    keyboardNavigation: false,
-        //    forceParse: false,
-        //    calendarWeeks: true,
-        //    autoclose: true,
-        //    format: "yyyy/mm/dd"
-        //});
-
-
-    });
+  
     function closeLoading() {
         $('#spinner_load').modal("hide");
     }

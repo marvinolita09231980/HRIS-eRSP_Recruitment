@@ -8,9 +8,9 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     var c = commonScript
     s.itemnumber = ""
     s.positionname = ""
-    s.departmentname =""
+    s.departmentname = ""
     s.session_time_interval = 5
-    s.last_time = 5 
+    s.last_time = 5
     s.new_time = 5
     s.header_title = "APPLICANT LIST"
     s.psbsched = []
@@ -28,23 +28,30 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     s.positions = []
     s.included_list = []
     s.sp_psb_item_list = []
+    s.endorse_list = []
+    s.endorse_date = ""
+    s.endorse_position = ""
+    s.endorse_item_no = ""
+    s.endorse_department_name1 = ""
+    s.endorse_salary_grade = 0
+    s.endorse_psb_ctrl_nbr = ""
     s.individual = {}
     s.um = {}
     s.selected_approved = false
-   
+
     s.month = [
-        { id:"01", text: "January"},
-        { id:"02", text: "February"},
-        { id:"03", text: "March"},
-        { id:"04", text: "April"},
-        { id:"05", text: "May"},
-        { id:"06", text: "June"},
-        { id:"07", text: "July"},
-        { id:"08", text: "August"},
-        { id:"09", text: "September"},
-        { id:"10", text: "October"},
-        { id:"11", text: "November"},
-        { id:"12", text: "December"},
+        { id: "01", text: "January" },
+        { id: "02", text: "February" },
+        { id: "03", text: "March" },
+        { id: "04", text: "April" },
+        { id: "05", text: "May" },
+        { id: "06", text: "June" },
+        { id: "07", text: "July" },
+        { id: "08", text: "August" },
+        { id: "09", text: "September" },
+        { id: "10", text: "October" },
+        { id: "11", text: "November" },
+        { id: "12", text: "December" },
     ]
 
     s.year = cs.RetrieveYear()
@@ -78,7 +85,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         else if (val == "5") {
             return "fa-trophy"
         }
-        else{
+        else {
             return "fa-plus"
         }
     }
@@ -157,19 +164,26 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
                             return '<center><div class="btn-group">' +
-                                '<button  type="button" class="btn btn-danger btn-sm action chkbox" ng-click="remove_comparative(' + row["row"] + ')" ' + HSAD(full["hasSelected_approved"])+'><i class="fa fa-times"></i></button >' +
+                                '<button  type="button" class="btn btn-danger btn-sm action chkbox" ng-click="remove_comparative(' + row["row"] + ')" ' + HSAD(full["hasSelected_approved"]) + '><i class="fa fa-times"></i></button >' +
                                 '<button  type="button" class="btn btn-info btn-sm action chkbox" ng-click="approved_comparative(' + row["row"] + ')" ' + HSAD(full["hasSelected_approved"]) + '><i class="fa ' + changefa(data) + '"></i></button >' +
                                 '<div class="btn-group">' +
-                                    '<button class="btn btn-danger btn-sm action chkbox dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action"><i class="fa fa-paper-plane"></i></button>' +
-                                    '<ul class="dropdown-menu ">' +
-                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',7)">Congratulatory Email</a></li>' +
-                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',4)">Regret Email</a></li>' +
-                                    '</ul>' +
+                                '<button class="btn btn-warning btn-sm action chkbox dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action"><i class="fa fa-paper-plane"></i></button>' +
+                                '<ul class="dropdown-menu ">' +
+                                '<li><a ng-click="sendEmailNotification(' + row["row"] + ',7)">Congratulatory Email</a></li>' +
+                                '<li><a ng-click="sendEmailNotification(' + row["row"] + ',4)">Regret Email</a></li>' +
+                                '</ul>' +
                                 '</div>' +
+                                //'<div class="btn-group">' +
+                                //'<button class="btn btn-success btn-sm action chkbox dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action"><i class="fa fa-info"></i></button>' +
+                                //'<ul class="dropdown-menu ">' +
+                                //'<li><a ng-click="setEndorseDate(' + row["row"] + ',7)">Set Endorse Date</a></li>' +
+                               
+                                //'</ul>' +
+                                //'</div>' +
                                 '</div></center>';
                         }
                     }
-                     //data-toggle="tab" href="#tab-7"
+                    //data-toggle="tab" href="#tab-7"
                 ],
                 "createdRow": function (row, data, index) {
                     //$(row).addClass("dt-row");
@@ -206,7 +220,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                                 "<span class='text-left btn-block'>" + full["department_name1"] + "</span>"
                         }
                     },
-                    
+
                     {
                         "mData": "psb_status",
                         "bSortable": false,
@@ -214,15 +228,15 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                             return '<div>' +
                                 '<button style="margin-top:3px;"  type="button" class="btn btn-default text-info" ng-click="comparative_item_applicant(' + row["row"] + ')">VIEW LIST</button>' +
                                 '<div class="btn-group">' +
-                                    '<button class="btn btn-default text-warning dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">PRINT...</button>' +
-                                    '<ul class="dropdown-menu ">' +
-                                        '<li><a ng-click="printComparative(' + row["row"] + ',3)">Print Comparative</a></li>' +
-                                        '<li><a ng-click="printEndorsement(' + row["row"] + ',4)">Print Endorsement</a></li>' +
-                                    '</ul>' +
+                                '<button class="btn btn-default text-warning dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">PRINT...</button>' +
+                                '<ul class="dropdown-menu ">' +
+                                '<li><a ng-click="printComparative(' + row["row"] + ',3)">Print Comparative</a></li>' +
+                                '<li><a ng-click="prepareEndorsement(' + row["row"] + ',4)">Prepare Endorsement</a></li>' +
+                                '</ul>' +
                                 '</div>' +
-                               
-                                
-                            '</div>';
+
+
+                                '</div>';
                         }
                     }
                     //data-toggle="tab" href="#tab-7"
@@ -236,7 +250,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
-  
+
     Init_PSB_List_Grid([])
     Array.prototype.hasSelected = function () {
         var dt = this
@@ -291,7 +305,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                             return "<span class='text-center btn-block'>" + data + "</span>"
                         }
                     }
-                   
+
                 ],
                 "createdRow": function (row, data, index) {
                     //$(row).addClass("dt-row");
@@ -354,46 +368,49 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
 
-    
+    function addvalue(id, value) {
+        $("#" + id).val(value)
+        s[id] = value
+    }
     function pass(data) {
         if (parseInt(data) >= 4) {
-          
+
             return true;
         }
         else {
-          
+
             return false;
         }
     }
     function disable(data) {
         var retval = false
         if (data == "5") {
-            
+
             retval = true;
         }
         else {
-        
+
             retval = false;
-            
+
         }
         return retval
     }
 
-    
+
 
 
     function init() {
-       
+
         $("#endorse_no").prop("disabled", true);
         $("#printComparative").prop("disabled", true);
         $("#reporttype").prop("disabled", true);
-        $("#submitExec").prop("disabled",true)
+        $("#submitExec").prop("disabled", true)
         $("#submitExec").html("Submit")
         var d = new Date();
         var y = d.getFullYear().toString();
         var m = (d.getMonth() + 1).toString();
         s.yr = y
-        s.mo = m > 9 ? m:'0'+ m
+        s.mo = m > 9 ? m : '0' + m
         Init_panel_list([])
         Init_item_list([])
         Init_PSB_item_Grid([])
@@ -403,19 +420,18 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                 s.psbsched_item = d.data.psbsched_item
                 s.psbsched = d.data.sched;
                 s.psbschedule = d.data.psbschedule
-             
-                s.psb_ctrl_nbr = c.ifnull(d.data.psb_ctrl_nbr,"")
+
+                s.psb_ctrl_nbr = c.ifnull(d.data.psb_ctrl_nbr, "")
                 s.item_no = c.ifnull(d.data.item_no, "")
-                if (!cs.elEmpty(d.data.item_no))
-                {
+                if (!cs.elEmpty(d.data.item_no)) {
                     $("#reporttype").prop("disabled", false);
                 }
-            
+
                 s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
                 if (d.data.comparative.length > 0) {
                     d.data.comparative.hasSelected()
                 }
-                
+
                 s.included_list = s.Data_List;
 
                 if (s.Data_List.length == 0) {
@@ -424,10 +440,14 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                 else {
                     $("#submitExec").prop("disabled", false)
                 }
-            
+
             } else {
                 console.log(d.data.message)
             }
+        })
+
+        $(".wizbutton").click(function () {
+            console.log("sdjlkas")
         })
     }
 
@@ -438,20 +458,23 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     s.sendEmailNotification = function (row_id, type) {
 
         var dt = s.Data_List[row_id]
-
+        var swal_title = ""
+        var swal_message = ""
         console.log(dt)
 
         if (dt.email == "" || dt.email == null) {
             swal("This applicant has not provided email address", { icon: "error" })
             return
         }
-       
+
 
         if (type == "4") {
             if (dt.email_regret_dttm != "") {
                 swal("You have already sent regret email for this applicant", { icon: "error" })
                 return
             }
+            swal_title = "Send Regret Email"
+            swal_message= "Are you sure you want to send this applicant a regret email? Please double check you action."
         }
 
         if (type == "7") {
@@ -459,7 +482,10 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                 swal("You have already sent Congratulatory email for this applicant", { icon: "error" })
                 return
             }
+            swal_title = "Send Congratulatory Email"
+            swal_message = "Are you sure you want to send this applicant a congratulatory email? Please double check you action."
         }
+
 
        
 
@@ -467,38 +493,53 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
         $("#emailbtn" + row_id).prop("disabled", true);
 
-        h.post("../cComparativeAssessment/sendEmailNotification", {
-            dt: dt
-            , email_type: type
-        }).then(function (d) {
-
-            var se = d.data.se
-
-            s.Data_List[row_id].email_aknowldge_dttm = se.email_aknowldge_dttm
-            s.Data_List[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
-            s.Data_List[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
-            s.Data_List[row_id].email_regret_dttm = se.email_regret_dttm
-            s.Data_List[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
-            s.Data_List[row_id].email_notintop5_dttm = se.email_notintop5_dttm
-            s.Data_List[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm  
-            swal(d.data.message, { icon: d.data.icon })
-
-            $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
-            $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
-            $("#emailbtn" + row_id).prop("disabled", false);
+        swal({
+            title: swal_title,
+            text: swal_message,
+            icon: "info",
+            buttons: true,
+            dangerMode: true,
         })
+            .then(function (willDelete) {
+                if (willDelete) {
+
+                    h.post("../cComparativeAssessment/sendEmailNotification", {
+                        dt: dt
+                        , email_type: type
+                    }).then(function (d) {
+
+                        var se = d.data.se
+
+                        s.Data_List[row_id].email_aknowldge_dttm = se.email_aknowldge_dttm
+                        s.Data_List[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
+                        s.Data_List[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
+                        s.Data_List[row_id].email_regret_dttm = se.email_regret_dttm
+                        s.Data_List[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
+                        s.Data_List[row_id].email_notintop5_dttm = se.email_notintop5_dttm
+                        s.Data_List[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm
+                        swal(d.data.message, { icon: d.data.icon })
+
+                        $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
+                        $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
+                        $("#emailbtn" + row_id).prop("disabled", false);
+                    })
+
+                }
+
+            });
+
 
     }
 
 
     s.rating_view = function (row_id) {
-       
+
         var app_ctrl_nbr = s.Data_List[row_id].app_ctrl_nbr;
 
         s.individual = s.Data_List[row_id]
-     
+
         s.profile = s.individual
-      
+
         h.post("../cComparativeAssessment/getPSBComparativeRating", { app_ctrl_nbr: app_ctrl_nbr }).then(function (d) {
             if (d.data.icon == "success") {
                 s.slideInnerText = d.data.sp_slide_rating
@@ -511,7 +552,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         $("#applicant_rating_detail").modal("show")
     }
 
-   
+
 
     s.selectDate = function () {
         if (!cs.elEmpty(s.yr) && !cs.elEmpty(s.mo)) {
@@ -529,20 +570,20 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
             }
         })
     }
-    
+
 
     Array.prototype.dialKnobValue = function (form) {
         var data = this;
         for (var i = 0; i < data.length; i++) {
 
             $('#' + form + ' input.dial.m-r-sm.' + data[i].slide_id).trigger(
-                           'configure',
-                           {
-                               "min": 0,
-                               "max": data[i].sub_max_rate,
-                               "cursor": false
-                           }
-                   );
+                'configure',
+                {
+                    "min": 0,
+                    "max": data[i].sub_max_rate,
+                    "cursor": false
+                }
+            );
             $('#' + form + ' input.dial.m-r-sm.' + data[i].slide_id).val(data[i].psb_pnl_rating).trigger('change');
 
         }
@@ -575,10 +616,10 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         s.budgetcode = ""
         s.position_code = ""
         $("#Data_List_Grid").dataTable().fnClearTable();
-        h.post("../cComparativeAssessment/getBudgetYear", { employment_type: val}).then(function (d) {
+        h.post("../cComparativeAssessment/getBudgetYear", { employment_type: val }).then(function (d) {
             if (d.data.icon == "success") {
                 s.budget_year = d.data.budget_year
-               
+
             }
             else {
                 console.log(d.data.message)
@@ -602,12 +643,10 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     }
 
     s.commentNotEmpty = function (val) {
-        if(cs.elEmpty(val))
-        {
+        if (cs.elEmpty(val)) {
             s.nocomment = true;
         }
-        else
-        {
+        else {
             s.nocomment = false;
 
         }
@@ -656,19 +695,17 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     }
 
     s.selectPSBSchedApplicant = function (val) {
-        if (!cs.elEmpty(val))
-        {
+        if (!cs.elEmpty(val)) {
             $("#reporttype").prop("disabled", false);
         }
-        else
-        {
+        else {
             $("#reporttype").val("");
             $("#endorse_no").val("");
             $("#reporttype").prop("disabled", true);
             $("#endorse_no").prop("disabled", true);
             $("#printComparative").prop("disabled", true);
         }
-      
+
         h.post("../cComparativeAssessment/set_Item_no", { item_no: val, psb_ctrl_nbr: s.psb_ctrl_nbr }).then(function (d) {
             if (d.data.icon == "success") {
                 s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
@@ -700,7 +737,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     //                s.budget_year = d.data.budgetyears
     //                cs.clearTable("Data_item_Grid")
     //            }
-              
+
     //            cs.loading("hide")
     //        })
     //    }
@@ -737,27 +774,27 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         if (!cs.elEmpty(val)) {
             cs.loading("show")
             h.post("../cComparativeAssessment/sp_psb_item_list",
-            {
-                psb_ctrl_nbr: val,
-            }).then(function (d) {  
-                if (d.data.icon == "success") {
-                    s.sp_psb_item_list = d.data.sp_psb_item_list
-                    s.item_grid_List = d.data.sp_psb_item_list.refreshTable("Data_item_Grid", "")
-                    cs.loading("hide")
-                } else {
-                    console.log(d.data.message)
-                    cs.loading("hide")
-                }
-            })
+                {
+                    psb_ctrl_nbr: val,
+                }).then(function (d) {
+                    if (d.data.icon == "success") {
+                        s.sp_psb_item_list = d.data.sp_psb_item_list
+                        s.item_grid_List = d.data.sp_psb_item_list.refreshTable("Data_item_Grid", "")
+                        cs.loading("hide")
+                    } else {
+                        console.log(d.data.message)
+                        cs.loading("hide")
+                    }
+                })
         }
     }
-    
+
     function changeBtnLabel() {
         var dt = s.included_list.filter(function (d) {
             return d.item_isadded == true
         })
     }
-  
+
     Array.prototype.getCheckItem = function () {
 
         var data = this
@@ -774,17 +811,16 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     }
 
     s.submitToExec = function (id) {
-       var warning = ""
-        
-       
+        var warning = ""
+
+
         var dt = s.Data_List.getCheckItem();
-        if(dt.length == 0)
-        {
+        if (dt.length == 0) {
             swal("No data to submit", { icon: "error" })
             return
         }
         h.post("../cComparativeAssessment/SubmitToExec", {
-              data: dt
+            data: dt
             , psb_ctrl_nbr: s.psb_ctrl_nbr
             , item_no: s.item_no
         }).then(function (d) {
@@ -799,7 +835,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     s.pass_check_box = function (row) {
         cs.spinnerAdd("pass" + row, "checkmark")
         var chk = $("#pass" + row)[0].checked
-       
+
         if (chk) {
             s.included_list[row].item_isadded = true
         }
@@ -809,12 +845,12 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
         setTimeout(function () {
             cs.spinnerRemove("pass" + row, "checkmark")
-           
+
         }, 100);
-        
+
     }
 
-  
+
 
     s.printComparative = function (row, reptype) {
         var dt = s.item_grid_List[row]
@@ -825,7 +861,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         }
 
         var reporttype = "3"
-        
+
         s.employee_name_print = 'COMPARATIVE ASSESSMENT REPORT';
         var item_no = dt.item_no.toString()
         var psb_ctrl_nbr = s.psb_ctrl_nbr
@@ -837,7 +873,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
         ReportPath = ReportPath + "" + ReportName + ".rpt";
         sp = "sp_comaparative_asessment_rpt,p_item_no," + item_no + ",p_psb_ctrl_nbr," + psb_ctrl_nbr + ",p_app_status," + reporttype;
-       
+
         cs.loading('show')
         var iframe = document.getElementById('iframe_print_preview');
         var iframe_page = $("#iframe_print_preview")[0];
@@ -848,7 +884,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
             + "&ReportType=" + ReportType
             + "&ReportPath=" + ReportPath
             + "&id=" + sp //+ parameters
-        
+
         if (!/*@cc_on!@*/0) { //if not IE
             iframe.onload = function () {
                 iframe.style.visibility = "visible";
@@ -878,74 +914,153 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         iframe.src = s.embed_link;
         $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
     }
-         
-    s.printEndorsement = function (row, reptype) {
-       
-      
-        var dt = s.item_grid_List[row]
-       
-        if (dt.endorse_item < 1) {
-            swal("Warning!", "No data for this item!", { icon: "warning" })
+
+    //budget_code: "2023-2"
+    //department_code: "02"
+    //department_name1: "PROVINCIAL ADMINISTRATOR'S OFFICE"
+    //employment_type: "RE"
+    //endorse_item: 1
+    //item_no: "0081"
+    //position_code: "1098"
+    //position_long_title: "Community Affairs Officer IV"
+    //position_short_title: "CAO IV"
+    //psb_ctrl_nbr: "23-014"
+    //psb_date: "2023-07-26"
+    //psb_status: 3
+    //screen_item: 5
+
+
+    s.printEndorsement = function () {
+
+        if (!cs.validatesubmit("endorseForm")) {
             return
         }
 
-        
+        var endorse_date = $("#endorse_dt").val()
+        var endorse_by = $("#endorse_by").val()
+
         var reporttype = "4"
-      
+
         s.employee_name_print = 'ENDORSEMENT REPORT';
-        var item_no = dt.item_no.toString()
-        var psb_ctrl_nbr = s.psb_ctrl_nbr
+        var item_no = s.endorse_item_no
+        var psb_ctrl_nbr = s.endorse_psb_ctrl_nbr
         var endorse_no = "";
         var ReportName = "cryEndorsement";
         var SaveName = "Crystal_Report";
         var ReportType = "inline";
         var ReportPath = "~/Reports/cryEndorsement/";
-       
+
         var sp = "";
 
         ReportPath = ReportPath + "" + ReportName + ".rpt";
         sp = "sp_endorsement_list_rpt,p_item_no," + item_no + ",p_psb_ctrl_nbr," + psb_ctrl_nbr + ",p_app_status," + reporttype + ",p_endorse_no," + endorse_no;
-      
+
         cs.loading('show')
-        var iframe = document.getElementById('iframe_print_preview');
-        var iframe_page = $("#iframe_print_preview")[0];
-        iframe.style.visibility = "hidden";
-        s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
-            + "&ReportName=" + ReportName
-            + "&SaveName=" + SaveName
-            + "&ReportType=" + ReportType
-            + "&ReportPath=" + ReportPath
-            + "&id=" + sp //+ parameters
-        console.log(s.embed_link)
-        if (!/*@cc_on!@*/0) { //if not IE
-            iframe.onload = function () {
-                iframe.style.visibility = "visible";
-                cs.loading('hide')
-            };
-        }
-        else if (iframe_page.innerHTML()) {
-            var ifTitle = iframe_page.contentDocument.title;
-            if (ifTitle.indexOf("404") >= 0) {
-                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
-                iframe.src = "";
-            }
-            else if (ifTitle != "") {
-                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
-                iframe.src = "";
-            }
-        }
-        else {
-            iframe.onreadystatechange = function () {
-                if (iframe.readyState == "complete") {
-                    iframe.style.visibility = "visible";
-                    //$("#modal_loading").modal("hide")
-                    cs.loading('hide')
+
+        h.post("../cComparativeAssessment/printEndorsement", {
+            psb_ctrl_nbr: s.endorse_psb_ctrl_nbr
+            , item_no: s.endorse_item_no
+            , endorse_date: endorse_date
+            , endorse_by: endorse_by
+
+        }).then(function (d) {
+
+            if (d.data.icon == "success") {
+                var iframe = document.getElementById('iframe_print_preview');
+                var iframe_page = $("#iframe_print_preview")[0];
+                iframe.style.visibility = "hidden";
+                s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+                    + "&ReportName=" + ReportName
+                    + "&SaveName=" + SaveName
+                    + "&ReportType=" + ReportType
+                    + "&ReportPath=" + ReportPath
+                    + "&id=" + sp //+ parameters
+                console.log(s.embed_link)
+                if (!/*@cc_on!@*/0) { //if not IE
+                    iframe.onload = function () {
+                        iframe.style.visibility = "visible";
+                        cs.loading('hide')
+                    };
                 }
-            };
-        }
-        iframe.src = s.embed_link;
-        $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+                else if (iframe_page.innerHTML()) {
+                    var ifTitle = iframe_page.contentDocument.title;
+                    if (ifTitle.indexOf("404") >= 0) {
+                        swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                        iframe.src = "";
+                    }
+                    else if (ifTitle != "") {
+                        swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                        iframe.src = "";
+                    }
+                }
+                else {
+                    iframe.onreadystatechange = function () {
+                        if (iframe.readyState == "complete") {
+                            iframe.style.visibility = "visible";
+                            //$("#modal_loading").modal("hide")
+                            cs.loading('hide')
+                        }
+                    };
+                }
+
+                iframe.src = s.embed_link;
+                $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+            }
+            else {
+                swal(d.data.endorse.db_message, { icon: d.data.icon })
+            }
+         })
+        
+
+
+
     }
+
+    s.prepareEndorsement = function (row, reptype) {
+
+        cs.loading('show')
+
+        var dt = s.item_grid_List[row]
+
+
+
+        if (dt.endorse_item < 1) {
+            swal("Warning!", "No data for this item!", { icon: "warning" })
+            return
+        }
+
+
+
+        s.endorse_position = dt.position_long_title
+        s.endorse_item_no = dt.item_no
+        s.endorse_department_name1 = dt.department_name1
+        s.endorse_salary_grade = dt.salary_grade
+        s.endorse_psb_ctrl_nbr = dt.psb_ctrl_nbr
+
+        h.post("../cComparativeAssessment/prepareEndorsement", {
+            psb_ctrl_nbr: dt.psb_ctrl_nbr
+            , item_no: dt.item_no
+
+        }).then(function (d) {
+
+            s.endorse_list = d.data.endorse
+            if (s.endorse_list.length > 0) {
+                $("#prepareEndorsement").modal("show")
+            }
+            else {
+                swal("Warning!", "No applicants endorse for this item, Please select applicants in View List", { icon: "warning" })
+            }
+          
+            cs.loading('hide')
+
+        })
+
+
+
+
+    }
+
+ 
 
 
     s.selectReporttype = function(val)
@@ -973,6 +1088,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         var dt = s.item_grid_List[row]
         s.itemnumber = dt.item_no
         s.positionname = dt.position_long_title
+        s.departmentname = dt.department_name1
         s.departmentname = dt.department_name1
         cs.loading("show")
         h.post("../cComparativeAssessment/comparative_item_applicant",
@@ -1021,7 +1137,8 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
             }).then(function (d) {
                 if (d.data.icon == "success") {
                     swal("Successfully Added for Indorsement", { icon: "success", timer: 1500 })
-                    s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
+                    s.Data_List[row].app_status = d.data.app_status
+                    s.Data_List = s.Data_List.refreshTable("Data_List_Grid", "")
                     s.get_sp_psb_item_list(dt.psb_ctrl_nbr)
                     cs.loading("hide")
                 }
@@ -1056,7 +1173,8 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                         }).then(function (d) {
                             if (d.data.icon == "success") {
                                 swal("Successfully Remove Indorsement", { icon: "warning", timer: 1500 })
-                                s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
+                                s.Data_List[row].app_status = d.data.app_status
+                                s.Data_List = s.Data_List.refreshTable("Data_List_Grid", "")
                                 s.get_sp_psb_item_list(dt.psb_ctrl_nbr)
                                 cs.loading("hide")
                             }
@@ -1076,6 +1194,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                     psb_ctrl_nbr: psb_ctrl_nbr,
                 }).then(function (d) {
                     if (d.data.icon == "success") {
+                        console.log()
                         s.sp_psb_item_list = d.data.sp_psb_item_list
                         s.item_grid_List = d.data.sp_psb_item_list.refreshTable("Data_item_Grid", psb_ctrl_nbr)
                        

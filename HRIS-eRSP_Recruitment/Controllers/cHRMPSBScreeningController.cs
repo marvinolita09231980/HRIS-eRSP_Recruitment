@@ -282,7 +282,33 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return JSON(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
+        public ActionResult GenerateRating(string psb_ctrl_nbr,string employment_type,string budget_code,string item_no)
+        {
+            CheckSession();
+            db.Database.CommandTimeout = Int32.MaxValue;
+            var user_id = Session["user_id"].ToString();
+            var psb_status = 0 ;
+            List<sp_hrmpsb_screening_list_Result> psblist = new List<sp_hrmpsb_screening_list_Result>();
+            try
+            {
+
+                var generaterating = db.sp_applicants_generate_rating(psb_ctrl_nbr).FirstOrDefault();
+                psb_status = (int)db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault().psb_status;
+
+                if (item_no != "")
+                {
+                    psblist = db.sp_hrmpsb_screening_list(psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == item_no).ToList();
+                }
+              
+                return JSON(new { message = fetch.success, icon = icon.success, psb_status, psblist }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return JSON(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult findPanel(string psb_ctrl_nbr)
         {
             CheckSession();
@@ -542,6 +568,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var item_no = Session["item_no"].ToString();
             var message = "";
             var icn = "";
+            var app_status = "";
             try
             {
                 var d = db.sp_applicant_proceedto_CA(psb_ctrl_nbr, app_ctrl_nbr).ToList();
@@ -549,6 +576,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 {
                     var dbs = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
                     dbs.app_status = "3";
+                    app_status = "3";
                     icn = icon.success;
                 }
                 else
@@ -558,8 +586,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 }
                 db.SaveChanges();
 
-              var  psblist = db.sp_hrmpsb_screening_list(psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == item_no).ToList();
-                return JSON(new { message = message, icon = icn, dbn = d[0], psblist }, JsonRequestBehavior.AllowGet);
+              //var  psblist = db.sp_hrmpsb_screening_list(psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == item_no).ToList();
+                return JSON(new { message = message, icon = icn, dbn = d[0], app_status }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -571,6 +599,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             var message = "";
             var icn = "";
+            var app_status = "";
             db.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             var psb_ctrl_nbr = Session["psb_psb_ctrl_nbr"].ToString();
@@ -581,9 +610,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 var app = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
                 if (app.app_status == "4")
                 {
-                    psblist = db.sp_hrmpsb_screening_list(psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == item_no).ToList();
-                    message = "Cannot be remove, applicants is already approved";
-                    icn = "warning";
+                   // psblist = db.sp_hrmpsb_screening_list(psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == item_no).ToList();
+                    throw new Exception("Cannot be remove, applicants is already approved");
                 }
                 else
                 {
@@ -591,16 +619,17 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     app.updated_dttm = DateTime.Now;
                     app.updated_by_user = user_id;
                     db.SaveChanges();
-                    psblist = db.sp_hrmpsb_screening_list(psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == item_no).ToList();
+                   // psblist = db.sp_hrmpsb_screening_list(psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == item_no).ToList();
                     message = "Successfully removed from comparative!";
                     icn = "success";
+                    app_status = "2";
                 }
 
-                return JSON(new { message = message, icon = icn, psblist }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = message, icon = icn, app_status }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                return JSON(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = e.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -814,28 +843,10 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var user_id = Session["user_id"].ToString();
             try
             {
-               
-                var items = from itm in db.psb_sked_item_nbrs
-                            join pitm in db.vw_plantilla_items
-                            on new { itm.item_no, itm.budget_code} equals new { pitm.item_no, pitm.budget_code}
-                            join pos in db.vw_positions_tbl
-                            on pitm.position_code equals pos.position_code
-                            where itm.psb_ctrl_nbr == psb_ctrl_nbr
-                            && itm.employment_type == employment_type
-                            && itm.budget_code == budget_code
-                            select new
-                            {
-                                 itm.item_no
-                                ,itm.psb_ctrl_nbr
-                                ,itm.budget_code
-                                ,itm.employment_type
-                                ,pos.position_code
-                                ,pos.position_title1
-                            };
 
-              
-
-                return JSON(new { message = fetch.success, icon = icon.success, items }, JsonRequestBehavior.AllowGet);
+                var items = db.vw_psb_sked_item_nbrs_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr && a.employment_type == employment_type && a.budget_code == budget_code).ToList();
+                
+                return JSON(new { message = fetch.success, icon = icon.success, items}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

@@ -64,6 +64,12 @@ namespace eSMIS.Reports
                 //firstload = false;
             }
 
+
+
+
+
+        
+
             string[] ls_splitvalue;
             ls_val = Request.QueryString["id"];
             ls_splitvalue = ls_val.Split(',');
@@ -386,6 +392,7 @@ namespace eSMIS.Reports
                 crvPrint.ReportSource = cryRpt;
                 crvPrint.DataBind();
                 PrinterSettings settings = new PrinterSettings();
+                
             }
             catch (Exception e)
             {

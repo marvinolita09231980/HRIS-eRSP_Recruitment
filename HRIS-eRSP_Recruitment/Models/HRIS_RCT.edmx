@@ -234,6 +234,23 @@
           <Property Name="doc_type" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="doc_type_descr" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="endorsement_print_dtl_tbl">
+          <Key>
+            <PropertyRef Name="endorse_no" />
+            <PropertyRef Name="app_ctrl_nbr" />
+          </Key>
+          <Property Name="endorse_no" Type="int" Nullable="false" />
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="endorsement_print_hdr_tbl">
+          <Key>
+            <PropertyRef Name="endorse_no" />
+          </Key>
+          <Property Name="endorse_no" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="psb_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="endorsement_print_date" Type="datetime" Nullable="false" />
+          <Property Name="endorsement_print_by" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="exam_shcedule_tbl">
           <Key>
             <PropertyRef Name="exam_id" />
@@ -1023,6 +1040,23 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_psb_sked_hdr_tbl' does not have a 
           <Property Name="hiring_period" Type="varchar" MaxLength="15" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_RCT.dbo.vw_psb_sked_item_nbrs_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_psb_sked_item_nbrs_tbl">
+          <Key>
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="psb_ctrl_nbr" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="position_code" />
+          </Key>
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="psb_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="position_title1" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_RCT.dbo.vw_psb_sked_mbr_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_psb_sked_mbr_tbl">
           <Key>
@@ -1518,6 +1552,12 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_user_id" Type="varchar" Mode="In" />
           <Parameter Name="p_item_no" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_applicants_dates_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_applicants_generate_rating" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_applicantsreviewtbl_items_casual_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_budget_code" Type="varchar" Mode="In" />
           <Parameter Name="p_employment_type" Type="varchar" Mode="In" />
@@ -1654,11 +1694,25 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_endorsement_hdr_insert_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_item_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_app_status" Type="varchar" Mode="In" />
+          <Parameter Name="p_endorse_date" Type="datetime" Mode="In" />
+          <Parameter Name="p_endorse_by" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_endorsement_list_rpt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_item_no" Type="varchar" Mode="In" />
           <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
           <Parameter Name="p_app_status" Type="varchar" Mode="In" />
           <Parameter Name="p_endorse_no" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_endorsename_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_item_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_app_status" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_exec_2bapprovedlist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
@@ -2078,6 +2132,13 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_search_name" Type="varchar" Mode="In" />
           <Parameter Name="p_search_option" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_select_applicant_insert_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_selected_dttm" Type="datetime" Mode="In" />
+          <Parameter Name="p_selected_by" Type="varchar" Mode="In" />
+          <Parameter Name="p_status" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_send_email_notification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_email" Type="varchar" Mode="In" />
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
@@ -2202,6 +2263,8 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="applicants_tbl" EntityType="Self.applicants_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="application_status_tbl" EntityType="Self.application_status_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="document_type_tbl" EntityType="Self.document_type_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="endorsement_print_dtl_tbl" EntityType="Self.endorsement_print_dtl_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="endorsement_print_hdr_tbl" EntityType="Self.endorsement_print_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="exam_shcedule_tbl" EntityType="Self.exam_shcedule_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="guest_user_info_tbl" EntityType="Self.guest_user_info_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="psb_cbirating_tbl" EntityType="Self.psb_cbirating_tbl" Schema="dbo" store:Type="Tables" />
@@ -2532,6 +2595,16 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
     [vw_psb_sked_hdr_tbl].[disabled_rating] AS [disabled_rating], 
     [vw_psb_sked_hdr_tbl].[hiring_period] AS [hiring_period]
     FROM [dbo].[vw_psb_sked_hdr_tbl] AS [vw_psb_sked_hdr_tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_psb_sked_item_nbrs_tbl" EntityType="Self.vw_psb_sked_item_nbrs_tbl" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_psb_sked_item_nbrs_tbl].[item_no] AS [item_no], 
+    [vw_psb_sked_item_nbrs_tbl].[psb_ctrl_nbr] AS [psb_ctrl_nbr], 
+    [vw_psb_sked_item_nbrs_tbl].[budget_code] AS [budget_code], 
+    [vw_psb_sked_item_nbrs_tbl].[employment_type] AS [employment_type], 
+    [vw_psb_sked_item_nbrs_tbl].[position_code] AS [position_code], 
+    [vw_psb_sked_item_nbrs_tbl].[position_title1] AS [position_title1]
+    FROM [dbo].[vw_psb_sked_item_nbrs_tbl] AS [vw_psb_sked_item_nbrs_tbl]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_psb_sked_mbr_tbl" EntityType="Self.vw_psb_sked_mbr_tbl" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -4054,11 +4127,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_hrmpsb_screening_list" ReturnType="Collection(HRIS_RCTModel.sp_hrmpsb_screening_list_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
-            <Parameter Name="p_app_status" Mode="In" Type="String" />
-            <Parameter Name="p_user_id" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_hrmpsb_screening_list_inItem" ReturnType="Collection(HRIS_RCTModel.sp_hrmpsb_screening_list_inItem_Result)">
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
@@ -4233,9 +4301,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_psb_applicant_list" ReturnType="Collection(HRIS_RCTModel.sp_psb_applicant_list_Result)">
-          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_psb_item_list" ReturnType="Collection(HRIS_RCTModel.sp_psb_item_list_Result)">
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_psb_name_info" ReturnType="Collection(HRIS_RCTModel.sp_psb_name_info_Result)">
@@ -4506,6 +4571,44 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_hiring_period" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="vw_applicants_review_tbl" EntityType="HRIS_RCTModel.vw_applicants_review_tbl" />
+          <EntitySet Name="endorsement_print_dtl_tbl" EntityType="HRIS_RCTModel.endorsement_print_dtl_tbl" />
+          <EntitySet Name="endorsement_print_hdr_tbl" EntityType="HRIS_RCTModel.endorsement_print_hdr_tbl" />
+          <FunctionImport Name="sp_endorsename_list" ReturnType="Collection(HRIS_RCTModel.sp_endorsename_list_Result)">
+            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+            <Parameter Name="p_app_status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_psb_item_list" ReturnType="Collection(HRIS_RCTModel.sp_psb_item_list_Result)">
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_endorsement_hdr_insert_tbl" ReturnType="Collection(HRIS_RCTModel.sp_endorsement_hdr_insert_tbl_Result)">
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_app_status" Mode="In" Type="String" />
+            <Parameter Name="p_endorse_date" Mode="In" Type="DateTime" />
+            <Parameter Name="p_endorse_by" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+            <Parameter Name="p_action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_select_applicant_insert_update" ReturnType="Collection(HRIS_RCTModel.sp_select_applicant_insert_update_Result)">
+            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_selected_dttm" Mode="In" Type="DateTime" />
+            <Parameter Name="p_selected_by" Mode="In" Type="String" />
+            <Parameter Name="p_status" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="vw_psb_sked_item_nbrs_tbl" EntityType="HRIS_RCTModel.vw_psb_sked_item_nbrs_tbl" />
+          <FunctionImport Name="sp_applicants_generate_rating" ReturnType="Collection(HRIS_RCTModel.sp_applicants_generate_rating_Result)">
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_hrmpsb_screening_list" ReturnType="Collection(HRIS_RCTModel.sp_hrmpsb_screening_list_Result)">
+            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_app_status" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_applicants_dates_list" ReturnType="Collection(HRIS_RCTModel.sp_applicants_dates_list_Result)">
+            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_add_available_items_to_RCT_Result">
           <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
@@ -5198,42 +5301,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="sp_hrmpsb_screening_list_Result">
-          <Property Type="String" Name="app_ctrl_nbr" Nullable="true" MaxLength="6" />
-          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="applicant_name" Nullable="true" MaxLength="204" />
-          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="birth_date" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="gender" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="gender_descr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="civil_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="civil_status_descr" Nullable="false" MaxLength="7" />
-          <Property Type="String" Name="app_address" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="app_status" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="employment_type_descr" Nullable="false" MaxLength="9" />
-          <Property Type="Boolean" Name="is_employee" Nullable="true" />
-          <Property Type="Double" Name="score_rendered" Nullable="false" />
-          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
-          <Property Type="String" Name="budget_description" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="assignment_code" Nullable="false" MaxLength="3" />
-          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="department_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="position_long_title" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="csc_level" Nullable="false" MaxLength="1" />
-          <Property Type="Boolean" Name="is_panel" Nullable="true" />
-          <Property Type="Boolean" Name="btn_disabled" Nullable="true" />
-          <Property Type="Binary" Name="empl_photo_img" Nullable="false" MaxLength="1" />
-          <Property Type="Double" Name="qs_total_100perc" Nullable="false" />
-          <Property Type="Double" Name="exam_100perc" Nullable="false" />
-          <Property Type="String" Name="cbi_100rating" Nullable="false" MaxLength="4000" />
-          <Property Type="String" Name="total_rating" Nullable="false" MaxLength="4000" />
-          <Property Type="Boolean" Name="hasSelected_approved" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="sp_hrmpsb_screening_list_inItem_Result">
           <Property Type="String" Name="app_ctrl_nbr" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
@@ -5631,21 +5698,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
           <Property Type="String" Name="employment_type_descr" Nullable="false" MaxLength="9" />
           <Property Type="Boolean" Name="btn_disabled" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_psb_item_list_Result">
-          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="psb_date" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
-          <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
-          <Property Type="Int32" Name="psb_status" Nullable="true" />
-          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="position_short_title" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="screen_item" Nullable="true" />
-          <Property Type="Int32" Name="endorse_item" Nullable="true" />
         </ComplexType>
         <ComplexType Name="sp_psb_name_info_Result">
           <Property Type="String" Name="panel_name" Nullable="true" MaxLength="200" />
@@ -6549,6 +6601,141 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="email_notintop5_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="email_congratulatory_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="endorsement_print_dtl_tbl">
+          <Key>
+            <PropertyRef Name="endorse_no" />
+            <PropertyRef Name="app_ctrl_nbr" />
+          </Key>
+          <Property Name="endorse_no" Type="Int32" Nullable="false" />
+          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="endorsement_print_hdr_tbl">
+          <Key>
+            <PropertyRef Name="endorse_no" />
+          </Key>
+          <Property Name="endorse_no" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="psb_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="endorsement_print_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="endorsement_print_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_endorsename_list_Result">
+          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="applicant_name" Nullable="true" MaxLength="204" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="birth_date" Nullable="false" MaxLength="30" />
+          <Property Type="Double" Name="applicant_rank" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_psb_item_list_Result">
+          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="psb_date" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
+          <Property Type="Int32" Name="psb_status" Nullable="true" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="position_short_title" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="screen_item" Nullable="true" />
+          <Property Type="Int32" Name="endorse_item" Nullable="true" />
+          <Property Type="String" Name="salary_grade" Nullable="false" MaxLength="2" />
+        </ComplexType>
+        <ComplexType Name="sp_endorsement_hdr_insert_tbl_Result">
+          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="db_message" Nullable="false" MaxLength="22" />
+        </ComplexType>
+        <ComplexType Name="sp_select_applicant_insert_update_Result">
+          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="db_message" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <EntityType Name="vw_psb_sked_item_nbrs_tbl">
+          <Key>
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="psb_ctrl_nbr" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="position_code" />
+          </Key>
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="psb_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="position_code" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="position_title1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_applicants_generate_rating_Result">
+          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="db_message" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_hrmpsb_screening_list_Result">
+          <Property Type="String" Name="app_ctrl_nbr" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="applicant_name" Nullable="true" MaxLength="204" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="birth_date" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="gender" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="gender_descr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="civil_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="civil_status_descr" Nullable="false" MaxLength="7" />
+          <Property Type="String" Name="app_address" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="app_status" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="employment_type_descr" Nullable="false" MaxLength="9" />
+          <Property Type="Boolean" Name="is_employee" Nullable="true" />
+          <Property Type="Decimal" Name="score_rendered" Nullable="false" Precision="19" />
+          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="budget_description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="assignment_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="csc_level" Nullable="false" MaxLength="1" />
+          <Property Type="Boolean" Name="is_panel" Nullable="true" />
+          <Property Type="Boolean" Name="btn_disabled" Nullable="true" />
+          <Property Type="Binary" Name="empl_photo_img" Nullable="false" MaxLength="1" />
+          <Property Type="Decimal" Name="qs_total_100perc" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="exam_100perc" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="cbi_100rating" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="total_rating" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="ipcr_rating" Nullable="false" Precision="19" />
+          <Property Type="Boolean" Name="hasSelected_approved" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_applicants_dates_list_Result">
+          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="aknowledge_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="aknowledge_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="fetch_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="fetch_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="prescreen_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="presreen_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="endorse_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="endorse_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="email_aknowldge_regret_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_aknowldge_regret_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="email_regret_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_regret_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="email_noti_exam_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_noti_exam_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="email_notintop5_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_notintop5_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="email_noti_hrmpsb_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_noti_hrmpsb_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="email_congratulatory_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_congratulatory_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="email_aknowldge_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_aknowldge_by" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="selected_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="selected_by" Nullable="false" MaxLength="10" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8370,46 +8557,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_hrmpsb_screening_list" FunctionName="HRIS_RCTModel.Store.sp_hrmpsb_screening_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_hrmpsb_screening_list_Result">
-                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
-                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
-                <ScalarProperty Name="applicant_name" ColumnName="applicant_name" />
-                <ScalarProperty Name="last_name" ColumnName="last_name" />
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
-                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="gender_descr" ColumnName="gender_descr" />
-                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
-                <ScalarProperty Name="civil_status_descr" ColumnName="civil_status_descr" />
-                <ScalarProperty Name="app_address" ColumnName="app_address" />
-                <ScalarProperty Name="app_status" ColumnName="app_status" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="employment_type_descr" ColumnName="employment_type_descr" />
-                <ScalarProperty Name="is_employee" ColumnName="is_employee" />
-                <ScalarProperty Name="score_rendered" ColumnName="score_rendered" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="budget_description" ColumnName="budget_description" />
-                <ScalarProperty Name="assignment_code" ColumnName="assignment_code" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="department_name" ColumnName="department_name" />
-                <ScalarProperty Name="position_code" ColumnName="position_code" />
-                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-                <ScalarProperty Name="csc_level" ColumnName="csc_level" />
-                <ScalarProperty Name="is_panel" ColumnName="is_panel" />
-                <ScalarProperty Name="btn_disabled" ColumnName="btn_disabled" />
-                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
-                <ScalarProperty Name="qs_total_100perc" ColumnName="qs_total_100perc" />
-                <ScalarProperty Name="exam_100perc" ColumnName="exam_100perc" />
-                <ScalarProperty Name="cbi_100rating" ColumnName="cbi_100rating" />
-                <ScalarProperty Name="total_rating" ColumnName="total_rating" />
-                <ScalarProperty Name="hasSelected_approved" ColumnName="hasSelected_approved" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_hrmpsb_screening_list_inItem" FunctionName="HRIS_RCTModel.Store.sp_hrmpsb_screening_list_inItem">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_hrmpsb_screening_list_inItem_Result">
@@ -8917,25 +9064,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
                 <ScalarProperty Name="employment_type" ColumnName="employment_type" />
                 <ScalarProperty Name="employment_type_descr" ColumnName="employment_type_descr" />
                 <ScalarProperty Name="btn_disabled" ColumnName="btn_disabled" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_psb_item_list" FunctionName="HRIS_RCTModel.Store.sp_psb_item_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_psb_item_list_Result">
-                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
-                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
-                <ScalarProperty Name="position_code" ColumnName="position_code" />
-                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="screen_item" ColumnName="screen_item" />
-                <ScalarProperty Name="endorse_item" ColumnName="endorse_item" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9998,6 +10126,167 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="endorsement_print_dtl_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.endorsement_print_dtl_tbl">
+              <MappingFragment StoreEntitySet="endorsement_print_dtl_tbl">
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="endorse_no" ColumnName="endorse_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="endorsement_print_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.endorsement_print_hdr_tbl">
+              <MappingFragment StoreEntitySet="endorsement_print_hdr_tbl">
+                <ScalarProperty Name="endorsement_print_by" ColumnName="endorsement_print_by" />
+                <ScalarProperty Name="endorsement_print_date" ColumnName="endorsement_print_date" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="endorse_no" ColumnName="endorse_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_endorsename_list" FunctionName="HRIS_RCTModel.Store.sp_endorsename_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_endorsename_list_Result">
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="applicant_name" ColumnName="applicant_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="applicant_rank" ColumnName="applicant_rank" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_psb_item_list" FunctionName="HRIS_RCTModel.Store.sp_psb_item_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_psb_item_list_Result">
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="screen_item" ColumnName="screen_item" />
+                <ScalarProperty Name="endorse_item" ColumnName="endorse_item" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_endorsement_hdr_insert_tbl" FunctionName="HRIS_RCTModel.Store.sp_endorsement_hdr_insert_tbl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_endorsement_hdr_insert_tbl_Result">
+                <ScalarProperty Name="db_code" ColumnName="db_code" />
+                <ScalarProperty Name="db_message" ColumnName="db_message" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_select_applicant_insert_update" FunctionName="HRIS_RCTModel.Store.sp_select_applicant_insert_update">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_select_applicant_insert_update_Result">
+                <ScalarProperty Name="db_code" ColumnName="db_code" />
+                <ScalarProperty Name="db_message" ColumnName="db_message" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vw_psb_sked_item_nbrs_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_psb_sked_item_nbrs_tbl">
+              <MappingFragment StoreEntitySet="vw_psb_sked_item_nbrs_tbl">
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_applicants_generate_rating" FunctionName="HRIS_RCTModel.Store.sp_applicants_generate_rating">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_applicants_generate_rating_Result">
+                <ScalarProperty Name="db_code" ColumnName="db_code" />
+                <ScalarProperty Name="db_message" ColumnName="db_message" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_hrmpsb_screening_list" FunctionName="HRIS_RCTModel.Store.sp_hrmpsb_screening_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_hrmpsb_screening_list_Result">
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="applicant_name" ColumnName="applicant_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="gender_descr" ColumnName="gender_descr" />
+                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
+                <ScalarProperty Name="civil_status_descr" ColumnName="civil_status_descr" />
+                <ScalarProperty Name="app_address" ColumnName="app_address" />
+                <ScalarProperty Name="app_status" ColumnName="app_status" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="employment_type_descr" ColumnName="employment_type_descr" />
+                <ScalarProperty Name="is_employee" ColumnName="is_employee" />
+                <ScalarProperty Name="score_rendered" ColumnName="score_rendered" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="budget_description" ColumnName="budget_description" />
+                <ScalarProperty Name="assignment_code" ColumnName="assignment_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name" ColumnName="department_name" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="csc_level" ColumnName="csc_level" />
+                <ScalarProperty Name="is_panel" ColumnName="is_panel" />
+                <ScalarProperty Name="btn_disabled" ColumnName="btn_disabled" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="qs_total_100perc" ColumnName="qs_total_100perc" />
+                <ScalarProperty Name="exam_100perc" ColumnName="exam_100perc" />
+                <ScalarProperty Name="cbi_100rating" ColumnName="cbi_100rating" />
+                <ScalarProperty Name="total_rating" ColumnName="total_rating" />
+                <ScalarProperty Name="ipcr_rating" ColumnName="ipcr_rating" />
+                <ScalarProperty Name="hasSelected_approved" ColumnName="hasSelected_approved" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_applicants_dates_list" FunctionName="HRIS_RCTModel.Store.sp_applicants_dates_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_applicants_dates_list_Result">
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="aknowledge_dttm" ColumnName="aknowledge_dttm" />
+                <ScalarProperty Name="aknowledge_by" ColumnName="aknowledge_by" />
+                <ScalarProperty Name="fetch_dttm" ColumnName="fetch_dttm" />
+                <ScalarProperty Name="fetch_by" ColumnName="fetch_by" />
+                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
+                <ScalarProperty Name="presreen_by" ColumnName="presreen_by" />
+                <ScalarProperty Name="endorse_dttm" ColumnName="endorse_dttm" />
+                <ScalarProperty Name="endorse_by" ColumnName="endorse_by" />
+                <ScalarProperty Name="email_aknowldge_regret_dttm" ColumnName="email_aknowldge_regret_dttm" />
+                <ScalarProperty Name="email_aknowldge_regret_by" ColumnName="email_aknowldge_regret_by" />
+                <ScalarProperty Name="email_regret_dttm" ColumnName="email_regret_dttm" />
+                <ScalarProperty Name="email_regret_by" ColumnName="email_regret_by" />
+                <ScalarProperty Name="email_noti_exam_dttm" ColumnName="email_noti_exam_dttm" />
+                <ScalarProperty Name="email_noti_exam_by" ColumnName="email_noti_exam_by" />
+                <ScalarProperty Name="email_notintop5_dttm" ColumnName="email_notintop5_dttm" />
+                <ScalarProperty Name="email_notintop5_by" ColumnName="email_notintop5_by" />
+                <ScalarProperty Name="email_noti_hrmpsb_dttm" ColumnName="email_noti_hrmpsb_dttm" />
+                <ScalarProperty Name="email_noti_hrmpsb_by" ColumnName="email_noti_hrmpsb_by" />
+                <ScalarProperty Name="email_congratulatory_dttm" ColumnName="email_congratulatory_dttm" />
+                <ScalarProperty Name="email_congratulatory_by" ColumnName="email_congratulatory_by" />
+                <ScalarProperty Name="email_aknowldge_dttm" ColumnName="email_aknowldge_dttm" />
+                <ScalarProperty Name="email_aknowldge_by" ColumnName="email_aknowldge_by" />
+                <ScalarProperty Name="selected_dttm" ColumnName="selected_dttm" />
+                <ScalarProperty Name="selected_by" ColumnName="selected_by" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

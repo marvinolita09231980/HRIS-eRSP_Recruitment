@@ -93,6 +93,9 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<applicants_review_tbl> applicants_review_tbl { get; set; }
         public virtual DbSet<psb_sked_hdr_tbl> psb_sked_hdr_tbl { get; set; }
         public virtual DbSet<vw_applicants_review_tbl> vw_applicants_review_tbl { get; set; }
+        public virtual DbSet<endorsement_print_dtl_tbl> endorsement_print_dtl_tbl { get; set; }
+        public virtual DbSet<endorsement_print_hdr_tbl> endorsement_print_hdr_tbl { get; set; }
+        public virtual DbSet<vw_psb_sked_item_nbrs_tbl> vw_psb_sked_item_nbrs_tbl { get; set; }
     
         [DbFunction("HRIS_RCTEntities", "func_psb_sked_mbr_tbl_distinct")]
         public virtual IQueryable<func_psb_sked_mbr_tbl_distinct_Result> func_psb_sked_mbr_tbl_distinct()
@@ -1184,23 +1187,6 @@ namespace HRIS_eRSP_Recruitment.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
         }
     
-        public virtual ObjectResult<sp_hrmpsb_screening_list_Result> sp_hrmpsb_screening_list(string p_psb_ctrl_nbr, string p_app_status, string p_user_id)
-        {
-            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
-                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
-                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
-    
-            var p_app_statusParameter = p_app_status != null ?
-                new ObjectParameter("p_app_status", p_app_status) :
-                new ObjectParameter("p_app_status", typeof(string));
-    
-            var p_user_idParameter = p_user_id != null ?
-                new ObjectParameter("p_user_id", p_user_id) :
-                new ObjectParameter("p_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_hrmpsb_screening_list_Result>("sp_hrmpsb_screening_list", p_psb_ctrl_nbrParameter, p_app_statusParameter, p_user_idParameter);
-        }
-    
         public virtual ObjectResult<sp_hrmpsb_screening_list_inItem_Result> sp_hrmpsb_screening_list_inItem(string p_psb_ctrl_nbr, string p_app_status, string p_user_id, string p_item_no)
         {
             var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
@@ -1805,15 +1791,6 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_psb_applicant_list_Result>("sp_psb_applicant_list", p_psb_ctrl_nbrParameter);
-        }
-    
-        public virtual ObjectResult<sp_psb_item_list_Result> sp_psb_item_list(string p_psb_ctrl_nbr)
-        {
-            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
-                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
-                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_psb_item_list_Result>("sp_psb_item_list", p_psb_ctrl_nbrParameter);
         }
     
         public virtual ObjectResult<sp_psb_name_info_Result> sp_psb_name_info(string p_user_id, string p_user_type)
@@ -2701,6 +2678,125 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_hiring_period", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_review_applicant_tbl_list3_Result>("sp_review_applicant_tbl_list3", p_item_noParameter, p_employmenttypeParameter, p_budget_codeParameter, p_hiring_periodParameter);
+        }
+    
+        public virtual ObjectResult<sp_endorsename_list_Result> sp_endorsename_list(string p_psb_ctrl_nbr, string p_item_no, string p_app_status)
+        {
+            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
+                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
+                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
+    
+            var p_item_noParameter = p_item_no != null ?
+                new ObjectParameter("p_item_no", p_item_no) :
+                new ObjectParameter("p_item_no", typeof(string));
+    
+            var p_app_statusParameter = p_app_status != null ?
+                new ObjectParameter("p_app_status", p_app_status) :
+                new ObjectParameter("p_app_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_endorsename_list_Result>("sp_endorsename_list", p_psb_ctrl_nbrParameter, p_item_noParameter, p_app_statusParameter);
+        }
+    
+        public virtual ObjectResult<sp_psb_item_list_Result> sp_psb_item_list(string p_psb_ctrl_nbr)
+        {
+            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
+                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
+                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_psb_item_list_Result>("sp_psb_item_list", p_psb_ctrl_nbrParameter);
+        }
+    
+        public virtual ObjectResult<sp_endorsement_hdr_insert_tbl_Result> sp_endorsement_hdr_insert_tbl(string p_item_no, string p_psb_ctrl_nbr, string p_app_status, Nullable<System.DateTime> p_endorse_date, string p_endorse_by, string p_user_id, string p_action)
+        {
+            var p_item_noParameter = p_item_no != null ?
+                new ObjectParameter("p_item_no", p_item_no) :
+                new ObjectParameter("p_item_no", typeof(string));
+    
+            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
+                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
+                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
+    
+            var p_app_statusParameter = p_app_status != null ?
+                new ObjectParameter("p_app_status", p_app_status) :
+                new ObjectParameter("p_app_status", typeof(string));
+    
+            var p_endorse_dateParameter = p_endorse_date.HasValue ?
+                new ObjectParameter("p_endorse_date", p_endorse_date) :
+                new ObjectParameter("p_endorse_date", typeof(System.DateTime));
+    
+            var p_endorse_byParameter = p_endorse_by != null ?
+                new ObjectParameter("p_endorse_by", p_endorse_by) :
+                new ObjectParameter("p_endorse_by", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            var p_actionParameter = p_action != null ?
+                new ObjectParameter("p_action", p_action) :
+                new ObjectParameter("p_action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_endorsement_hdr_insert_tbl_Result>("sp_endorsement_hdr_insert_tbl", p_item_noParameter, p_psb_ctrl_nbrParameter, p_app_statusParameter, p_endorse_dateParameter, p_endorse_byParameter, p_user_idParameter, p_actionParameter);
+        }
+    
+        public virtual ObjectResult<sp_select_applicant_insert_update_Result> sp_select_applicant_insert_update(string p_app_ctrl_nbr, string p_psb_ctrl_nbr, Nullable<System.DateTime> p_selected_dttm, string p_selected_by, string p_status)
+        {
+            var p_app_ctrl_nbrParameter = p_app_ctrl_nbr != null ?
+                new ObjectParameter("p_app_ctrl_nbr", p_app_ctrl_nbr) :
+                new ObjectParameter("p_app_ctrl_nbr", typeof(string));
+    
+            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
+                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
+                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
+    
+            var p_selected_dttmParameter = p_selected_dttm.HasValue ?
+                new ObjectParameter("p_selected_dttm", p_selected_dttm) :
+                new ObjectParameter("p_selected_dttm", typeof(System.DateTime));
+    
+            var p_selected_byParameter = p_selected_by != null ?
+                new ObjectParameter("p_selected_by", p_selected_by) :
+                new ObjectParameter("p_selected_by", typeof(string));
+    
+            var p_statusParameter = p_status != null ?
+                new ObjectParameter("p_status", p_status) :
+                new ObjectParameter("p_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_select_applicant_insert_update_Result>("sp_select_applicant_insert_update", p_app_ctrl_nbrParameter, p_psb_ctrl_nbrParameter, p_selected_dttmParameter, p_selected_byParameter, p_statusParameter);
+        }
+    
+        public virtual ObjectResult<sp_applicants_generate_rating_Result> sp_applicants_generate_rating(string p_psb_ctrl_nbr)
+        {
+            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
+                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
+                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_applicants_generate_rating_Result>("sp_applicants_generate_rating", p_psb_ctrl_nbrParameter);
+        }
+    
+        public virtual ObjectResult<sp_hrmpsb_screening_list_Result> sp_hrmpsb_screening_list(string p_psb_ctrl_nbr, string p_app_status, string p_user_id)
+        {
+            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
+                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
+                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
+    
+            var p_app_statusParameter = p_app_status != null ?
+                new ObjectParameter("p_app_status", p_app_status) :
+                new ObjectParameter("p_app_status", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_hrmpsb_screening_list_Result>("sp_hrmpsb_screening_list", p_psb_ctrl_nbrParameter, p_app_statusParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_applicants_dates_list_Result> sp_applicants_dates_list(string p_app_ctrl_nbr)
+        {
+            var p_app_ctrl_nbrParameter = p_app_ctrl_nbr != null ?
+                new ObjectParameter("p_app_ctrl_nbr", p_app_ctrl_nbr) :
+                new ObjectParameter("p_app_ctrl_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_applicants_dates_list_Result>("sp_applicants_dates_list", p_app_ctrl_nbrParameter);
         }
     }
 }

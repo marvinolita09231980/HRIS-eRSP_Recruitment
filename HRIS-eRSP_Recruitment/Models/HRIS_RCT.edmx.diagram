@@ -71,6 +71,9 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.applicants_review_tbl" Width="1.5" PointX="5.375" PointY="23.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.psb_sked_hdr_tbl" Width="1.5" PointX="0.75" PointY="8.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicants_review_tbl" Width="1.5" PointX="7.375" PointY="23.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.endorsement_print_dtl_tbl" Width="1.5" PointX="9.375" PointY="23.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.endorsement_print_hdr_tbl" Width="1.5" PointX="23.375" PointY="17.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_sked_item_nbrs_tbl" Width="1.5" PointX="23.375" PointY="20.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

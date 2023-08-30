@@ -523,6 +523,167 @@
         </div>
     </div>
 
+    <div class="modal fade" id="viewdates" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>View Dates</b></h2></center>
+                </div>
+
+                <form id="viewdatesform">
+                    <div class="modal-footer">
+
+                        <div class="row">
+                            <div class="col-sm-12 m-top-n10">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Acknowledge Date:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="aknowledge_dttm" class="form-control text-center norequired" mydate required disabled />
+                                        <div id="cal" class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-n20 no-padding">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Pre-screen Date:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="prescreen_dttm" class="form-control text-center norequired" mydate required disabled />
+                                        <div id="cal" class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Endorse Date:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="endorse_dttm" class="form-control text-center norequired" mydate required disabled />
+                                        <div id="cal" class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Selected Date:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="selected_dttm" class="form-control text-center norequired" mydate required disabled />
+                                        <div id="cal" class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 m-top-n10">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Acknowledge Email Sent:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="aknowledge_dttm" class="form-control text-center norequired" mydate required disabled />
+                                        <div id="cal" class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-n20 no-padding">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Pre-screen Date:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="prescreen_dttm" class="form-control text-center norequired" mydate required disabled />
+                                        <div id="cal" class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Endorse Date:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="endorse_dttm" class="form-control text-center norequired" mydate required disabled />
+                                        <div id="cal" class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Selected Date:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="selected_dttm" class="form-control text-center norequired" mydate required disabled />
+                                        <div id="cal" class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-6 pull-right">
+                                <center>
+                                   
+                                    <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                                        Cancel&nbsp;<i class="fa fa-close"></i>
+                                    </button>
+                                </center>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="email_view_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-llg">
             <div class="modal-content animated slideInLeft">

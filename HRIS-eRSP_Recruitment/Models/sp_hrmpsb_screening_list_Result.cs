@@ -30,7 +30,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public string employment_type { get; set; }
         public string employment_type_descr { get; set; }
         public Nullable<bool> is_employee { get; set; }
-        public double score_rendered { get; set; }
+        public decimal score_rendered { get; set; }
         public string budget_code { get; set; }
         public string budget_description { get; set; }
         public string assignment_code { get; set; }
@@ -42,10 +42,11 @@ namespace HRIS_eRSP_Recruitment.Models
         public Nullable<bool> is_panel { get; set; }
         public Nullable<bool> btn_disabled { get; set; }
         public byte[] empl_photo_img { get; set; }
-        public double qs_total_100perc { get; set; }
-        public double exam_100perc { get; set; }
-        public string cbi_100rating { get; set; }
-        public string total_rating { get; set; }
+        public decimal qs_total_100perc { get; set; }
+        public decimal exam_100perc { get; set; }
+        public decimal cbi_100rating { get; set; }
+        public decimal total_rating { get; set; }
+        public decimal ipcr_rating { get; set; }
         public Nullable<bool> hasSelected_approved { get; set; }
     }
 }

@@ -38,6 +38,8 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
     s.profile = {}
     s.um = {}
 
+    s.year = cs.RetrieveYear()
+
     s.encode_idv = function (d, a, e, b, c, f) {
 
         c = "";
@@ -731,8 +733,10 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                                         data: dt[row_id],
                                         psb_ctrl_nbr: s.psb_ctrl_nbr,
                                         item_no: s.item_no
-                                    }).then(function (d) {
-                                        s.Data_List = d.data.indorseitem_applicant_list.refreshTable("Data_List_Grid", "")
+                                }).then(function (d) {
+                                        s.Data_List[row_id].app_status = d.data.app_status
+                                        s.Data_List = s.Data_List.refreshTable("Data_List_Grid", "")
+                                     
                                       
                                         swal("Successfully Approved", { icon: "success" })
                                     })
@@ -771,8 +775,9 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                                 data: dt[row_id],
                                 psb_ctrl_nbr: s.psb_ctrl_nbr,
                                 item_no: s.item_no
-                            }).then(function (d) {
-                                s.Data_List = d.data.indorseitem_applicant_list.refreshTable("Data_List_Grid", "")
+                        }).then(function (d) {
+                                s.Data_List[row_id].app_status = d.data.app_status
+                                s.Data_List = s.Data_List.refreshTable("Data_List_Grid", "")
                                 swal("Successfully removed approved status", { icon: "warning" })
                             })
                     }

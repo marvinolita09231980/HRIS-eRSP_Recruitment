@@ -313,6 +313,12 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\emaildata.cs" />
+    <Compile Include="Models\endorsement_print_dtl_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\endorsement_print_hdr_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\exam_shcedule_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -479,6 +485,12 @@
     <Compile Include="Models\sp_applicantsreviewtbl_items_list_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_applicants_dates_list_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_applicants_generate_rating_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_applicant_educ_tbl_list_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -575,7 +587,13 @@
     <Compile Include="Models\sp_department_tbl_rct_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_endorsement_hdr_insert_tbl_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_endorsement_list_rpt_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_endorsename_list_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_executive_position_dropdown_list_Result.cs">
@@ -794,6 +812,9 @@
     <Compile Include="Models\sp_search_applicant_tbl_list_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_select_applicant_insert_update_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_send_email_notification_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -900,6 +921,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_psb_sked_hdr_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_psb_sked_item_nbrs_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_psb_sked_mbr_tbl.cs">

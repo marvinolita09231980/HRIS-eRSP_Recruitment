@@ -243,9 +243,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                         '<li><a ng-click="sendEmailNotification(' + row["row"] + ',6)">Notification not in Top 5 applicants</a></li>' +
                                     '</ul>' +
                                 '</div>' +
-
-
-
+                            '<button class="btn btn-info btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" ng-click="viewDates(' + row["row"] + ')">DATES</button>' +
 
                                 //'<button ng-show = "'+full["app_status"]+'==1" class="btn btn-danger btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Review Application" ng-click="deleteFromReview('+row["row"]+')">DELETE&nbsp;<i class="fa fa-plus"></i></button>' +
 
@@ -342,12 +340,16 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         }
     }
 
+    s.viewDates = function (row) {
 
+        $("#viewdates").modal()
+    }
 
     s.sendEmailNotification = function (row_id, type) {
 
         var dt = s.Applicant_List_Data[row_id]
-
+        var swal_title = ""
+        var swal_text = ""
         console.log(dt)
    
         if (dt.app_ctrl_nbr == null || dt.app_ctrl_nbr == "") {
@@ -391,36 +393,87 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             
         } else if (type == "6" && dt.email_notintop5_dttm != "") {
 
-            swal("You have already sent notification email of this applicant that he/she was not included of the Top 5 examinees", { icon: "error" })
+            swal("You have already sent notification email of this applicant that he/she is not included of the Top 5 examinees", { icon: "error" })
             return
         }
 
 
-        $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
-        $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
-        $("#emailbtn" + row_id).prop("disabled", true);
+        if (type == "1") {
 
-        h.post("../cApplicantsReview/sendEmailNotification", {
-            dt: dt
-            , email_type: type
-        }).then(function (d) {
-            var se = d.data.se 
+             swal_title = "Send Acknowledgement Email"
+             swal_text = "Are you sure that you want to send an acknowledgement email to this applicant? Please double check your action!"
+            
 
-            s.Applicant_List_Data[row_id].email_aknowldge_dttm         = se.email_aknowldge_dttm       
-            s.Applicant_List_Data[row_id].email_aknowldge_regret_dttm  = se.email_aknowldge_regret_dttm
-            s.Applicant_List_Data[row_id].email_noti_exam_dttm         = se.email_noti_exam_dttm       
-            s.Applicant_List_Data[row_id].email_regret_dttm            = se.email_regret_dttm          
-            s.Applicant_List_Data[row_id].email_noti_hrmpsb_dttm       = se.email_noti_hrmpsb_dttm     
-            s.Applicant_List_Data[row_id].email_notintop5_dttm         = se.email_notintop5_dttm       
-            s.Applicant_List_Data[row_id].email_congratulatory_dttm    = se.email_congratulatory_dttm  
+        } else if (type == "2") {
 
 
-            swal(d.data.message, { icon: d.data.icon })
+            swal_title = "Not Qualified for Online Examination Email"
+            swal_text = "Are you sure that you want to inform this applicant that he or she did not qualify for online examination? Please double check your action!"
 
-            $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
-            $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
-            $("#emailbtn" + row_id).prop("disabled", false);
-        })
+
+        } else if (type == "3") {
+
+            swal_title = "Qualified for Online Examination Email"
+            swal_text = "Are you sure that you want to inform this applicant that he or she qualifies for online examination? Please double check your action!"
+            
+
+        } else if (type == "5") {
+
+
+            swal_title = "Notify For HRMPSB Screening"
+            swal_text = "Are you sure that you want to notify this applicant that he or she is included for the HRMPSB Screening? Please double check your action!"
+
+          
+
+        } else if (type == "6") {
+            swal_title = "Notify For Top 5 Examinees"
+            swal_text = "Are you sure that you want to notify this applicant that he or she is one of the top 5 examineess? Please double check your action!"
+        }
+
+       
+        swal({
+            title: swal_title,
+            text: swal_text,
+            icon: "info",
+            buttons: ["No", "Yes"],
+            dangerMode: true,
+        }).then(function (yes) {
+            if (yes) {
+
+                cs.loading("show")
+
+                $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
+                $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
+                $("#emailbtn" + row_id).prop("disabled", true);
+
+
+                h.post("../cApplicantsReview/sendEmailNotification", {
+                    dt: dt
+                    , email_type: type
+                }).then(function (d) {
+                    var se = d.data.se
+
+                    s.Applicant_List_Data[row_id].email_aknowldge_dttm = se.email_aknowldge_dttm
+                    s.Applicant_List_Data[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
+                    s.Applicant_List_Data[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
+                    s.Applicant_List_Data[row_id].email_regret_dttm = se.email_regret_dttm
+                    s.Applicant_List_Data[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
+                    s.Applicant_List_Data[row_id].email_notintop5_dttm = se.email_notintop5_dttm
+                    s.Applicant_List_Data[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm
+
+
+                    swal(d.data.message, { icon: d.data.icon })
+
+                    $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
+                    $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
+                    $("#emailbtn" + row_id).prop("disabled", false);
+                    cs.loading("hide")
+                })
+
+
+            }
+        });
+
 
     }
 

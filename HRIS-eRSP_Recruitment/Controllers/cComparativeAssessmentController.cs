@@ -322,6 +322,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         public ActionResult approved_comparative(string app_ctrl_nbr, string approval_id,string psb_ctrl_nbr, string item_no)
         {
             CheckSession();
+            var app_status = "";
             var user_id = Session["user_id"].ToString();
             var message = "";
             var submitcount = 0;
@@ -330,10 +331,10 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     db.sp_insert_transaction_to_approvalworkflow_tbl_RCT(user_id, app_ctrl_nbr, transaction_code);
                     message = submit.success;
                     submitcount = submitcount + 1;
-
-                    var comparative = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "3").ToList();
+                    app_status = "4";
+                // var comparative = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "3").ToList();
                   
-                    return JSON(new { message = message, icon = icon.success, submitcount, comparative }, JsonRequestBehavior.AllowGet);
+                    return JSON(new { message = message, icon = icon.success, submitcount, app_status }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -344,16 +345,17 @@ namespace HRIS_eRSP_Recruitment.Controllers
         public ActionResult remove_comparative(string app_ctrl_nbr, string approval_id, string psb_ctrl_nbr, string item_no)
         {
             CheckSession();
+            var app_status = "";
             var user_id = Session["user_id"].ToString();
             var message = "";
             try
             {
                 db.sp_delete_in_approvalworkflow_tbl_RCT(app_ctrl_nbr);
                 message = remove.success;
+                app_status = "3";
+                //var comparative = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "3").ToList();
 
-                var comparative = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "3").ToList();
-
-                return JSON(new { message = message, icon = icon.success, comparative }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = message, icon = icon.success, app_status }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -465,6 +467,44 @@ namespace HRIS_eRSP_Recruitment.Controllers
             {
                 string message = DbEntityValidationExceptionError(e);
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult prepareEndorsement(string psb_ctrl_nbr, string item_no)
+        {
+            CheckSession();
+            var user_id = Session["user_id"].ToString();
+            var message = "";
+            try
+            {
+                var endorse = db.sp_endorsename_list(psb_ctrl_nbr, item_no, "4").ToList();
+
+                return JSON(new { message = message, icon = icon.success, endorse }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(e) }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult printEndorsement(string psb_ctrl_nbr, string item_no, string endorse_date, string endorse_by)
+        {
+            CheckSession();
+            var user_id = Session["user_id"].ToString();
+            var message = "";
+
+            var endorse_dttm = Convert.ToDateTime(endorse_date);
+            try
+            {
+                var endorse = db.sp_endorsement_hdr_insert_tbl(item_no,psb_ctrl_nbr, "4", endorse_dttm, endorse_by, user_id,"I").FirstOrDefault();
+                if(endorse.db_code == "0")
+                {
+                    throw new Exception(endorse.db_message);
+                }
+                return JSON(new { message = endorse.db_message, icon = icon.success, endorse }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message, icon = icon.success }, JsonRequestBehavior.AllowGet);
             }
         }
 

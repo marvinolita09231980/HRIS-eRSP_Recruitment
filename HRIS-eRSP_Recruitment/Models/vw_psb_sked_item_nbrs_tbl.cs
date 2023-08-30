@@ -10,22 +10,15 @@
 namespace HRIS_eRSP_Recruitment.Models
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_psb_item_list_Result
+    public partial class vw_psb_sked_item_nbrs_tbl
     {
+        public string item_no { get; set; }
         public string psb_ctrl_nbr { get; set; }
-        public string psb_date { get; set; }
         public string budget_code { get; set; }
         public string employment_type { get; set; }
-        public Nullable<int> psb_status { get; set; }
-        public string item_no { get; set; }
         public string position_code { get; set; }
-        public string position_long_title { get; set; }
-        public string position_short_title { get; set; }
-        public string department_code { get; set; }
-        public string department_name1 { get; set; }
-        public Nullable<int> screen_item { get; set; }
-        public Nullable<int> endorse_item { get; set; }
-        public string salary_grade { get; set; }
+        public string position_title1 { get; set; }
     }
 }

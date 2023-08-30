@@ -7,6 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <script src="../Scripts/jquery-1.10.2.js"></script>
     <script src="../crystalreportviewers13/js/crviewer/crv.js"></script>
     <script src="../Scripts/ngSweetAlert.js"></script>
      <style type="text/css">
@@ -69,7 +70,7 @@
                             CssClass="print-scroll"
                             PrintMode="ActiveX"
                             OnLoad="crvPrint_Load"
-                           HasToggleParameterPanelButton="True" HasZoomFactorList="True" />
+                            HasToggleParameterPanelButton="True" HasZoomFactorList="True" />
                 </div>
             </div>
         </div>
@@ -77,6 +78,12 @@
 
 </body>
     <script>
+        $(document).ready(function () {      
+            $(".wizbutton").click(function () {
+                alert('Print button was clicked');
+            });
+          
+        });
         (function init() {
             var windowHt = window.innerHeight;
             console.log(windowHt)

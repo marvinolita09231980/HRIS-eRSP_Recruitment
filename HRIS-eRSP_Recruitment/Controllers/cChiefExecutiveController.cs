@@ -174,15 +174,18 @@ namespace HRIS_eRSP_Recruitment.Controllers
         public ActionResult ApproveExec2(items_added2 data,string psb_ctrl_nbr, string item_no)
         {
             CheckSession();
+            var app_status = "";
             var user_id = Session["user_id"].ToString();
-           
+            var date = DateTime.Now;
             try
             {
 
                 db.sp_update_transaction_in_approvalworkflow_tbl_RCT(data.approval_id, user_id, "F", "", data.app_ctrl_nbr, psb_ctrl_nbr, data.item_no,data.budget_code,data.employment_type);
 
-                var indorseitem_applicant_list = db.sp_comparative_assessment_list(psb_ctrl_nbr, data.item_no, "4").ToList();
-                return Json(new { message = fetch.success, icon = icon.success, indorseitem_applicant_list }, JsonRequestBehavior.AllowGet);
+                //var indorseitem_applicant_list = db.sp_comparative_assessment_list(psb_ctrl_nbr, data.item_no, "4").ToList();
+                db.sp_select_applicant_insert_update(data.app_ctrl_nbr, psb_ctrl_nbr, date, user_id, "S");
+                app_status = "5";
+                return Json(new { message = fetch.success, icon = icon.success, app_status}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -213,13 +216,17 @@ namespace HRIS_eRSP_Recruitment.Controllers
         public ActionResult RevertApprove2(items_added2 data, string psb_ctrl_nbr, string item_no)
         {
             CheckSession();
+            var app_status = "";
             var user_id = Session["user_id"].ToString();
-           
+            var date = DateTime.Now;
             try
             {
                 db.sp_update_transaction_in_approvalworkflow_tbl_RCT(data.approval_id, user_id, "C", "", data.app_ctrl_nbr, psb_ctrl_nbr, data.item_no, data.budget_code, data.employment_type);
-                var indorseitem_applicant_list = db.sp_comparative_assessment_list(psb_ctrl_nbr, data.item_no, "4").ToList();
-                return Json(new { message = fetch.success, icon = icon.success, indorseitem_applicant_list }, JsonRequestBehavior.AllowGet);
+               // var indorseitem_applicant_list = db.sp_comparative_assessment_list(psb_ctrl_nbr, data.item_no, "4").ToList();
+                db.sp_select_applicant_insert_update(data.app_ctrl_nbr, psb_ctrl_nbr, date, user_id, "D");
+                app_status = "4";
+
+                return Json(new { message = fetch.success, icon = icon.success, app_status}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
