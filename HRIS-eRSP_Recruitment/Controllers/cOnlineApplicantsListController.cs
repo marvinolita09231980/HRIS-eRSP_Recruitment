@@ -304,8 +304,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                                                         );
 
                 }
-                var APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, start, hiring_period).ToList();
-                return JSON2(new { message = "Applicants data Successfully fetch", icon = "success", APL_list }, JsonRequestBehavior.AllowGet);
+               // var APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, start, hiring_period).ToList();
+                return JSON2(new { message = "Applicants data Successfully fetch", icon = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -421,10 +421,10 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     var appreview = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
                     appreview.email_aknowldge_dttm = dttm;
                     appreview.email_aknowldge_by = user_id;
+                    appreview.aknowledge_dttm = dttm;
+                    appreview.aknowledge_by = user_id;
 
                     email_subject = "Aknowledge application email";
-
-
                 }
                 else if (email_type == "2")
                 {
@@ -547,6 +547,30 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return JSON2(new { message = DbEntityValidationExceptionError(e), icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult verifyinReview(sp_get_applicantlist_from_APL_Result dt)
+        {
+            try
+            {
+                 
+                 var inreview = (from A in db.vw_applicants_review_tbl_dates
+                                where A.empl_id == dt.APL_info_ctrl_nbr
+                                && A.item_no == dt.item_no
+                                && A.hiring_period == dt.ctrl_no
+                                select new {
+                                     A.app_ctrl_nbr
+                                    ,A.email_aknowldge_dttm
+                                    ,A.email_aknowldge_regret_dttm
+                                });
+                               
+                return JSON2(new { inreview, icon = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return JSON2(new { message = DbEntityValidationExceptionError(e), icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         protected JsonResult JSON2(object data, JsonRequestBehavior behavior)
         {

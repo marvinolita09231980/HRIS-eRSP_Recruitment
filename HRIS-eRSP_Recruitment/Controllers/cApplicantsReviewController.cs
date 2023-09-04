@@ -736,6 +736,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
                     appreview.email_aknowldge_dttm = dttm;
                     appreview.email_aknowldge_by = user_id;
+                    appreview.aknowledge_dttm = dttm;
+                    appreview.aknowledge_by = user_id;
 
                     email_subject = "Aknowledge application email";
 
@@ -1057,6 +1059,18 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 {
                     throw new Exception("app_ctrl_nbr is null");
                 }
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult ViewDates(string app_ctrl_nbr)
+        {
+            try
+            {
+                var viewdates = db2.vw_applicants_review_dates_names.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).ToList();
+                return JSON2(new { icon = icon.success, viewdates}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException exp)
             {

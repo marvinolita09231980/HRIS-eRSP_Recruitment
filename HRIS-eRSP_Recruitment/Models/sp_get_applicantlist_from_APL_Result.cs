@@ -32,6 +32,8 @@ namespace HRIS_eRSP_Recruitment.Models
         public Nullable<bool> active_forpsb { get; set; }
         public string fetch_dttm { get; set; }
         public string fetch_by { get; set; }
+        public string aknowledge_dttm { get; set; }
+        public string aknowledge_by { get; set; }
         public string prescreen_dttm { get; set; }
         public string prescreen_by { get; set; }
         public string app_ctrl_nbr { get; set; }

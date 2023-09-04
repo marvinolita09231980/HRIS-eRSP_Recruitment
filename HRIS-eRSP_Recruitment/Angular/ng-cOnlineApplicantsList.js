@@ -1,4 +1,4 @@
-﻿
+﻿ 
 ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $scope, $http, $filter, $compile) {
     var s = $scope
     var h = $http
@@ -23,7 +23,9 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
     s.includeToEmail = []
     s.APL_List_Data_Orig = []
     s.filterApplicantItem_data = []
-    s.pre_info_ctrl_nbr =""
+    s.pre_info_ctrl_nbr = ""
+    
+    s.addfetch_row = []
     s.alphabet_list = [
    
        { alpha_name: 'A' }, { alpha_name: 'B' }, { alpha_name: 'C' }, { alpha_name: 'D' }, { alpha_name: 'E' }, { alpha_name: 'F' },
@@ -409,7 +411,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                         "mData": null,
                         "mRender": function (data, type, full, row) {
                             return "<span class='text-left btn-block' ng-mouseover='show_child_info(" + row["row"] + ")' ng-mouseleave='hide_child_info(" + row["row"] + ")'>" + s.to_upper(full["firstname"]) + " " + s.to_upper(full["middlename"]) + ". " + s.to_upper(full["lastname"]) + "</span></br>" +
-                                "<span class='text-left btn-block no-padding text-danger " + iffetch(full["prescreen_dttm"]) + "' style='margin-top:-18px;font-size:15px;'>Pre-screening date: " + if19000101(full["prescreen_dttm"]) + "</span></br>"
+                                "<span class='text-left btn-block no-padding text-danger " + iffetch(full["prescreen_dttm"]) + "' style='margin-top:-18px;font-size:12px;'>Pre-screening date: " + if19000101(full["prescreen_dttm"]) + "</span></br>"
                               
                         }
                     },
@@ -423,8 +425,8 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                         "mData": "review",
                         "mRender": function (data, type, full, row) {
                             return "<span class='text-center btn-block " + s.fn_text_danger(data) + "'>" + s.fn_status(data) + "</span></br>" +
-                                "<span class='text-left btn-block no-padding text-success " + iffetch(full["fetch_dttm"]) +"' style='margin-top:-18px;font-size:12px;'>Acknowledge date:</span></br>" +
-                                "<button class='text-right btn btn-primary btn-block no-padding " + iffetch(full["fetch_dttm"]) + "' style='margin-top:-20px;font-size:12px;color:white;' ng-click='editfetch(" + row["row"] +")'>" + if19000101(full["fetch_dttm"]) + "</button>" 
+                                "<span class='text-left btn-block no-padding text-success " + iffetch(full["aknowledge_dttm"]) +"' style='margin-top:-18px;font-size:12px;'>Acknowledge date:</span></br>" +
+                                "<button class='text-right btn btn-primary btn-block no-padding " + iffetch(full["aknowledge_dttm"]) + "' style='margin-top:-20px;font-size:12px;color:white;'>" + if19000101(full["aknowledge_dttm"]) + "</button>" 
                         }
                     },
                     {
@@ -741,7 +743,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
     function init()
     {
-        cs.loading("show")
+        //cs.loading("show")
 
         $("#dd_item_no").select2().on('change', function (e) {
             s.selectItem_no()
@@ -750,71 +752,69 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         $("#dd_department").select2().on('change', function (e) {
             s.selectDepartment()
         })
-        $("#budget_code").select2().on('change', function (e) {
+        //$("#budget_code").select2().on('change', function (e) {
 
-            s.clearFetch()
-            var budget_code = $("#budget_code").val()
+        //    s.clearFetch()
+        //    var budget_code = $("#budget_code").val()
 
-            //   cs.loading("show")
+        //    //   cs.loading("show")
 
 
-            addvalue("dd_department", "")
-            addvalue("hiring_period", "")
-            addvalue("dd_item_no", "")
-            h.post("../cOnlineApplicantsList/getHiringPeriod", { employment_type: s.employment_type, budget_code: budget_code }).then(function (d) {
-                s.hiring_periods = d.data.HiringPeriods;
-                $("#APL_List_Grid").dataTable().fnClearTable();
+          
+        //    h.post("../cOnlineApplicantsList/getHiringPeriod", { employment_type: s.employment_type, budget_code: budget_code }).then(function (d) {
+        //        s.hiring_periods = d.data.HiringPeriods;
+        //        $("#APL_List_Grid").dataTable().fnClearTable();
 
-            })
+        //    })
 
-        })
+        //})
 
         var employment_type = ""
         var budget_code = ""
         var department_code = ""
         var hiring_period = ""
         var item_no = ""
-        var departmentcount = false
+        //var departmentcount = false
       
         
 
-        if (s.department.length > 0) {
-            departmentcount = true
-        }
-        else {
-            departmentcount = false
-        }
+        //if (s.department.length > 0) {
+        //    departmentcount = true
+        //}
+        //else {
+        //    departmentcount = false
+        //}
 
-        h.post("../cOnlineApplicantsList/Initialize", {
-            departmentcount: departmentcount
-        }).then(function (d) {
+        //h.post("../cOnlineApplicantsList/Initialize", {
+        //    departmentcount: departmentcount
+        //}).then(function (d) {
 
-            s.APL_List_Data_Orig = d.data.APL_list
-            s.APL_List_Data = d.data.APL_list.refreshTable("APL_List_Grid", "");
+            //s.APL_List_Data_Orig = d.data.APL_list
+            //s.APL_List_Data = d.data.APL_list.refreshTable("APL_List_Grid", "");
 
-            if (d.data.departments.length > 0) {
-                s.department = d.data.departments
-              // localStorage["department"] = JSON.stringify(d.data.department)
-            }
+            //if (d.data.departments.length > 0) {
+            //    s.department = d.data.departments
+            //  // localStorage["department"] = JSON.stringify(d.data.department)
+            //}
 
-            if (d.data.budget_year.length > 0) {
-                s.budget_year = d.data.budget_year
-            }
+            //if (d.data.budget_year.length > 0) {
+            //    s.budget_year = d.data.budget_year
+            //}
 
-            if (d.data.HiringPeriods.length > 0) {
-                s.hiring_periods = d.data.HiringPeriods
-            }
+            //if (d.data.HiringPeriods.length > 0) {
+            //    s.hiring_periods = d.data.HiringPeriods
+            //}
 
-            if (d.data.item_nbrs.length > 0) {
-                s.item_nbrs =  d.data.item_nbrs
-            }
+            //if (d.data.item_nbrs.length > 0) {
+            //    s.item_nbrs =  d.data.item_nbrs
+            //}
 
           
 
-            define_filters(d.data.filter)
+            //define_filters(d.data.filter)
            
-            cs.loading("hide")
-        })
+           // cs.loading("hide")
+        //})
     }
 
     init()
@@ -827,6 +827,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
     Init_sendemail_List_Grid2([])
 
     s.selectEmploymentType = function (employment_type) {
+        cs.loading("show")
         s.clearFilter(1)
         s.clearFetch()
         cs.loading("show")
@@ -839,6 +840,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
             s.budget_year = d.data.budget_year;
             $("#APL_List_Grid").dataTable().fnClearTable();
+            cs.loading("hide")
         })
 
     }
@@ -885,11 +887,13 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
 
     s.selectBudgetCode = function () {
+        cs.loading("show")
         s.clearFilter(2)
         s.clearFetch()
+
         var budget_code = $("#budget_code").val()
 
-     //   cs.loading("show")
+       
        
        
         addvalue("dd_department", "")
@@ -898,7 +902,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         h.post("../cOnlineApplicantsList/getHiringPeriod", { employment_type: s.employment_type, budget_code: budget_code}).then(function (d) {
             s.hiring_periods = d.data.HiringPeriods;
             $("#APL_List_Grid").dataTable().fnClearTable();
-        
+            cs.loading("hide")
         })
         
       
@@ -907,23 +911,28 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
 
     s.selectHiringPeriod = function () {
+
+        
         s.clearFilter(3)
         cs.loading("show")
+
+
         addvalue("dd_department", "")
         addvalue("dd_item_no", "")
         var hiring_period = $("#hiring_period").val()
        
-        $("#APL_List_Grid").dataTable().fnClearTable();
-        
         h.post("../cOnlineApplicantsList/getDepartments", { hiring_period: hiring_period }).then(function (d) {
             s.department = d.data.departments;
             $("#APL_List_Grid").dataTable().fnClearTable();
+            cs.loading("hide")
         })
 
     }
 
     s.selectDepartment = function () {
-           s.clearFilter(4)
+          cs.loading("show")
+       
+          s.clearFilter(4)
           var employment_type  = $("#employment_type").val()
           var budget_code      = $("#budget_code").val()
           var department_code = $("#dd_department").val()
@@ -939,8 +948,12 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
    
 
     s.selectItem_no = function () {
+      
         cs.loading("show")
         s.clearFetch()
+        var ret = false
+       
+
         var employment_type = $("#employment_type").val()
         var budget_code = $("#budget_code").val()
         var item_no = $("#dd_item_no").val()
@@ -961,6 +974,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                     , hiring_period :hiring_period
                 }
             ).then(function (d) {
+                console.log(d.data.APL_list)
                s.APL_List_Data_Orig = d.data.APL_list
                s.APL_List_Data = d.data.APL_list.refreshTable("APL_List_Grid", "");
                cs.loading("hide")
@@ -974,11 +988,14 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
        
     }
     s.Choose_fetch_data = function (row_id) {
+        s.addfetch_row.push(row_id)
         $("#add_prescreen_dttm").val("")
         if(s.submitfetchtrue)return
         var icn2 = "icn2" + row_id
         var icnbtn = "icnbtn" + row_id
         var dt = s.APL_List_Data[row_id]
+
+        console.log(dt)
         
         var empl_id = dt.empl_id
         var item_no = dt.item_no
@@ -990,8 +1007,8 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
             s.SelectedApplicant.push(dt)
             icn2.removeClass("hidden")
             icnbtn.replaceClass("fa fa-plus", "fa fa-check")
-
-            $("#addprescreen").modal("show")
+            s.addfetch_row.push(row_id)
+           // $("#addprescreen").modal("show")
         }
         else {
             var dt2 = s.SelectedApplicant.filter(function (d) {
@@ -999,12 +1016,17 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
             })
             s.SelectedApplicant = dt2
             icn2.addClass("hidden")
-            icnbtn.replaceClass("fa fa-check","fa fa-plus")
+            icnbtn.replaceClass("fa fa-check", "fa fa-plus")
+
+            s.addfetch_row = s.addfetch_row.filter(function (d) {
+                return d != row_id
+            })
         }
     }
 
     s.addPrescreenDate = function () {
         var add_prescreen_dttm = $("#add_prescreen_dttm").val()
+         
         for (var i = 0; i < s.SelectedApplicant.length; i++) {
             if (s.SelectedApplicant[i].APL_info_ctrl_nbr === s.pre_info_ctrl_nbr) {
                 s.SelectedApplicant[i].prescreen_dttm = add_prescreen_dttm;
@@ -1012,6 +1034,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
             }
         }
         $("#addprescreen").modal("hide")
+
     }
     
     s.submitFetch = function () {
@@ -1020,6 +1043,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         var hiring_period = $("#hiring_period").val()
         var d_item_no = $("#dd_item_no").val()
         var d_budget_code = $("#budget_code").val()
+
         swal({
             title: "Fetch Data from Online Application",
             text: "",
@@ -1027,7 +1051,9 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
             buttons: true,
             dangerMode: true,
         }).then(function (willDelete) {
+
             if (willDelete) {
+
                 s.submitfetchtrue = true
 
                 icnSfetch.processing("fa-save", "fa-spinner fa-spin")
@@ -1043,8 +1069,13 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
 
                     if (d.data.icon == "success") {
-                        s.APL_List_Data_Orig = d.data.APL_list
-                        s.APL_List_Data = d.data.APL_list.refreshTable("APL_List_Grid", "");
+                        // s.APL_List_Data_Orig = d.data.APL_list
+                        for (var x = 0; x < s.addfetch_row.length; x++) {
+                            s.APL_List_Data[s.addfetch_row[x]].review = 1
+                        }
+                        
+                        s.APL_List_Data = s.APL_List_Data.refreshTable("APL_List_Grid", "");
+
                         swal(d.data.message, { icon: "info" })
                     }
                     else {
@@ -1253,41 +1284,85 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
 
     s.sendEmailNotification = function (row_id,type) {
-     
+        var swal_title  = "";
+        var swal_text = "";
         var dt = s.APL_List_Data[row_id]
+        var empl_id = s.APL_List_Data[row_id].APL_info_ctrl_nbr
+        var ret = false
+        var data = []
+       
+       
 
-
-        if (dt.app_ctrl_nbr == null || dt.app_ctrl_nbr == "") {
-            swal("Applicant not yet fetch!", { icon: "error" })
-            return
-        }
-
-        
-
-        $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
-        $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
-        $("#emailbtn" + row_id).prop("disabled", true);
-
-        h.post("../cOnlineApplicantsList/sendEmailNotification", {
-             dt: dt
-            ,email_type: type
+        h.post("../cOnlineApplicantsList/verifyinReview", {
+            dt: dt
         }).then(function (d) {
-            var se = d.data.se 
+            data = d.data.inreview
+            if (data.length > 0) {
+                dt.app_ctrl_nbr = data[0].app_ctrl_nbr
+                console.log(data)
+                if (type == "1" && data[0].email_aknowldge_dttm != "") {
+                    swal("You have already sent acknowldgement email for this applicant", { icon: "error" })
+                    return
+                }
+                else if (type == "2" && data[0].email_aknowldge_regret_dttm != "") {
+                    swal("You have already sent notification email for this applicant that he/she was not qualified for the position", { icon: "error" })
+                    return
+                }
+                if (type == "1") {
+                    swal_title = "Send Acknowledgement Email"
+                    swal_text = "Are you sure that you want to send an acknowledgement email to this applicant? Please double check your action!"
+                }
+                else if (type == "2") {
+                    swal_title = "Not Qualified for Online Examination Email"
+                    swal_text = "Are you sure that you want to inform this applicant that he or she did not qualify for online examination? Please double check your action!"
+                }
+                swal({
+                    title: swal_title,
+                    text: swal_text,
+                    icon: "info",
+                    buttons: ["No", "Yes"],
+                    dangerMode: true,
+                }).then(function (yes) {
+                    if (yes) {
 
-            s.APL_List_Data[row_id].email_aknowldge_dttm = se.email_aknowldge_dttm
-            s.APL_List_Data[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
-            s.APL_List_Data[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
-            s.APL_List_Data[row_id].email_regret_dttm = se.email_regret_dttm
-            s.APL_List_Data[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
-            s.APL_List_Data[row_id].email_notintop5_dttm = se.email_notintop5_dttm
-            s.APL_List_Data[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm  
+                        $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
+                        $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
+                        $("#emailbtn" + row_id).prop("disabled", true);
 
-            swal(d.data.message, { icon: d.data.icon })
+                        h.post("../cOnlineApplicantsList/sendEmailNotification", {
+                            dt: dt
+                            , email_type: type
+                        }).then(function (d) {
 
-            $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
-            $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
-            $("#emailbtn" + row_id).prop("disabled", false);
+                            var se = d.data.se
+
+                            s.APL_List_Data[row_id].email_aknowldge_dttm = se.email_aknowldge_dttm
+                            s.APL_List_Data[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
+                            s.APL_List_Data[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
+                            s.APL_List_Data[row_id].email_regret_dttm = se.email_regret_dttm
+                            s.APL_List_Data[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
+                            s.APL_List_Data[row_id].email_notintop5_dttm = se.email_notintop5_dttm
+                            s.APL_List_Data[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm
+
+                            swal(d.data.message, { icon: d.data.icon })
+
+                            $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
+                            $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
+                            $("#emailbtn" + row_id).prop("disabled", false);
+                        })
+                    }
+                });
+            }
+            else {
+               
+                swal("Applicant not yet fetch!", { icon: "error" })
+                
+            }
+           
         })
+       
+
+
 
     }
 

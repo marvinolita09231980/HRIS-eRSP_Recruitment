@@ -857,7 +857,13 @@
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_applicants_review_dates_names.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_applicants_review_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_applicants_review_tbl_dates.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_applicant_educ_tbl_list.cs">

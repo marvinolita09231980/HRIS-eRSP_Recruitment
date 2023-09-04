@@ -538,133 +538,194 @@
 
                         <div class="row">
                             <div class="col-sm-12 m-top-n10">
-                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
                                     <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Acknowledge Date:</b></span>
                                 </div>
-                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                        <input type="text" id="aknowledge_dttm" class="form-control text-center norequired" mydate required disabled />
-                                        <div id="cal" class="input-group-addon birth_date">
-                                            <span class="fa fa-calendar"></span>
-                                        </div>
-                                    </div>
-
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="aknowledge_dttm" class="form-control text-center norequired" disabled />
                                 </div>
                             </div>
-                        </div>
-                        <div class="row m-top-n20 no-padding">
-                            <div class="col-sm-12 m-top-n20">
-                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Pre-screen Date:</b></span>
-                                </div>
-                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                        <input type="text" id="prescreen_dttm" class="form-control text-center norequired" mydate required disabled />
-                                        <div id="cal" class="input-group-addon birth_date">
-                                            <span class="fa fa-calendar"></span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row m-top-n20">
-                            <div class="col-sm-12 m-top-n20">
-                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Endorse Date:</b></span>
-                                </div>
-                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                        <input type="text" id="endorse_dttm" class="form-control text-center norequired" mydate required disabled />
-                                        <div id="cal" class="input-group-addon birth_date">
-                                            <span class="fa fa-calendar"></span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row m-top-n20">
-                            <div class="col-sm-12 m-top-n20">
-                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Selected Date:</b></span>
-                                </div>
-                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                        <input type="text" id="selected_dttm" class="form-control text-center norequired" mydate required disabled />
-                                        <div id="cal" class="input-group-addon birth_date">
-                                            <span class="fa fa-calendar"></span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-sm-12 m-top-n10">
                                 <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Acknowledge Email Sent:</b></span>
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Acknowledge By:</b></span>
                                 </div>
                                 <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                        <input type="text" id="aknowledge_dttm" class="form-control text-center norequired" mydate required disabled />
-                                        <div id="cal" class="input-group-addon birth_date">
-                                            <span class="fa fa-calendar"></span>
-                                        </div>
-                                    </div>
-
+                                    <input type="text" id="aknowledge_by" class="form-control text-center norequired" disabled />
                                 </div>
                             </div>
                         </div>
+
                         <div class="row m-top-n20 no-padding">
                             <div class="col-sm-12 m-top-n20">
-                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
                                     <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Pre-screen Date:</b></span>
                                 </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="prescreen_dttm" class="form-control text-center norequired" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Pre-screen By:</b></span>
+                                </div>
                                 <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                        <input type="text" id="prescreen_dttm" class="form-control text-center norequired" mydate required disabled />
-                                        <div id="cal" class="input-group-addon birth_date">
-                                            <span class="fa fa-calendar"></span>
-                                        </div>
-                                    </div>
-
+                                    <input type="text" id="presreen_by" class="form-control text-center norequired" disabled />
                                 </div>
                             </div>
                         </div>
+
                         <div class="row m-top-n20">
                             <div class="col-sm-12 m-top-n20">
-                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
                                     <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Endorse Date:</b></span>
                                 </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="endorse_dttm" class="form-control text-center norequired" disabled />
+                                </div>
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Endorse By:</b></span>
+                                </div>
                                 <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                        <input type="text" id="endorse_dttm" class="form-control text-center norequired" mydate required disabled />
-                                        <div id="cal" class="input-group-addon birth_date">
-                                            <span class="fa fa-calendar"></span>
-                                        </div>
-                                    </div>
+                                    <input type="text" id="endorse_by" class="form-control text-center norequired" disabled />
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Selected Date:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="selected_dttm" class="form-control text-center norequired" disabled />
+                                </div>
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Selected By:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" id="selected_by" class="form-control text-center norequired" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Acknowledge Date:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="email_aknowldge_dttm" class="form-control text-center norequired" disabled />
+                                </div>
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Acknowledge By:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" id="email_aknowldge_by" class="form-control text-center norequired" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Not Qualified Online Exam:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="email_aknowldge_regret_dttm" class="form-control text-center norequired" disabled />
+                                </div>
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Notified By:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" id="email_aknowldge_regret_by" class="form-control text-center norequired" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Notified For Online Exam:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="email_noti_exam_dttm" class="form-control text-center norequired" disabled />
+                                </div>
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Notified By:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" id="email_noti_exam_by" class="form-control text-center norequired" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Notify For Online HRMPSB:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="email_noti_hrmpsb_dttm" class="form-control text-center norequired" disabled />
+                                </div>
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Notified By:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" id="email_noti_hrmpsb_by" class="form-control text-center norequired" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Not in Top 5:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="email_notintop5_dttm" class="form-control text-center norequired" disabled />
+                                </div>
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Notified  By:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" id="email_notintop5_by" class="form-control text-center norequired" disabled />
                                 </div>
                             </div>
                         </div>
                         <div class="row m-top-n20">
                             <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Regret Email:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="email_regret_dttm" class="form-control text-center norequired" disabled />
+                                </div>
                                 <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Selected Date:</b></span>
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Notified By:</b></span>
                                 </div>
                                 <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                        <input type="text" id="selected_dttm" class="form-control text-center norequired" mydate required disabled />
-                                        <div id="cal" class="input-group-addon birth_date">
-                                            <span class="fa fa-calendar"></span>
-                                        </div>
-                                    </div>
-
+                                    <input type="text" id="email_regret_by" class="form-control text-center norequired" disabled />
                                 </div>
                             </div>
                         </div>
+                        <div class="row m-top-n20">
+                            <div class="col-sm-12 m-top-n20">
+                                <div style="width:40%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Congratulatory:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:10px!important;float:left;">
+                                    <input type="text" id="email_congratulatory_dttm" class="form-control text-center norequired" disabled />
+                                </div>
+                                <div style="width:40%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Notified By:</b></span>
+                                </div>
+                                <div style="width:60%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" id="email_congratulatory_by" class="form-control text-center norequired" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                     <div class="modal-footer detail">
                         <div class="row" style="padding-top:5px;">
@@ -672,7 +733,7 @@
                                 <center>
                                    
                                     <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
-                                        Cancel&nbsp;<i class="fa fa-close"></i>
+                                        Close&nbsp;<i class="fa fa-close"></i>
                                     </button>
                                 </center>
                             </div>

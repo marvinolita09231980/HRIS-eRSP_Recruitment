@@ -154,6 +154,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
 	var Init_Applicant_List_Grid = function (par_data) {
         s.Applicant_List_Data = par_data;
+        s.Applicant_List_Data_Orig = s.Applicant_List_Data;
        
 		s.Applicant_List_Table = $('#Applicant_List_Grid').dataTable(
 			{
@@ -341,8 +342,21 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     }
 
     s.viewDates = function (row) {
-
-        $("#viewdates").modal()
+        cs.loading("show")
+        var dt = s.Applicant_List_Data[row]
+        h.post("../cApplicantsReview/ViewDates", {
+            app_ctrl_nbr : dt.app_ctrl_nbr
+        }).then(function (d) {
+            if (d.data.icon = "success") {
+                cs.populateFormFields("viewdatesform", d.data.viewdates[0])
+                $("#viewdates").modal()
+                cs.loading("hide")
+            }
+            else {
+                swal(d.data.message, { icon: d.data.icon })
+                cs.loading("hide")
+            }
+        })
     }
 
     s.sendEmailNotification = function (row_id, type) {
@@ -371,7 +385,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
         if (type == "1" && dt.email_aknowldge_dttm != "") {
 
-            swal("You have already sent acknowldge email for this applicant", { icon: "error" })
+            swal("You have already sent acknowldgement email for this applicant", { icon: "error" })
             return
           
         } else if (type == "2" && dt.email_aknowldge_regret_dttm != "") {
@@ -404,20 +418,20 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
              swal_text = "Are you sure that you want to send an acknowledgement email to this applicant? Please double check your action!"
             
 
-        } else if (type == "2") {
+        }else if (type == "2") {
 
 
             swal_title = "Not Qualified for Online Examination Email"
             swal_text = "Are you sure that you want to inform this applicant that he or she did not qualify for online examination? Please double check your action!"
 
 
-        } else if (type == "3") {
+        }else if (type == "3") {
 
             swal_title = "Qualified for Online Examination Email"
             swal_text = "Are you sure that you want to inform this applicant that he or she qualifies for online examination? Please double check your action!"
             
 
-        } else if (type == "5") {
+        }else if (type == "5") {
 
 
             swal_title = "Notify For HRMPSB Screening"
@@ -425,7 +439,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
           
 
-        } else if (type == "6") {
+        }else if (type == "6") {
             swal_title = "Notify For Top 5 Examinees"
             swal_text = "Are you sure that you want to notify this applicant that he or she is one of the top 5 examineess? Please double check your action!"
         }
@@ -1771,7 +1785,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                 if (d.data.icon == "success") {
                     addvalue("psb_ctrl_nbr_disp", d.data.psb_ctrl_nbr)
                     localStorage['psb_ctrl_nbr'] = d.data.psb_ctrl_nbr;
-                    //s.Applicant_List_Data_Orig = d.data.review_list
+                    s.Applicant_List_Data_Orig = d.data.review_list
                     //localStorage['review_list'] = JSON.stringify(d.data.review_list);
                     s.Applicant_List_Data = d.data.review_list.refreshTable("Applicant_List_Grid", "")
                     console.log(s.Applicant_List_Data)
@@ -1819,42 +1833,14 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
     s.selectStatus = function (val) {
         //cs.loading("show")
-        var dt = []
-        var status = $("#app_status").val() == undefined ? "" : $("#app_status").val()
-        var item_no = $("#item_nbr1").val() == undefined ? "" : $("#item_nbr1").val()
+        console.log(s.Applicant_List_Data_Orig)
+       
+        var dt = s.Applicant_List_Data_Orig.filter(function (d) {
+            return d.app_status == val.toString()
+        })
 
-        if (item_no != "" && status != "") {
+        s.Applicant_List_Data = dt.refreshTable("Applicant_List_Grid", "")
 
-            var dt = s.Applicant_List_Data_Orig.filter(function (d) {
-                return d.item_no == item_no && d.app_status == status
-            })
-           
-            s.Applicant_List_Data = fltr(dt).refreshTable("Applicant_List_Grid", "")
-        }
-        //else if (item_no == "" && status != "") {
-        //    h.post("../cApplicantsReview/getApplicnat", { budget_code: budgetcode, employment_type: employmenttype }).then(function (d) {
-               
-        //    })
-        //}
-        else if (item_no != "" && status == "") {
-            var dt = s.Applicant_List_Data_Orig.filter(function (d) {
-                return d.item_no == item_no
-            })
-            s.Applicant_List_Data = fltr(dt).refreshTable("Applicant_List_Grid", "")
-        }
-        //h.post("../cApplicantsReview/sp_review_applicant_list", { budget_code: s.budget_code, employment_type: s.employment_type, item_no: s.item_no, status: val }).then(function (d) {
-        //	if (val == "") {
-        //		dt = s.Applicant_List_Data_Orig
-        //	}
-        //	else {
-        //		dt = s.Applicant_List_Data_Orig.filter(function (d) {
-        //			return d.app_status == val
-        //		})
-        //	}
-
-        //	s.Applicant_List_Data = dt.refreshTable("Applicant_List_Grid", "")
-        //	cs.loading("hide")
-        //})
     }
 
 

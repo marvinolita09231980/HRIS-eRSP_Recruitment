@@ -724,38 +724,165 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_applicant_workexprnce_tbl_list' do
           <Property Name="psb_selected" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'HRIS_RCT.dbo.vw_applicants_review_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_applicants_review_tbl">
+warning 6002: The table/view 'HRIS_RCT.dbo.vw_applicants_review_dates_names' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_applicants_review_dates_names">
           <Key>
             <PropertyRef Name="app_ctrl_nbr" />
             <PropertyRef Name="item_no" />
             <PropertyRef Name="hiring_period" />
+            <PropertyRef Name="fetch_dttm" />
+            <PropertyRef Name="aknowledge_dttm" />
+            <PropertyRef Name="aknowledge_by" />
+            <PropertyRef Name="prescreen_dttm" />
+            <PropertyRef Name="presreen_by" />
+            <PropertyRef Name="endorse_dttm" />
+            <PropertyRef Name="endorse_by" />
+            <PropertyRef Name="selected_dttm" />
+            <PropertyRef Name="selected_by" />
             <PropertyRef Name="email_aknowldge_dttm" />
+            <PropertyRef Name="email_aknowldge_by" />
             <PropertyRef Name="email_aknowldge_regret_dttm" />
+            <PropertyRef Name="email_aknowldge_regret_by" />
             <PropertyRef Name="email_noti_exam_dttm" />
-            <PropertyRef Name="email_regret_dttm" />
+            <PropertyRef Name="email_noti_exam_by" />
             <PropertyRef Name="email_noti_hrmpsb_dttm" />
+            <PropertyRef Name="email_noti_hrmpsb_by" />
             <PropertyRef Name="email_notintop5_dttm" />
+            <PropertyRef Name="email_notintop5_by" />
+            <PropertyRef Name="email_regret_dttm" />
+            <PropertyRef Name="email_regret_by" />
             <PropertyRef Name="email_congratulatory_dttm" />
+            <PropertyRef Name="email_congratulatory_by" />
           </Key>
           <Property Name="empl_id" Type="varchar" MaxLength="8" />
           <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
           <Property Name="budget_code" Type="varchar" MaxLength="6" />
           <Property Name="employment_type" Type="varchar" MaxLength="2" />
           <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
-          <Property Name="fetch_dttm" Type="datetime" />
-          <Property Name="fetch_by" Type="varchar" MaxLength="10" />
           <Property Name="app_status" Type="varchar" MaxLength="2" />
           <Property Name="hiring_period" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="prescreen_dttm" Type="datetime" />
-          <Property Name="presreen_by" Type="varchar" MaxLength="10" />
+          <Property Name="fetch_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="aknowledge_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="aknowledge_by" Type="varchar" MaxLength="201" Nullable="false" />
+          <Property Name="prescreen_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="presreen_by" Type="varchar" MaxLength="201" Nullable="false" />
+          <Property Name="endorse_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="endorse_by" Type="varchar" MaxLength="201" Nullable="false" />
+          <Property Name="selected_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="selected_by" Type="varchar" MaxLength="201" Nullable="false" />
           <Property Name="email_aknowldge_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_aknowldge_by" Type="varchar" MaxLength="201" Nullable="false" />
           <Property Name="email_aknowldge_regret_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_aknowldge_regret_by" Type="varchar" MaxLength="201" Nullable="false" />
           <Property Name="email_noti_exam_dttm" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="email_regret_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_noti_exam_by" Type="varchar" MaxLength="201" Nullable="false" />
           <Property Name="email_noti_hrmpsb_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_noti_hrmpsb_by" Type="varchar" MaxLength="201" Nullable="false" />
           <Property Name="email_notintop5_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_notintop5_by" Type="varchar" MaxLength="201" Nullable="false" />
+          <Property Name="email_regret_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_regret_by" Type="varchar" MaxLength="201" Nullable="false" />
           <Property Name="email_congratulatory_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_congratulatory_by" Type="varchar" MaxLength="201" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_RCT.dbo.vw_applicants_review_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_applicants_review_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="hiring_period" />
+            <PropertyRef Name="fetch_dttm" />
+            <PropertyRef Name="fetch_by" />
+            <PropertyRef Name="aknowledge_dttm" />
+            <PropertyRef Name="aknowledge_by" />
+            <PropertyRef Name="prescreen_dttm" />
+            <PropertyRef Name="presreen_by" />
+            <PropertyRef Name="endorse_dttm" />
+            <PropertyRef Name="endorse_by" />
+            <PropertyRef Name="email_aknowldge_regret_dttm" />
+            <PropertyRef Name="email_aknowldge_regret_by" />
+            <PropertyRef Name="email_regret_dttm" />
+            <PropertyRef Name="email_regret_by" />
+            <PropertyRef Name="email_noti_exam_dttm" />
+            <PropertyRef Name="email_noti_exam_by" />
+            <PropertyRef Name="email_notintop5_dttm" />
+            <PropertyRef Name="email_notintop5_by" />
+            <PropertyRef Name="email_noti_hrmpsb_dttm" />
+            <PropertyRef Name="email_noti_hrmpsb_by" />
+            <PropertyRef Name="email_congratulatory_dttm" />
+            <PropertyRef Name="email_congratulatory_by" />
+            <PropertyRef Name="email_aknowldge_dttm" />
+            <PropertyRef Name="email_aknowldge_by" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="app_status" Type="varchar" MaxLength="2" />
+          <Property Name="hiring_period" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="fetch_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="fetch_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="aknowledge_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="aknowledge_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="prescreen_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="presreen_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="endorse_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="endorse_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="email_aknowldge_regret_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_aknowldge_regret_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="email_regret_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_regret_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="email_noti_exam_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_noti_exam_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="email_notintop5_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_notintop5_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="email_noti_hrmpsb_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_noti_hrmpsb_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="email_congratulatory_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_congratulatory_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="email_aknowldge_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_aknowldge_by" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_RCT.dbo.vw_applicants_review_tbl_dates' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_applicants_review_tbl_dates">
+          <Key>
+            <PropertyRef Name="info_ctrl_nbr" />
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="hiring_period" />
+            <PropertyRef Name="fetch_dttm" />
+            <PropertyRef Name="aknowledge_dttm" />
+            <PropertyRef Name="endorse_dttm" />
+            <PropertyRef Name="prescreen_dttm" />
+            <PropertyRef Name="email_aknowldge_regret_dttm" />
+            <PropertyRef Name="email_regret_dttm" />
+            <PropertyRef Name="email_noti_exam_dttm" />
+            <PropertyRef Name="email_notintop5_dttm" />
+            <PropertyRef Name="email_noti_hrmpsb_dttm" />
+            <PropertyRef Name="email_congratulatory_dttm" />
+            <PropertyRef Name="email_aknowldge_dttm" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="info_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="hiring_period" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="fetch_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="aknowledge_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="endorse_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="prescreen_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_aknowldge_regret_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_regret_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_noti_exam_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_notintop5_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_noti_hrmpsb_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_congratulatory_dttm" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email_aknowldge_dttm" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_RCT.dbo.vw_available_item_tbl_active' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2391,6 +2518,40 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
     [vw_applicant_workexprnce_tbl_list].[psb_selected] AS [psb_selected]
     FROM [dbo].[vw_applicant_workexprnce_tbl_list] AS [vw_applicant_workexprnce_tbl_list]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_applicants_review_dates_names" EntityType="Self.vw_applicants_review_dates_names" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_applicants_review_dates_names].[empl_id] AS [empl_id], 
+    [vw_applicants_review_dates_names].[app_ctrl_nbr] AS [app_ctrl_nbr], 
+    [vw_applicants_review_dates_names].[budget_code] AS [budget_code], 
+    [vw_applicants_review_dates_names].[employment_type] AS [employment_type], 
+    [vw_applicants_review_dates_names].[item_no] AS [item_no], 
+    [vw_applicants_review_dates_names].[app_status] AS [app_status], 
+    [vw_applicants_review_dates_names].[hiring_period] AS [hiring_period], 
+    [vw_applicants_review_dates_names].[fetch_dttm] AS [fetch_dttm], 
+    [vw_applicants_review_dates_names].[aknowledge_dttm] AS [aknowledge_dttm], 
+    [vw_applicants_review_dates_names].[aknowledge_by] AS [aknowledge_by], 
+    [vw_applicants_review_dates_names].[prescreen_dttm] AS [prescreen_dttm], 
+    [vw_applicants_review_dates_names].[presreen_by] AS [presreen_by], 
+    [vw_applicants_review_dates_names].[endorse_dttm] AS [endorse_dttm], 
+    [vw_applicants_review_dates_names].[endorse_by] AS [endorse_by], 
+    [vw_applicants_review_dates_names].[selected_dttm] AS [selected_dttm], 
+    [vw_applicants_review_dates_names].[selected_by] AS [selected_by], 
+    [vw_applicants_review_dates_names].[email_aknowldge_dttm] AS [email_aknowldge_dttm], 
+    [vw_applicants_review_dates_names].[email_aknowldge_by] AS [email_aknowldge_by], 
+    [vw_applicants_review_dates_names].[email_aknowldge_regret_dttm] AS [email_aknowldge_regret_dttm], 
+    [vw_applicants_review_dates_names].[email_aknowldge_regret_by] AS [email_aknowldge_regret_by], 
+    [vw_applicants_review_dates_names].[email_noti_exam_dttm] AS [email_noti_exam_dttm], 
+    [vw_applicants_review_dates_names].[email_noti_exam_by] AS [email_noti_exam_by], 
+    [vw_applicants_review_dates_names].[email_noti_hrmpsb_dttm] AS [email_noti_hrmpsb_dttm], 
+    [vw_applicants_review_dates_names].[email_noti_hrmpsb_by] AS [email_noti_hrmpsb_by], 
+    [vw_applicants_review_dates_names].[email_notintop5_dttm] AS [email_notintop5_dttm], 
+    [vw_applicants_review_dates_names].[email_notintop5_by] AS [email_notintop5_by], 
+    [vw_applicants_review_dates_names].[email_regret_dttm] AS [email_regret_dttm], 
+    [vw_applicants_review_dates_names].[email_regret_by] AS [email_regret_by], 
+    [vw_applicants_review_dates_names].[email_congratulatory_dttm] AS [email_congratulatory_dttm], 
+    [vw_applicants_review_dates_names].[email_congratulatory_by] AS [email_congratulatory_by]
+    FROM [dbo].[vw_applicants_review_dates_names] AS [vw_applicants_review_dates_names]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_applicants_review_tbl" EntityType="Self.vw_applicants_review_tbl" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_applicants_review_tbl].[empl_id] AS [empl_id], 
@@ -2398,20 +2559,53 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
     [vw_applicants_review_tbl].[budget_code] AS [budget_code], 
     [vw_applicants_review_tbl].[employment_type] AS [employment_type], 
     [vw_applicants_review_tbl].[item_no] AS [item_no], 
-    [vw_applicants_review_tbl].[fetch_dttm] AS [fetch_dttm], 
-    [vw_applicants_review_tbl].[fetch_by] AS [fetch_by], 
     [vw_applicants_review_tbl].[app_status] AS [app_status], 
     [vw_applicants_review_tbl].[hiring_period] AS [hiring_period], 
+    [vw_applicants_review_tbl].[fetch_dttm] AS [fetch_dttm], 
+    [vw_applicants_review_tbl].[fetch_by] AS [fetch_by], 
+    [vw_applicants_review_tbl].[aknowledge_dttm] AS [aknowledge_dttm], 
+    [vw_applicants_review_tbl].[aknowledge_by] AS [aknowledge_by], 
     [vw_applicants_review_tbl].[prescreen_dttm] AS [prescreen_dttm], 
     [vw_applicants_review_tbl].[presreen_by] AS [presreen_by], 
-    [vw_applicants_review_tbl].[email_aknowldge_dttm] AS [email_aknowldge_dttm], 
+    [vw_applicants_review_tbl].[endorse_dttm] AS [endorse_dttm], 
+    [vw_applicants_review_tbl].[endorse_by] AS [endorse_by], 
     [vw_applicants_review_tbl].[email_aknowldge_regret_dttm] AS [email_aknowldge_regret_dttm], 
-    [vw_applicants_review_tbl].[email_noti_exam_dttm] AS [email_noti_exam_dttm], 
+    [vw_applicants_review_tbl].[email_aknowldge_regret_by] AS [email_aknowldge_regret_by], 
     [vw_applicants_review_tbl].[email_regret_dttm] AS [email_regret_dttm], 
-    [vw_applicants_review_tbl].[email_noti_hrmpsb_dttm] AS [email_noti_hrmpsb_dttm], 
+    [vw_applicants_review_tbl].[email_regret_by] AS [email_regret_by], 
+    [vw_applicants_review_tbl].[email_noti_exam_dttm] AS [email_noti_exam_dttm], 
+    [vw_applicants_review_tbl].[email_noti_exam_by] AS [email_noti_exam_by], 
     [vw_applicants_review_tbl].[email_notintop5_dttm] AS [email_notintop5_dttm], 
-    [vw_applicants_review_tbl].[email_congratulatory_dttm] AS [email_congratulatory_dttm]
+    [vw_applicants_review_tbl].[email_notintop5_by] AS [email_notintop5_by], 
+    [vw_applicants_review_tbl].[email_noti_hrmpsb_dttm] AS [email_noti_hrmpsb_dttm], 
+    [vw_applicants_review_tbl].[email_noti_hrmpsb_by] AS [email_noti_hrmpsb_by], 
+    [vw_applicants_review_tbl].[email_congratulatory_dttm] AS [email_congratulatory_dttm], 
+    [vw_applicants_review_tbl].[email_congratulatory_by] AS [email_congratulatory_by], 
+    [vw_applicants_review_tbl].[email_aknowldge_dttm] AS [email_aknowldge_dttm], 
+    [vw_applicants_review_tbl].[email_aknowldge_by] AS [email_aknowldge_by]
     FROM [dbo].[vw_applicants_review_tbl] AS [vw_applicants_review_tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_applicants_review_tbl_dates" EntityType="Self.vw_applicants_review_tbl_dates" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_applicants_review_tbl_dates].[empl_id] AS [empl_id], 
+    [vw_applicants_review_tbl_dates].[info_ctrl_nbr] AS [info_ctrl_nbr], 
+    [vw_applicants_review_tbl_dates].[app_ctrl_nbr] AS [app_ctrl_nbr], 
+    [vw_applicants_review_tbl_dates].[employment_type] AS [employment_type], 
+    [vw_applicants_review_tbl_dates].[budget_code] AS [budget_code], 
+    [vw_applicants_review_tbl_dates].[item_no] AS [item_no], 
+    [vw_applicants_review_tbl_dates].[hiring_period] AS [hiring_period], 
+    [vw_applicants_review_tbl_dates].[fetch_dttm] AS [fetch_dttm], 
+    [vw_applicants_review_tbl_dates].[aknowledge_dttm] AS [aknowledge_dttm], 
+    [vw_applicants_review_tbl_dates].[endorse_dttm] AS [endorse_dttm], 
+    [vw_applicants_review_tbl_dates].[prescreen_dttm] AS [prescreen_dttm], 
+    [vw_applicants_review_tbl_dates].[email_aknowldge_regret_dttm] AS [email_aknowldge_regret_dttm], 
+    [vw_applicants_review_tbl_dates].[email_regret_dttm] AS [email_regret_dttm], 
+    [vw_applicants_review_tbl_dates].[email_noti_exam_dttm] AS [email_noti_exam_dttm], 
+    [vw_applicants_review_tbl_dates].[email_notintop5_dttm] AS [email_notintop5_dttm], 
+    [vw_applicants_review_tbl_dates].[email_noti_hrmpsb_dttm] AS [email_noti_hrmpsb_dttm], 
+    [vw_applicants_review_tbl_dates].[email_congratulatory_dttm] AS [email_congratulatory_dttm], 
+    [vw_applicants_review_tbl_dates].[email_aknowldge_dttm] AS [email_aknowldge_dttm]
+    FROM [dbo].[vw_applicants_review_tbl_dates] AS [vw_applicants_review_tbl_dates]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_available_item_tbl_active" EntityType="Self.vw_available_item_tbl_active" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -4522,14 +4716,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <FunctionImport Name="sp_get_uploadedfile_from_APL2" ReturnType="Collection(HRIS_RCTModel.sp_get_uploadedfile_from_APL2_Result)">
           <Parameter Name="info_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_get_applicantlist_from_APL" ReturnType="Collection(HRIS_RCTModel.sp_get_applicantlist_from_APL_Result)">
-            <Parameter Name="p_online_apl_id" Mode="In" Type="String" />
-            <Parameter Name="p_employment_type" Mode="In" Type="String" />
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
-            <Parameter Name="p_starts_with" Mode="In" Type="String" />
-            <Parameter Name="p_hiring_period" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_pds_data_fromAPL" ReturnType="Collection(String)">
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
@@ -4570,7 +4756,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_hiring_period" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="vw_applicants_review_tbl" EntityType="HRIS_RCTModel.vw_applicants_review_tbl" />
           <EntitySet Name="endorsement_print_dtl_tbl" EntityType="HRIS_RCTModel.endorsement_print_dtl_tbl" />
           <EntitySet Name="endorsement_print_hdr_tbl" EntityType="HRIS_RCTModel.endorsement_print_hdr_tbl" />
           <FunctionImport Name="sp_endorsename_list" ReturnType="Collection(HRIS_RCTModel.sp_endorsename_list_Result)">
@@ -4607,8 +4792,19 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicants_dates_list" ReturnType="Collection(HRIS_RCTModel.sp_applicants_dates_list_Result)">
-            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="vw_applicants_review_tbl_dates" EntityType="HRIS_RCTModel.vw_applicants_review_tbl_dates" />
+          <EntitySet Name="vw_applicants_review_tbl" EntityType="HRIS_RCTModel.vw_applicants_review_tbl" />
+          <FunctionImport Name="sp_get_applicantlist_from_APL" ReturnType="Collection(HRIS_RCTModel.sp_get_applicantlist_from_APL_Result)">
+            <Parameter Name="p_online_apl_id" Mode="In" Type="String" />
+            <Parameter Name="p_employment_type" Mode="In" Type="String" />
+            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+            <Parameter Name="p_starts_with" Mode="In" Type="String" />
+            <Parameter Name="p_hiring_period" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="vw_applicants_review_dates_names" EntityType="HRIS_RCTModel.vw_applicants_review_dates_names" />
         </EntityContainer>
         <ComplexType Name="sp_add_available_items_to_RCT_Result">
           <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
@@ -6311,30 +6507,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="file_path" Nullable="true" MaxLength="500" />
           <Property Type="Binary" Name="filedocs" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_get_applicantlist_from_APL_Result">
-          <Property Type="String" Name="APL_info_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="firstname" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="middlename" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="lastname" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="position_long_title" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
-          <Property Type="Boolean" Name="inPublication" Nullable="true" />
-          <Property Type="String" Name="email" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="mobile_no" Nullable="false" MaxLength="20" />
-          <Property Type="Int32" Name="review" Nullable="false" />
-          <Property Type="String" Name="ctrl_no" Nullable="false" MaxLength="15" />
-          <Property Type="Boolean" Name="active_forpsb" Nullable="true" />
-          <Property Type="String" Name="fetch_dttm" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="fetch_by" Nullable="true" MaxLength="201" />
-          <Property Type="String" Name="prescreen_dttm" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="prescreen_by" Nullable="true" MaxLength="201" />
-          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
-        </ComplexType>
         <EntityType Name="exam_shcedule_tbl">
           <Key>
             <PropertyRef Name="exam_id" />
@@ -6569,38 +6741,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="email_noti_hrmpsb_dttm" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="email_notintop5_dttm" Nullable="false" MaxLength="30" />
         </ComplexType>
-        <EntityType Name="vw_applicants_review_tbl">
-          <Key>
-            <PropertyRef Name="app_ctrl_nbr" />
-            <PropertyRef Name="item_no" />
-            <PropertyRef Name="hiring_period" />
-            <PropertyRef Name="email_aknowldge_dttm" />
-            <PropertyRef Name="email_aknowldge_regret_dttm" />
-            <PropertyRef Name="email_noti_exam_dttm" />
-            <PropertyRef Name="email_regret_dttm" />
-            <PropertyRef Name="email_noti_hrmpsb_dttm" />
-            <PropertyRef Name="email_notintop5_dttm" />
-            <PropertyRef Name="email_congratulatory_dttm" />
-          </Key>
-          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="fetch_dttm" Type="DateTime" Precision="3" />
-          <Property Name="fetch_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="app_status" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="prescreen_dttm" Type="DateTime" Precision="3" />
-          <Property Name="presreen_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="email_aknowldge_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="email_aknowldge_regret_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="email_noti_exam_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="email_regret_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="email_noti_hrmpsb_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="email_notintop5_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="email_congratulatory_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="endorsement_print_dtl_tbl">
           <Key>
             <PropertyRef Name="endorse_no" />
@@ -6736,6 +6876,187 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="selected_dttm" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="selected_by" Nullable="false" MaxLength="10" />
         </ComplexType>
+        <EntityType Name="vw_applicants_review_tbl_dates">
+          <Key>
+            <PropertyRef Name="info_ctrl_nbr" />
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="hiring_period" />
+            <PropertyRef Name="fetch_dttm" />
+            <PropertyRef Name="aknowledge_dttm" />
+            <PropertyRef Name="endorse_dttm" />
+            <PropertyRef Name="prescreen_dttm" />
+            <PropertyRef Name="email_aknowldge_regret_dttm" />
+            <PropertyRef Name="email_regret_dttm" />
+            <PropertyRef Name="email_noti_exam_dttm" />
+            <PropertyRef Name="email_notintop5_dttm" />
+            <PropertyRef Name="email_noti_hrmpsb_dttm" />
+            <PropertyRef Name="email_congratulatory_dttm" />
+            <PropertyRef Name="email_aknowldge_dttm" />
+          </Key>
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="info_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="fetch_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="aknowledge_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="endorse_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="prescreen_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_regret_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_regret_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_exam_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_notintop5_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_hrmpsb_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_congratulatory_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_applicants_review_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="hiring_period" />
+            <PropertyRef Name="fetch_dttm" />
+            <PropertyRef Name="fetch_by" />
+            <PropertyRef Name="aknowledge_dttm" />
+            <PropertyRef Name="aknowledge_by" />
+            <PropertyRef Name="prescreen_dttm" />
+            <PropertyRef Name="presreen_by" />
+            <PropertyRef Name="endorse_dttm" />
+            <PropertyRef Name="endorse_by" />
+            <PropertyRef Name="email_aknowldge_regret_dttm" />
+            <PropertyRef Name="email_aknowldge_regret_by" />
+            <PropertyRef Name="email_regret_dttm" />
+            <PropertyRef Name="email_regret_by" />
+            <PropertyRef Name="email_noti_exam_dttm" />
+            <PropertyRef Name="email_noti_exam_by" />
+            <PropertyRef Name="email_notintop5_dttm" />
+            <PropertyRef Name="email_notintop5_by" />
+            <PropertyRef Name="email_noti_hrmpsb_dttm" />
+            <PropertyRef Name="email_noti_hrmpsb_by" />
+            <PropertyRef Name="email_congratulatory_dttm" />
+            <PropertyRef Name="email_congratulatory_by" />
+            <PropertyRef Name="email_aknowldge_dttm" />
+            <PropertyRef Name="email_aknowldge_by" />
+          </Key>
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="app_status" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="fetch_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fetch_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="aknowledge_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="aknowledge_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="prescreen_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="presreen_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="endorse_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="endorse_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_regret_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_regret_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_regret_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_regret_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_exam_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_exam_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_notintop5_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_notintop5_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_hrmpsb_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_hrmpsb_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_congratulatory_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_congratulatory_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_get_applicantlist_from_APL_Result">
+          <Property Type="String" Name="APL_info_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="firstname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="middlename" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="lastname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="inPublication" Nullable="true" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="mobile_no" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="review" Nullable="false" />
+          <Property Type="String" Name="ctrl_no" Nullable="false" MaxLength="15" />
+          <Property Type="Boolean" Name="active_forpsb" Nullable="true" />
+          <Property Type="String" Name="fetch_dttm" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="fetch_by" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="aknowledge_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="aknowledge_by" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="prescreen_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="prescreen_by" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
+        </ComplexType>
+        <EntityType Name="vw_applicants_review_dates_names">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="hiring_period" />
+            <PropertyRef Name="fetch_dttm" />
+            <PropertyRef Name="aknowledge_dttm" />
+            <PropertyRef Name="aknowledge_by" />
+            <PropertyRef Name="prescreen_dttm" />
+            <PropertyRef Name="presreen_by" />
+            <PropertyRef Name="endorse_dttm" />
+            <PropertyRef Name="endorse_by" />
+            <PropertyRef Name="selected_dttm" />
+            <PropertyRef Name="selected_by" />
+            <PropertyRef Name="email_aknowldge_dttm" />
+            <PropertyRef Name="email_aknowldge_by" />
+            <PropertyRef Name="email_aknowldge_regret_dttm" />
+            <PropertyRef Name="email_aknowldge_regret_by" />
+            <PropertyRef Name="email_noti_exam_dttm" />
+            <PropertyRef Name="email_noti_exam_by" />
+            <PropertyRef Name="email_noti_hrmpsb_dttm" />
+            <PropertyRef Name="email_noti_hrmpsb_by" />
+            <PropertyRef Name="email_notintop5_dttm" />
+            <PropertyRef Name="email_notintop5_by" />
+            <PropertyRef Name="email_regret_dttm" />
+            <PropertyRef Name="email_regret_by" />
+            <PropertyRef Name="email_congratulatory_dttm" />
+            <PropertyRef Name="email_congratulatory_by" />
+          </Key>
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="app_status" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="fetch_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="aknowledge_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="aknowledge_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="prescreen_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="presreen_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="endorse_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="endorse_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="selected_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="selected_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_regret_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_aknowldge_regret_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_exam_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_exam_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_hrmpsb_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_noti_hrmpsb_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="email_notintop5_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_notintop5_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="email_regret_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_regret_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="email_congratulatory_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_congratulatory_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9828,34 +10149,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_get_applicantlist_from_APL" FunctionName="HRIS_RCTModel.Store.sp_get_applicantlist_from_APL">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_get_applicantlist_from_APL_Result">
-                <ScalarProperty Name="APL_info_ctrl_nbr" ColumnName="APL_info_ctrl_nbr" />
-                <ScalarProperty Name="firstname" ColumnName="firstname" />
-                <ScalarProperty Name="middlename" ColumnName="middlename" />
-                <ScalarProperty Name="lastname" ColumnName="lastname" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="position_code" ColumnName="position_code" />
-                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="inPublication" ColumnName="inPublication" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
-                <ScalarProperty Name="review" ColumnName="review" />
-                <ScalarProperty Name="ctrl_no" ColumnName="ctrl_no" />
-                <ScalarProperty Name="active_forpsb" ColumnName="active_forpsb" />
-                <ScalarProperty Name="fetch_dttm" ColumnName="fetch_dttm" />
-                <ScalarProperty Name="fetch_by" ColumnName="fetch_by" />
-                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
-                <ScalarProperty Name="prescreen_by" ColumnName="prescreen_by" />
-                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_pds_data_fromAPL" FunctionName="HRIS_RCTModel.Store.sp_pds_data_fromAPL" />
           <EntitySetMapping Name="exam_shcedule_tbl">
             <EntityTypeMapping TypeName="HRIS_RCTModel.exam_shcedule_tbl">
@@ -10102,30 +10395,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="vw_applicants_review_tbl">
-            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_applicants_review_tbl">
-              <MappingFragment StoreEntitySet="vw_applicants_review_tbl">
-                <ScalarProperty Name="email_congratulatory_dttm" ColumnName="email_congratulatory_dttm" />
-                <ScalarProperty Name="email_notintop5_dttm" ColumnName="email_notintop5_dttm" />
-                <ScalarProperty Name="email_noti_hrmpsb_dttm" ColumnName="email_noti_hrmpsb_dttm" />
-                <ScalarProperty Name="email_regret_dttm" ColumnName="email_regret_dttm" />
-                <ScalarProperty Name="email_noti_exam_dttm" ColumnName="email_noti_exam_dttm" />
-                <ScalarProperty Name="email_aknowldge_regret_dttm" ColumnName="email_aknowldge_regret_dttm" />
-                <ScalarProperty Name="email_aknowldge_dttm" ColumnName="email_aknowldge_dttm" />
-                <ScalarProperty Name="presreen_by" ColumnName="presreen_by" />
-                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
-                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
-                <ScalarProperty Name="app_status" ColumnName="app_status" />
-                <ScalarProperty Name="fetch_by" ColumnName="fetch_by" />
-                <ScalarProperty Name="fetch_dttm" ColumnName="fetch_dttm" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="endorsement_print_dtl_tbl">
             <EntityTypeMapping TypeName="HRIS_RCTModel.endorsement_print_dtl_tbl">
               <MappingFragment StoreEntitySet="endorsement_print_dtl_tbl">
@@ -10287,6 +10556,131 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="vw_applicants_review_tbl_dates">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_applicants_review_tbl_dates">
+              <MappingFragment StoreEntitySet="vw_applicants_review_tbl_dates">
+                <ScalarProperty Name="email_aknowldge_dttm" ColumnName="email_aknowldge_dttm" />
+                <ScalarProperty Name="email_congratulatory_dttm" ColumnName="email_congratulatory_dttm" />
+                <ScalarProperty Name="email_noti_hrmpsb_dttm" ColumnName="email_noti_hrmpsb_dttm" />
+                <ScalarProperty Name="email_notintop5_dttm" ColumnName="email_notintop5_dttm" />
+                <ScalarProperty Name="email_noti_exam_dttm" ColumnName="email_noti_exam_dttm" />
+                <ScalarProperty Name="email_regret_dttm" ColumnName="email_regret_dttm" />
+                <ScalarProperty Name="email_aknowldge_regret_dttm" ColumnName="email_aknowldge_regret_dttm" />
+                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
+                <ScalarProperty Name="endorse_dttm" ColumnName="endorse_dttm" />
+                <ScalarProperty Name="aknowledge_dttm" ColumnName="aknowledge_dttm" />
+                <ScalarProperty Name="fetch_dttm" ColumnName="fetch_dttm" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_applicants_review_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_applicants_review_tbl">
+              <MappingFragment StoreEntitySet="vw_applicants_review_tbl">
+                <ScalarProperty Name="email_aknowldge_by" ColumnName="email_aknowldge_by" />
+                <ScalarProperty Name="email_aknowldge_dttm" ColumnName="email_aknowldge_dttm" />
+                <ScalarProperty Name="email_congratulatory_by" ColumnName="email_congratulatory_by" />
+                <ScalarProperty Name="email_congratulatory_dttm" ColumnName="email_congratulatory_dttm" />
+                <ScalarProperty Name="email_noti_hrmpsb_by" ColumnName="email_noti_hrmpsb_by" />
+                <ScalarProperty Name="email_noti_hrmpsb_dttm" ColumnName="email_noti_hrmpsb_dttm" />
+                <ScalarProperty Name="email_notintop5_by" ColumnName="email_notintop5_by" />
+                <ScalarProperty Name="email_notintop5_dttm" ColumnName="email_notintop5_dttm" />
+                <ScalarProperty Name="email_noti_exam_by" ColumnName="email_noti_exam_by" />
+                <ScalarProperty Name="email_noti_exam_dttm" ColumnName="email_noti_exam_dttm" />
+                <ScalarProperty Name="email_regret_by" ColumnName="email_regret_by" />
+                <ScalarProperty Name="email_regret_dttm" ColumnName="email_regret_dttm" />
+                <ScalarProperty Name="email_aknowldge_regret_by" ColumnName="email_aknowldge_regret_by" />
+                <ScalarProperty Name="email_aknowldge_regret_dttm" ColumnName="email_aknowldge_regret_dttm" />
+                <ScalarProperty Name="endorse_by" ColumnName="endorse_by" />
+                <ScalarProperty Name="endorse_dttm" ColumnName="endorse_dttm" />
+                <ScalarProperty Name="presreen_by" ColumnName="presreen_by" />
+                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
+                <ScalarProperty Name="aknowledge_by" ColumnName="aknowledge_by" />
+                <ScalarProperty Name="aknowledge_dttm" ColumnName="aknowledge_dttm" />
+                <ScalarProperty Name="fetch_by" ColumnName="fetch_by" />
+                <ScalarProperty Name="fetch_dttm" ColumnName="fetch_dttm" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="app_status" ColumnName="app_status" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_applicantlist_from_APL" FunctionName="HRIS_RCTModel.Store.sp_get_applicantlist_from_APL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_get_applicantlist_from_APL_Result">
+                <ScalarProperty Name="APL_info_ctrl_nbr" ColumnName="APL_info_ctrl_nbr" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="middlename" ColumnName="middlename" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="inPublication" ColumnName="inPublication" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="review" ColumnName="review" />
+                <ScalarProperty Name="ctrl_no" ColumnName="ctrl_no" />
+                <ScalarProperty Name="active_forpsb" ColumnName="active_forpsb" />
+                <ScalarProperty Name="fetch_dttm" ColumnName="fetch_dttm" />
+                <ScalarProperty Name="fetch_by" ColumnName="fetch_by" />
+                <ScalarProperty Name="aknowledge_dttm" ColumnName="aknowledge_dttm" />
+                <ScalarProperty Name="aknowledge_by" ColumnName="aknowledge_by" />
+                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
+                <ScalarProperty Name="prescreen_by" ColumnName="prescreen_by" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vw_applicants_review_dates_names">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_applicants_review_dates_names">
+              <MappingFragment StoreEntitySet="vw_applicants_review_dates_names">
+                <ScalarProperty Name="email_congratulatory_by" ColumnName="email_congratulatory_by" />
+                <ScalarProperty Name="email_congratulatory_dttm" ColumnName="email_congratulatory_dttm" />
+                <ScalarProperty Name="email_regret_by" ColumnName="email_regret_by" />
+                <ScalarProperty Name="email_regret_dttm" ColumnName="email_regret_dttm" />
+                <ScalarProperty Name="email_notintop5_by" ColumnName="email_notintop5_by" />
+                <ScalarProperty Name="email_notintop5_dttm" ColumnName="email_notintop5_dttm" />
+                <ScalarProperty Name="email_noti_hrmpsb_by" ColumnName="email_noti_hrmpsb_by" />
+                <ScalarProperty Name="email_noti_hrmpsb_dttm" ColumnName="email_noti_hrmpsb_dttm" />
+                <ScalarProperty Name="email_noti_exam_by" ColumnName="email_noti_exam_by" />
+                <ScalarProperty Name="email_noti_exam_dttm" ColumnName="email_noti_exam_dttm" />
+                <ScalarProperty Name="email_aknowldge_regret_by" ColumnName="email_aknowldge_regret_by" />
+                <ScalarProperty Name="email_aknowldge_regret_dttm" ColumnName="email_aknowldge_regret_dttm" />
+                <ScalarProperty Name="email_aknowldge_by" ColumnName="email_aknowldge_by" />
+                <ScalarProperty Name="email_aknowldge_dttm" ColumnName="email_aknowldge_dttm" />
+                <ScalarProperty Name="selected_by" ColumnName="selected_by" />
+                <ScalarProperty Name="selected_dttm" ColumnName="selected_dttm" />
+                <ScalarProperty Name="endorse_by" ColumnName="endorse_by" />
+                <ScalarProperty Name="endorse_dttm" ColumnName="endorse_dttm" />
+                <ScalarProperty Name="presreen_by" ColumnName="presreen_by" />
+                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
+                <ScalarProperty Name="aknowledge_by" ColumnName="aknowledge_by" />
+                <ScalarProperty Name="aknowledge_dttm" ColumnName="aknowledge_dttm" />
+                <ScalarProperty Name="fetch_dttm" ColumnName="fetch_dttm" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="app_status" ColumnName="app_status" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
