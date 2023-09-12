@@ -237,6 +237,7 @@
     <Compile Include="Controllers\cApplicantsInfoController.cs" />
     <Compile Include="Controllers\cApplicantsReviewController.cs" />
     <Compile Include="Controllers\cApplicationInfoDetailsController.cs" />
+    <Compile Include="Controllers\cBackgroundInvestigationController.cs" />
     <Compile Include="Controllers\cChiefExecutiveController.cs" />
     <Compile Include="Controllers\cComparativeAssessmentController.cs" />
     <Compile Include="Controllers\cEmbededScreeningController.cs" />
@@ -1190,6 +1191,7 @@
       <DependentUpon>ng-cApplicantsReview.js</DependentUpon>
     </Content>
     <Content Include="Angular\ng-cApplicationInfoDetails.js" />
+    <Content Include="Angular\ng-cBackgroundInvestigation.js" />
     <Content Include="Angular\ng-cChiefExecutive.js" />
     <Content Include="Angular\ng-cComparativeAssessment.js" />
     <Content Include="Angular\ng-cEmbedScreening.js" />
@@ -3166,6 +3168,7 @@
     <Content Include="Views\cEmbededScreening\Index.cshtml" />
     <Content Include="Views\cAddGeneralPanel\Index.cshtml" />
     <Content Include="Views\cExamSchedule\Index.cshtml" />
+    <Content Include="Views\cBackgroundInvestigation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
