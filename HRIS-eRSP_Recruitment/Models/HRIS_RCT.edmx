@@ -227,6 +227,86 @@
           <Property Name="app_status" Type="varchar" MaxLength="3" Nullable="false" />
           <Property Name="app_status_short_descr" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="bi_criteria1_tbl">
+          <Key>
+            <PropertyRef Name="criteria1_id" />
+          </Key>
+          <Property Name="criteria1_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="question_type" Type="int" />
+          <Property Name="criteria1_descr" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="bi_criteria2_tbl">
+          <Key>
+            <PropertyRef Name="criteria2_id" />
+          </Key>
+          <Property Name="criteria2_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="criteria1_id" Type="int" />
+          <Property Name="criteria2_descr" Type="varchar" MaxLength="200" />
+          <Property Name="item_order" Type="varchar" MaxLength="2" />
+          <Property Name="question_type" Type="int" />
+        </EntityType>
+        <EntityType Name="bi_criteria3_tbl">
+          <Key>
+            <PropertyRef Name="criteria3_id" />
+          </Key>
+          <Property Name="criteria3_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="criteria2_id" Type="int" />
+          <Property Name="criteria3_descr" Type="varchar" MaxLength="200" />
+          <Property Name="item_order" Type="varchar" MaxLength="2" />
+          <Property Name="question_type" Type="int" />
+        </EntityType>
+        <EntityType Name="bi_questionnaire_tbl">
+          <Key>
+            <PropertyRef Name="question_id" />
+          </Key>
+          <Property Name="question_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="question_descr" Type="varchar" MaxLength="200" />
+          <Property Name="question_type" Type="int" />
+          <Property Name="criteria1_id" Type="int" />
+          <Property Name="criteria1_descr" Type="varchar" MaxLength="200" />
+          <Property Name="criteria2_id" Type="varchar" MaxLength="2" />
+          <Property Name="criteria2_descr" Type="varchar" MaxLength="200" />
+          <Property Name="criteria3_id" Type="varchar" MaxLength="2" />
+          <Property Name="criteria3_descr" Type="varchar" MaxLength="200" />
+          <Property Name="order_by" Type="varchar" MaxLength="2" />
+          <Property Name="rating_scale" Type="int" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="10" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="10" />
+          <Property Name="question_type_descr" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="bi_rating_questiontype_tbl">
+          <Key>
+            <PropertyRef Name="question_type" />
+          </Key>
+          <Property Name="question_type" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="question_type_descr" Type="varchar" MaxLength="500" />
+          <Property Name="rscale_group_id" Type="int" />
+        </EntityType>
+        <EntityType Name="bi_rating_scale_tbl">
+          <Key>
+            <PropertyRef Name="rating_scale_id" />
+          </Key>
+          <Property Name="rating_scale_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rating_scale" Type="varchar" MaxLength="100" />
+          <Property Name="rating_scale_descr" Type="varchar" MaxLength="500" />
+          <Property Name="group_type_id" Type="int" />
+        </EntityType>
+        <EntityType Name="bi_rating_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="question_id" />
+          </Key>
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="question_id" Type="int" Nullable="false" />
+          <Property Name="question_rating" Type="money" />
+          <Property Name="accomplished_date" Type="date" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="8" />
+        </EntityType>
         <EntityType Name="document_type_tbl">
           <Key>
             <PropertyRef Name="doc_type" />
@@ -289,6 +369,18 @@
           <Property Name="updated_by_user" Type="varchar" MaxLength="8" />
           <Property Name="g_user_password" Type="varchar" MaxLength="255" />
           <Property Name="g_status" Type="bit" />
+        </EntityType>
+        <EntityType Name="insider_outsider_applicant_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+          </Key>
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="applicant_type" Type="int" />
+          <Property Name="applicant_type_descr" Type="varchar" MaxLength="20" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="8" />
         </EntityType>
         <EntityType Name="psb_cbirating_tbl">
           <Key>
@@ -1679,6 +1771,10 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_user_id" Type="varchar" Mode="In" />
           <Parameter Name="p_item_no" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_applicants_bi_questions_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_question_type" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_applicants_dates_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
         </Function>
@@ -2389,11 +2485,19 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="applicants_review_tbl_olddata" EntityType="Self.applicants_review_tbl_olddata" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="applicants_tbl" EntityType="Self.applicants_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="application_status_tbl" EntityType="Self.application_status_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_criteria1_tbl" EntityType="Self.bi_criteria1_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_criteria2_tbl" EntityType="Self.bi_criteria2_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_criteria3_tbl" EntityType="Self.bi_criteria3_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_questionnaire_tbl" EntityType="Self.bi_questionnaire_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_rating_questiontype_tbl" EntityType="Self.bi_rating_questiontype_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_rating_scale_tbl" EntityType="Self.bi_rating_scale_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_rating_tbl" EntityType="Self.bi_rating_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="document_type_tbl" EntityType="Self.document_type_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="endorsement_print_dtl_tbl" EntityType="Self.endorsement_print_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="endorsement_print_hdr_tbl" EntityType="Self.endorsement_print_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="exam_shcedule_tbl" EntityType="Self.exam_shcedule_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="guest_user_info_tbl" EntityType="Self.guest_user_info_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="insider_outsider_applicant_tbl" EntityType="Self.insider_outsider_applicant_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="psb_cbirating_tbl" EntityType="Self.psb_cbirating_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="psb_hiring_period_tbl" EntityType="Self.psb_hiring_period_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="psb_mbr_role_tbl" EntityType="Self.psb_mbr_role_tbl" Schema="dbo" store:Type="Tables" />
@@ -4750,12 +4854,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_review_applicant_tbl_list3" ReturnType="Collection(HRIS_RCTModel.sp_review_applicant_tbl_list3_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
-            <Parameter Name="p_employmenttype" Mode="In" Type="String" />
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
-            <Parameter Name="p_hiring_period" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="endorsement_print_dtl_tbl" EntityType="HRIS_RCTModel.endorsement_print_dtl_tbl" />
           <EntitySet Name="endorsement_print_hdr_tbl" EntityType="HRIS_RCTModel.endorsement_print_hdr_tbl" />
           <FunctionImport Name="sp_endorsename_list" ReturnType="Collection(HRIS_RCTModel.sp_endorsename_list_Result)">
@@ -4805,6 +4903,24 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_hiring_period" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="vw_applicants_review_dates_names" EntityType="HRIS_RCTModel.vw_applicants_review_dates_names" />
+          <FunctionImport Name="sp_review_applicant_tbl_list3" ReturnType="Collection(HRIS_RCTModel.sp_review_applicant_tbl_list3_Result)">
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+            <Parameter Name="p_employmenttype" Mode="In" Type="String" />
+            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+            <Parameter Name="p_hiring_period" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="insider_outsider_applicant_tbl" EntityType="HRIS_RCTModel.insider_outsider_applicant_tbl" />
+          <EntitySet Name="bi_questionnaire_tbl" EntityType="HRIS_RCTModel.bi_questionnaire_tbl" />
+          <EntitySet Name="bi_criteria1_tbl" EntityType="HRIS_RCTModel.bi_criteria1_tbl" />
+          <EntitySet Name="bi_criteria2_tbl" EntityType="HRIS_RCTModel.bi_criteria2_tbl" />
+          <EntitySet Name="bi_criteria3_tbl" EntityType="HRIS_RCTModel.bi_criteria3_tbl" />
+          <FunctionImport Name="sp_applicants_bi_questions_list" ReturnType="Collection(HRIS_RCTModel.sp_applicants_bi_questions_list_Result)">
+            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_question_type" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="bi_rating_tbl" EntityType="HRIS_RCTModel.bi_rating_tbl" />
+          <EntitySet Name="bi_rating_questiontype_tbl" EntityType="HRIS_RCTModel.bi_rating_questiontype_tbl" />
+          <EntitySet Name="bi_rating_scale_tbl" EntityType="HRIS_RCTModel.bi_rating_scale_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_add_available_items_to_RCT_Result">
           <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
@@ -6681,66 +6797,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="email_congratulatory_dttm" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="email_congratulatory_by" Nullable="false" MaxLength="10" />
         </ComplexType>
-        <ComplexType Name="sp_review_applicant_tbl_list3_Result">
-          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="info_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="app_ctrl_nbr_disp" Nullable="false" MaxLength="37" />
-          <Property Type="String" Name="app_address" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="applied_dttm" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="applied_year" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="birth_date" Nullable="false" MaxLength="30" />
-          <Property Type="Int32" Name="age" Nullable="true" />
-          <Property Type="String" Name="gender" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="gender_descr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="civil_status_descr" Nullable="false" MaxLength="7" />
-          <Property Type="Boolean" Name="item_in_psb" Nullable="true" />
-          <Property Type="Boolean" Name="psb_concluded" Nullable="true" />
-          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="lastname_start" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="civil_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="applicant_name" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="employment_type_descr" Nullable="false" MaxLength="9" />
-          <Property Type="String" Name="app_status" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="app_status_short_descr" Nullable="true" MaxLength="100" />
-          <Property Type="Boolean" Name="is_employee" Nullable="true" />
-          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="DateTime" Name="psb_date" Nullable="false" />
-          <Property Type="String" Name="remarks_details" Nullable="false" MaxLength="100" />
-          <Property Type="Boolean" Name="btn_disabled" Nullable="true" />
-          <Property Type="String" Name="email_address" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="subdepartment_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="division_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="section_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="qs_eduction" Nullable="false" />
-          <Property Type="String" Name="qs_work_experience" Nullable="false" />
-          <Property Type="String" Name="qs_training" Nullable="false" />
-          <Property Type="String" Name="qs_eligibility" Nullable="false" />
-          <Property Type="Binary" Name="empl_photo_img" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="mobile_number" Nullable="true" MaxLength="16" />
-          <Property Type="String" Name="email_add" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="i_psb_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="hiring_period" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="exam_type" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="exam_date" Nullable="false" MaxLength="36" />
-          <Property Type="Time" Name="exam_time" Nullable="false" />
-          <Property Type="String" Name="exam_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="email_aknowldge_dttm" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="email_aknowldge_regret_dttm" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="email_noti_exam_dttm" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="email_noti_hrmpsb_dttm" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="email_notintop5_dttm" Nullable="false" MaxLength="30" />
-        </ComplexType>
         <EntityType Name="endorsement_print_dtl_tbl">
           <Key>
             <PropertyRef Name="endorse_no" />
@@ -7056,6 +7112,178 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="email_regret_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
           <Property Name="email_congratulatory_dttm" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="email_congratulatory_by" Type="String" Nullable="false" MaxLength="201" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_review_applicant_tbl_list3_Result">
+          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="info_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="app_ctrl_nbr_disp" Nullable="false" MaxLength="37" />
+          <Property Type="String" Name="app_address" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="applied_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="applied_year" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="birth_date" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="age" Nullable="true" />
+          <Property Type="String" Name="gender" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="gender_descr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="civil_status_descr" Nullable="false" MaxLength="7" />
+          <Property Type="Boolean" Name="item_in_psb" Nullable="true" />
+          <Property Type="Boolean" Name="psb_concluded" Nullable="true" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="lastname_start" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="civil_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="applicant_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="employment_type_descr" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="app_status" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="app_status_short_descr" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="is_employee" Nullable="true" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="DateTime" Name="psb_date" Nullable="false" />
+          <Property Type="String" Name="remarks_details" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="btn_disabled" Nullable="true" />
+          <Property Type="String" Name="email_address" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="subdepartment_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="division_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="section_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="qs_eduction" Nullable="false" />
+          <Property Type="String" Name="qs_work_experience" Nullable="false" />
+          <Property Type="String" Name="qs_training" Nullable="false" />
+          <Property Type="String" Name="qs_eligibility" Nullable="false" />
+          <Property Type="Binary" Name="empl_photo_img" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="mobile_number" Nullable="true" MaxLength="16" />
+          <Property Type="String" Name="email_add" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="i_psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="hiring_period" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="exam_type" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="exam_date" Nullable="false" MaxLength="36" />
+          <Property Type="Time" Name="exam_time" Nullable="false" />
+          <Property Type="String" Name="exam_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="email_aknowldge_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_aknowldge_regret_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_noti_exam_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_noti_hrmpsb_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="email_notintop5_dttm" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="applicant_type" Nullable="false" />
+          <Property Type="String" Name="applicant_type_descr" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <EntityType Name="insider_outsider_applicant_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+          </Key>
+          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="applicant_type" Type="Int32" />
+          <Property Name="applicant_type_descr" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="bi_questionnaire_tbl">
+          <Key>
+            <PropertyRef Name="question_id" />
+          </Key>
+          <Property Name="question_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="question_descr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="question_type" Type="Int32" />
+          <Property Name="criteria1_id" Type="Int32" />
+          <Property Name="criteria1_descr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="criteria2_id" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="criteria2_descr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="criteria3_id" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="criteria3_descr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="order_by" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="rating_scale" Type="Int32" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="question_type_descr" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="bi_criteria1_tbl">
+          <Key>
+            <PropertyRef Name="criteria1_id" />
+          </Key>
+          <Property Name="criteria1_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="question_type" Type="Int32" />
+          <Property Name="criteria1_descr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="bi_criteria2_tbl">
+          <Key>
+            <PropertyRef Name="criteria2_id" />
+          </Key>
+          <Property Name="criteria2_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="criteria1_id" Type="Int32" />
+          <Property Name="criteria2_descr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="item_order" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="question_type" Type="Int32" />
+        </EntityType>
+        <EntityType Name="bi_criteria3_tbl">
+          <Key>
+            <PropertyRef Name="criteria3_id" />
+          </Key>
+          <Property Name="criteria3_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="criteria2_id" Type="Int32" />
+          <Property Name="criteria3_descr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="item_order" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="question_type" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="sp_applicants_bi_questions_list_Result">
+          <Property Type="Int32" Name="question_id" Nullable="false" />
+          <Property Type="String" Name="question_descr" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="question_type" Nullable="false" />
+          <Property Type="Int32" Name="criteria1_id" Nullable="false" />
+          <Property Type="String" Name="criteria1_descr" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="criteria2_id" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="criteria2_descr" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="criteria3_id" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="criteria3_descr" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="order_by" Nullable="false" MaxLength="2" />
+          <Property Type="Int32" Name="rating_scale" Nullable="false" />
+          <Property Type="String" Name="question_type_descr" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="question_rating" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="question_level" Nullable="false" />
+          <Property Type="String" Name="model_name" Nullable="true" MaxLength="21" />
+        </ComplexType>
+        <EntityType Name="bi_rating_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="question_id" />
+          </Key>
+          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="question_id" Type="Int32" Nullable="false" />
+          <Property Name="question_rating" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="accomplished_date" Type="DateTime" Precision="0" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="bi_rating_questiontype_tbl">
+          <Key>
+            <PropertyRef Name="question_type" />
+          </Key>
+          <Property Name="question_type" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="question_type_descr" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="rscale_group_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="bi_rating_scale_tbl">
+          <Key>
+            <PropertyRef Name="rating_scale_id" />
+          </Key>
+          <Property Name="rating_scale_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rating_scale" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="rating_scale_descr" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="group_type_id" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -10331,70 +10559,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_review_applicant_tbl_list3" FunctionName="HRIS_RCTModel.Store.sp_review_applicant_tbl_list3">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_review_applicant_tbl_list3_Result">
-                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
-                <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
-                <ScalarProperty Name="app_ctrl_nbr_disp" ColumnName="app_ctrl_nbr_disp" />
-                <ScalarProperty Name="app_address" ColumnName="app_address" />
-                <ScalarProperty Name="applied_dttm" ColumnName="applied_dttm" />
-                <ScalarProperty Name="applied_year" ColumnName="applied_year" />
-                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
-                <ScalarProperty Name="age" ColumnName="age" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="gender_descr" ColumnName="gender_descr" />
-                <ScalarProperty Name="civil_status_descr" ColumnName="civil_status_descr" />
-                <ScalarProperty Name="item_in_psb" ColumnName="item_in_psb" />
-                <ScalarProperty Name="psb_concluded" ColumnName="psb_concluded" />
-                <ScalarProperty Name="last_name" ColumnName="last_name" />
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="lastname_start" ColumnName="lastname_start" />
-                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
-                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
-                <ScalarProperty Name="position_code" ColumnName="position_code" />
-                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
-                <ScalarProperty Name="applicant_name" ColumnName="applicant_name" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="employment_type_descr" ColumnName="employment_type_descr" />
-                <ScalarProperty Name="app_status" ColumnName="app_status" />
-                <ScalarProperty Name="app_status_short_descr" ColumnName="app_status_short_descr" />
-                <ScalarProperty Name="is_employee" ColumnName="is_employee" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
-                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
-                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
-                <ScalarProperty Name="btn_disabled" ColumnName="btn_disabled" />
-                <ScalarProperty Name="email_address" ColumnName="email_address" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="subdepartment_name1" ColumnName="subdepartment_name1" />
-                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
-                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
-                <ScalarProperty Name="qs_eduction" ColumnName="qs_eduction" />
-                <ScalarProperty Name="qs_work_experience" ColumnName="qs_work_experience" />
-                <ScalarProperty Name="qs_training" ColumnName="qs_training" />
-                <ScalarProperty Name="qs_eligibility" ColumnName="qs_eligibility" />
-                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
-                <ScalarProperty Name="mobile_number" ColumnName="mobile_number" />
-                <ScalarProperty Name="email_add" ColumnName="email_add" />
-                <ScalarProperty Name="i_psb_ctrl_nbr" ColumnName="i_psb_ctrl_nbr" />
-                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
-                <ScalarProperty Name="exam_type" ColumnName="exam_type" />
-                <ScalarProperty Name="exam_date" ColumnName="exam_date" />
-                <ScalarProperty Name="exam_time" ColumnName="exam_time" />
-                <ScalarProperty Name="exam_status" ColumnName="exam_status" />
-                <ScalarProperty Name="email_aknowldge_dttm" ColumnName="email_aknowldge_dttm" />
-                <ScalarProperty Name="email_aknowldge_regret_dttm" ColumnName="email_aknowldge_regret_dttm" />
-                <ScalarProperty Name="email_noti_exam_dttm" ColumnName="email_noti_exam_dttm" />
-                <ScalarProperty Name="email_noti_hrmpsb_dttm" ColumnName="email_noti_hrmpsb_dttm" />
-                <ScalarProperty Name="email_notintop5_dttm" ColumnName="email_notintop5_dttm" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="endorsement_print_dtl_tbl">
             <EntityTypeMapping TypeName="HRIS_RCTModel.endorsement_print_dtl_tbl">
               <MappingFragment StoreEntitySet="endorsement_print_dtl_tbl">
@@ -10678,6 +10842,193 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
                 <ScalarProperty Name="budget_code" ColumnName="budget_code" />
                 <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_review_applicant_tbl_list3" FunctionName="HRIS_RCTModel.Store.sp_review_applicant_tbl_list3">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_review_applicant_tbl_list3_Result">
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
+                <ScalarProperty Name="app_ctrl_nbr_disp" ColumnName="app_ctrl_nbr_disp" />
+                <ScalarProperty Name="app_address" ColumnName="app_address" />
+                <ScalarProperty Name="applied_dttm" ColumnName="applied_dttm" />
+                <ScalarProperty Name="applied_year" ColumnName="applied_year" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="gender_descr" ColumnName="gender_descr" />
+                <ScalarProperty Name="civil_status_descr" ColumnName="civil_status_descr" />
+                <ScalarProperty Name="item_in_psb" ColumnName="item_in_psb" />
+                <ScalarProperty Name="psb_concluded" ColumnName="psb_concluded" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="lastname_start" ColumnName="lastname_start" />
+                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="applicant_name" ColumnName="applicant_name" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="employment_type_descr" ColumnName="employment_type_descr" />
+                <ScalarProperty Name="app_status" ColumnName="app_status" />
+                <ScalarProperty Name="app_status_short_descr" ColumnName="app_status_short_descr" />
+                <ScalarProperty Name="is_employee" ColumnName="is_employee" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
+                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
+                <ScalarProperty Name="btn_disabled" ColumnName="btn_disabled" />
+                <ScalarProperty Name="email_address" ColumnName="email_address" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="subdepartment_name1" ColumnName="subdepartment_name1" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="qs_eduction" ColumnName="qs_eduction" />
+                <ScalarProperty Name="qs_work_experience" ColumnName="qs_work_experience" />
+                <ScalarProperty Name="qs_training" ColumnName="qs_training" />
+                <ScalarProperty Name="qs_eligibility" ColumnName="qs_eligibility" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="mobile_number" ColumnName="mobile_number" />
+                <ScalarProperty Name="email_add" ColumnName="email_add" />
+                <ScalarProperty Name="i_psb_ctrl_nbr" ColumnName="i_psb_ctrl_nbr" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="exam_type" ColumnName="exam_type" />
+                <ScalarProperty Name="exam_date" ColumnName="exam_date" />
+                <ScalarProperty Name="exam_time" ColumnName="exam_time" />
+                <ScalarProperty Name="exam_status" ColumnName="exam_status" />
+                <ScalarProperty Name="email_aknowldge_dttm" ColumnName="email_aknowldge_dttm" />
+                <ScalarProperty Name="email_aknowldge_regret_dttm" ColumnName="email_aknowldge_regret_dttm" />
+                <ScalarProperty Name="email_noti_exam_dttm" ColumnName="email_noti_exam_dttm" />
+                <ScalarProperty Name="email_noti_hrmpsb_dttm" ColumnName="email_noti_hrmpsb_dttm" />
+                <ScalarProperty Name="email_notintop5_dttm" ColumnName="email_notintop5_dttm" />
+                <ScalarProperty Name="applicant_type" ColumnName="applicant_type" />
+                <ScalarProperty Name="applicant_type_descr" ColumnName="applicant_type_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="insider_outsider_applicant_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.insider_outsider_applicant_tbl">
+              <MappingFragment StoreEntitySet="insider_outsider_applicant_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="applicant_type_descr" ColumnName="applicant_type_descr" />
+                <ScalarProperty Name="applicant_type" ColumnName="applicant_type" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bi_questionnaire_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_questionnaire_tbl">
+              <MappingFragment StoreEntitySet="bi_questionnaire_tbl">
+                <ScalarProperty Name="question_type_descr" ColumnName="question_type_descr" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="rating_scale" ColumnName="rating_scale" />
+                <ScalarProperty Name="order_by" ColumnName="order_by" />
+                <ScalarProperty Name="criteria3_descr" ColumnName="criteria3_descr" />
+                <ScalarProperty Name="criteria3_id" ColumnName="criteria3_id" />
+                <ScalarProperty Name="criteria2_descr" ColumnName="criteria2_descr" />
+                <ScalarProperty Name="criteria2_id" ColumnName="criteria2_id" />
+                <ScalarProperty Name="criteria1_descr" ColumnName="criteria1_descr" />
+                <ScalarProperty Name="criteria1_id" ColumnName="criteria1_id" />
+                <ScalarProperty Name="question_type" ColumnName="question_type" />
+                <ScalarProperty Name="question_descr" ColumnName="question_descr" />
+                <ScalarProperty Name="question_id" ColumnName="question_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bi_criteria1_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_criteria1_tbl">
+              <MappingFragment StoreEntitySet="bi_criteria1_tbl">
+                <ScalarProperty Name="criteria1_descr" ColumnName="criteria1_descr" />
+                <ScalarProperty Name="question_type" ColumnName="question_type" />
+                <ScalarProperty Name="criteria1_id" ColumnName="criteria1_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bi_criteria2_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_criteria2_tbl">
+              <MappingFragment StoreEntitySet="bi_criteria2_tbl">
+                <ScalarProperty Name="question_type" ColumnName="question_type" />
+                <ScalarProperty Name="item_order" ColumnName="item_order" />
+                <ScalarProperty Name="criteria2_descr" ColumnName="criteria2_descr" />
+                <ScalarProperty Name="criteria1_id" ColumnName="criteria1_id" />
+                <ScalarProperty Name="criteria2_id" ColumnName="criteria2_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bi_criteria3_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_criteria3_tbl">
+              <MappingFragment StoreEntitySet="bi_criteria3_tbl">
+                <ScalarProperty Name="question_type" ColumnName="question_type" />
+                <ScalarProperty Name="item_order" ColumnName="item_order" />
+                <ScalarProperty Name="criteria3_descr" ColumnName="criteria3_descr" />
+                <ScalarProperty Name="criteria2_id" ColumnName="criteria2_id" />
+                <ScalarProperty Name="criteria3_id" ColumnName="criteria3_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_applicants_bi_questions_list" FunctionName="HRIS_RCTModel.Store.sp_applicants_bi_questions_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_applicants_bi_questions_list_Result">
+                <ScalarProperty Name="question_id" ColumnName="question_id" />
+                <ScalarProperty Name="question_descr" ColumnName="question_descr" />
+                <ScalarProperty Name="question_type" ColumnName="question_type" />
+                <ScalarProperty Name="criteria1_id" ColumnName="criteria1_id" />
+                <ScalarProperty Name="criteria1_descr" ColumnName="criteria1_descr" />
+                <ScalarProperty Name="criteria2_id" ColumnName="criteria2_id" />
+                <ScalarProperty Name="criteria2_descr" ColumnName="criteria2_descr" />
+                <ScalarProperty Name="criteria3_id" ColumnName="criteria3_id" />
+                <ScalarProperty Name="criteria3_descr" ColumnName="criteria3_descr" />
+                <ScalarProperty Name="order_by" ColumnName="order_by" />
+                <ScalarProperty Name="rating_scale" ColumnName="rating_scale" />
+                <ScalarProperty Name="question_type_descr" ColumnName="question_type_descr" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="question_rating" ColumnName="question_rating" />
+                <ScalarProperty Name="question_level" ColumnName="question_level" />
+                <ScalarProperty Name="model_name" ColumnName="model_name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="bi_rating_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_rating_tbl">
+              <MappingFragment StoreEntitySet="bi_rating_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="accomplished_date" ColumnName="accomplished_date" />
+                <ScalarProperty Name="question_rating" ColumnName="question_rating" />
+                <ScalarProperty Name="question_id" ColumnName="question_id" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bi_rating_questiontype_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_rating_questiontype_tbl">
+              <MappingFragment StoreEntitySet="bi_rating_questiontype_tbl">
+                <ScalarProperty Name="rscale_group_id" ColumnName="rscale_group_id" />
+                <ScalarProperty Name="question_type_descr" ColumnName="question_type_descr" />
+                <ScalarProperty Name="question_type" ColumnName="question_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bi_rating_scale_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_rating_scale_tbl">
+              <MappingFragment StoreEntitySet="bi_rating_scale_tbl">
+                <ScalarProperty Name="group_type_id" ColumnName="group_type_id" />
+                <ScalarProperty Name="rating_scale_descr" ColumnName="rating_scale_descr" />
+                <ScalarProperty Name="rating_scale" ColumnName="rating_scale" />
+                <ScalarProperty Name="rating_scale_id" ColumnName="rating_scale_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

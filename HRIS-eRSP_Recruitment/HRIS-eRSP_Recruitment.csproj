@@ -238,6 +238,7 @@
     <Compile Include="Controllers\cApplicantsReviewController.cs" />
     <Compile Include="Controllers\cApplicationInfoDetailsController.cs" />
     <Compile Include="Controllers\cBackgroundInvestigationController.cs" />
+    <Compile Include="Controllers\cBackgroundInvestigationQuestionController.cs" />
     <Compile Include="Controllers\cChiefExecutiveController.cs" />
     <Compile Include="Controllers\cComparativeAssessmentController.cs" />
     <Compile Include="Controllers\cEmbededScreeningController.cs" />
@@ -310,6 +311,27 @@
     <Compile Include="Models\available_item_tbl.cs">
       <DependentUpon>HRIS_APL.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\bi_criteria1_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bi_criteria2_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bi_criteria3_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bi_questionnaire_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bi_rating_questiontype_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bi_rating_scale_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bi_rating_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\document_type_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -373,6 +395,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HRIS_RCT.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\insider_outsider_applicant_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\onlineApplicants_register_tbl.cs">
       <DependentUpon>HRIS_APL.tt</DependentUpon>
@@ -484,6 +509,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_applicantsreviewtbl_items_list_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_applicants_bi_questions_list_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_applicants_dates_list_Result.cs">
@@ -1192,6 +1220,7 @@
     </Content>
     <Content Include="Angular\ng-cApplicationInfoDetails.js" />
     <Content Include="Angular\ng-cBackgroundInvestigation.js" />
+    <Content Include="Angular\ng-cBackGroundInvestigationQuestion.js" />
     <Content Include="Angular\ng-cChiefExecutive.js" />
     <Content Include="Angular\ng-cComparativeAssessment.js" />
     <Content Include="Angular\ng-cEmbedScreening.js" />
@@ -3169,6 +3198,7 @@
     <Content Include="Views\cAddGeneralPanel\Index.cshtml" />
     <Content Include="Views\cExamSchedule\Index.cshtml" />
     <Content Include="Views\cBackgroundInvestigation\Index.cshtml" />
+    <Content Include="Views\cBackgroundInvestigationQuestion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

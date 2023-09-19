@@ -1078,6 +1078,41 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
+        public ActionResult setApplicantType(string app_ctrl_nbr,int applicant_type, string applicant_type_descr)
+        {
+            try
+            {
+                var user_id = Session["user_id"].ToString();
+                var datenow = DateTime.Now;
+                var dbquery = db2.insider_outsider_applicant_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (dbquery == null)
+                {
+                    insider_outsider_applicant_tbl dbinsert = new insider_outsider_applicant_tbl();
+                    dbinsert.app_ctrl_nbr = app_ctrl_nbr;
+                    dbinsert.applicant_type = applicant_type;
+                    dbinsert.applicant_type_descr = applicant_type_descr;
+                    dbinsert.created_dttm = datenow;
+                    dbinsert.created_by = user_id;
+                    db2.insider_outsider_applicant_tbl.Add(dbinsert);
+                    db2.SaveChanges();
+                }
+                else
+                {
+                    dbquery.applicant_type = applicant_type;
+                    dbquery.applicant_type_descr = applicant_type_descr;
+                    dbquery.updated_dttm = datenow;
+                    dbquery.updated_by = user_id;
+                    db2.SaveChanges();
+                }
+                
+                return JSON2(new { icon = icon.success }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         protected JsonResult JSON2(object data, JsonRequestBehavior behavior)
         {
            

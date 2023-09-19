@@ -214,7 +214,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 						}
 					},
 					{
-						"mData": null,
+                        "mData": "applicant_type",
 						"bSortable": false,
                         "mRender": function (data, type, full, row) {
                         return '<div>'+
@@ -245,7 +245,17 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                     '</ul>' +
                                 '</div>' +
                             '<button class="btn btn-info btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" ng-click="viewDates(' + row["row"] + ')">DATES</button>' +
-
+                            '<div class="btn-group">' +
+                            '<button class="btn btn-success btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">BI</button>' +
+                                    '<ul class="dropdown-menu form-group" style="font-size:18px">' +
+                                    '<li>'+
+                            '<div class="i-checks" style="margin-left:20px;margin-top:15px;"> <label> <input type="radio" ng-checked="' + typecheckin(data) +'" id="in' + row["row"] + '" value="insider" name="a" style="width:20px;height:20px;" ng-click="setApplicantType(1,' + row["row"]+')"> <i></i> Insider </label></div>'+
+                            '<div class="i-checks" style="margin-left:20px;"> <label> <input type="radio" ng-checked="' + typecheckout(data) + '" id="out' + row["row"] + '" value="outsider" name="a" style="width:20px;height:20px;" ng-click="setApplicantType(2,' + row["row"] +')"> <i></i>Outsider</label></div>'+
+                                    '</li > ' +
+                                    '<li><a ng-click="backgrounInvestigation(' + row["row"] + ',2)">Background Investigation Rating</a></li>' +
+                                    '</ul>' +
+                            '</div>' +
+                           
                                 //'<button ng-show = "'+full["app_status"]+'==1" class="btn btn-danger btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Review Application" ng-click="deleteFromReview('+row["row"]+')">DELETE&nbsp;<i class="fa fa-plus"></i></button>' +
 
 
@@ -275,6 +285,71 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 			});
 
 		$("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+
+    s.backgrounInvestigation = function (row) {
+        var app_ctrl_nbr = s.Applicant_List_Data[row].app_ctrl_nbr
+
+        location.href = "cBackgroundInvestigation/Index?app_ctrl_nbr=" + app_ctrl_nbr 
+    }
+
+    function typecheckin(data) {
+        console.log(data)
+        if (data == 1) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+    function typecheckout(data) {
+        if (data == 2) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    s.setApplicantType = function (type, row) {
+        var app_ctrl_nbr = s.Applicant_List_Data[row].app_ctrl_nbr
+        if (type == 1) {
+            if ($("#in" + row)[0].checked == true) {
+                var applicant_type = type
+                var applicant_type_descr = $("#in" + row).val()
+                h.post("../cApplicantsReview/setApplicantType", {
+                      app_ctrl_nbr         : app_ctrl_nbr        
+                    , applicant_type       : applicant_type      
+                    , applicant_type_descr : applicant_type_descr
+                }).then(function (d) {
+                    if (d.data.icon == "success") {
+                        s.Applicant_List_Data[row].applicant_type = applicant_type
+                        s.Applicant_List_Data[row].applicant_type_descr = applicant_type_descr
+                    }
+                    else {
+                        swal(d.data.message, {icon:d.data.icon})
+                    }
+                })
+            }
+        } else if (type == 2) {
+            if ($("#out" + row)[0].checked == true) {
+                var applicant_type = type
+                var applicant_type_descr = $("#out" + row).val()
+                h.post("../cApplicantsReview/setApplicantType", {
+                      app_ctrl_nbr: app_ctrl_nbr
+                    , applicant_type: applicant_type
+                    , applicant_type_descr: applicant_type_descr
+                }).then(function (d) {
+                    if (d.data.icon == "success") {
+                        s.Applicant_List_Data[row].applicant_type = applicant_type
+                        s.Applicant_List_Data[row].applicant_type_descr = applicant_type_descr
+                    }
+                    else {
+                        swal(d.data.message, { icon: d.data.icon })
+                    }
+                })
+            }
+        }
     }
 
     function ifExamSet(data) {
@@ -1770,7 +1845,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             var hiring_period = s.hiring_period
            var department_code = $("#department_code1").val(); 
             //var department_code = s.department_code1
-        console.log(item_no + "-" + budget_code + "-" + employment_type + "-" + hiring_period + "-" + department_code)
+       
         if (item_no == undefined || item_no == "") {
             cs.clearTable("Applicant_List_Grid")
         }

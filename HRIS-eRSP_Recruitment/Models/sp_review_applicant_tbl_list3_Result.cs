@@ -71,5 +71,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public string email_noti_exam_dttm { get; set; }
         public string email_noti_hrmpsb_dttm { get; set; }
         public string email_notintop5_dttm { get; set; }
+        public int applicant_type { get; set; }
+        public string applicant_type_descr { get; set; }
     }
 }
