@@ -10,15 +10,11 @@
 namespace HRIS_eRSP_Recruitment.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class endorsement_print_hdr_tbl
+    public partial class func_applicant_rank2_Result
     {
-        public int endorse_no { get; set; }
-        public string psb_ctrl_nbr { get; set; }
-        public System.DateTime endorsement_print_date { get; set; }
-        public string endorsement_print_by { get; set; }
-        public string item_no { get; set; }
-        public string endorsement_date { get; set; }
+        public string app_ctrl_nbr { get; set; }
+        public Nullable<double> total_rate { get; set; }
+        public Nullable<int> rank_no { get; set; }
     }
 }

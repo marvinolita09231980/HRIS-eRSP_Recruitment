@@ -227,6 +227,21 @@
           <Property Name="app_status" Type="varchar" MaxLength="3" Nullable="false" />
           <Property Name="app_status_short_descr" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="bi_criteria1_average_comments_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="criteria1_id" />
+          </Key>
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="criteria1_id" Type="int" Nullable="false" />
+          <Property Name="average" Type="money" />
+          <Property Name="comments" Type="varchar" MaxLength="500" />
+          <Property Name="respondent_1_id" Type="int" />
+          <Property Name="created_dttm" Type="varchar" MaxLength="30" />
+          <Property Name="created_by" Type="varchar" MaxLength="10" />
+          <Property Name="updated_dttm" Type="varchar" MaxLength="30" />
+          <Property Name="updated_by" Type="varchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="bi_criteria1_tbl">
           <Key>
             <PropertyRef Name="criteria1_id" />
@@ -234,6 +249,7 @@
           <Property Name="criteria1_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="question_type" Type="int" />
           <Property Name="criteria1_descr" Type="varchar" MaxLength="200" />
+          <Property Name="criteria1_model" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="bi_criteria2_tbl">
           <Key>
@@ -307,6 +323,63 @@
           <Property Name="updated_dttm" Type="datetime" />
           <Property Name="updated_by" Type="varchar" MaxLength="8" />
         </EntityType>
+        <EntityType Name="bi_respondent_1_hdr_tbl">
+          <Key>
+            <PropertyRef Name="respondent_1_id" />
+          </Key>
+          <Property Name="respondent_1_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="10" />
+          <Property Name="supervisor_name" Type="varchar" MaxLength="100" />
+          <Property Name="supervisor_office_address" Type="varchar" MaxLength="150" />
+          <Property Name="supervisor_date" Type="varchar" MaxLength="30" />
+          <Property Name="interviewed_by" Type="varchar" MaxLength="100" />
+          <Property Name="interviewed_date" Type="varchar" MaxLength="30" />
+          <Property Name="created_dttm" Type="varchar" MaxLength="30" />
+          <Property Name="created_by" Type="varchar" MaxLength="10" />
+          <Property Name="updated_dttm" Type="varchar" MaxLength="30" />
+          <Property Name="updated_by" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="bi_respondent_2_hdr_tbl">
+          <Key>
+            <PropertyRef Name="respondent_2_id" />
+          </Key>
+          <Property Name="respondent_2_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="10" />
+          <Property Name="supervisor_name" Type="varchar" MaxLength="100" />
+          <Property Name="supervisor_office_address" Type="varchar" MaxLength="150" />
+          <Property Name="supervisor_date" Type="varchar" MaxLength="30" />
+          <Property Name="subordinate_name" Type="varchar" MaxLength="100" />
+          <Property Name="subordinate_office_address" Type="varchar" MaxLength="150" />
+          <Property Name="subordinate_date" Type="varchar" MaxLength="30" />
+          <Property Name="peers_name" Type="varchar" MaxLength="100" />
+          <Property Name="peers_office_address" Type="varchar" MaxLength="150" />
+          <Property Name="peers_date" Type="varchar" MaxLength="30" />
+          <Property Name="clients_name" Type="varchar" MaxLength="100" />
+          <Property Name="clients_office_address" Type="varchar" MaxLength="150" />
+          <Property Name="clients_date" Type="varchar" MaxLength="30" />
+          <Property Name="interviewed_by" Type="varchar" MaxLength="100" />
+          <Property Name="interviewed_date" Type="varchar" MaxLength="30" />
+          <Property Name="created_dttm" Type="varchar" MaxLength="30" />
+          <Property Name="created_by" Type="varchar" MaxLength="10" />
+          <Property Name="updated_dttm" Type="varchar" MaxLength="30" />
+          <Property Name="updated_by" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="bi_respondent_3_hdr_tbl">
+          <Key>
+            <PropertyRef Name="respondent_3_id" />
+          </Key>
+          <Property Name="respondent_3_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="10" />
+          <Property Name="respondent_name" Type="varchar" MaxLength="100" />
+          <Property Name="respondent_contact_number" Type="varchar" MaxLength="15" />
+          <Property Name="respondent_date" Type="varchar" MaxLength="30" />
+          <Property Name="interviewed_by" Type="varchar" MaxLength="100" />
+          <Property Name="interviewed_date" Type="varchar" MaxLength="30" />
+          <Property Name="created_dttm" Type="varchar" MaxLength="30" />
+          <Property Name="created_by" Type="varchar" MaxLength="10" />
+          <Property Name="updated_dttm" Type="varchar" MaxLength="30" />
+          <Property Name="updated_by" Type="varchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="document_type_tbl">
           <Key>
             <PropertyRef Name="doc_type" />
@@ -328,6 +401,8 @@
           </Key>
           <Property Name="endorse_no" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="psb_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="endorsement_date" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="endorsement_print_date" Type="datetime" Nullable="false" />
           <Property Name="endorsement_print_by" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
@@ -610,6 +685,21 @@
           <Property Name="rtg_max_value" Type="int" Nullable="false" />
           <Property Name="rtg_level" Type="int" Nullable="false" />
           <Property Name="rtg_parent_lvl" Type="varchar" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="selected_applicants_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="psb_ctrl_nbr" />
+          </Key>
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="psb_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="selected_dttm" Type="datetime" Nullable="false" />
+          <Property Name="selected_by" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="10" />
+          <Property Name="status" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -1510,6 +1600,19 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
           <Parameter Name="p_item_no" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="func_applicant_rank2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_item_no" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="6" />
+                <Property Name="total_rate" Type="float" />
+                <Property Name="rank_no" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="func_application_added_tonext" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="bit">
           <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
           <Parameter Name="p_app_status" Type="varchar" Mode="In" />
@@ -1558,6 +1661,16 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_startdate" Type="datetime" Mode="In" />
           <Parameter Name="p_enddate" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="func_cscitem_count" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="psb_ctrl_nbr" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="csc_level" Type="varchar" MaxLength="1" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="func_cseligibility_type_RCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
           <Parameter Name="cse_number" Type="varchar" Mode="In" />
           <Parameter Name="empl_id" Type="varchar" Mode="In" />
@@ -1602,6 +1715,14 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
         <Function Name="func_item_on_publication" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="bit">
           <Parameter Name="p_item_no" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="func_lastname" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="p_stringToSplit" Type="varchar(max)" Mode="In" />
+          <Parameter Name="p_splitter" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="func_lastname_postfix" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="p_stringToSplit" Type="varchar(max)" Mode="In" />
+          <Parameter Name="p_splitter" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="func_overall_total_rating" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
           <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
@@ -1619,6 +1740,18 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
           <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
           <Parameter Name="p_psb_cat_code" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="func_panels_perapplicant" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_item_no" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="user_id" Type="varchar" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
         <Function Name="func_propercase_HRIS_RCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
           <Parameter Name="start" Type="int" Mode="In" />
@@ -1649,6 +1782,10 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_stringToSplit" Type="varchar(max)" Mode="In" />
           <Parameter Name="p_splitter" Type="varchar" Mode="In" />
           <Parameter Name="p_row" Type="int" Mode="In" />
+        </Function>
+        <Function Name="func_splitstringCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="p_stringToSplit" Type="varchar(max)" Mode="In" />
+          <Parameter Name="p_splitter" Type="varchar" Mode="In" />
         </Function>
         <Function Name="func_total_psb_subcode_total" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
@@ -1921,7 +2058,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_item_no" Type="varchar" Mode="In" />
           <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
           <Parameter Name="p_app_status" Type="varchar" Mode="In" />
-          <Parameter Name="p_endorse_date" Type="datetime" Mode="In" />
+          <Parameter Name="p_endorse_date" Type="varchar" Mode="In" />
           <Parameter Name="p_endorse_by" Type="varchar" Mode="In" />
           <Parameter Name="p_user_id" Type="varchar" Mode="In" />
           <Parameter Name="p_action" Type="varchar" Mode="In" />
@@ -2357,6 +2494,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
         </Function>
         <Function Name="sp_select_applicant_insert_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_app_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_item_no" Type="varchar" Mode="In" />
           <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
           <Parameter Name="p_selected_dttm" Type="datetime" Mode="In" />
           <Parameter Name="p_selected_by" Type="varchar" Mode="In" />
@@ -2485,6 +2623,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="applicants_review_tbl_olddata" EntityType="Self.applicants_review_tbl_olddata" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="applicants_tbl" EntityType="Self.applicants_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="application_status_tbl" EntityType="Self.application_status_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_criteria1_average_comments_tbl" EntityType="Self.bi_criteria1_average_comments_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bi_criteria1_tbl" EntityType="Self.bi_criteria1_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bi_criteria2_tbl" EntityType="Self.bi_criteria2_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bi_criteria3_tbl" EntityType="Self.bi_criteria3_tbl" Schema="dbo" store:Type="Tables" />
@@ -2492,6 +2631,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="bi_rating_questiontype_tbl" EntityType="Self.bi_rating_questiontype_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bi_rating_scale_tbl" EntityType="Self.bi_rating_scale_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bi_rating_tbl" EntityType="Self.bi_rating_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_respondent_1_hdr_tbl" EntityType="Self.bi_respondent_1_hdr_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_respondent_2_hdr_tbl" EntityType="Self.bi_respondent_2_hdr_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bi_respondent_3_hdr_tbl" EntityType="Self.bi_respondent_3_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="document_type_tbl" EntityType="Self.document_type_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="endorsement_print_dtl_tbl" EntityType="Self.endorsement_print_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="endorsement_print_hdr_tbl" EntityType="Self.endorsement_print_hdr_tbl" Schema="dbo" store:Type="Tables" />
@@ -2515,6 +2657,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="psb_sked_mbr_tbl_olddata" EntityType="Self.psb_sked_mbr_tbl_olddata" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="psb_sked_mbr_tbl_original" EntityType="Self.psb_sked_mbr_tbl_original" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="psb_systemsetup_rating_tbl" EntityType="Self.psb_systemsetup_rating_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="selected_applicants_tbl" EntityType="Self.selected_applicants_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="workexp_combine_hdr_tbl" EntityType="Self.workexp_combine_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="zoomcredential_tbl" EntityType="Self.zoomcredential_tbl" Schema="dbo" store:Type="Tables" />
@@ -4266,11 +4409,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_chiefexecutive_list">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
-            <Parameter Name="p_app_status" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_comaparative_asessment_rpt" ReturnType="Collection(HRIS_RCTModel.sp_comaparative_asessment_rpt_Result)">
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
@@ -4861,24 +4999,14 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_psb_item_list" ReturnType="Collection(HRIS_RCTModel.sp_psb_item_list_Result)">
-          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_endorsement_hdr_insert_tbl" ReturnType="Collection(HRIS_RCTModel.sp_endorsement_hdr_insert_tbl_Result)">
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
-            <Parameter Name="p_endorse_date" Mode="In" Type="DateTime" />
+            <Parameter Name="p_endorse_date" Mode="In" Type="String" />
             <Parameter Name="p_endorse_by" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
             <Parameter Name="p_action" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_select_applicant_insert_update" ReturnType="Collection(HRIS_RCTModel.sp_select_applicant_insert_update_Result)">
-            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
-            <Parameter Name="p_selected_dttm" Mode="In" Type="DateTime" />
-            <Parameter Name="p_selected_by" Mode="In" Type="String" />
-            <Parameter Name="p_status" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="vw_psb_sked_item_nbrs_tbl" EntityType="HRIS_RCTModel.vw_psb_sked_item_nbrs_tbl" />
           <FunctionImport Name="sp_applicants_generate_rating" ReturnType="Collection(HRIS_RCTModel.sp_applicants_generate_rating_Result)">
@@ -4911,16 +5039,49 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           </FunctionImport>
           <EntitySet Name="insider_outsider_applicant_tbl" EntityType="HRIS_RCTModel.insider_outsider_applicant_tbl" />
           <EntitySet Name="bi_questionnaire_tbl" EntityType="HRIS_RCTModel.bi_questionnaire_tbl" />
-          <EntitySet Name="bi_criteria1_tbl" EntityType="HRIS_RCTModel.bi_criteria1_tbl" />
           <EntitySet Name="bi_criteria2_tbl" EntityType="HRIS_RCTModel.bi_criteria2_tbl" />
           <EntitySet Name="bi_criteria3_tbl" EntityType="HRIS_RCTModel.bi_criteria3_tbl" />
+          <EntitySet Name="bi_rating_tbl" EntityType="HRIS_RCTModel.bi_rating_tbl" />
+          <EntitySet Name="bi_rating_questiontype_tbl" EntityType="HRIS_RCTModel.bi_rating_questiontype_tbl" />
+          <EntitySet Name="bi_rating_scale_tbl" EntityType="HRIS_RCTModel.bi_rating_scale_tbl" />
+          <FunctionImport Name="sp_chiefexecutive_list" ReturnType="Collection(HRIS_RCTModel.sp_chiefexecutive_list_Result)">
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_app_status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_select_applicant_insert_update" ReturnType="Collection(HRIS_RCTModel.sp_select_applicant_insert_update_Result)">
+            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_selected_dttm" Mode="In" Type="DateTime" />
+            <Parameter Name="p_selected_by" Mode="In" Type="String" />
+            <Parameter Name="p_status" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="selected_applicants_tbl" EntityType="HRIS_RCTModel.selected_applicants_tbl" />
+          <FunctionImport Name="sp_psb_item_list" ReturnType="Collection(HRIS_RCTModel.sp_psb_item_list_Result)">
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="bi_criteria1_tbl" EntityType="HRIS_RCTModel.bi_criteria1_tbl" />
           <FunctionImport Name="sp_applicants_bi_questions_list" ReturnType="Collection(HRIS_RCTModel.sp_applicants_bi_questions_list_Result)">
             <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_question_type" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="bi_rating_tbl" EntityType="HRIS_RCTModel.bi_rating_tbl" />
-          <EntitySet Name="bi_rating_questiontype_tbl" EntityType="HRIS_RCTModel.bi_rating_questiontype_tbl" />
-          <EntitySet Name="bi_rating_scale_tbl" EntityType="HRIS_RCTModel.bi_rating_scale_tbl" />
+          <FunctionImport Name="func_applicant_rank2" IsComposable="true" ReturnType="Collection(HRIS_RCTModel.func_applicant_rank2_Result)">
+            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="func_cscitem_count" IsComposable="true" ReturnType="Collection(String)">
+          <Parameter Name="psb_ctrl_nbr" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="func_panels_perapplicant" IsComposable="true" ReturnType="Collection(String)">
+            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="bi_criteria1_average_comments_tbl" EntityType="HRIS_RCTModel.bi_criteria1_average_comments_tbl" />
+          <EntitySet Name="bi_respondent_1_hdr_tbl" EntityType="HRIS_RCTModel.bi_respondent_1_hdr_tbl" />
+          <EntitySet Name="bi_respondent_2_hdr_tbl" EntityType="HRIS_RCTModel.bi_respondent_2_hdr_tbl" />
+          <EntitySet Name="bi_respondent_3_hdr_tbl" EntityType="HRIS_RCTModel.bi_respondent_3_hdr_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_add_available_items_to_RCT_Result">
           <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
@@ -6813,6 +6974,8 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="psb_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="endorsement_print_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="endorsement_print_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="endorsement_date" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="sp_endorsename_list_Result">
           <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
@@ -6825,29 +6988,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="birth_date" Nullable="false" MaxLength="30" />
           <Property Type="Double" Name="applicant_rank" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_psb_item_list_Result">
-          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="psb_date" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
-          <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
-          <Property Type="Int32" Name="psb_status" Nullable="true" />
-          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="position_short_title" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="screen_item" Nullable="true" />
-          <Property Type="Int32" Name="endorse_item" Nullable="true" />
-          <Property Type="String" Name="salary_grade" Nullable="false" MaxLength="2" />
-        </ComplexType>
         <ComplexType Name="sp_endorsement_hdr_insert_tbl_Result">
           <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="db_message" Nullable="false" MaxLength="22" />
-        </ComplexType>
-        <ComplexType Name="sp_select_applicant_insert_update_Result">
-          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="db_message" Nullable="false" MaxLength="20" />
         </ComplexType>
         <EntityType Name="vw_psb_sked_item_nbrs_tbl">
           <Key>
@@ -7208,14 +7351,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="updated_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="question_type_descr" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="bi_criteria1_tbl">
-          <Key>
-            <PropertyRef Name="criteria1_id" />
-          </Key>
-          <Property Name="criteria1_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="question_type" Type="Int32" />
-          <Property Name="criteria1_descr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="bi_criteria2_tbl">
           <Key>
             <PropertyRef Name="criteria2_id" />
@@ -7236,24 +7371,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="item_order" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="question_type" Type="Int32" />
         </EntityType>
-        <ComplexType Name="sp_applicants_bi_questions_list_Result">
-          <Property Type="Int32" Name="question_id" Nullable="false" />
-          <Property Type="String" Name="question_descr" Nullable="false" MaxLength="200" />
-          <Property Type="Int32" Name="question_type" Nullable="false" />
-          <Property Type="Int32" Name="criteria1_id" Nullable="false" />
-          <Property Type="String" Name="criteria1_descr" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="criteria2_id" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="criteria2_descr" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="criteria3_id" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="criteria3_descr" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="order_by" Nullable="false" MaxLength="2" />
-          <Property Type="Int32" Name="rating_scale" Nullable="false" />
-          <Property Type="String" Name="question_type_descr" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="10" />
-          <Property Type="Decimal" Name="question_rating" Nullable="false" Precision="19" />
-          <Property Type="Int32" Name="question_level" Nullable="false" />
-          <Property Type="String" Name="model_name" Nullable="true" MaxLength="21" />
-        </ComplexType>
         <EntityType Name="bi_rating_tbl">
           <Key>
             <PropertyRef Name="app_ctrl_nbr" />
@@ -7284,6 +7401,169 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="rating_scale" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="rating_scale_descr" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="group_type_id" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="sp_chiefexecutive_list_Result">
+          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="app_status" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
+          <Property Type="Boolean" Name="is_employee" Nullable="true" />
+          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
+          <Property Type="Decimal" Name="cbi_rating" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="qs_rating" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="exam_rating" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="ipcr_rating" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="total_rating" Nullable="false" Precision="19" />
+          <Property Type="Int64" Name="applicant_rank" Nullable="true" />
+          <Property Type="Boolean" Name="selected_approved" Nullable="true" />
+          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="sp_select_applicant_insert_update_Result">
+          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="db_message" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <EntityType Name="selected_applicants_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="psb_ctrl_nbr" />
+          </Key>
+          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="psb_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="selected_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="selected_by" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_psb_item_list_Result">
+          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="psb_date" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
+          <Property Type="Int32" Name="psb_status" Nullable="true" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="position_short_title" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="screen_item" Nullable="true" />
+          <Property Type="Int32" Name="endorse_item" Nullable="true" />
+          <Property Type="String" Name="salary_grade" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="endorsement_date" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="bi_criteria1_tbl">
+          <Key>
+            <PropertyRef Name="criteria1_id" />
+          </Key>
+          <Property Name="criteria1_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="question_type" Type="Int32" />
+          <Property Name="criteria1_descr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="criteria1_model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_applicants_bi_questions_list_Result">
+          <Property Type="Int32" Name="question_id" Nullable="false" />
+          <Property Type="String" Name="question_descr" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="question_type" Nullable="false" />
+          <Property Type="Int32" Name="criteria1_id" Nullable="false" />
+          <Property Type="String" Name="criteria1_descr" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="criteria2_id" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="criteria2_descr" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="criteria3_id" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="criteria3_descr" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="order_by" Nullable="false" MaxLength="2" />
+          <Property Type="Int32" Name="rating_scale" Nullable="false" />
+          <Property Type="String" Name="question_type_descr" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="question_rating" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="question_level" Nullable="false" />
+          <Property Type="String" Name="model_name" Nullable="true" MaxLength="22" />
+          <Property Type="String" Name="criteria1_model" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="func_applicant_rank2_Result">
+          <Property Type="String" Name="app_ctrl_nbr" Nullable="true" MaxLength="6" />
+          <Property Type="Double" Name="total_rate" Nullable="true" />
+          <Property Type="Int32" Name="rank_no" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="bi_criteria1_average_comments_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="criteria1_id" />
+          </Key>
+          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="criteria1_id" Type="Int32" Nullable="false" />
+          <Property Name="average" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="comments" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="respondent_1_id" Type="Int32" />
+          <Property Name="created_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="bi_respondent_1_hdr_tbl">
+          <Key>
+            <PropertyRef Name="respondent_1_id" />
+          </Key>
+          <Property Name="respondent_1_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="app_ctrl_nbr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="supervisor_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="supervisor_office_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="supervisor_date" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="interviewed_by" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="interviewed_date" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="bi_respondent_2_hdr_tbl">
+          <Key>
+            <PropertyRef Name="respondent_2_id" />
+          </Key>
+          <Property Name="respondent_2_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="app_ctrl_nbr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="supervisor_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="supervisor_office_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="supervisor_date" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="subordinate_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="subordinate_office_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="subordinate_date" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="peers_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="peers_office_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="peers_date" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="clients_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="clients_office_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="clients_date" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="interviewed_by" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="interviewed_date" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="bi_respondent_3_hdr_tbl">
+          <Key>
+            <PropertyRef Name="respondent_3_id" />
+          </Key>
+          <Property Name="respondent_3_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="app_ctrl_nbr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="respondent_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="respondent_contact_number" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="respondent_date" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="interviewed_by" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="interviewed_date" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -8727,7 +9007,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_checkIfExec_HasSelected" FunctionName="HRIS_RCTModel.Store.sp_checkIfExec_HasSelected" />
-          <FunctionImportMapping FunctionImportName="sp_chiefexecutive_list" FunctionName="HRIS_RCTModel.Store.sp_chiefexecutive_list" />
           <FunctionImportMapping FunctionImportName="sp_comaparative_asessment_rpt" FunctionName="HRIS_RCTModel.Store.sp_comaparative_asessment_rpt">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_comaparative_asessment_rpt_Result">
@@ -10570,6 +10849,8 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySetMapping Name="endorsement_print_hdr_tbl">
             <EntityTypeMapping TypeName="HRIS_RCTModel.endorsement_print_hdr_tbl">
               <MappingFragment StoreEntitySet="endorsement_print_hdr_tbl">
+                <ScalarProperty Name="endorsement_date" ColumnName="endorsement_date" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
                 <ScalarProperty Name="endorsement_print_by" ColumnName="endorsement_print_by" />
                 <ScalarProperty Name="endorsement_print_date" ColumnName="endorsement_print_date" />
                 <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
@@ -10592,37 +10873,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_psb_item_list" FunctionName="HRIS_RCTModel.Store.sp_psb_item_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_psb_item_list_Result">
-                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
-                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
-                <ScalarProperty Name="position_code" ColumnName="position_code" />
-                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="screen_item" ColumnName="screen_item" />
-                <ScalarProperty Name="endorse_item" ColumnName="endorse_item" />
-                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_endorsement_hdr_insert_tbl" FunctionName="HRIS_RCTModel.Store.sp_endorsement_hdr_insert_tbl">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_endorsement_hdr_insert_tbl_Result">
-                <ScalarProperty Name="db_code" ColumnName="db_code" />
-                <ScalarProperty Name="db_message" ColumnName="db_message" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_select_applicant_insert_update" FunctionName="HRIS_RCTModel.Store.sp_select_applicant_insert_update">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_select_applicant_insert_update_Result">
                 <ScalarProperty Name="db_code" ColumnName="db_code" />
                 <ScalarProperty Name="db_message" ColumnName="db_message" />
               </ComplexTypeMapping>
@@ -10946,15 +11199,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="bi_criteria1_tbl">
-            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_criteria1_tbl">
-              <MappingFragment StoreEntitySet="bi_criteria1_tbl">
-                <ScalarProperty Name="criteria1_descr" ColumnName="criteria1_descr" />
-                <ScalarProperty Name="question_type" ColumnName="question_type" />
-                <ScalarProperty Name="criteria1_id" ColumnName="criteria1_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="bi_criteria2_tbl">
             <EntityTypeMapping TypeName="HRIS_RCTModel.bi_criteria2_tbl">
               <MappingFragment StoreEntitySet="bi_criteria2_tbl">
@@ -10977,28 +11221,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_applicants_bi_questions_list" FunctionName="HRIS_RCTModel.Store.sp_applicants_bi_questions_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_applicants_bi_questions_list_Result">
-                <ScalarProperty Name="question_id" ColumnName="question_id" />
-                <ScalarProperty Name="question_descr" ColumnName="question_descr" />
-                <ScalarProperty Name="question_type" ColumnName="question_type" />
-                <ScalarProperty Name="criteria1_id" ColumnName="criteria1_id" />
-                <ScalarProperty Name="criteria1_descr" ColumnName="criteria1_descr" />
-                <ScalarProperty Name="criteria2_id" ColumnName="criteria2_id" />
-                <ScalarProperty Name="criteria2_descr" ColumnName="criteria2_descr" />
-                <ScalarProperty Name="criteria3_id" ColumnName="criteria3_id" />
-                <ScalarProperty Name="criteria3_descr" ColumnName="criteria3_descr" />
-                <ScalarProperty Name="order_by" ColumnName="order_by" />
-                <ScalarProperty Name="rating_scale" ColumnName="rating_scale" />
-                <ScalarProperty Name="question_type_descr" ColumnName="question_type_descr" />
-                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
-                <ScalarProperty Name="question_rating" ColumnName="question_rating" />
-                <ScalarProperty Name="question_level" ColumnName="question_level" />
-                <ScalarProperty Name="model_name" ColumnName="model_name" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="bi_rating_tbl">
             <EntityTypeMapping TypeName="HRIS_RCTModel.bi_rating_tbl">
               <MappingFragment StoreEntitySet="bi_rating_tbl">
@@ -11029,6 +11251,194 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
                 <ScalarProperty Name="rating_scale_descr" ColumnName="rating_scale_descr" />
                 <ScalarProperty Name="rating_scale" ColumnName="rating_scale" />
                 <ScalarProperty Name="rating_scale_id" ColumnName="rating_scale_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_chiefexecutive_list" FunctionName="HRIS_RCTModel.Store.sp_chiefexecutive_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_chiefexecutive_list_Result">
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="app_status" ColumnName="app_status" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="is_employee" ColumnName="is_employee" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="cbi_rating" ColumnName="cbi_rating" />
+                <ScalarProperty Name="qs_rating" ColumnName="qs_rating" />
+                <ScalarProperty Name="exam_rating" ColumnName="exam_rating" />
+                <ScalarProperty Name="ipcr_rating" ColumnName="ipcr_rating" />
+                <ScalarProperty Name="total_rating" ColumnName="total_rating" />
+                <ScalarProperty Name="applicant_rank" ColumnName="applicant_rank" />
+                <ScalarProperty Name="selected_approved" ColumnName="selected_approved" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_select_applicant_insert_update" FunctionName="HRIS_RCTModel.Store.sp_select_applicant_insert_update">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_select_applicant_insert_update_Result">
+                <ScalarProperty Name="db_code" ColumnName="db_code" />
+                <ScalarProperty Name="db_message" ColumnName="db_message" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="selected_applicants_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.selected_applicants_tbl">
+              <MappingFragment StoreEntitySet="selected_applicants_tbl">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="selected_by" ColumnName="selected_by" />
+                <ScalarProperty Name="selected_dttm" ColumnName="selected_dttm" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_psb_item_list" FunctionName="HRIS_RCTModel.Store.sp_psb_item_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_psb_item_list_Result">
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="screen_item" ColumnName="screen_item" />
+                <ScalarProperty Name="endorse_item" ColumnName="endorse_item" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="endorsement_date" ColumnName="endorsement_date" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="bi_criteria1_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_criteria1_tbl">
+              <MappingFragment StoreEntitySet="bi_criteria1_tbl">
+                <ScalarProperty Name="criteria1_model" ColumnName="criteria1_model" />
+                <ScalarProperty Name="criteria1_descr" ColumnName="criteria1_descr" />
+                <ScalarProperty Name="question_type" ColumnName="question_type" />
+                <ScalarProperty Name="criteria1_id" ColumnName="criteria1_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_applicants_bi_questions_list" FunctionName="HRIS_RCTModel.Store.sp_applicants_bi_questions_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_applicants_bi_questions_list_Result">
+                <ScalarProperty Name="question_id" ColumnName="question_id" />
+                <ScalarProperty Name="question_descr" ColumnName="question_descr" />
+                <ScalarProperty Name="question_type" ColumnName="question_type" />
+                <ScalarProperty Name="criteria1_id" ColumnName="criteria1_id" />
+                <ScalarProperty Name="criteria1_descr" ColumnName="criteria1_descr" />
+                <ScalarProperty Name="criteria2_id" ColumnName="criteria2_id" />
+                <ScalarProperty Name="criteria2_descr" ColumnName="criteria2_descr" />
+                <ScalarProperty Name="criteria3_id" ColumnName="criteria3_id" />
+                <ScalarProperty Name="criteria3_descr" ColumnName="criteria3_descr" />
+                <ScalarProperty Name="order_by" ColumnName="order_by" />
+                <ScalarProperty Name="rating_scale" ColumnName="rating_scale" />
+                <ScalarProperty Name="question_type_descr" ColumnName="question_type_descr" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="question_rating" ColumnName="question_rating" />
+                <ScalarProperty Name="question_level" ColumnName="question_level" />
+                <ScalarProperty Name="model_name" ColumnName="model_name" />
+                <ScalarProperty Name="criteria1_model" ColumnName="criteria1_model" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="func_applicant_rank2" FunctionName="HRIS_RCTModel.Store.func_applicant_rank2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.func_applicant_rank2_Result">
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="total_rate" ColumnName="total_rate" />
+                <ScalarProperty Name="rank_no" ColumnName="rank_no" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="func_cscitem_count" FunctionName="HRIS_RCTModel.Store.func_cscitem_count" />
+          <FunctionImportMapping FunctionImportName="func_panels_perapplicant" FunctionName="HRIS_RCTModel.Store.func_panels_perapplicant" />
+          <EntitySetMapping Name="bi_criteria1_average_comments_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_criteria1_average_comments_tbl">
+              <MappingFragment StoreEntitySet="bi_criteria1_average_comments_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="respondent_1_id" ColumnName="respondent_1_id" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="average" ColumnName="average" />
+                <ScalarProperty Name="criteria1_id" ColumnName="criteria1_id" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bi_respondent_1_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_respondent_1_hdr_tbl">
+              <MappingFragment StoreEntitySet="bi_respondent_1_hdr_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="interviewed_date" ColumnName="interviewed_date" />
+                <ScalarProperty Name="interviewed_by" ColumnName="interviewed_by" />
+                <ScalarProperty Name="supervisor_date" ColumnName="supervisor_date" />
+                <ScalarProperty Name="supervisor_office_address" ColumnName="supervisor_office_address" />
+                <ScalarProperty Name="supervisor_name" ColumnName="supervisor_name" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="respondent_1_id" ColumnName="respondent_1_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bi_respondent_2_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_respondent_2_hdr_tbl">
+              <MappingFragment StoreEntitySet="bi_respondent_2_hdr_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="interviewed_date" ColumnName="interviewed_date" />
+                <ScalarProperty Name="interviewed_by" ColumnName="interviewed_by" />
+                <ScalarProperty Name="clients_date" ColumnName="clients_date" />
+                <ScalarProperty Name="clients_office_address" ColumnName="clients_office_address" />
+                <ScalarProperty Name="clients_name" ColumnName="clients_name" />
+                <ScalarProperty Name="peers_date" ColumnName="peers_date" />
+                <ScalarProperty Name="peers_office_address" ColumnName="peers_office_address" />
+                <ScalarProperty Name="peers_name" ColumnName="peers_name" />
+                <ScalarProperty Name="subordinate_date" ColumnName="subordinate_date" />
+                <ScalarProperty Name="subordinate_office_address" ColumnName="subordinate_office_address" />
+                <ScalarProperty Name="subordinate_name" ColumnName="subordinate_name" />
+                <ScalarProperty Name="supervisor_date" ColumnName="supervisor_date" />
+                <ScalarProperty Name="supervisor_office_address" ColumnName="supervisor_office_address" />
+                <ScalarProperty Name="supervisor_name" ColumnName="supervisor_name" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="respondent_2_id" ColumnName="respondent_2_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bi_respondent_3_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.bi_respondent_3_hdr_tbl">
+              <MappingFragment StoreEntitySet="bi_respondent_3_hdr_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="interviewed_date" ColumnName="interviewed_date" />
+                <ScalarProperty Name="interviewed_by" ColumnName="interviewed_by" />
+                <ScalarProperty Name="respondent_date" ColumnName="respondent_date" />
+                <ScalarProperty Name="respondent_contact_number" ColumnName="respondent_contact_number" />
+                <ScalarProperty Name="respondent_name" ColumnName="respondent_name" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="respondent_3_id" ColumnName="respondent_3_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

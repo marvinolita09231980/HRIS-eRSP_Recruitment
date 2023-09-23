@@ -29,5 +29,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public decimal question_rating { get; set; }
         public int question_level { get; set; }
         public string model_name { get; set; }
+        public string criteria1_model { get; set; }
     }
 }

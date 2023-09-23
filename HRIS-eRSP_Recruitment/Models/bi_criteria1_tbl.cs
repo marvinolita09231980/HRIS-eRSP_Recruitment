@@ -17,5 +17,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public int criteria1_id { get; set; }
         public Nullable<int> question_type { get; set; }
         public string criteria1_descr { get; set; }
+        public string criteria1_model { get; set; }
     }
 }

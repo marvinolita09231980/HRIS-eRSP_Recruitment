@@ -112,7 +112,6 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
             });
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
-    
     var Init_Elig_Grid = function (par_data) {
         s.Elig_Data = par_data;
         s.Elig_Table = $('#elig_grid').dataTable(
@@ -300,7 +299,6 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
             });
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
-
     var Init_sendemail_List_Grid2 = function (par_data) {
         s.Sendemail_List_Data2 = par_data;
         s.Sendemail_List_Table2 = $('#sendemail_List_Grid2').dataTable(
@@ -578,8 +576,15 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                 , hiring_period: dt.ctrl_no
                 , fetch_dttm: prescreen_dttm
             }).then(function (d) {
+              
                 if (d.data.icon == "success") {
-                    s.APL_List_Data = d.data.APL_list.refreshTable("APL_List_Grid", s.rowindex + "");
+                    
+                    s.APL_List_Data[s.rowindex].prescreen_dttm = prescreen_dttm
+                    s.APL_List_Data[s.rowindex].prescreen_by = d.data.employee_name
+                    setTimeout(function () {
+                        s.APL_List_Data.refreshTable("APL_List_Grid", s.rowindex + "");
+                    },500)
+                   
                     $("#editprescreen").modal("hide")
                 }
                 else {
@@ -1335,14 +1340,20 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                         }).then(function (d) {
 
                             var se = d.data.se
-
-                            s.APL_List_Data[row_id].email_aknowldge_dttm = se.email_aknowldge_dttm
+                            
+                            s.APL_List_Data[row_id].aknowledge_dttm = se.email_aknowldge_dttm
+                            s.APL_List_Data[row_id].aknowledge_by = d.data.employee_name
                             s.APL_List_Data[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
                             s.APL_List_Data[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
                             s.APL_List_Data[row_id].email_regret_dttm = se.email_regret_dttm
                             s.APL_List_Data[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
                             s.APL_List_Data[row_id].email_notintop5_dttm = se.email_notintop5_dttm
                             s.APL_List_Data[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm
+                           
+                            setTimeout(function () {
+                                s.APL_List_Data.refreshTable("APL_List_Grid", "" + row_id);
+                            }, 500)
+                            
 
                             swal(d.data.message, { icon: d.data.icon })
 

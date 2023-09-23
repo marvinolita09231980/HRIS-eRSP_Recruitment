@@ -4,203 +4,642 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .autoresizing {
+        display: inline-block;
+        overflow: hidden;
+        resize: none;
+        position:relative !important;
+    }
+    .wt {
+        display: inline-block;
+        overflow: hidden;
+        resize: none;
+        position: relative !important;
+    }
+</style>
 
-
-
-
-   
 <script src="~/Angular/ng-cBackgroundInvestigation.js"></script>
 
-    <section  ng-app="ng_eRSP_App" ng-controller="cBackgroundInvestigation_Ctrlr">
-      
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-sm-4">
-                    <h2>Background Investigation Question</h2>
+<section ng-app="ng_eRSP_App" ng-controller="cBackgroundInvestigation_Ctrlr">
 
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-4">
+            <h2>Background Investigation Question</h2>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="wrapper wrapper-content animated fadeInRight m-b-n-xl">
+            <div class="col-lg-12">
+                <div class="ibox collapsed collapse-link">
+                    <div class="ibox-title">
+                        <h5>Show Applicants Info</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <p>
+                            Employee Name :<b>{{employee.first_name}} {{employee.last_name}}</b>
+                        </p>
+                        <p>
+                            Office :<b> {{employee.department_name1}} </b>
+                        </p>
+                        <p>
+                            Position :<b> {{employee.position_long_title}} </b>
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="wrapper wrapper-content animated fadeInRight m-b-n-xl">
-                    <div class="col-lg-12">
-                        <div class="ibox collapsed">
-                            <div class="ibox-title">
-                                <h5>Show Applicants Info</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="wrapper wrapper-content animated fadeInRight m-b-n-xl m-t-n-lg">
+            <div class="col-lg-12">
+                <div class="ibox collapsed">
+                    <div>
+                        <label>Background Investigation Type</label>
+                        <select class="form-control m-b" id="question_type" ng-model="question_type" ng-change="selectQuestion_type()" required>
+                            <option value="" selected>Select Type</option>
+                            <option ng-repeat="lst in bi_rating_questiontype_tbl" value="{{lst.question_type}}">{{lst.question_type_descr}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="wrapper wrapper-content animated fadeInRight m-b-n-xl m-t-n-lg">
+            <div class="col-lg-12">
+                <div class="ibox collapsed collapse-link">
+                    <div class="ibox-title">
+                        <h5>Show Rating Scale</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <p ng-repeat="lst in bi_rating_scale_tbl">
+                            <b>{{lst.rating_scale}} - </b>{{lst.rating_scale_descr}}
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="wrapper wrapper-content animated fadeInRight m-b-n-lg m-t-n-xl">
+            <div class="col-lg-12">
+                <div class="vote-item">
+
+                    <form id="questions" novalidate>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div style="float:right;">
+                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input name="minDate" type="text" id="accomplished_date" ng-model="accomplished_date" class="form-control text-center dateMinVal removeReqDate" required>
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </span>
+                                    <small class="text-center period_from hidden pull-right" style="font-size:12px;height:15px;color:red"><i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
+                                </div>
+                                <div style="float:right;">
+                                    <span class="pull-left font-bold" style="margin-right:10px;">Accomplished Date:</span>
                                 </div>
                             </div>
-                            <div class="ibox-content">
-                                <p>
-                                    Employee Name :<b>{{employee.first_name}} {{employee.last_name}}</b>
-                                </p>
-                                <p>
-                                    Office :<b> {{employee.department_name1}} </b>
-                                </p>
-                                <p>
-                                   Position :<b> {{employee.position_long_title}} </b>
-                                </p>
-                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="wrapper wrapper-content animated fadeInRight m-b-n-xl m-t-n-lg">
-                    <div class="col-lg-12">
-                        <div class="ibox collapsed">
-                            <div>
-                                <label>Background Investigation Type</label>
-                                <select class="form-control m-b" id="question_type" ng-model="question_type" ng-change="selectQuestion_type()" required>
-                                    <option value="" selected>Select Type</option>
-                                    <option ng-repeat="lst in bi_rating_questiontype_tbl" value="{{lst.question_type}}">{{lst.question_type_descr}}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-           
-            <div class="row">
-                <div class="wrapper wrapper-content animated fadeInRight m-b-n-xl m-t-n-lg">
-                    <div class="col-lg-12">
-                        <div class="ibox collapsed">
-                            <div class="ibox-title">
-                                <h5>Show Rating Scale</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
+                        <div class="row" ng-repeat="lst1 in bi_criteria1_list" style="border-bottom:2px solid green;padding-bottom:5px;margin-bottom:5px;">
+                            <div><h2>{{lst1.criteria1_descr}}</h2></div>
+
+                            <div class="col-md-7 m-l-xl m-t-md m-b-md" ng-repeat="q1 in bi_questions_list" ng-if="q1.question_level == 1 && q1.criteria1_id == lst1.criteria1_id">
+                                <div class="row m-l-lg">
+                                    <div class="vote-actions">
+                                        <button class="btn btn-success" ng-click="setRatingUp_1(q1.model_name,q1.rating_scale,q1.question_level,q1.criteria1_model)" style="width:4.6em !important">
+                                            <i class="fa fa-chevron-up"> </i>
+                                        </button>
+                                        <b>
+                                            <input type="text" maxlength="3" class="form-control text-success" id="{{q1.model_name}}" value="{{q1.question_rating}}" style="width:2.6em !important;font-size:25px !important;" ng-keyup="limitvalue(q1.rating_scale,q1.model_name)" include />
+                                        </b>
+                                        <button class="btn btn-danger" ng-click="setRatingDown_1(q1.model_name,q1.question_level,q1.criteria1_model)" style="width:4.6em !important">
+                                            <i class="fa fa-chevron-down"> </i>
+                                        </button>
+                                    </div>
+                                    <div class="m-l-lg m-t-lg">
+                                        <a class="vote-title" style="font-size:20px !important">
+                                            {{q1.question_descr}}
+                                        </a>
+                                    </div>
 
                                 </div>
                             </div>
-                            <div class="ibox-content">
+                            <div class="col-md-4" ng-if="question_type == 1" style="position:relative !important;">
 
-                                <p ng-repeat="lst in bi_rating_scale_tbl">
-                                    <b>{{lst.rating_scale}} - </b>{{lst.rating_scale_descr}}
-                                </p>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="wrapper wrapper-content animated fadeInRight m-b-n-lg m-t-n-xl">
-                    <div class="col-lg-12">
-                        <div class="vote-item">
-
-                            <form id="questions" novalidate>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div style="float:right;">
-                                            <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                                <input name="minDate" type="text" id="accomplished_date" ng-model="accomplished_date" class="form-control text-center dateMinVal removeReqDate" required>
-                                                <div class="input-group-addon">
-                                                    <span class="fa fa-calendar"></span>
-                                                </div>
-                                            </span>
-                                            <small class="text-center period_from hidden pull-right" style="font-size:12px;height:15px;color:red"><i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
-                                        </div>
-                                        <div style="float:right;">
-                                            <span class="pull-left font-bold" style="margin-right:10px;">Accomplished Date:</span>
-                                        </div>
+                                <div class="col-md-4 widget yellow-bg p-lg text-center">
+                                    <div class="m-b-md">
+                                        <i class="fa fa-star fa-4x"></i>
+                                        <h1 class="m-xs" id="{{lst1.criteria1_model}}"></h1>
+                                        <h3 class="font-bold no-margins">
+                                            Average
+                                        </h3>
+                                       
                                     </div>
                                 </div>
-                                <div class="row" ng-repeat="lst1 in bi_criteria1_list" style="border-bottom:2px solid green;padding-bottom:5px;margin-bottom:5px;">
-                                    <div><h2>{{lst1.criteria1_descr}}</h2></div>
+                                <div class="col-md-7" style="position:relative !important;"><textarea class="autoresizing textareaOnInput" id="comment{{lst1.criteria1_model}}"></textarea></div>
+                            </div>
 
-                                    <div class="col-md-12 m-l-xl m-t-md m-b-md" ng-repeat="q1 in bi_questions_list" ng-if="q1.question_level == 1 && q1.criteria1_id == lst1.criteria1_id">
+
+                            <div ng-repeat="lst2 in bi_criteria2_list" ng-if="lst2.criteria1_id == lst1.criteria1_id ">
+
+                                <div class="m-l-lg"><h3>{{lst2.criteria2_descr}}</h3></div>
+
+                                <div class="col-md-12 m-l-xl m-t-md m-b-md" ng-repeat="q2 in bi_questions_list" ng-if="q2.question_level == 2 && q2.criteria2_id == lst2.criteria2_id">
+                                    <div class="row m-l-lg">
+                                        <div class="vote-actions">
+                                            <button class="btn btn-success" ng-click="setRatingUp(q2.model_name,q2.rating_scale,q1.question_level)" style="width:4.6em !important">
+                                                <i class="fa fa-chevron-up"> </i>
+                                            </button>
+                                            <b>
+                                                <input type="text" maxlength="3" class="form-control text-success" id="{{q2.model_name}}" value="{{q2.question_rating}}" style="width:2.6em !important;font-size:25px !important;" ng-keyup="limitvalue(q2.rating_scale,q2.model_name)" include />
+                                            </b>
+                                            <button class="btn btn-danger" ng-click="setRatingDown(q2.model_name,q1.question_level)" style="width:4.6em !important">
+                                                <i class="fa fa-chevron-down"> </i>
+                                            </button>
+                                        </div>
+                                        <div class="m-l-lg m-t-lg">
+                                            <a class="vote-title" style="font-size:20px !important">
+                                                {{q2.question_descr}}
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="m-l-lg" ng-repeat="lst3 in bi_criteria3_list" ng-if="lst3.criteria2_id == lst2.criteria2_id">
+                                    <div class="m-l-lg">
+                                        <h4>
+                                            {{lst3.criteria3_descr}}
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-12 m-l-xl m-t-md m-b-md" ng-repeat="q3 in bi_questions_list" ng-if="q3.question_level == 3 && q3.criteria3_id == lst3.criteria3_id">
                                         <div class="row m-l-lg">
                                             <div class="vote-actions">
-                                                <button class="btn btn-success" ng-click="setRatingUp(q1.model_name,q1.rating_scale)" style="width:4.6em !important">
+                                                <button class="btn btn-success" ng-click="setRatingUp(q3.model_name,q3.rating_scale,q1.question_level)" style="width:4.6em !important">
                                                     <i class="fa fa-chevron-up"> </i>
                                                 </button>
                                                 <b>
-                                                    <input type="text" maxlength="3" class="form-control text-success" id="{{q1.model_name}}" value="{{q1.question_rating}}" style="width:2.6em !important;font-size:25px !important;" ng-keyup="limitvalue(q1.rating_scale,q1.model_name)" include />
+                                                    <input type="text" maxlength="3" class="form-control text-success" id="{{q3.model_name}}" value="{{q3.question_rating}}" style="width:2.6em !important;font-size:25px !important;" ng-keyup="limitvalue(q3.rating_scale,q3.model_name)" include />
                                                 </b>
-                                                <button class="btn btn-danger" ng-click="setRatingDown(q1.model_name)" style="width:4.6em !important">
+                                                <button class="btn btn-danger" ng-click="setRatingDown(q3.model_name,q1.question_level)" style="width:4.6em !important">
                                                     <i class="fa fa-chevron-down"> </i>
                                                 </button>
                                             </div>
                                             <div class="m-l-lg m-t-lg">
                                                 <a class="vote-title" style="font-size:20px !important">
-                                                    {{q1.question_descr}}
+                                                    {{q3.question_descr}}
                                                 </a>
                                             </div>
 
                                         </div>
                                     </div>
 
-                                    <div ng-repeat="lst2 in bi_criteria2_list" ng-if="lst2.criteria1_id == lst1.criteria1_id ">
-
-                                        <div class="m-l-lg"><h3>{{lst2.criteria2_descr}}</h3></div>
-
-                                        <div class="col-md-12 m-l-xl m-t-md m-b-md" ng-repeat="q2 in bi_questions_list" ng-if="q2.question_level == 2 && q2.criteria2_id == lst2.criteria2_id">
-                                            <div class="row m-l-lg">
-                                                <div class="vote-actions">
-                                                    <button class="btn btn-success" ng-click="setRatingUp(q2.model_name,q2.rating_scale)" style="width:4.6em !important">
-                                                        <i class="fa fa-chevron-up"> </i>
-                                                    </button>
-                                                    <b>
-                                                        <input type="text" maxlength="3" class="form-control text-success" id="{{q2.model_name}}" value="{{q2.question_rating}}" style="width:2.6em !important;font-size:25px !important;" ng-keyup="limitvalue(q2.rating_scale,q2.model_name)" include />
-                                                    </b>
-                                                    <button class="btn btn-danger" ng-click="setRatingDown(q2.model_name)" style="width:4.6em !important">
-                                                        <i class="fa fa-chevron-down"> </i>
-                                                    </button>
-                                                </div>
-                                                <div class="m-l-lg m-t-lg">
-                                                    <a class="vote-title" style="font-size:20px !important">
-                                                        {{q2.question_descr}}
-                                                    </a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="m-l-lg" ng-repeat="lst3 in bi_criteria3_list" ng-if="lst3.criteria2_id == lst2.criteria2_id">
-                                            <div class="m-l-lg">
-                                                <h4>
-                                                    {{lst3.criteria3_descr}}
-                                                </h4>
-                                            </div>
-                                            <div class="col-md-12 m-l-xl m-t-md m-b-md" ng-repeat="q3 in bi_questions_list" ng-if="q3.question_level == 3 && q3.criteria3_id == lst3.criteria3_id">
-                                                <div class="row m-l-lg">
-                                                    <div class="vote-actions">
-                                                        <button class="btn btn-success" ng-click="setRatingUp(q3.model_name,q3.rating_scale)" style="width:4.6em !important">
-                                                            <i class="fa fa-chevron-up"> </i>
-                                                        </button>
-                                                        <b>
-                                                            <input type="text" maxlength="3" class="form-control text-success" id="{{q3.model_name}}" value="{{q3.question_rating}}" style="width:2.6em !important;font-size:25px !important;" ng-keyup="limitvalue(q3.rating_scale,q3.model_name)" include />
-                                                        </b>
-                                                        <button class="btn btn-danger" ng-click="setRatingDown(q3.model_name)" style="width:4.6em !important">
-                                                            <i class="fa fa-chevron-down"> </i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="m-l-lg m-t-lg">
-                                                        <a class="vote-title" style="font-size:20px !important">
-                                                            {{q3.question_descr}}
-                                                        </a>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div>
-                                    <button type="submit" class="form-control btn btn-success" ng-click="save_bi_rating()">Submit</button>
                                 </div>
 
-                            </form>
+                            </div>
                         </div>
+                        <div>
+                            <button type="submit" class="form-control btn btn-success" ng-click="open_respondent_form()">Submit</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="SaveRespondentInfo_1" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lllg">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>RESPONDENT - EXISTING EMPLOYEES</b></h2></center>
+                </div>
+                <div class="modal-body" style="height:700px !important;">
+                    <div class="row">
+                        <div class="col-lg-12 m-b-md">
+                            <div class="tab-content">
+                                <div class="panel-body">
+                                    <form id="respondent_1" ng-model="respondent_1" novalidate>
+
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Supervisor:</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <input type="text" id="supervisor_name" ng-model="supervisor_name" class="form-control" required include>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Office/Address :</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <textarea type="text" id="supervisor_office_address" ng-model="supervisor_office_address" class="form-control" required include></textarea>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
+                                                </div>
+
+                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
+                                                    <input type="text" id="supervisor_date" ng-model="supervisor_date" class="form-control" required include>
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-clock-o"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <h2>Interviewer</h2>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Interviewed By:</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <input type="text" id="interviewed_by" ng-model="interviewed_by" class="form-control" required include>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
+                                                </div>
+                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
+                                                    <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-clock-o"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row m-top-40">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <center>
+                                                    <button class="btn btn-success font-bold pull-right" ng-click="SaveRespondent_1()">
+                                                        &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;<i id="add" class="fa fa-thumbs-up"></i>
+                                                    </button>
+                                                    <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                                                        Cancel&nbsp;<i class="fa fa-close"></i>
+                                                    </button>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="SaveRespondentInfo_2" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lllg">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>RESPONDENT (WORK PERFORMANCE AND INTER-PERSONAL RELATIONSHIP)</b></h2></center>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 m-b-md">
+                            <div class="tab-content">
+                                <div class="panel-body">
+                                    <form id="respondent_2" ng-model="respondent_2" novalidate>
+                                        <h2>Supervisor</h2>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Supervisor (<i>if applicable</i>):</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <input type="text" id="supervisor_name" ng-model="supervisor_name" class="form-control" include>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Office/Address :</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <textarea type="text" id="supervisor_office_address" ng-model="supervisor_office_address" class="form-control" include></textarea>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
+                                                </div>
+
+                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
+                                                    <input type="text" id="supervisor_date" ng-model="supervisor_date" class="form-control" required include>
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-clock-o"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h2>Subordinate</h2>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Subordinate (<i>if applicable</i>):</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <input type="text" id="subordinate_name" ng-model="subordinate_name" class="form-control" include>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Office/Address :</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <input type="text" id="subordinate_office_address" ng-model="subordinate_office_address" class="form-control" include>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
+                                                </div>
+
+                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
+                                                    <input type="text" id="subordinate_date" ng-model="subordinate_date" class="form-control" required include>
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-clock-o"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h2>Peers</h2>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Peers:</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <input type="text" id="peers_name" ng-model="peers_name" class="form-control" include>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Office/Address :</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <input type="text" id="peers_office_address" ng-model="peers_office_address" class="form-control" include>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
+                                                </div>
+
+                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
+                                                    <input type="text" id="peers_date" ng-model="peers_date" class="form-control" required include>
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-clock-o"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h2>Clients</h2>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Clients:</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <input type="text" id="peers_name" ng-model="clients_name" class="form-control" include>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Office/Address :</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <input type="text" id="peers_office_address" ng-model="clients_office_address" class="form-control" include>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
+                                                </div>
+
+                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
+                                                    <input type="text" id="peers_date" ng-model="clients_date" class="form-control" required include>
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-clock-o"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <h2>Interviewer</h2>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Interviewed By :</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <input type="text" id="interviewed_by" ng-model="interviewed_by" class="form-control " include>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
+                                                </div>
+                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
+                                                    <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-clock-o"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row m-top-40">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <center>
+                                                    <button class="btn btn-success font-bold pull-right" ng-click="SaveRespondent_2()">
+                                                        &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;<i id="add" class="fa fa-thumbs-up"></i>
+                                                    </button>
+                                                    <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                                                        Cancel&nbsp;<i class="fa fa-close"></i>
+                                                    </button>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="SaveRespondentInfo_3" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lllg">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>RESPONDENT (COMMUNITY AND CIVIC INVOLVEMENT)</b></h2></center>
+                </div>
+                <div class="modal-body" style="height:700px !important;">
+                    <div class="row">
+                        <div class="col-lg-12 m-b-md">
+                            <div class="tab-content">
+                                <div class="panel-body">
+                                    <form id="respondent_3" ng-model="respondent_3" novalidate>
+
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Name Of Respondent:</span><span style="" class="fa fa-book pull-right m-r-sm"></span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <input type="text" id="respondent_name" ng-model="respondent_name" class="form-control" include>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Office :</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <label class="font-noraml"></label>
+                                                    <div class="input-group date">
+                                                        <input type="text" id="res_contact_number" ng-model="respondent_contact_number" class="form-control" include>
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                                </div>
+
+                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
+                                                    <input type="text" id="res_date" ng-model="respondent_date" class="form-control" required include>
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-clock-o"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <h2>Interviewer</h2>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Interviewed By :</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <input type="text" id="interviewed_by" ng-model="interviewed_by" class="form-control" include>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                                </div>
+                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
+                                                    <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-clock-o"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row m-top-40">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <center>
+                                                    <button class="btn btn-success font-bold pull-right" ng-click="SaveRespondent_3()">
+                                                        &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;<i id="add" class="fa fa-thumbs-up"></i>
+                                                    </button>
+                                                    <button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                                                        Cancel&nbsp;<i class="fa fa-close"></i>
+                                                    </button>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 
 <script>
@@ -214,6 +653,6 @@
 
 </script>
 
-   
+
 
 

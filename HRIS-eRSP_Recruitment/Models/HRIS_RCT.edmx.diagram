@@ -78,12 +78,17 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicants_review_dates_names" Width="1.5" PointX="13.375" PointY="24.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.insider_outsider_applicant_tbl" Width="1.5" PointX="25.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_questionnaire_tbl" Width="1.5" PointX="25.375" PointY="13.75" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria1_tbl" Width="1.5" PointX="25.375" PointY="4.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria2_tbl" Width="1.5" PointX="25.375" PointY="7.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria3_tbl" Width="1.5" PointX="25.375" PointY="10.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_rating_tbl" Width="1.5" PointX="25.375" PointY="18.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_rating_questiontype_tbl" Width="1.5" PointX="25.375" PointY="22.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_rating_scale_tbl" Width="1.5" PointX="25.375" PointY="25.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.selected_applicants_tbl" Width="1.5" PointX="7.375" PointY="26.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria1_tbl" Width="1.5" PointX="25.375" PointY="4.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria1_average_comments_tbl" Width="1.5" PointX="19.375" PointY="26.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.bi_respondent_1_hdr_tbl" Width="1.5" PointX="27.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.bi_respondent_2_hdr_tbl" Width="1.5" PointX="27.375" PointY="4.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.bi_respondent_3_hdr_tbl" Width="1.5" PointX="27.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

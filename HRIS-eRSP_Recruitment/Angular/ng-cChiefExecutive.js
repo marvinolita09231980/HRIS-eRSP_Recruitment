@@ -60,16 +60,14 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
     }
 
 
-    function changefa(val) {
-        if (val == "4") {
-            return "fa-check"
-        }
-        else if (val == "5") {
+    function changefa(full) {
+        if (full.approval_status == "F") {
             return "fa-trophy"
         }
-        else {
-            return "fa-plus"
+        else { 
+            return "fa-check"
         }
+       
     }
 
     var Init_PSB_item_Grid = function (par_data) {
@@ -187,8 +185,8 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                         "mRender": function (data, type, full, row) {
 
                             return '<center>' +
-                                '<button  type="button" class="btn btn-danger btn-sm action chkbox" ng-click="remove_comparative(' + row["row"] + ')" ' + HSADR(data) +'><i class="fa fa-times"></i></button >' +
-                                '<button  type="button" class="btn btn-info btn-sm action chkbox" ng-click="approved_comparative(' + row["row"] + ')" ' + HSAD(full["hasSelected_approved"])+'><i class="fa ' + changefa(data) + '"></i></button >' +
+                                '<button  type="button" class="btn btn-danger btn-sm action chkbox" ng-click="remove_comparative(' + row["row"] + ')" ' + HSAD(full) +'><i class="fa fa-times"></i></button >' +
+                                '<button  type="button" class="btn btn-info btn-sm action chkbox" ng-click="approved_comparative(' + row["row"] + ')" ' + HSAD(full)+'><i class="fa ' + changefa(full) + '"></i></button >' +
                                 //'<button  type="button" class="btn btn-info btn-sm action chkbox" ng-click="app_detail(' + row["row"] + ')" ><i class="fa fa-edit"></i></button >' +
                                 //'<label class="container  m-left-24 p-bot-10 p-top-10">' +
                                 //   '<input type="checkbox" ng-click="check_box(' + row["row"] + ',' + data + ')" id="item' + row["row"] + '" ng-model="item' + row["row"] + '" ng-checked="' + full["selected_approved"] + '">' +
@@ -221,15 +219,41 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
         }
     }
 
-    function HSAD(data) { //IF ALREADY SELECTED ITEM DISABLE BUTTON
-        if (data) {
-            return "disabled"
+    function HSAD(full) { //IF ALREADY SELECTED ITEM DISABLE BUTTON
+        //console.log(full)
+        //console.log(full["selected_approved"])
+        //console.log(full["approval_status"])      
+        if (full.selected_approved == true) {
+
+                var retval = ""
+
+                if (full.approval_status == "F")
+                {
+                    retval = ""
+                }
+                else
+                {
+                    retval = "disabled"
+                }
+
+            console.log(retval)   
+
+                return retval
+             
         }
-        else {
-            return ""
+        else
+        {
+               console.log("no disable")   
+               return ""
+               
         }
+
+        
+       
     }
+
     function HSADR(data) { //IF ALREADY SELECTED ITEM DISABLE NOT SELECTED BUTTON
+        console.log(data)
         if (data == 5) {
             return ""
         }
@@ -237,6 +261,7 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
             return "disabled"
         }
     }
+
     function SetValue(id,value) {
         $("#" + id).val(value)
         s[id] = value
@@ -321,7 +346,7 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
         s.Data_List3 = par_data;
         s.Data_Table3 = $('#Data_List_Grid3').dataTable(
             {
-                data: s.Data_List,
+                data: s.Data_List3,
                 sDom: 'rt<"bottom"p>',
                 pageLength: 10,
                 columns: [
@@ -705,6 +730,8 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
 
         s.approved_comparative = function (row_id) {
             var dt = s.Data_List
+            console.log(dt[row_id])
+           
                     swal({
                         title: "Are you sure to approve this application?",
                         text: "",
@@ -734,10 +761,7 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                                         psb_ctrl_nbr: s.psb_ctrl_nbr,
                                         item_no: s.item_no
                                 }).then(function (d) {
-                                        s.Data_List[row_id].app_status = d.data.app_status
-                                        s.Data_List = s.Data_List.refreshTable("Data_List_Grid", "")
-                                     
-                                      
+                                        s.Data_List = d.data.chiefexecutive_list.refreshTable("Data_List_Grid", "")
                                         swal("Successfully Approved", { icon: "success" })
                                     })
                                 
@@ -776,8 +800,8 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                                 psb_ctrl_nbr: s.psb_ctrl_nbr,
                                 item_no: s.item_no
                         }).then(function (d) {
-                                s.Data_List[row_id].app_status = d.data.app_status
-                                s.Data_List = s.Data_List.refreshTable("Data_List_Grid", "")
+                              
+                                s.Data_List = d.data.chiefexecutive_list.refreshTable("Data_List_Grid", "")
                                 swal("Successfully removed approved status", { icon: "warning" })
                             })
                     }

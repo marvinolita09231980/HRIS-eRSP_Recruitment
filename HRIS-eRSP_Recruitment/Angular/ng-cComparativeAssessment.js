@@ -35,6 +35,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     s.endorse_department_name1 = ""
     s.endorse_salary_grade = 0
     s.endorse_psb_ctrl_nbr = ""
+    s.selectedRow = null
     s.individual = {}
     s.um = {}
     s.selected_approved = false
@@ -218,6 +219,12 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                         "mRender": function (data, type, full, row) {
                             return "<span class='text-left btn-block'><strong>" + data + " - " + full["position_long_title"] + "</strong></span>" +
                                 "<span class='text-left btn-block'>" + full["department_name1"] + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "endorsement_date",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'><strong>" + data + "</strong></span>" 
                         }
                     },
 
@@ -958,17 +965,19 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         cs.loading('show')
 
         h.post("../cComparativeAssessment/printEndorsement", {
-            psb_ctrl_nbr: s.endorse_psb_ctrl_nbr
-            , item_no: s.endorse_item_no
-            , endorse_date: endorse_date
-            , endorse_by: endorse_by
-
+              psb_ctrl_nbr : s.endorse_psb_ctrl_nbr
+            , item_no : s.endorse_item_no
+            , endorse_date : endorse_date
+            , endorse_by : endorse_by
         }).then(function (d) {
 
             if (d.data.icon == "success") {
                 var iframe = document.getElementById('iframe_print_preview');
+
                 var iframe_page = $("#iframe_print_preview")[0];
+
                 iframe.style.visibility = "hidden";
+
                 s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
                     + "&ReportName=" + ReportName
                     + "&SaveName=" + SaveName
@@ -1005,6 +1014,9 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
                 iframe.src = s.embed_link;
                 $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+
+                s.item_grid_List[s.selectedRow].endorsement_date = endorse_date
+                s.item_grid_List.refreshTable("Data_item_Grid", "")
             }
             else {
                 swal(d.data.endorse.db_message, { icon: d.data.icon })
@@ -1017,19 +1029,14 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     }
 
     s.prepareEndorsement = function (row, reptype) {
-
         cs.loading('show')
-
+        s.selectedRow = row
         var dt = s.item_grid_List[row]
-
-
 
         if (dt.endorse_item < 1) {
             swal("Warning!", "No data for this item!", { icon: "warning" })
             return
         }
-
-
 
         s.endorse_position = dt.position_long_title
         s.endorse_item_no = dt.item_no
@@ -1040,24 +1047,16 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         h.post("../cComparativeAssessment/prepareEndorsement", {
             psb_ctrl_nbr: dt.psb_ctrl_nbr
             , item_no: dt.item_no
-
         }).then(function (d) {
-
-            s.endorse_list = d.data.endorse
-            if (s.endorse_list.length > 0) {
+            if (d.data.icon == "success") {
+                s.endorse_list = d.data.endorse
                 $("#prepareEndorsement").modal("show")
             }
             else {
-                swal("Warning!", "No applicants endorse for this item, Please select applicants in View List", { icon: "warning" })
+                swal(d.data.message, {icon:d.data.icon})
             }
-          
             cs.loading('hide')
-
         })
-
-
-
-
     }
 
  

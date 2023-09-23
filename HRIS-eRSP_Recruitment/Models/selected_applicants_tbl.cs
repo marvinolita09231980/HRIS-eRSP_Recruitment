@@ -12,13 +12,15 @@ namespace HRIS_eRSP_Recruitment.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class endorsement_print_hdr_tbl
+    public partial class selected_applicants_tbl
     {
-        public int endorse_no { get; set; }
-        public string psb_ctrl_nbr { get; set; }
-        public System.DateTime endorsement_print_date { get; set; }
-        public string endorsement_print_by { get; set; }
+        public string app_ctrl_nbr { get; set; }
         public string item_no { get; set; }
-        public string endorsement_date { get; set; }
+        public string psb_ctrl_nbr { get; set; }
+        public System.DateTime selected_dttm { get; set; }
+        public string selected_by { get; set; }
+        public Nullable<System.DateTime> updated_dttm { get; set; }
+        public string updated_by { get; set; }
+        public string status { get; set; }
     }
 }

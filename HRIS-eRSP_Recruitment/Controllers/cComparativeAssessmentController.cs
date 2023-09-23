@@ -474,15 +474,29 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var message = "";
+            var endorse = new List<sp_endorsename_list_Result>();
             try
             {
-                var endorse = db.sp_endorsename_list(psb_ctrl_nbr, item_no, "4").ToList();
+                var isSelected = db.selected_applicants_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr && a.item_no == item_no && a.status == "F").ToList();
+                if (isSelected.Count() > 0)
+                {
+                    throw new Exception("The Governor already selected an applicant for this item");
+                }
+                else
+                {
+                    endorse = db.sp_endorsename_list(psb_ctrl_nbr, item_no, "4").ToList();
+                    if (endorse.Count() == 0)
+                    {
+                        throw new Exception("No applicants endorse for this item, please select applicants in View List");
+                    }
+                }
+                
 
                 return JSON(new { message = message, icon = icon.success, endorse }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                return Json(new { message = DbEntityValidationExceptionError(e) }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = e.Message,icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -492,10 +506,10 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var user_id = Session["user_id"].ToString();
             var message = "";
 
-            var endorse_dttm = Convert.ToDateTime(endorse_date);
+          
             try
             {
-                var endorse = db.sp_endorsement_hdr_insert_tbl(item_no,psb_ctrl_nbr, "4", endorse_dttm, endorse_by, user_id,"I").FirstOrDefault();
+                var endorse = db.sp_endorsement_hdr_insert_tbl(item_no,psb_ctrl_nbr, "4", endorse_date, endorse_by, user_id,"I").FirstOrDefault();
                 if(endorse.db_code == "0")
                 {
                     throw new Exception(endorse.db_message);

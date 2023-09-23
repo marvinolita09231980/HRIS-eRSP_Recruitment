@@ -180,12 +180,12 @@ namespace HRIS_eRSP_Recruitment.Controllers
             try
             {
 
-                db.sp_update_transaction_in_approvalworkflow_tbl_RCT(data.approval_id, user_id, "F", "", data.app_ctrl_nbr, psb_ctrl_nbr, data.item_no,data.budget_code,data.employment_type);
+                db.sp_update_transaction_in_approvalworkflow_tbl_RCT(data.approval_id, user_id, "F", "", data.app_ctrl_nbr, data.psb_ctrl_nbr, data.item_no,data.budget_code,data.employment_type);
 
                 //var indorseitem_applicant_list = db.sp_comparative_assessment_list(psb_ctrl_nbr, data.item_no, "4").ToList();
-                db.sp_select_applicant_insert_update(data.app_ctrl_nbr, psb_ctrl_nbr, date, user_id, "S");
-                app_status = "5";
-                return Json(new { message = fetch.success, icon = icon.success, app_status}, JsonRequestBehavior.AllowGet);
+                db.sp_select_applicant_insert_update(data.app_ctrl_nbr, data.item_no, data.psb_ctrl_nbr, date, user_id, "F");
+                var chiefexecutive_list = db.sp_chiefexecutive_list(data.item_no, data.psb_ctrl_nbr, "4");
+                return Json(new { message = fetch.success, icon = icon.success, chiefexecutive_list }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -203,8 +203,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
            }
            try
            {
-               db.sp_update_transaction_in_approvalworkflow_tbl_RCT(data.approval_id, user_id, "C", comment, data.app_ctrl_nbr, psb_ctrl_nbr, item_no, data.budget_code, data.employment_type);
-               var endorsed = db.sp_chiefexecutive_list(item_no, psb_ctrl_nbr, "4");
+               db.sp_update_transaction_in_approvalworkflow_tbl_RCT(data.approval_id, user_id, "C", comment, data.app_ctrl_nbr, data.psb_ctrl_nbr, item_no, data.budget_code, data.employment_type);
+               var endorsed = db.sp_chiefexecutive_list(item_no, data.psb_ctrl_nbr, "4");
                return Json(new { message = fetch.success, icon = icon.success, endorsed }, JsonRequestBehavior.AllowGet);
            }
            catch (DbEntityValidationException e)
@@ -221,12 +221,12 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var date = DateTime.Now;
             try
             {
-                db.sp_update_transaction_in_approvalworkflow_tbl_RCT(data.approval_id, user_id, "C", "", data.app_ctrl_nbr, psb_ctrl_nbr, data.item_no, data.budget_code, data.employment_type);
+                db.sp_update_transaction_in_approvalworkflow_tbl_RCT(data.approval_id, user_id, "C", "", data.app_ctrl_nbr, data.psb_ctrl_nbr, data.item_no, data.budget_code, data.employment_type);
                // var indorseitem_applicant_list = db.sp_comparative_assessment_list(psb_ctrl_nbr, data.item_no, "4").ToList();
-                db.sp_select_applicant_insert_update(data.app_ctrl_nbr, psb_ctrl_nbr, date, user_id, "D");
-                app_status = "4";
+                db.sp_select_applicant_insert_update(data.app_ctrl_nbr, data.item_no, data.psb_ctrl_nbr, date, user_id, "D");
+                var chiefexecutive_list = db.sp_chiefexecutive_list(data.item_no, data.psb_ctrl_nbr, "4");
 
-                return Json(new { message = fetch.success, icon = icon.success, app_status}, JsonRequestBehavior.AllowGet);
+                return Json(new { message = fetch.success, icon = icon.success, chiefexecutive_list }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -254,7 +254,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
-                var indorseitem_applicant_list = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "4").ToList();
+                var indorseitem_applicant_list = db.sp_chiefexecutive_list(item_no,psb_ctrl_nbr, "4").ToList();
 
                 return Json(new { message = fetch.success, icon = icon.success, indorseitem_applicant_list }, JsonRequestBehavior.AllowGet);
             }

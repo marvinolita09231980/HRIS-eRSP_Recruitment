@@ -12,13 +12,16 @@ namespace HRIS_eRSP_Recruitment.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class endorsement_print_hdr_tbl
+    public partial class bi_criteria1_average_comments_tbl
     {
-        public int endorse_no { get; set; }
-        public string psb_ctrl_nbr { get; set; }
-        public System.DateTime endorsement_print_date { get; set; }
-        public string endorsement_print_by { get; set; }
-        public string item_no { get; set; }
-        public string endorsement_date { get; set; }
+        public string app_ctrl_nbr { get; set; }
+        public int criteria1_id { get; set; }
+        public Nullable<decimal> average { get; set; }
+        public string comments { get; set; }
+        public Nullable<int> respondent_1_id { get; set; }
+        public string created_dttm { get; set; }
+        public string created_by { get; set; }
+        public string updated_dttm { get; set; }
+        public string updated_by { get; set; }
     }
 }

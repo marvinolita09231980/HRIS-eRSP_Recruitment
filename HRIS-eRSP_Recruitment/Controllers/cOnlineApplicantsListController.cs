@@ -184,9 +184,12 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 sqledit.prescreen_dttm = Convert.ToDateTime(fetch_dttm);
                 sqledit.presreen_by = user_id;
                 db.SaveChanges();
+                var empl_id = user_id.Substring(1, user_id.Length - 1);
+                var personnelname= db.vw_personnelnames_tbl_RCT.Where(a => a.empl_id == user_id).FirstOrDefault();
+                var employee_name = personnelname.employee_name;
+                //APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, "", hiring_period).ToList();
 
-                APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, "", hiring_period).ToList();
-                return JSON2(new { APL_list, icon = "success" }, JsonRequestBehavior.AllowGet);
+                return JSON2(new { employee_name, icon = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -487,7 +490,12 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 se.email_congratulatory_dttm = apr.email_congratulatory_dttm.ToString();
                 se.status = true;
 
-                return JSON2(new { message = "Applicants is successfully notified!", icon = "success", se }, JsonRequestBehavior.AllowGet);
+                var empl_id = user_id.Substring(1, user_id.Length - 1);
+                var personnelname = db.vw_personnelnames_tbl_RCT.Where(a => a.empl_id == empl_id).FirstOrDefault();
+                var employee_name = personnelname.employee_name;
+
+
+                return JSON2(new { employee_name, message = "Applicants is successfully notified!", icon = "success", se }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

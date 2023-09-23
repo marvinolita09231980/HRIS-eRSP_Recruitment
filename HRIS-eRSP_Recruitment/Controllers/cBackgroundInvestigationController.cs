@@ -119,6 +119,100 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(e), icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
+        
+        
+        
+        
+        
+        
+        
+        
+
+        public ActionResult save_respondent_1(bi_respondent_1_hdr_tbl respondent_data,List<bi_criteria1_average_comments_tbl> comment_data)
+        {
+            var respondent_1_id = 0;
+            var app_ctrl_nbr = Session["bi_app_ctrl_nbr"].ToString();
+            var user_id = Session["user_id"].ToString();
+            var datenow = DateTime.Now.ToString();
+            try
+            {
+                var resx = db.bi_respondent_1_hdr_tbl.Where(a => a.app_ctrl_nbr == respondent_data.app_ctrl_nbr).FirstOrDefault();
+                if (resx == null)
+                {
+                    bi_respondent_1_hdr_tbl res = new bi_respondent_1_hdr_tbl();
+                    res.app_ctrl_nbr = respondent_data.app_ctrl_nbr;
+                    res.supervisor_name = respondent_data.supervisor_name;
+                    res.supervisor_office_address = respondent_data.supervisor_office_address;
+                    res.supervisor_date = respondent_data.supervisor_date;
+                    res.interviewed_by = respondent_data.interviewed_by;
+                    res.interviewed_date = respondent_data.interviewed_date;
+                    res.created_dttm =  datenow;
+                    res.created_by = user_id;
+                    res.updated_dttm = "";
+                    res.updated_by = "";
+                    db.bi_respondent_1_hdr_tbl.Add(res);
+                }
+                else
+                {
+
+
+                    resx.supervisor_name = respondent_data.supervisor_name;
+                    resx.supervisor_office_address = respondent_data.supervisor_office_address;
+                    resx.supervisor_date = respondent_data.supervisor_date;
+                    resx.interviewed_by = respondent_data.interviewed_by;
+                    resx.interviewed_date = respondent_data.interviewed_date;
+                    resx.updated_dttm = datenow;
+                    resx.updated_by = user_id;
+                    
+                }
+                db.SaveChanges();
+
+                var respondent= db.bi_respondent_1_hdr_tbl.Where(a => a.app_ctrl_nbr == respondent_data.app_ctrl_nbr).FirstOrDefault();
+                if (respondent != null)
+                {
+                    respondent_1_id = respondent.respondent_1_id;
+                    for (var x = 0; x < comment_data.Count(); x++)
+                    {
+                        var app_ctrl_nbr1 = comment_data[x].app_ctrl_nbr;
+                        var criteria1_id = comment_data[x].criteria1_id;
+                        var comx = db.bi_criteria1_average_comments_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr1 && a.criteria1_id == criteria1_id).FirstOrDefault();
+                        if (comx == null)
+                        {
+                            bi_criteria1_average_comments_tbl com = new bi_criteria1_average_comments_tbl();
+                            com.app_ctrl_nbr = comment_data[x].app_ctrl_nbr;
+                            com.criteria1_id = comment_data[x].criteria1_id;
+                            com.average = comment_data[x].average;
+                            com.comments = comment_data[x].comments;
+                            com.respondent_1_id = respondent_1_id;
+                            com.created_dttm = datenow ;
+                            com.created_by = user_id;
+                            com.updated_dttm = "";
+                            com.updated_by = "";
+                            db.bi_criteria1_average_comments_tbl.Add(com);
+                        }
+                        else
+                        {
+                            comx.average = comment_data[x].average;
+                            comx.comments = comment_data[x].comments;
+                            comx.respondent_1_id = respondent_1_id;
+                            comx.updated_dttm = datenow ;
+                            comx.updated_by = user_id;
+                        }
+
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    throw new Exception("Failed to save!");
+                }
+                return JSON2(new { respondent_1_id, icon=icon.success}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         protected JsonResult JSON2(object data, JsonRequestBehavior behavior)
         {
