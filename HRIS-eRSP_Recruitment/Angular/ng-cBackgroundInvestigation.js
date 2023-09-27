@@ -87,10 +87,18 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
        
         var form_model = get_form_model(criteria1_model)
         var average = compute_average(form_model)
-
+       
         $("#" + criteria1_model).text(average)
 
 
+    }
+
+    function reload_average_comment(data) {
+        
+        for (var x = 0; x < data.length; x++) {
+            $("#" + data[x].criteria1_model).text(data[x].average)
+            $("#comment" + data[x].criteria1_model).val(data[x].comments)
+        }
     }
     s.setRatingUp_1 = function (id, limit, question_level,criteria1_model) {
         var input_len = $("#" + id.toString()).val().length
@@ -102,7 +110,7 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
         $("#" + id).val(countUp.toString())
 
         s.limitvalue(limit, id)
-        var average = average_value(1,criteria1_model)
+         average_value(1,criteria1_model)
         
     }
 
@@ -117,8 +125,8 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
             var countUp = parseInt(input_rate) - 1
             $("#" + id).val(countUp.toString())
         }
-        var average = average_value(1, criteria1_model)
-        console.log(average)
+         average_value(1, criteria1_model)
+        
     }
 
     s.setRatingUp = function (id, limit,question_level) {
@@ -195,17 +203,26 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
 
             h.post("../cBackgroundInvestigation/getBiQuestion",
                 {
-                    question_type: parseInt(question_type)
+                      question_type: parseInt(question_type)
                     , rating_scale_group: parseInt(rating_scale_group)
                 }).then(function (d) {
+                    if (d.data.icon == "success") {
+                        s.bi_questions_list = d.data.bi_questions_list
+                        s.bi_criteria1_list = d.data.bi_criteria1_tbl
+                        s.bi_criteria2_list = d.data.bi_criteria2_tbl
+                        s.bi_criteria3_list = d.data.bi_criteria3_tbl
+                        s.bi_rating_scale_tbl = d.data.bi_rating_scale_tbl
 
-                    s.bi_questions_list = d.data.bi_questions_list
-                    s.bi_criteria1_list = d.data.bi_criteria1_tbl
-                    s.bi_criteria2_list = d.data.bi_criteria2_tbl
-                    s.bi_criteria3_list = d.data.bi_criteria3_tbl
-                    s.bi_rating_scale_tbl = d.data.bi_rating_scale_tbl
-                
-                    swal(d.data.message, { icon: d.data.icon })
+                        setTimeout(function () {
+                            reload_average_comment(s.bi_criteria1_list)
+                        }, 500);
+                       
+                    }
+                    else {
+                        swal(d.data.message, { icon: d.data.icon })
+                    }
+                  
+                    
 
                 })
 
@@ -260,11 +277,11 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
         var respondent_data = cs.getFormData("respondent_1")
 
         h.post("../cBackgroundInvestigation/save_respondent_1", {
-            respondent_data: respondent_data
+              respondent_data: respondent_data
             , comment_data: comment_data
         }).then(function (d) {
             if (d.data.icon == "success") {
-                s.save_bi_rating()
+                s.save_bi_rating(d.data.respondent_1_id)
             }
             else {
                 swal(d.data.message, { icon: d.data.icon })
@@ -274,9 +291,58 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
         })
     }
 
-    s.save_bi_rating = function () {
+    s.SaveRespondent_2 = function () {
+        cs.loading("show");
+        //var comment_data = []
+
+        //s.bi_criteria1_list.filter(function (d) {
+        //    var average = $("#" + d.criteria1_model).text()
+        //    var comments = $("#comment" + d.criteria1_model).val()
+        //    var obj = {
+        //         app_ctrl_nbr: s.app_ctrl_nbr
+        //        , criteria1_id: d.criteria1_id
+        //        , average: average
+        //        , comments: ""
+        //    }
+        //    comment_data.push(obj)
+        //})
+        var respondent_data = cs.getFormData("respondent_2")
+
+        h.post("../cBackgroundInvestigation/save_respondent_2", {
+              respondent_data: respondent_data
+        }).then(function (d) {
+            if (d.data.icon == "success") {
+                s.save_bi_rating(d.data.respondent_2_id)
+            }
+            else {
+                swal(d.data.message, { icon: d.data.icon })
+                cs.loading("hide");
+            }
+
+        })
+    }
+
+    s.SaveRespondent_3 = function () {
+        cs.loading("show");
+        var respondent_data = cs.getFormData("respondent_3")
+
+        h.post("../cBackgroundInvestigation/save_respondent_3", {
+            respondent_data: respondent_data
+        }).then(function (d) {
+            if (d.data.icon == "success") {
+                s.save_bi_rating(d.data.respondent_3_id)
+            }
+            else {
+                swal(d.data.message, { icon: d.data.icon })
+                cs.loading("hide");
+            }
+
+        })
+    }
+
+    s.save_bi_rating = function (respondent_id) {
         var data2submit = []
-        var accomplished_date = $("#accomplished_date").val()
+        var question_type = $("#question_type").val()
         var data = cs.getFormData("questions")
         for (var prop in data) {
             var split = prop.split("_")
@@ -285,7 +351,8 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
                     question_id: split[2]
                     , app_ctrl_nbr: s.app_ctrl_nbr
                     , question_rating: data[prop]
-                    , accomplished_date: accomplished_date
+                    , question_type: parseInt(question_type)
+                    , respondent_id: respondent_id
                 }
                 data2submit.push(obj2submit)
             }
@@ -308,25 +375,81 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
     }
 
     s.open_respondent_form = function () {
-        if (!cs.Validate1Field("accomplished_date")) {
-            return
-        }
-
-     
-
+       
         var question_type = $("#question_type").val()
 
        
 
 
         if (question_type == "1") {
-            $("#SaveRespondentInfo_1").modal("show")
+            h.post("../cBackgroundInvestigation/get_respondent_data_1", {
+                  question_type: question_type
+                , app_ctrl_nbr: s.app_ctrl_nbr
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+                    
+                    if (d.data.respondent_1 != null) {
+                        cs.populateFormFields("respondent_1", d.data.respondent_1)
+                    }
+                    $("#SaveRespondentInfo_1").modal("show")
+
+                    cs.loading("hide");
+                }
+                else {
+                    swal(d.data.message, { icon: d.data.icon })
+                    cs.loading("hide");
+                }
+
+            })
+
+          
+
         }
         else if (question_type == "2") {
-            $("#SaveRespondentInfo_2").modal("show")
+            h.post("../cBackgroundInvestigation/get_respondent_data_1", {
+                question_type: question_type
+                , app_ctrl_nbr: s.app_ctrl_nbr
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+
+                    if (d.data.respondent_1 != null) {
+                        cs.populateFormFields("respondent_2", d.data.respondent_1)
+                    }
+                    
+                    $("#SaveRespondentInfo_2").modal("show")
+
+                    cs.loading("hide");
+                }
+                else {
+                    swal(d.data.message, { icon: d.data.icon })
+                    cs.loading("hide");
+                }
+
+            })
+
+         
         }
         else if (question_type == "3") {
-            $("#SaveRespondentInfo_3").modal("show")
+            h.post("../cBackgroundInvestigation/get_respondent_data_1", {
+                  question_type: question_type
+                , app_ctrl_nbr: s.app_ctrl_nbr
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+                    if (d.data.respondent_1 != null) {
+                        cs.populateFormFields("respondent_3", d.data.respondent_1)
+                    }
+                    $("#SaveRespondentInfo_3").modal("show")
+
+                    cs.loading("hide");
+                }
+                else {
+                    swal(d.data.message, { icon: d.data.icon })
+                    cs.loading("hide");
+                }
+
+            })
+
+            
         }
        
     }

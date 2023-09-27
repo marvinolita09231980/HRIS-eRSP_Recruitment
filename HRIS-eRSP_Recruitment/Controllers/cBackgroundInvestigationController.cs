@@ -67,7 +67,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             {
                 var bi_rating_scale_tbl = db.bi_rating_scale_tbl.Where(a => a.group_type_id == rating_scale_group).ToList().OrderByDescending(a => a.rating_scale_id);
                 var bi_questions_list = db.sp_applicants_bi_questions_list(app_ctrl_nbr, question_type).ToList();
-                var bi_criteria1_tbl  = db.bi_criteria1_tbl.Where(a => a.question_type == question_type).ToList();
+                var bi_criteria1_tbl  = db.sp_bi_criteria1_tbl(app_ctrl_nbr,question_type).ToList();
                 var bi_criteria2_tbl  = db.bi_criteria2_tbl.Where(a => a.question_type == question_type).ToList();
                 var bi_criteria3_tbl  = db.bi_criteria3_tbl.Where(a => a.question_type == question_type).ToList();
                 return JSON2(new { bi_questions_list, bi_criteria1_tbl, bi_criteria2_tbl, bi_criteria3_tbl, bi_rating_scale_tbl, icon = "success" }, JsonRequestBehavior.AllowGet);
@@ -98,7 +98,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                         quer_insert.app_ctrl_nbr = bi_ratings[x].app_ctrl_nbr;
                         quer_insert.question_id = bi_ratings[x].question_id;
                         quer_insert.question_rating = bi_ratings[x].question_rating;
-                        quer_insert.accomplished_date = bi_ratings[x].accomplished_date;
+                        quer_insert.question_type = bi_ratings[x].question_type;
+                        quer_insert.respondent_id = bi_ratings[x].respondent_id;
                         quer_insert.created_by = user_id;
                         quer_insert.created_dttm = datenow;
                         db.bi_rating_tbl.Add(quer_insert);
@@ -136,11 +137,11 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var datenow = DateTime.Now.ToString();
             try
             {
-                var resx = db.bi_respondent_1_hdr_tbl.Where(a => a.app_ctrl_nbr == respondent_data.app_ctrl_nbr).FirstOrDefault();
+                var resx = db.bi_respondent_1_hdr_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
                 if (resx == null)
                 {
                     bi_respondent_1_hdr_tbl res = new bi_respondent_1_hdr_tbl();
-                    res.app_ctrl_nbr = respondent_data.app_ctrl_nbr;
+                    res.app_ctrl_nbr = app_ctrl_nbr;
                     res.supervisor_name = respondent_data.supervisor_name;
                     res.supervisor_office_address = respondent_data.supervisor_office_address;
                     res.supervisor_date = respondent_data.supervisor_date;
@@ -167,7 +168,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 }
                 db.SaveChanges();
 
-                var respondent= db.bi_respondent_1_hdr_tbl.Where(a => a.app_ctrl_nbr == respondent_data.app_ctrl_nbr).FirstOrDefault();
+                var respondent= db.bi_respondent_1_hdr_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
                 if (respondent != null)
                 {
                     respondent_1_id = respondent.respondent_1_id;
@@ -214,6 +215,160 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
+
+
+        public ActionResult save_respondent_2(bi_respondent_2_hdr_tbl respondent_data)
+        {
+            var respondent_2_id = 0;
+            var app_ctrl_nbr = Session["bi_app_ctrl_nbr"].ToString();
+            var user_id = Session["user_id"].ToString();
+            var datenow = DateTime.Now.ToString();
+            try
+            {
+                var resx = db.bi_respondent_2_hdr_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (resx == null)
+                {
+                    bi_respondent_2_hdr_tbl res = new bi_respondent_2_hdr_tbl();
+                    res.app_ctrl_nbr                    = app_ctrl_nbr;
+                    res.supervisor_name                 = respondent_data.supervisor_name;
+                    res.supervisor_office_address       = respondent_data.supervisor_office_address;
+                    res.supervisor_date                 = respondent_data.supervisor_date;
+                    res.subordinate_name                = respondent_data.subordinate_name;
+                    res.subordinate_office_address      = respondent_data.subordinate_office_address;
+                    res.subordinate_date                = respondent_data.subordinate_date;
+                    res.peers_name                      = respondent_data.peers_name;
+                    res.peers_office_address            = respondent_data.peers_office_address;
+                    res.peers_date                      = respondent_data.peers_date;
+                    res.clients_name                    = respondent_data.clients_name;
+                    res.clients_office_address          = respondent_data.clients_office_address;
+                    res.clients_date                    = respondent_data.clients_date;
+                    res.interviewed_by                  = respondent_data.interviewed_by;
+                    res.interviewed_date                = respondent_data.interviewed_date;
+                    res.created_dttm                    = datenow;
+                    res.created_by                      = user_id;
+                    res.updated_dttm                    = "";
+                    res.updated_by                      = "";
+                    db.bi_respondent_2_hdr_tbl.Add(res);
+                }
+                else
+                {
+                    resx.supervisor_name = respondent_data.supervisor_name;
+                    resx.supervisor_office_address = respondent_data.supervisor_office_address;
+                    resx.supervisor_date = respondent_data.supervisor_date;
+                    resx.subordinate_name = respondent_data.subordinate_name;
+                    resx.subordinate_office_address = respondent_data.subordinate_office_address;
+                    resx.subordinate_date = respondent_data.subordinate_date;
+                    resx.peers_name = respondent_data.peers_name;
+                    resx.peers_office_address = respondent_data.peers_office_address;
+                    resx.peers_date = respondent_data.peers_date;
+                    resx.clients_name = respondent_data.clients_name;
+                    resx.clients_office_address = respondent_data.clients_office_address;
+                    resx.clients_date = respondent_data.clients_date;
+                    resx.interviewed_by = respondent_data.interviewed_by;
+                    resx.interviewed_date = respondent_data.interviewed_date;
+                    resx.updated_dttm = "";
+                    resx.updated_by = "";
+
+                }
+                db.SaveChanges();
+
+                var respondent = db.bi_respondent_2_hdr_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                respondent_2_id = respondent.respondent_2_id;
+                return JSON2(new { respondent_2_id, icon = icon.success }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult save_respondent_3(bi_respondent_3_hdr_tbl respondent_data)
+        {
+            var respondent_3_id = 0;
+            var app_ctrl_nbr = Session["bi_app_ctrl_nbr"].ToString();
+            var user_id = Session["user_id"].ToString();
+            var datenow = DateTime.Now.ToString();
+            try
+            {
+                
+                var resx = db.bi_respondent_3_hdr_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (resx == null)
+                {
+                    bi_respondent_3_hdr_tbl res = new bi_respondent_3_hdr_tbl();
+                    res.app_ctrl_nbr = app_ctrl_nbr;
+                    res.respondent_name = respondent_data.respondent_name;
+                    res.respondent_contact_number = respondent_data.respondent_contact_number;
+                    res.respondent_date = respondent_data.respondent_date;
+                    res.interviewed_by = respondent_data.interviewed_by;
+                    res.interviewed_date = respondent_data.interviewed_date;
+                    res.created_dttm = datenow;
+                    res.created_by = user_id;
+                    res.updated_dttm = "";
+                    res.updated_by = "";
+                    db.bi_respondent_3_hdr_tbl.Add(res);
+                }
+                else
+                {
+                   
+                    resx.respondent_name = respondent_data.respondent_name;
+                    resx.respondent_contact_number = respondent_data.respondent_contact_number;
+                    resx.respondent_date = respondent_data.respondent_date;
+                    resx.interviewed_by = respondent_data.interviewed_by;
+                    resx.interviewed_date = respondent_data.interviewed_date;
+                    resx.created_dttm = datenow;
+                    resx.created_by = user_id;
+                    resx.updated_dttm = datenow;
+                    resx.updated_by = user_id;
+                }
+                db.SaveChanges();
+
+                var respondent = db.bi_respondent_3_hdr_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                respondent_3_id = respondent.respondent_3_id;
+                return JSON2(new { respondent_3_id, icon = icon.success }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+
+
+
+        public ActionResult get_respondent_data_1(int question_type, string app_ctrl_nbr)
+        {
+            
+            try
+            {
+                if (question_type == 1)
+                {
+                    var respondent_1 = db.bi_respondent_1_hdr_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                    return Json(new { respondent_1, icon = "success" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (question_type == 2)
+                {
+                    var respondent_1 = db.bi_respondent_2_hdr_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                    return Json(new { respondent_1, icon = "success" }, JsonRequestBehavior.AllowGet);
+                }
+                else if(question_type == 3)
+                {
+                    var respondent_1 = db.bi_respondent_3_hdr_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                    return Json(new { respondent_1, icon = "success" }, JsonRequestBehavior.AllowGet);
+                }
+                else {
+                    throw new Exception("Question type undefined!");
+                }
+                
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+       
         protected JsonResult JSON2(object data, JsonRequestBehavior behavior)
         {
             return new JsonResult()

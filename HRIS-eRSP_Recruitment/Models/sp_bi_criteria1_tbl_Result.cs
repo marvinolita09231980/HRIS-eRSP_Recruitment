@@ -10,18 +10,14 @@
 namespace HRIS_eRSP_Recruitment.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class bi_rating_tbl
+    public partial class sp_bi_criteria1_tbl_Result
     {
-        public string app_ctrl_nbr { get; set; }
-        public int question_id { get; set; }
-        public Nullable<decimal> question_rating { get; set; }
+        public int criteria1_id { get; set; }
         public Nullable<int> question_type { get; set; }
-        public Nullable<int> respondent_id { get; set; }
-        public Nullable<System.DateTime> created_dttm { get; set; }
-        public string created_by { get; set; }
-        public Nullable<System.DateTime> updated_dttm { get; set; }
-        public string updated_by { get; set; }
+        public string criteria1_descr { get; set; }
+        public string criteria1_model { get; set; }
+        public decimal average { get; set; }
+        public string comments { get; set; }
     }
 }

@@ -102,7 +102,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<bi_questionnaire_tbl> bi_questionnaire_tbl { get; set; }
         public virtual DbSet<bi_criteria2_tbl> bi_criteria2_tbl { get; set; }
         public virtual DbSet<bi_criteria3_tbl> bi_criteria3_tbl { get; set; }
-        public virtual DbSet<bi_rating_tbl> bi_rating_tbl { get; set; }
         public virtual DbSet<bi_rating_questiontype_tbl> bi_rating_questiontype_tbl { get; set; }
         public virtual DbSet<bi_rating_scale_tbl> bi_rating_scale_tbl { get; set; }
         public virtual DbSet<selected_applicants_tbl> selected_applicants_tbl { get; set; }
@@ -111,6 +110,8 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<bi_respondent_1_hdr_tbl> bi_respondent_1_hdr_tbl { get; set; }
         public virtual DbSet<bi_respondent_2_hdr_tbl> bi_respondent_2_hdr_tbl { get; set; }
         public virtual DbSet<bi_respondent_3_hdr_tbl> bi_respondent_3_hdr_tbl { get; set; }
+        public virtual DbSet<bi_rating_tbl> bi_rating_tbl { get; set; }
+        public virtual DbSet<vw_bi_criteria1_tbl> vw_bi_criteria1_tbl { get; set; }
     
         [DbFunction("HRIS_RCTEntities", "func_psb_sked_mbr_tbl_distinct")]
         public virtual IQueryable<func_psb_sked_mbr_tbl_distinct_Result> func_psb_sked_mbr_tbl_distinct()
@@ -2742,27 +2743,6 @@ namespace HRIS_eRSP_Recruitment.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_applicantlist_from_APL_Result>("sp_get_applicantlist_from_APL", p_online_apl_idParameter, p_employment_typeParameter, p_budget_codeParameter, p_item_noParameter, p_starts_withParameter, p_hiring_periodParameter);
         }
     
-        public virtual ObjectResult<sp_review_applicant_tbl_list3_Result> sp_review_applicant_tbl_list3(string p_item_no, string p_employmenttype, string p_budget_code, string p_hiring_period)
-        {
-            var p_item_noParameter = p_item_no != null ?
-                new ObjectParameter("p_item_no", p_item_no) :
-                new ObjectParameter("p_item_no", typeof(string));
-    
-            var p_employmenttypeParameter = p_employmenttype != null ?
-                new ObjectParameter("p_employmenttype", p_employmenttype) :
-                new ObjectParameter("p_employmenttype", typeof(string));
-    
-            var p_budget_codeParameter = p_budget_code != null ?
-                new ObjectParameter("p_budget_code", p_budget_code) :
-                new ObjectParameter("p_budget_code", typeof(string));
-    
-            var p_hiring_periodParameter = p_hiring_period != null ?
-                new ObjectParameter("p_hiring_period", p_hiring_period) :
-                new ObjectParameter("p_hiring_period", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_review_applicant_tbl_list3_Result>("sp_review_applicant_tbl_list3", p_item_noParameter, p_employmenttypeParameter, p_budget_codeParameter, p_hiring_periodParameter);
-        }
-    
         public virtual ObjectResult<sp_chiefexecutive_list_Result> sp_chiefexecutive_list(string p_item_no, string p_psb_ctrl_nbr, string p_app_status)
         {
             var p_item_noParameter = p_item_no != null ?
@@ -2871,6 +2851,49 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_item_no", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<string>("[HRIS_RCTEntities].[func_panels_perapplicant](@p_app_ctrl_nbr, @p_psb_ctrl_nbr, @p_item_no)", p_app_ctrl_nbrParameter, p_psb_ctrl_nbrParameter, p_item_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_bi_criteria1_tbl_Result> sp_bi_criteria1_tbl(string p_app_ctrl_nbr, Nullable<int> p_question_type)
+        {
+            var p_app_ctrl_nbrParameter = p_app_ctrl_nbr != null ?
+                new ObjectParameter("p_app_ctrl_nbr", p_app_ctrl_nbr) :
+                new ObjectParameter("p_app_ctrl_nbr", typeof(string));
+    
+            var p_question_typeParameter = p_question_type.HasValue ?
+                new ObjectParameter("p_question_type", p_question_type) :
+                new ObjectParameter("p_question_type", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_bi_criteria1_tbl_Result>("sp_bi_criteria1_tbl", p_app_ctrl_nbrParameter, p_question_typeParameter);
+        }
+    
+        public virtual ObjectResult<sp_review_applicant_tbl_list3_Result> sp_review_applicant_tbl_list3(string p_item_no, string p_employmenttype, string p_budget_code, string p_hiring_period)
+        {
+            var p_item_noParameter = p_item_no != null ?
+                new ObjectParameter("p_item_no", p_item_no) :
+                new ObjectParameter("p_item_no", typeof(string));
+    
+            var p_employmenttypeParameter = p_employmenttype != null ?
+                new ObjectParameter("p_employmenttype", p_employmenttype) :
+                new ObjectParameter("p_employmenttype", typeof(string));
+    
+            var p_budget_codeParameter = p_budget_code != null ?
+                new ObjectParameter("p_budget_code", p_budget_code) :
+                new ObjectParameter("p_budget_code", typeof(string));
+    
+            var p_hiring_periodParameter = p_hiring_period != null ?
+                new ObjectParameter("p_hiring_period", p_hiring_period) :
+                new ObjectParameter("p_hiring_period", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_review_applicant_tbl_list3_Result>("sp_review_applicant_tbl_list3", p_item_noParameter, p_employmenttypeParameter, p_budget_codeParameter, p_hiring_periodParameter);
+        }
+    
+        public virtual ObjectResult<sp_psb_action_list_Result> sp_psb_action_list(string p_psb_ctrl_nbr)
+        {
+            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
+                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
+                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_psb_action_list_Result>("sp_psb_action_list", p_psb_ctrl_nbrParameter);
         }
     }
 }

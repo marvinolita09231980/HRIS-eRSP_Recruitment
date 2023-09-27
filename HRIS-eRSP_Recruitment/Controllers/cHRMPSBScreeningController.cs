@@ -406,7 +406,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 psb.psb_status = 2;
                 db.SaveChanges();
                 var psb_status = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault().psb_status;
-                return JSON(new { message = fetch.success, icon = icon.success, psb_status}, JsonRequestBehavior.AllowGet);
+                var psb_action_btn = db.sp_psb_action_list(psb_ctrl_nbr).ToList();
+                return JSON(new { psb_action_btn,message = fetch.success, icon = icon.success, psb_status}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -420,8 +421,10 @@ namespace HRIS_eRSP_Recruitment.Controllers
             db.Database.CommandTimeout = Int32.MaxValue;
             try
             {
+                
                 var psb_status = db.sp_set_psbscreening_start(psb_ctrl_nbr).FirstOrDefault();
-                return JSON(new { message = fetch.success, icon = icon.success, psb_status }, JsonRequestBehavior.AllowGet);
+                var psb_action_btn = db.sp_psb_action_list(psb_ctrl_nbr).ToList();
+                return JSON(new { psb_action_btn, message = fetch.success, icon = icon.success, psb_status }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -438,7 +441,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 var psb = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                 psb.psb_status = 1;
                 db.SaveChanges();
-                return JSON(new { message = fetch.success, icon = icon.success, psb_status = 1 }, JsonRequestBehavior.AllowGet);
+                var psb_action_btn = db.sp_psb_action_list(psb_ctrl_nbr).ToList();
+                return JSON(new { psb_action_btn, message = fetch.success, icon = icon.success, psb_status = 1 }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -843,10 +847,10 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var user_id = Session["user_id"].ToString();
             try
             {
-
+                var psb_action_btn = db.sp_psb_action_list(psb_ctrl_nbr).ToList();
                 var items = db.vw_psb_sked_item_nbrs_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr && a.employment_type == employment_type && a.budget_code == budget_code).ToList();
                 
-                return JSON(new { message = fetch.success, icon = icon.success, items}, JsonRequestBehavior.AllowGet);
+                return JSON(new { psb_action_btn, message = fetch.success, icon = icon.success, items}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

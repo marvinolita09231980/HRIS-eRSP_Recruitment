@@ -595,6 +595,9 @@
     <Compile Include="Models\sp_available_item_tbl_apl_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_bi_criteria1_tbl_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_budgetyears_tbl_combolist1_RCT_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -793,6 +796,9 @@
     <Compile Include="Models\sp_psbsked_panel_list_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_psb_action_list_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_psb_applicant_dtl_list_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -938,6 +944,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_available_item_tbl_active.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_bi_criteria1_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_budgetyears_tbl.cs">

@@ -25,7 +25,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     s.item_nbr1 = ""
     s.department_code1 = ""
     s.rowindex_forexamtimeset = ""
-    
+   
 	s.main_edit = false
 	s.dtl_edit = false
 	s.year = []
@@ -58,10 +58,17 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     var budget_year_ce = []
     var budget_year_jo = []
 
+    s.show
+
 
     //for add item to psb object
     s.appdata_row = {}
-    
+    //for email sent show button
+    s.acknowledge = false
+    s.qualified_exam = false
+    s.not_qualified_exam = false
+    s.for_hrmpsb = false
+    s.top5 = false
 
 	s.month = [
 	   { id: "01", text: "January" },
@@ -219,7 +226,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                         "mRender": function (data, type, full, row) {
                         return '<div>'+
                                 '<button class="btn btn-info btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Review Application" ng-click="appl_review(' + row["row"] + ')">REVIEW&nbsp;<i class="fa fa-plus"></i></button>' +
-                                '<button class="btn btn-success btn-sm btn-grid" id="btntopsb' + row["row"] + '" type="button" data-toggle="tooltip" data-placement="top" title="Add to PSB" ng-click="addtopsb(' + row["row"] + ')">' + s.fn_itemstatuslabel(full["item_in_psb"]) + '&nbsp;<i id="icntopsb' + row["row"] + '" class="fa ' + s.fn_itemstatus(full["item_in_psb"]) + '"></i></button>'+
+                                '<button class="btn btn-success btn-sm btn-grid" ng-disabled="'+full+'" id="btntopsb' + row["row"] + '" type="button" data-toggle="tooltip" data-placement="top" title="Add to PSB" ng-click="addtopsb(' + row["row"] + ')">' + s.fn_itemstatuslabel(full["item_in_psb"]) + '&nbsp;<i id="icntopsb' + row["row"] + '" class="fa ' + s.fn_itemstatus(full["item_in_psb"]) + '"></i></button>'+
                                 '<div class="btn-group">' +
                                     '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">MORE...</button>' +
                                     '<ul class="dropdown-menu ">'+
@@ -229,7 +236,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                         '<li><a ng-click="updatefromqsapl(' + row["row"] + ')">UPDATE QS ONLINE APPLICATION</a></li>' +
                                         '<li><a ng-click="goToDocs(' + row["row"] + ',2)">UPLOADED DOCUMENTS</a></li>' +
                                         '<li><a ng-click="goToDocs(' + row["row"] + ',1)">PRINT SCORE SHEET</a></li>' +
-                                        '<li><a ng-click="composeEmail(' + row["row"] + ')">SEND EMAIL NOTIFICATION</a></li>' +
+                                        //'<li><a ng-click="composeEmail(' + row["row"] + ')">SEND EMAIL NOTIFICATION</a></li>' +
                                         '<li><a ng-click="btn_show_pds(' + row["row"] + ')">PRINT PDS FROM ONLINE APPLICATION</a></li>' +
                                         '<li ng-show = "' + full["app_status"] +'==1" style="color:red;"><a ng-click="deleteFromReview(' + row["row"] + ')">DELETE APPLICANTS</a></li>' +
                                     '</ul>' +
@@ -238,11 +245,15 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                     '<button class="btn btn-danger btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">SEND EMAIL</button>' +
                                     '<ul class="dropdown-menu ">' +
                                         '<li><a ng-click="sendEmailNotification(' + row["row"] + ',1)">Acknowledge Email</a></li>' +
-                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',2)">Not Qualified for Online Examination</a></li>' +
-                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',3)">Notification for Online Examination</a></li>' +
-                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',5)">Notification for HRMPSB Screening</a></li>' +
-                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',6)">Notification not in Top 5 applicants</a></li>' +
-                                    '</ul>' +
+                                        //'<li><a ng-click="sendEmailNotification(' + row["row"] + ',2)">Not Qualified for Online Examination</a></li>' +
+                                        //'<li><a ng-click="sendEmailNotification(' + row["row"] + ',3)">Notification for Online Examination</a></li>' +
+                                        //'<li><a ng-click="sendEmailNotification(' + row["row"] + ',5)">Notification for HRMPSB Screening</a></li>' +
+                                        //'<li><a ng-click="sendEmailNotification(' + row["row"] + ',6)">Notification not in Top 5 applicants</a></li>' +
+                                        '<li ng-if="' + full["app_status"] +' == 1"><a ng-click="sendEmailNotification(' + row["row"] + ',2)">Not Qualified for Online Examination</a></li>' +
+                                        '<li ng-if="' + full["app_status"] +' == 1"><a ng-click="sendEmailNotification(' + row["row"] + ',3)">Notification for Online Examination</a></li>' +
+                                        '<li ng-if="' + full["app_status"] +' == 2"><a ng-click="sendEmailNotification(' + row["row"] + ',5)">Notification for HRMPSB Screening</a></li>' +
+                                        '<li ng-if="' + full["app_status"] +' == 3"><a ng-click="sendEmailNotification(' + row["row"] + ',6)">Notification not in Top 5 applicants</a></li>' +
+                                     '</ul>' +
                                 '</div>' +
                             '<button class="btn btn-info btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" ng-click="viewDates(' + row["row"] + ')">DATES</button>' +
                             '<div class="btn-group">' +

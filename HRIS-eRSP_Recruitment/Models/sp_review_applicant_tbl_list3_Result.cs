@@ -22,8 +22,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public string birth_date { get; set; }
         public Nullable<int> age { get; set; }
         public string gender { get; set; }
-        public string gender_descr { get; set; }
-        public string civil_status_descr { get; set; }
         public Nullable<bool> item_in_psb { get; set; }
         public Nullable<bool> psb_concluded { get; set; }
         public string last_name { get; set; }
@@ -36,9 +34,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public string item_no { get; set; }
         public string applicant_name { get; set; }
         public string employment_type { get; set; }
-        public string employment_type_descr { get; set; }
         public string app_status { get; set; }
-        public string app_status_short_descr { get; set; }
         public Nullable<bool> is_employee { get; set; }
         public string budget_code { get; set; }
         public string empl_id { get; set; }
@@ -50,9 +46,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public string email_address { get; set; }
         public string department_name1 { get; set; }
         public string department_code { get; set; }
-        public string subdepartment_name1 { get; set; }
-        public string division_name1 { get; set; }
-        public string section_name1 { get; set; }
         public string qs_eduction { get; set; }
         public string qs_work_experience { get; set; }
         public string qs_training { get; set; }

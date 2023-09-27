@@ -102,68 +102,52 @@
                 <div class="vote-item">
 
                     <form id="questions" novalidate>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div style="float:right;">
-                                    <span class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                        <input name="minDate" type="text" id="accomplished_date" ng-model="accomplished_date" class="form-control text-center dateMinVal removeReqDate" required>
-                                        <div class="input-group-addon">
-                                            <span class="fa fa-calendar"></span>
-                                        </div>
-                                    </span>
-                                    <small class="text-center period_from hidden pull-right" style="font-size:12px;height:15px;color:red"><i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
-                                </div>
-                                <div style="float:right;">
-                                    <span class="pull-left font-bold" style="margin-right:10px;">Accomplished Date:</span>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row" ng-repeat="lst1 in bi_criteria1_list" style="border-bottom:2px solid green;padding-bottom:5px;margin-bottom:5px;">
                             <div><h2>{{lst1.criteria1_descr}}</h2></div>
+                           
+                                <div class="col-md-7 m-l-xl">
+                                    <div class="row m-l-lg m-t-md m-b-md" ng-repeat="q1 in bi_questions_list" ng-if="q1.question_level == 1 && q1.criteria1_id == lst1.criteria1_id">
+                                        <div class="vote-actions">
+                                            <button class="btn btn-success" ng-click="setRatingUp_1(q1.model_name,q1.rating_scale,q1.question_level,q1.criteria1_model)" style="width:4.6em !important">
+                                                <i class="fa fa-chevron-up"> </i>
+                                            </button>
+                                            <b>
+                                                <input type="text" maxlength="3" class="form-control text-success" id="{{q1.model_name}}" value="{{q1.question_rating}}" style="width:2.6em !important;font-size:25px !important;" ng-keyup="limitvalue(q1.rating_scale,q1.model_name)" include />
+                                            </b>
+                                            <button class="btn btn-danger" ng-click="setRatingDown_1(q1.model_name,q1.question_level,q1.criteria1_model)" style="width:4.6em !important">
+                                                <i class="fa fa-chevron-down"> </i>
+                                            </button>
+                                        </div>
+                                        <div class="m-l-lg m-t-lg">
+                                            <a class="vote-title" style="font-size:20px !important">
+                                                {{q1.question_descr}}
+                                            </a>
+                                        </div>
 
-                            <div class="col-md-7 m-l-xl m-t-md m-b-md" ng-repeat="q1 in bi_questions_list" ng-if="q1.question_level == 1 && q1.criteria1_id == lst1.criteria1_id">
-                                <div class="row m-l-lg">
-                                    <div class="vote-actions">
-                                        <button class="btn btn-success" ng-click="setRatingUp_1(q1.model_name,q1.rating_scale,q1.question_level,q1.criteria1_model)" style="width:4.6em !important">
-                                            <i class="fa fa-chevron-up"> </i>
-                                        </button>
-                                        <b>
-                                            <input type="text" maxlength="3" class="form-control text-success" id="{{q1.model_name}}" value="{{q1.question_rating}}" style="width:2.6em !important;font-size:25px !important;" ng-keyup="limitvalue(q1.rating_scale,q1.model_name)" include />
-                                        </b>
-                                        <button class="btn btn-danger" ng-click="setRatingDown_1(q1.model_name,q1.question_level,q1.criteria1_model)" style="width:4.6em !important">
-                                            <i class="fa fa-chevron-down"> </i>
-                                        </button>
-                                    </div>
-                                    <div class="m-l-lg m-t-lg">
-                                        <a class="vote-title" style="font-size:20px !important">
-                                            {{q1.question_descr}}
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-4" ng-if="question_type == 1" style="position:relative !important;">
-
-                                <div class="col-md-4 widget yellow-bg p-lg text-center">
-                                    <div class="m-b-md">
-                                        <i class="fa fa-star fa-4x"></i>
-                                        <h1 class="m-xs" id="{{lst1.criteria1_model}}"></h1>
-                                        <h3 class="font-bold no-margins">
-                                            Average
-                                        </h3>
-                                       
                                     </div>
                                 </div>
-                                <div class="col-md-7" style="position:relative !important;"><textarea class="autoresizing textareaOnInput" id="comment{{lst1.criteria1_model}}"></textarea></div>
-                            </div>
+                                <div class="col-md-4" ng-if="question_type == 1" style="position:relative !important;">
 
+                                    <div class="col-md-3 widget yellow-bg p-lg text-center m-t-n-xs">
+                                        <div>
+                                            <i class="fa fa-star fa-3x"></i>
+                                            <h1 class="m-xs" id="{{lst1.criteria1_model}}"></h1>
+                                            <h3 class="font-bold no-margins">
+                                                Average
+                                            </h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9"  style="position:relative !important;"><textarea class="form-control btn-block autoresizing textareaOnInput" id="comment{{lst1.criteria1_model}}"></textarea></div>
+                                </div>
+                           
 
                             <div ng-repeat="lst2 in bi_criteria2_list" ng-if="lst2.criteria1_id == lst1.criteria1_id ">
 
-                                <div class="m-l-lg"><h3>{{lst2.criteria2_descr}}</h3></div>
+                                <div class="col-md-12 m-l-lg pull-left"><h3>{{lst2.criteria2_descr}}</h3></div>
 
-                                <div class="col-md-12 m-l-xl m-t-md m-b-md" ng-repeat="q2 in bi_questions_list" ng-if="q2.question_level == 2 && q2.criteria2_id == lst2.criteria2_id">
-                                    <div class="row m-l-lg">
+                                <div class="col-md-12 m-l-xl">
+                                    <div class="row m-l-lg m-t-md m-b-md"  ng-repeat="q2 in bi_questions_list" ng-if="q2.question_level == 2 && q2.criteria2_id == lst2.criteria2_id">
                                         <div class="vote-actions">
                                             <button class="btn btn-success" ng-click="setRatingUp(q2.model_name,q2.rating_scale,q1.question_level)" style="width:4.6em !important">
                                                 <i class="fa fa-chevron-up"> </i>
@@ -185,13 +169,13 @@
                                 </div>
 
                                 <div class="m-l-lg" ng-repeat="lst3 in bi_criteria3_list" ng-if="lst3.criteria2_id == lst2.criteria2_id">
-                                    <div class="m-l-lg">
+                                    <div class="col-md-12 m-l-lg pull-left">
                                         <h4>
                                             {{lst3.criteria3_descr}}
                                         </h4>
                                     </div>
-                                    <div class="col-md-12 m-l-xl m-t-md m-b-md" ng-repeat="q3 in bi_questions_list" ng-if="q3.question_level == 3 && q3.criteria3_id == lst3.criteria3_id">
-                                        <div class="row m-l-lg">
+                                    <div class="col-md-12 m-l-xl">
+                                        <div class="row m-l-lg m-t-md m-b-md"  ng-repeat="q3 in bi_questions_list" ng-if="q3.question_level == 3 && q3.criteria3_id == lst3.criteria3_id">
                                             <div class="vote-actions">
                                                 <button class="btn btn-success" ng-click="setRatingUp(q3.model_name,q3.rating_scale,q1.question_level)" style="width:4.6em !important">
                                                     <i class="fa fa-chevron-up"> </i>
@@ -269,13 +253,14 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
-
-                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
-                                                    <input type="text" id="supervisor_date" ng-model="supervisor_date" class="form-control" required include>
-                                                    <span class="input-group-addon">
-                                                        <span class="fa fa-clock-o"></span>
-                                                    </span>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <label class="font-noraml"></label>
+                                                    <div class="input-group date">
+                                                        <input type="text" id="supervisor_date" ng-model="supervisor_date" class="form-control" required include>
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
                                                 </div>
+                                                
                                             </div>
                                         </div>
 
@@ -295,12 +280,14 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
-                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
-                                                    <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
-                                                    <span class="input-group-addon">
-                                                        <span class="fa fa-clock-o"></span>
-                                                    </span>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <label class="font-noraml"></label>
+                                                    <div class="input-group date">
+                                                        <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
                                                 </div>
+                                               
                                             </div>
                                         </div>
 
@@ -369,13 +356,14 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
-
-                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
-                                                    <input type="text" id="supervisor_date" ng-model="supervisor_date" class="form-control" required include>
-                                                    <span class="input-group-addon">
-                                                        <span class="fa fa-clock-o"></span>
-                                                    </span>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <label class="font-noraml"></label>
+                                                    <div class="input-group date">
+                                                        <input type="text" id="supervisor_date" ng-model="supervisor_date" class="form-control" required include>
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                         <h2>Subordinate</h2>
@@ -395,8 +383,9 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Office/Address :</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <input type="text" id="subordinate_office_address" ng-model="subordinate_office_address" class="form-control" include>
+                                                    <textarea type="text" id="subordinate_office_address" ng-model="subordinate_office_address" class="form-control" include></textarea>
                                                 </div>
+                                                
 
                                             </div>
                                         </div>
@@ -405,12 +394,12 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
-
-                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
-                                                    <input type="text" id="subordinate_date" ng-model="subordinate_date" class="form-control" required include>
-                                                    <span class="input-group-addon">
-                                                        <span class="fa fa-clock-o"></span>
-                                                    </span>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <label class="font-noraml"></label>
+                                                    <div class="input-group date">
+                                                        <input type="text" id="subordinate_date" ng-model="subordinate_date" class="form-control" required include>
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -431,7 +420,7 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Office/Address :</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <input type="text" id="peers_office_address" ng-model="peers_office_address" class="form-control" include>
+                                                    <textarea type="text" id="peers_office_address" ng-model="peers_office_address" class="form-control" include></textarea>
                                                 </div>
 
                                             </div>
@@ -441,12 +430,12 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
-
-                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
-                                                    <input type="text" id="peers_date" ng-model="peers_date" class="form-control" required include>
-                                                    <span class="input-group-addon">
-                                                        <span class="fa fa-clock-o"></span>
-                                                    </span>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <label class="font-noraml"></label>
+                                                    <div class="input-group date">
+                                                        <input type="text" id="peers_date" ng-model="peers_date" class="form-control" required include>
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -467,7 +456,7 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Office/Address :</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <input type="text" id="peers_office_address" ng-model="clients_office_address" class="form-control" include>
+                                                    <textarea type="text" id="clients_office_address" ng-model="clients_office_address" class="form-control" include></textarea>
                                                 </div>
 
                                             </div>
@@ -477,13 +466,14 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
-
-                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
-                                                    <input type="text" id="peers_date" ng-model="clients_date" class="form-control" required include>
-                                                    <span class="input-group-addon">
-                                                        <span class="fa fa-clock-o"></span>
-                                                    </span>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <label class="font-noraml"></label>
+                                                    <div class="input-group date">
+                                                        <input type="text" id="clients_date" ng-model="clients_date" class="form-control" required include>
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
                                                 </div>
+                                               
                                             </div>
                                         </div>
 
@@ -503,12 +493,14 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
-                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
-                                                    <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
-                                                    <span class="input-group-addon">
-                                                        <span class="fa fa-clock-o"></span>
-                                                    </span>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <label class="font-noraml"></label>
+                                                    <div class="input-group date">
+                                                        <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
                                                 </div>
+                                               
                                             </div>
                                         </div>
 
@@ -555,39 +547,34 @@
                                         <div class="row m-top-10">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Name Of Respondent:</span><span style="" class="fa fa-book pull-right m-r-sm"></span></button>
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Name Of Respondent:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                    <input type="text" id="respondent_name" ng-model="respondent_name" class="form-control" include>
+                                                    <input type="text" id="respondent_name" ng-model="respondent_name" class="form-control" required include>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row m-top-10">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Office :</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Contact Number :</span></button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <input type="text" id="respondent_contact_number" ng-model="respondent_contact_number" class="form-control" required include>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-top-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
                                                     <label class="font-noraml"></label>
                                                     <div class="input-group date">
-                                                        <input type="text" id="res_contact_number" ng-model="respondent_contact_number" class="form-control" include>
+                                                        <input type="text" id="respondent_date" ng-model="respondent_date" class="form-control" required include>
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="row m-top-10">
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
-                                                </div>
-
-                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
-                                                    <input type="text" id="res_date" ng-model="respondent_date" class="form-control" required include>
-                                                    <span class="input-group-addon">
-                                                        <span class="fa fa-clock-o"></span>
-                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -596,23 +583,24 @@
                                         <div class="row m-top-10">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Interviewed By :</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Interviewed By :</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <input type="text" id="interviewed_by" ng-model="interviewed_by" class="form-control" include>
+                                                    <input type="text" id="interviewed_by" ng-model="interviewed_by" class="form-control" required include>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row m-top-10">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
-                                                <div id="examclockpicker" class="col-xs-12 col-sm-12 col-md-7 col-lg-7  input-group clockpicker" data-autoclose="true">
-                                                    <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
-                                                    <span class="input-group-addon">
-                                                        <span class="fa fa-clock-o"></span>
-                                                    </span>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
+                                                    <label class="font-noraml"></label>
+                                                    <div class="input-group date">
+                                                        <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

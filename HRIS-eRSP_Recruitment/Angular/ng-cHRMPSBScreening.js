@@ -56,6 +56,8 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
 
     }
 
+    s.psb_action_btn = []
+
 
     s.encode_idv = function (d, a, e, b, c, f) {
         c = "";
@@ -537,7 +539,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                     budget_code: s.budget_code
                 }).then(function (d) {
 
-                    console.log(d.data.items2)
+                    s.psb_action_btn = d.data.psb_action_btn
                     s.psbsched_item = d.data.items
                     localStorage["items"] = JSON.stringify(d.data.items)
                     cs.loading("hide")
@@ -652,6 +654,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
         }).then(function (d) {
             if (d.data.icon == "success") {
                 s.psb_status = d.data.psb_status
+                s.psb_action_btn = d.data.psb_action_btn
                 cs.spinnerAdd("ongoing_psb", "fa fa-check-circle")
                 $("#start_psb_modal").modal("hide")
               
@@ -688,6 +691,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                             }).then(function (d) {
                                 if (d.data.icon == "success") {
                                     s.psb_status = d.data.psb_status
+                                    s.psb_action_btn = d.data.psb_action_btn
                                     cs.spinnerAdd("ongoing_psb", "fa fa-check-circle")
                                     cs.DisabledAllFields2(["employment_type", "budget_code", "psb_ctrl_nbr"])
                                 }
@@ -722,6 +726,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
         }).then(function (d) {
             if (d.data.icon == "success") {
                 s.psb_status = d.data.psb_status
+                s.psb_action_btn = d.data.psb_action_btn
                 $("#conclude_psb").modal("hide")
                 swal("HRMPSB Screening has concluded", { icon: "success" })
                 cs.EnabledAllFields2(["employment_type", "budget_code", "psb_ctrl_nbr"])
