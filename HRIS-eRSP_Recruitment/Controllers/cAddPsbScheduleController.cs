@@ -12,7 +12,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
     public class cAddPsbScheduleController : CustomController
     {
         HRIS_RCTEntities db = new HRIS_RCTEntities();
-        HRIS_APLEntities db2 = new HRIS_APLEntities();
+       
         User_Menu um;
         RCT_Common rct = new RCT_Common();
         // GET: cAddPsbSchedule

@@ -491,43 +491,43 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Key>
             <PropertyRef Name="empl_id" />
           </Key>
-          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="bir_tin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="empl_photo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="umid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="birth_date" Type="DateTime" Precision="0" />
-          <Property Name="csc_eligibility" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="bir_tin" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="empl_photo" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="umid" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="birth_date" Precision="0" Type="DateTime" />
+          <Property Name="csc_eligibility" MaxLength="30" FixedLength="false" Unicode="false" Type="String" />
           <Property Name="emp_status" Type="Boolean" />
-          <Property Name="civil_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="status_details" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="date_original_appointment" Type="DateTime" Precision="0" />
-          <Property Name="emp_height" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="emp_weight" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="citizenship" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="maiden_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="father_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="mother_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="empl_photo_img" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="spouse_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_occupation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_employer_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_business_address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_tel_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="father_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="father_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="father_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="father_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="mother_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="mother_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="mother_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="civil_status" MaxLength="1" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="status_details" MaxLength="1" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="gender" MaxLength="1" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="date_original_appointment" Precision="0" Type="DateTime" />
+          <Property Name="emp_height" MaxLength="10" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="emp_weight" MaxLength="10" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="citizenship" MaxLength="30" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="birth_place" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="maiden_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="father_birth_place" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="mother_birth_place" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="empl_photo_img" MaxLength="Max" FixedLength="false" Type="Binary" />
+          <Property Name="spouse_last_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="spouse_first_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="spouse_middle_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="spouse_suffix_name" MaxLength="5" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="spouse_occupation" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="spouse_employer_name" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="spouse_business_address" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="spouse_tel_no" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="father_last_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="father_middle_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="father_first_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="father_suffix_name" MaxLength="5" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="mother_last_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="mother_middle_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="mother_first_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
           <Property Name="citizenship_type" Type="Boolean" />
           <Property Name="citizenship_nature" Type="Boolean" />
-          <Property Name="citizenship_country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="citizenship_country" MaxLength="25" FixedLength="false" Unicode="false" Type="String" />
         </EntityType>
         <EntityType Name="personnel_usersprofile_tbl">
           <Key>

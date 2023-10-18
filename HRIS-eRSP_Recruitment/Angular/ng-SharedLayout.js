@@ -46,51 +46,52 @@ ng_eRSP_App.controller("SharedLayoutCtrlr", function ($scope, $http, $filter) {
             s.budget_year = d.data.budgetyear
             s.employment_type = d.data.employment_type
             s.budget_code = d.data.budget_code
-            localStorage["username"] = d.data.username
-            localStorage["photo"] = d.data.photo
-            localStorage["budgetyear"] = JSON.stringify(d.data.budgetyear); 
-            localStorage["employment_type"] = d.data.employment_type
-            localStorage["budget_code"] = d.data.budget_code
+            //localStorage["username"] = d.data.username
+            //localStorage["photo"] = d.data.photo
+            //localStorage["budgetyear"] = JSON.stringify(d.data.budgetyear); 
+            //localStorage["employment_type"] = d.data.employment_type
+            //localStorage["budget_code"] = d.data.budget_code
         })
     }
     var init = function () {
-        if (localStorage["username"]) {
-            if (localStorage["expanded"]) {
-                s.expanded = JSON.parse(localStorage["expanded"])
-                setTimeout(function () {
-                    s.MenuList = SetMenuList(s.expanded, JSON.parse(localStorage["MenuList"]))
+        //if (localStorage["username"]) {
+        //    if (localStorage["expanded"]) {
+        //        s.expanded = JSON.parse(localStorage["expanded"])
+        //        setTimeout(function () {
+        //            s.MenuList = SetMenuList(s.expanded, JSON.parse(localStorage["MenuList"]))
                     
-                    s.$apply();
-                }, 50)
+        //            s.$apply();
+        //        }, 50)
                
-            }
-            else {
-                setTimeout(function () {
-                    s.MenuList = SetMenuList(null, JSON.parse(localStorage["MenuList"]))
-                    s.$apply();
-                }, 50)
-            }
+        //    }
+        //    else {
+        //        setTimeout(function () {
+        //            s.MenuList = SetMenuList(null, JSON.parse(localStorage["MenuList"]))
+        //            s.$apply();
+        //        }, 50)
+        //    }
           
-            s.username = localStorage["username"]
+        //    s.username = localStorage["username"]
 
-            var photo = localStorage["photo"]
+        //    var photo = localStorage["photo"]
 
-            if (photo == null) {
-                s.imgprofile = "../ResourcesImages/149071.png";
-            }
-            else {
-                s.imgprofile = photo;
-            }
+        //    if (photo == null) {
+        //        s.imgprofile = "../ResourcesImages/149071.png";
+        //    }
+        //    else {
+        //        s.imgprofile = photo;
+        //    }
 
-            //s.budget_year = JSON.parse(localStorage["budgetyear"])
-            s.employment_type = localStorage["employment_type"]
-            s.budget_code = localStorage["budget_code"]
+        //    //s.budget_year = JSON.parse(localStorage["budgetyear"])
+        //    s.employment_type = localStorage["employment_type"]
+        //    s.budget_code = localStorage["budget_code"]
 
             
-        }
-        else {
-            GetMenuList()
-        }
+        //}
+        //else {
+        //    GetMenuList()
+        //}
+        GetMenuList()
     }
     function SetMenuList(expanded, menulist) {
        
