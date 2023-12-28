@@ -5,7 +5,7 @@ ng_eRSP_App.controller("cAppInfoAttachDetails_Ctrlr", function ($scope, $http, $
     var s = $scope
     var h = $http
 
-    s.header_title = "Applicant Attachement"
+    s.header_title = "Applicant Attachment"
     s.modal = 1
     s.rowLen = ""
     s.doc_type = ""

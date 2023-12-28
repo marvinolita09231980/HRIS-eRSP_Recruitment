@@ -137,6 +137,8 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="highest_lvl_earned" Type="varchar" MaxLength="50" />
           <Property Name="year_graduated" Type="varchar" MaxLength="20" />
           <Property Name="schlr_acdmic_rcvd" Type="varchar" MaxLength="150" />
+          <Property Name="school_id" Type="int" />
+          <Property Name="courses_id" Type="int" />
         </EntityType>
         <EntityType Name="personnel_learnanddevt_tbl">
           <Key>
@@ -208,6 +210,10 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="citizenship_type" Type="bit" />
           <Property Name="citizenship_nature" Type="bit" />
           <Property Name="citizenship_country" Type="varchar" MaxLength="25" />
+          <Property Name="ethnicity_id" Type="int" />
+          <Property Name="religion_id" Type="int" />
+          <Property Name="pwd_type_id" Type="int" />
+          <Property Name="gender2" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="personnel_usersprofile_tbl">
           <Key>
@@ -292,6 +298,9 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Parameter Name="p_budget_code" Type="varchar" Mode="In" />
           <Parameter Name="p_employment_type" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_activate_availableitemapl_all" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_ctrl_no" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_deactive_availableitemapl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_ctrl_no" Type="varchar" Mode="In" />
           <Parameter Name="p_item_no" Type="varchar" Mode="In" />
@@ -348,9 +357,6 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <FunctionImport Name="sp_remove_availableitemhdrdtlapl">
           <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_activate_availableitemapl_all">
-          <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="personnel_children_tbl" EntityType="HRIS_APLModel.personnel_children_tbl" />
           <EntitySet Name="personnel_conflict_tbl" EntityType="HRIS_APLModel.personnel_conflict_tbl" />
           <EntitySet Name="personnel_contact_id_tbl" EntityType="HRIS_APLModel.personnel_contact_id_tbl" />
@@ -358,7 +364,6 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <EntitySet Name="personnel_educ_tbl" EntityType="HRIS_APLModel.personnel_educ_tbl" />
           <EntitySet Name="personnel_learnanddevt_tbl" EntityType="HRIS_APLModel.personnel_learnanddevt_tbl" />
           <EntitySet Name="personnel_register_tbl" EntityType="HRIS_APLModel.personnel_register_tbl" />
-          <EntitySet Name="personnel_tbl" EntityType="HRIS_APLModel.personnel_tbl" />
           <EntitySet Name="personnel_usersprofile_tbl" EntityType="HRIS_APLModel.personnel_usersprofile_tbl" />
           <EntitySet Name="personnel_voluntarywork_tbl" EntityType="HRIS_APLModel.personnel_voluntarywork_tbl" />
           <EntitySet Name="personnel_workexprnce_tbl" EntityType="HRIS_APLModel.personnel_workexprnce_tbl" />
@@ -366,7 +371,6 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <EntitySet Name="personnelnames_tbl" EntityType="HRIS_APLModel.personnelnames_tbl" />
           <EntitySet Name="available_item_hdr_tbl" EntityType="HRIS_APLModel.available_item_hdr_tbl" />
           <EntitySet Name="available_item_tbl" EntityType="HRIS_APLModel.available_item_tbl" />
-          <EntitySet Name="adds_images_tbl" EntityType="HRIS_APLModel.adds_images_tbl" />
           <FunctionImport Name="sp_deactive_availableitemaplall">
           <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
           </FunctionImport>
@@ -389,6 +393,11 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="onlineApplicants_register_tbl" EntityType="HRIS_APLModel.onlineApplicants_register_tbl" />
+          <EntitySet Name="personnel_tbl" EntityType="HRIS_APLModel.personnel_tbl" />
+          <FunctionImport Name="sp_activate_availableitemapl_all">
+          <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="adds_images_tbl" EntityType="HRIS_APLModel.adds_images_tbl" />
         </EntityContainer>
         <EntityType Name="personnel_children_tbl">
           <Key>
@@ -457,6 +466,8 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="highest_lvl_earned" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="year_graduated" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="schlr_acdmic_rcvd" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="school_id" Type="Int32" />
+          <Property Name="courses_id" Type="Int32" />
         </EntityType>
         <EntityType Name="personnel_learnanddevt_tbl">
           <Key>
@@ -486,48 +497,6 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="gender" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="lastname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="middlename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="personnel_tbl">
-          <Key>
-            <PropertyRef Name="empl_id" />
-          </Key>
-          <Property Name="empl_id" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="bir_tin" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="empl_photo" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="umid" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="birth_date" Precision="0" Type="DateTime" />
-          <Property Name="csc_eligibility" MaxLength="30" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="emp_status" Type="Boolean" />
-          <Property Name="civil_status" MaxLength="1" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="status_details" MaxLength="1" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="gender" MaxLength="1" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="date_original_appointment" Precision="0" Type="DateTime" />
-          <Property Name="emp_height" MaxLength="10" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="emp_weight" MaxLength="10" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="citizenship" MaxLength="30" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="birth_place" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="maiden_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="father_birth_place" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="mother_birth_place" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="empl_photo_img" MaxLength="Max" FixedLength="false" Type="Binary" />
-          <Property Name="spouse_last_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="spouse_first_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="spouse_middle_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="spouse_suffix_name" MaxLength="5" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="spouse_occupation" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="spouse_employer_name" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="spouse_business_address" MaxLength="255" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="spouse_tel_no" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="father_last_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="father_middle_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="father_first_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="father_suffix_name" MaxLength="5" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="mother_last_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="mother_middle_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="mother_first_name" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="citizenship_type" Type="Boolean" />
-          <Property Name="citizenship_nature" Type="Boolean" />
-          <Property Name="citizenship_country" MaxLength="25" FixedLength="false" Unicode="false" Type="String" />
         </EntityType>
         <EntityType Name="personnel_usersprofile_tbl">
           <Key>
@@ -644,16 +613,6 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="ctrl_no" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="active_status" Type="Boolean" />
         </EntityType>
-        <EntityType Name="adds_images_tbl">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="hiring_period" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="img_file" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-          <Property Name="img_name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="onlineApplicants_register_tbl">
           <Key>
             <PropertyRef Name="info_ctrl_nbr" />
@@ -668,6 +627,62 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="middlename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="user_password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="bir_tin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="empl_photo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="umid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="birth_date" Type="DateTime" Precision="0" />
+          <Property Name="csc_eligibility" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="emp_status" Type="Boolean" />
+          <Property Name="civil_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="status_details" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="date_original_appointment" Type="DateTime" Precision="0" />
+          <Property Name="emp_height" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="emp_weight" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="citizenship" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="maiden_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="mother_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="empl_photo_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="spouse_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_occupation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_employer_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_business_address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_tel_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="father_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="mother_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mother_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mother_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="citizenship_type" Type="Boolean" />
+          <Property Name="citizenship_nature" Type="Boolean" />
+          <Property Name="citizenship_country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ethnicity_id" Type="Int32" />
+          <Property Name="religion_id" Type="Int32" />
+          <Property Name="pwd_type_id" Type="Int32" />
+          <Property Name="gender2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="adds_images_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="hiring_period" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="img_file" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="img_name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -732,6 +747,8 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <EntitySetMapping Name="personnel_educ_tbl">
             <EntityTypeMapping TypeName="HRIS_APLModel.personnel_educ_tbl">
               <MappingFragment StoreEntitySet="personnel_educ_tbl">
+                <ScalarProperty Name="courses_id" ColumnName="courses_id" />
+                <ScalarProperty Name="school_id" ColumnName="school_id" />
                 <ScalarProperty Name="schlr_acdmic_rcvd" ColumnName="schlr_acdmic_rcvd" />
                 <ScalarProperty Name="year_graduated" ColumnName="year_graduated" />
                 <ScalarProperty Name="highest_lvl_earned" ColumnName="highest_lvl_earned" />
@@ -768,49 +785,6 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
                 <ScalarProperty Name="firstname" ColumnName="firstname" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="birthdate" ColumnName="birthdate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="personnel_tbl">
-            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_tbl">
-              <MappingFragment StoreEntitySet="personnel_tbl">
-                <ScalarProperty Name="citizenship_country" ColumnName="citizenship_country" />
-                <ScalarProperty Name="citizenship_nature" ColumnName="citizenship_nature" />
-                <ScalarProperty Name="citizenship_type" ColumnName="citizenship_type" />
-                <ScalarProperty Name="mother_first_name" ColumnName="mother_first_name" />
-                <ScalarProperty Name="mother_middle_name" ColumnName="mother_middle_name" />
-                <ScalarProperty Name="mother_last_name" ColumnName="mother_last_name" />
-                <ScalarProperty Name="father_suffix_name" ColumnName="father_suffix_name" />
-                <ScalarProperty Name="father_first_name" ColumnName="father_first_name" />
-                <ScalarProperty Name="father_middle_name" ColumnName="father_middle_name" />
-                <ScalarProperty Name="father_last_name" ColumnName="father_last_name" />
-                <ScalarProperty Name="spouse_tel_no" ColumnName="spouse_tel_no" />
-                <ScalarProperty Name="spouse_business_address" ColumnName="spouse_business_address" />
-                <ScalarProperty Name="spouse_employer_name" ColumnName="spouse_employer_name" />
-                <ScalarProperty Name="spouse_occupation" ColumnName="spouse_occupation" />
-                <ScalarProperty Name="spouse_suffix_name" ColumnName="spouse_suffix_name" />
-                <ScalarProperty Name="spouse_middle_name" ColumnName="spouse_middle_name" />
-                <ScalarProperty Name="spouse_first_name" ColumnName="spouse_first_name" />
-                <ScalarProperty Name="spouse_last_name" ColumnName="spouse_last_name" />
-                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
-                <ScalarProperty Name="mother_birth_place" ColumnName="mother_birth_place" />
-                <ScalarProperty Name="father_birth_place" ColumnName="father_birth_place" />
-                <ScalarProperty Name="maiden_name" ColumnName="maiden_name" />
-                <ScalarProperty Name="birth_place" ColumnName="birth_place" />
-                <ScalarProperty Name="citizenship" ColumnName="citizenship" />
-                <ScalarProperty Name="emp_weight" ColumnName="emp_weight" />
-                <ScalarProperty Name="emp_height" ColumnName="emp_height" />
-                <ScalarProperty Name="date_original_appointment" ColumnName="date_original_appointment" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="status_details" ColumnName="status_details" />
-                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
-                <ScalarProperty Name="emp_status" ColumnName="emp_status" />
-                <ScalarProperty Name="csc_eligibility" ColumnName="csc_eligibility" />
-                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
-                <ScalarProperty Name="umid" ColumnName="umid" />
-                <ScalarProperty Name="empl_photo" ColumnName="empl_photo" />
-                <ScalarProperty Name="bir_tin" ColumnName="bir_tin" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -924,16 +898,6 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="adds_images_tbl">
-            <EntityTypeMapping TypeName="HRIS_APLModel.adds_images_tbl">
-              <MappingFragment StoreEntitySet="adds_images_tbl">
-                <ScalarProperty Name="img_name" ColumnName="img_name" />
-                <ScalarProperty Name="img_file" ColumnName="img_file" />
-                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_deactive_availableitemaplall" FunctionName="HRIS_APLModel.Store.sp_deactive_availableitemaplall" />
           <FunctionImportMapping FunctionImportName="sp_remove_availableitemapl" FunctionName="HRIS_APLModel.Store.sp_remove_availableitemapl" />
           <FunctionImportMapping FunctionImportName="sp_deactive_availableitemapl" FunctionName="HRIS_APLModel.Store.sp_deactive_availableitemapl" />
@@ -950,6 +914,64 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="birthdate" ColumnName="birthdate" />
                 <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.personnel_tbl">
+              <MappingFragment StoreEntitySet="personnel_tbl">
+                <ScalarProperty Name="gender2" ColumnName="gender2" />
+                <ScalarProperty Name="pwd_type_id" ColumnName="pwd_type_id" />
+                <ScalarProperty Name="religion_id" ColumnName="religion_id" />
+                <ScalarProperty Name="ethnicity_id" ColumnName="ethnicity_id" />
+                <ScalarProperty Name="citizenship_country" ColumnName="citizenship_country" />
+                <ScalarProperty Name="citizenship_nature" ColumnName="citizenship_nature" />
+                <ScalarProperty Name="citizenship_type" ColumnName="citizenship_type" />
+                <ScalarProperty Name="mother_first_name" ColumnName="mother_first_name" />
+                <ScalarProperty Name="mother_middle_name" ColumnName="mother_middle_name" />
+                <ScalarProperty Name="mother_last_name" ColumnName="mother_last_name" />
+                <ScalarProperty Name="father_suffix_name" ColumnName="father_suffix_name" />
+                <ScalarProperty Name="father_first_name" ColumnName="father_first_name" />
+                <ScalarProperty Name="father_middle_name" ColumnName="father_middle_name" />
+                <ScalarProperty Name="father_last_name" ColumnName="father_last_name" />
+                <ScalarProperty Name="spouse_tel_no" ColumnName="spouse_tel_no" />
+                <ScalarProperty Name="spouse_business_address" ColumnName="spouse_business_address" />
+                <ScalarProperty Name="spouse_employer_name" ColumnName="spouse_employer_name" />
+                <ScalarProperty Name="spouse_occupation" ColumnName="spouse_occupation" />
+                <ScalarProperty Name="spouse_suffix_name" ColumnName="spouse_suffix_name" />
+                <ScalarProperty Name="spouse_middle_name" ColumnName="spouse_middle_name" />
+                <ScalarProperty Name="spouse_first_name" ColumnName="spouse_first_name" />
+                <ScalarProperty Name="spouse_last_name" ColumnName="spouse_last_name" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="mother_birth_place" ColumnName="mother_birth_place" />
+                <ScalarProperty Name="father_birth_place" ColumnName="father_birth_place" />
+                <ScalarProperty Name="maiden_name" ColumnName="maiden_name" />
+                <ScalarProperty Name="birth_place" ColumnName="birth_place" />
+                <ScalarProperty Name="citizenship" ColumnName="citizenship" />
+                <ScalarProperty Name="emp_weight" ColumnName="emp_weight" />
+                <ScalarProperty Name="emp_height" ColumnName="emp_height" />
+                <ScalarProperty Name="date_original_appointment" ColumnName="date_original_appointment" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="status_details" ColumnName="status_details" />
+                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
+                <ScalarProperty Name="emp_status" ColumnName="emp_status" />
+                <ScalarProperty Name="csc_eligibility" ColumnName="csc_eligibility" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="umid" ColumnName="umid" />
+                <ScalarProperty Name="empl_photo" ColumnName="empl_photo" />
+                <ScalarProperty Name="bir_tin" ColumnName="bir_tin" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_activate_availableitemapl_all" FunctionName="HRIS_APLModel.Store.sp_activate_availableitemapl_all" />
+          <EntitySetMapping Name="adds_images_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.adds_images_tbl">
+              <MappingFragment StoreEntitySet="adds_images_tbl">
+                <ScalarProperty Name="img_name" ColumnName="img_name" />
+                <ScalarProperty Name="img_file" ColumnName="img_file" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

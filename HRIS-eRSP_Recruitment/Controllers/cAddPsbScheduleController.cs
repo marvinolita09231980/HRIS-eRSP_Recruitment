@@ -627,11 +627,6 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
 
        
-        // @p_psb_ctrl_nbr       VARCHAR(10)
-        //,@p_budget_code        VARCHAR(06)
-        //,@p_employment_type    VARCHAR(02)
-        //,@p_department_code    VARCHAR(02)
-        //,@p_user_id            VARCHAR(10)
 
         public ActionResult RefreshPanelList(string psb_ctrl_nbr, string budget_code, string employment_type)
         {
@@ -847,7 +842,23 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
-
+        public ActionResult ReactivateHRMPSB(string psb_ctrl_nbr)
+        {
+            CheckSession();
+            db.Database.CommandTimeout = Int32.MaxValue;
+            try
+            {
+                var psb = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+                psb.psb_status = 1;
+                db.SaveChanges();
+               
+                return JSON(new { message = fetch.success, icon = icon.success, psb_status = 1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return JSON(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
     }
 }

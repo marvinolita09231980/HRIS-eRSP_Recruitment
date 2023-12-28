@@ -39,7 +39,8 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     s.individual = {}
     s.um = {}
     s.selected_approved = false
-
+    s.positionlist = []
+    s.selectedItemRow = []
     s.month = [
         { id: "01", text: "January" },
         { id: "02", text: "February" },
@@ -237,8 +238,8 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                                 '<div class="btn-group">' +
                                 '<button class="btn btn-default text-warning dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">PRINT...</button>' +
                                 '<ul class="dropdown-menu ">' +
-                                '<li><a ng-click="printComparative(' + row["row"] + ',3)">Print Comparative</a></li>' +
-                                '<li><a ng-click="prepareEndorsement(' + row["row"] + ',4)">Prepare Endorsement</a></li>' +
+                                '<li><a ng-click="printComparative(' + row["row"] + ',3)">Comparative</a></li>' +
+                                '<li><a ng-click="prepareEndorsement(' + row["row"] + ',4)">Endorsement</a></li>' +
                                 '</ul>' +
                                 '</div>' +
 
@@ -256,6 +257,70 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
             });
 
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+
+    var Init_PSB_item_Grid2 = function (par_data) {
+        s.item_grid_List2 = par_data;
+        s.item_Table = $('#Data_item_Grid2').dataTable(
+            {
+                data: s.item_grid_List2,
+                sDom: 'rt<"bottom"p>',
+                pageLength: 10,
+                //order: [[6, 'asc']],
+                columns: [
+                   
+                    {
+                        "mData": "psb_ctrl_nbr",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-left btn-block'>" + data + " - " + full["psb_date"] + "</span>"
+                        }
+                    },
+
+                    {
+                        "mData": "item_no",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-left btn-block'><strong>" + data + " - " + full["position_long_title"] + "</strong></span>" +
+                                "<span class='text-left btn-block'>" + full["department_name1"] + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "combined_descr",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'><strong>" + data + "</strong></span>"
+                        }
+                    },
+
+                    {
+                        "mData": "combined",
+                        "bSortable": false,
+                        "mRender": function (data, type, full, row) {
+                            return '<div>' +
+                                '<input ng-disabled="' + data + '" id="combineCbRow'+row["row"]+'"  type="checkbox" class="form-control" ng-click="addRow('+row["row"]+')" ng-checked="'+data+'"/> ' +
+                                   '</div>';
+                        }
+                    }
+                    //data-toggle="tab" href="#tab-7"
+                ],
+                "createdRow": function (row, data, index) {
+                    //$(row).addClass("dt-row");
+                 
+                    $compile(row)($scope);  //add this to compile the DOM
+                },
+
+            });
+
+        $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+
+  
+    function fa_icon_changed(data) {
+        console.log(data)
+        if (data) {
+            return "fa fa-check"
+        }
+        else {
+            return "fa fa-plus"
+        }
     }
 
     Init_PSB_List_Grid([])
@@ -405,6 +470,46 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
 
 
+    function tab_table_data(table) {
+        s.selectedItemRow = []
+        //var OnlineExam_Data = table.filter(function (d) {
+        //    return d.quali_onlineexam == true
+        //})
+        //var Top5Examiness_Data = table.filter(function (d) {
+        //    return d.top5examinees == true
+        //})
+
+        //var HRMPSB_Data = table.filter(function (d) {
+        //    return d.quali_hrmpsb == true
+        //})
+
+        s.item_grid_List = table.refreshTable("Data_item_Grid", "")
+        s.item_grid_List2 = table.refreshTable("Data_item_Grid2", "")
+        s.positionlist = positionlist(s.item_grid_List2)
+       
+    }
+
+
+    function positionlist(data) {
+        var list = []
+        for (var x = 0; x < data.length; x++) {
+            var obj = {
+                 position_code: data[x].position_code
+                , position_long_title: data[x].position_long_title
+            }
+           
+            var indx = list.map(function (e) { return e.position_code; }).indexOf(data[x].position_code);
+            console.log(indx)
+            if (indx >= 0) continue
+            list.push(obj);
+        }
+        return list
+    }
+
+    function onlyUnique(value, index, array) {
+        return array.indexOf(value) === index;
+    }
+
 
     function init() {
 
@@ -421,6 +526,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         Init_panel_list([])
         Init_item_list([])
         Init_PSB_item_Grid([])
+        Init_PSB_item_Grid2([])
         h.post("../cComparativeAssessment/Initialize", { year: y, month: s.mo }).then(function (d) {
             if (d.data.icon == "success") {
                 s.budget_year = d.data.budgetyears
@@ -467,7 +573,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         var dt = s.Data_List[row_id]
         var swal_title = ""
         var swal_message = ""
-        console.log(dt)
+        
 
         if (dt.email == "" || dt.email == null) {
             swal("This applicant has not provided email address", { icon: "error" })
@@ -481,7 +587,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                 return
             }
             swal_title = "Send Regret Email"
-            swal_message= "Are you sure you want to send this applicant a regret email? Please double check you action."
+            swal_message= "Are you sure you want to send this applicant a regret email? Please double check you action!"
         }
 
         if (type == "7") {
@@ -490,11 +596,9 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                 return
             }
             swal_title = "Send Congratulatory Email"
-            swal_message = "Are you sure you want to send this applicant a congratulatory email? Please double check you action."
+            swal_message = "Are you sure you want to send this applicant a congratulatory email? Please double check you action!"
         }
 
-
-       
 
         $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
         $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
@@ -619,35 +723,21 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         }
     });
 
-    s.selectEmployment = function (val) {
-        s.budgetcode = ""
-        s.position_code = ""
-        $("#Data_List_Grid").dataTable().fnClearTable();
-        h.post("../cComparativeAssessment/getBudgetYear", { employment_type: val }).then(function (d) {
-            if (d.data.icon == "success") {
-                s.budget_year = d.data.budget_year
+    
 
-            }
-            else {
-                console.log(d.data.message)
-            }
+    //s.selectBudgetCode = function (val) {
+    //    s.position_code = ""
+    //    $("#Data_List_Grid").dataTable().fnClearTable();
+    //    h.post("../cComparativeAssessment/getPositions", { employment_type: s.employment_type, budget_code: val }).then(function (d) {
+    //        if (d.data.icon == "success") {
+    //            s.positions = d.data.positions
+    //        }
+    //        else {
+    //            console.log(d.data.message)
+    //        }
 
-        })
-    }
-
-    s.selectBudgetCode = function (val) {
-        s.position_code = ""
-        $("#Data_List_Grid").dataTable().fnClearTable();
-        h.post("../cComparativeAssessment/getPositions", { employment_type: s.employment_type, budget_code: val }).then(function (d) {
-            if (d.data.icon == "success") {
-                s.positions = d.data.positions
-            }
-            else {
-                console.log(d.data.message)
-            }
-
-        })
-    }
+    //    })
+    //}
 
     s.commentNotEmpty = function (val) {
         if (cs.elEmpty(val)) {
@@ -686,6 +776,22 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                 }
             })
         }
+    }
+
+    s.selectEmployment = function () {
+        s.position_code = ""
+
+        $("#Data_List_Grid").dataTable().fnClearTable();
+        h.post("../cComparativeAssessment/sp_get_psbschedule_dropdown", { employment_type: s.employment_type, budget_code: s.budget_code }).then(function (d) {
+            if (d.data.icon == "success") {
+                s.psbschedule = d.data.psbschedule
+            }
+            else {
+                console.log(d.data.message)
+            }
+
+        })
+       
     }
 
     s.selectBudgetCode = function (val) {
@@ -728,6 +834,69 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         })
     }
 
+    s.selectPosition = function (position) {
+        s.selectedItemRow = []
+        var dt = s.item_grid_List.filter(function (d) {
+            return d.position_code == position
+        })
+        
+        s.item_grid_List2 = dt.refreshTable("Data_item_Grid2", "")
+
+    }
+
+    s.combinedItems = function () {
+
+        if (cs.Validate1Field("position_code")) {
+            var len = s.selectedItemRow.length
+           
+            if (len > 0) {
+                if (cs.Validate1Field("combine_descr")) {
+                    var combineddescr = $("#combine_descr").val()
+                    h.post("../cComparativeAssessment/CombinedItems", { sp_psb_item_list: s.selectedItemRow, combine_descr: combineddescr }).then(function (d) {
+                        if (d.data.icon == "success") {
+
+                        }
+                        swal({ title: d.data.message, icon: d.data.icon })
+                    })
+
+                }
+            }
+            else {
+                swal({ title: "Please select item!", icon: "error" })
+            }
+        }
+       
+    }
+
+    s.changeTab = function (tab) {
+        if (tab == 1) {
+            $("#position_code").prop("display", "none")
+        }
+        else {
+            $("#position_code").prop("display", "block")
+        } 
+    }
+    s.addRow = function (row) {
+        var dt = s.item_grid_List2[row]
+        var cbrow = $("#combineCbRow" + row)[0].checked
+       
+        if (cbrow) {
+            var ex = s.selectedItemRow.filter(function (d) {
+                return d.item_no == dt.item_no
+            })
+            if (ex.length == 0) {
+                s.selectedItemRow.push(dt)
+            }
+        }
+        else {
+            s.selectedItemRow = s.selectedItemRow.filter(function (d) {
+                return d.item_no != dt.item_no
+            })
+        }
+
+
+    }
+
     //s.selectEmploymentType = function (val) {
     //    cs.loading("show")
     //    s.psb_status = 0
@@ -753,29 +922,29 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     //    }
 
     //}
-    s.selectBudgetCode = function (val) {
-        cs.loading("show")
-        s.psb_status = 0
-        s.psbschedule = []
-        //s.psb_status = false;
-        if (!cs.elEmpty(val)) {
-            h.post("../cHRMPSBScreening/sp_get_psbschedule_dropdown", {
-                employment_type: s.employment_type
-                , budget_code: val
-                , psb_ctrl_nbr: ""
-            }).then(function (d) {
-                if (d.data.icon == "success") {
-                    s.psbschedule = d.data.psbschedule
-                    cs.clearTable("Data_item_Grid")
-                }
-                cs.loading("hide")
-            })
-        }
-        else {
-            cs.loading("hide")
-        }
+    //s.selectBudgetCode = function (val) {
+    //    cs.loading("show")
+    //    s.psb_status = 0
+    //    s.psbschedule = []
+    //    //s.psb_status = false;
+    //    if (!cs.elEmpty(val)) {
+    //        h.post("../cHRMPSBScreening/sp_get_psbschedule_dropdown", {
+    //            employment_type: s.employment_type
+    //            , budget_code: val
+    //            , psb_ctrl_nbr: ""
+    //        }).then(function (d) {
+    //            if (d.data.icon == "success") {
+    //                s.psbschedule = d.data.psbschedule
+    //                cs.clearTable("Data_item_Grid")
+    //            }
+    //            cs.loading("hide")
+    //        })
+    //    }
+    //    else {
+    //        cs.loading("hide")
+    //    }
 
-    }
+    //}
     s.selectPsb_date = function (val) {
         s.psbsched_item = []
         if (!cs.elEmpty(val)) {
@@ -785,8 +954,8 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                     psb_ctrl_nbr: val,
                 }).then(function (d) {
                     if (d.data.icon == "success") {
-                        s.sp_psb_item_list = d.data.sp_psb_item_list
-                        s.item_grid_List = d.data.sp_psb_item_list.refreshTable("Data_item_Grid", "")
+                      
+                        tab_table_data(d.data.sp_psb_item_list)
                         cs.loading("hide")
                     } else {
                         console.log(d.data.message)
@@ -882,16 +1051,17 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         sp = "sp_comaparative_asessment_rpt,p_item_no," + item_no + ",p_psb_ctrl_nbr," + psb_ctrl_nbr + ",p_app_status," + reporttype;
 
         cs.loading('show')
+
         var iframe = document.getElementById('iframe_print_preview');
         var iframe_page = $("#iframe_print_preview")[0];
         iframe.style.visibility = "hidden";
         s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
-            + "&ReportName=" + ReportName
-            + "&SaveName=" + SaveName
-            + "&ReportType=" + ReportType
-            + "&ReportPath=" + ReportPath
-            + "&id=" + sp //+ parameters
-
+            + "&ReportName="    + ReportName
+            + "&SaveName="      + SaveName
+            + "&ReportType="    + ReportType
+            + "&ReportPath="    + ReportPath
+            + "&id="            + sp //+ parameters
+        console.log(s.embed_link)
         if (!/*@cc_on!@*/0) { //if not IE
             iframe.onload = function () {
                 iframe.style.visibility = "visible";
@@ -1016,7 +1186,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                 $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
 
                 s.item_grid_List[s.selectedRow].endorsement_date = endorse_date
-                s.item_grid_List.refreshTable("Data_item_Grid", "")
+                tab_table_data(s.item_grid_List)
             }
             else {
                 swal(d.data.endorse.db_message, { icon: d.data.icon })
@@ -1035,6 +1205,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
         if (dt.endorse_item < 1) {
             swal("Warning!", "No data for this item!", { icon: "warning" })
+            cs.loading('hide')
             return
         }
 

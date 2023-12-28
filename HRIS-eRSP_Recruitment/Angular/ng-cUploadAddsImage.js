@@ -5,7 +5,7 @@ ng_eRSP_App.controller("cUploadAddsImage_ctrlr", function (commonScript, $scope,
     var h = $http
     var cs = commonScript
 
-    s.header_title = "Applicant Attachement"
+    s.header_title = "Applicant Attachment"
     s.modal = 1
     s.rowLen = ""
     s.doc_type = ""

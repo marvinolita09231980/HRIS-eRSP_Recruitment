@@ -28,6 +28,12 @@
             <h2>Background Investigation Question</h2>
 
         </div>
+        <div class="col-lg-8">
+            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle pull-right" ng-click='ReturnToApplicantReview()'>
+                <span class="fa fa-arrow-left pull-right m-t-xs"></span>
+                Return
+            </button>
+        </div>
     </div>
     <div class="row">
         <div class="wrapper wrapper-content animated fadeInRight m-b-n-xl">
@@ -102,52 +108,54 @@
                 <div class="vote-item">
 
                     <form id="questions" novalidate>
+                     
                         <div class="row" ng-repeat="lst1 in bi_criteria1_list" style="border-bottom:2px solid green;padding-bottom:5px;margin-bottom:5px;">
-                            <div><h2>{{lst1.criteria1_descr}}</h2></div>
-                           
-                                <div class="col-md-7 m-l-xl">
-                                    <div class="row m-l-lg m-t-md m-b-md" ng-repeat="q1 in bi_questions_list" ng-if="q1.question_level == 1 && q1.criteria1_id == lst1.criteria1_id">
-                                        <div class="vote-actions">
-                                            <button class="btn btn-success" ng-click="setRatingUp_1(q1.model_name,q1.rating_scale,q1.question_level,q1.criteria1_model)" style="width:4.6em !important">
-                                                <i class="fa fa-chevron-up"> </i>
-                                            </button>
-                                            <b>
-                                                <input type="text" maxlength="3" class="form-control text-success" id="{{q1.model_name}}" value="{{q1.question_rating}}" style="width:2.6em !important;font-size:25px !important;" ng-keyup="limitvalue(q1.rating_scale,q1.model_name)" include />
-                                            </b>
-                                            <button class="btn btn-danger" ng-click="setRatingDown_1(q1.model_name,q1.question_level,q1.criteria1_model)" style="width:4.6em !important">
-                                                <i class="fa fa-chevron-down"> </i>
-                                            </button>
-                                        </div>
-                                        <div class="m-l-lg m-t-lg">
-                                            <a class="vote-title" style="font-size:20px !important">
-                                                {{q1.question_descr}}
-                                            </a>
-                                        </div>
+                            
 
+                            <div class="col-md-7 m-l-xl">
+                                <div><h2>{{lst1.criteria1_descr}}</h2></div>
+                                <div class="row m-l-lg m-t-md m-b-md" ng-repeat="q1 in bi_questions_list" ng-if="q1.question_level == 1 && q1.criteria1_id == lst1.criteria1_id">
+                                    <div class="vote-actions">
+                                        <button class="btn btn-success" ng-click="setRatingUp_1(q1.model_name,q1.rating_scale,q1.question_level,q1.criteria1_model)" style="width:4.6em !important">
+                                            <i class="fa fa-chevron-up"> </i>
+                                        </button>
+                                        <b>
+                                            <input type="text" maxlength="3" class="form-control text-success" id="{{q1.model_name}}" value="{{q1.question_rating}}" style="width:2.6em !important;font-size:25px !important;" ng-keyup="limitvalue(q1.rating_scale,q1.model_name)" include />
+                                        </b>
+                                        <button class="btn btn-danger" ng-click="setRatingDown_1(q1.model_name,q1.question_level,q1.criteria1_model)" style="width:4.6em !important">
+                                            <i class="fa fa-chevron-down"> </i>
+                                        </button>
+                                    </div>
+                                    <div class="m-l-lg m-t-lg">
+                                        <a class="vote-title" style="font-size:20px !important">
+                                            {{q1.question_descr}}
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-if="question_type == 1" style="position:relative !important;">
+                                
+                                <div class="col-md-3">
+                                    <div><h2>Average</h2></div>
+                                    <div class="widget yellow-bg text-center m-t-n-xs">
+                                        @*<i class="fa fa-star"></i>*@
+                                        <h1 class="m-xs" id="{{lst1.criteria1_model}}"></h1>
                                     </div>
                                 </div>
-                                <div class="col-md-4" ng-if="question_type == 1" style="position:relative !important;">
-
-                                    <div class="col-md-3 widget yellow-bg p-lg text-center m-t-n-xs">
-                                        <div>
-                                            <i class="fa fa-star fa-3x"></i>
-                                            <h1 class="m-xs" id="{{lst1.criteria1_model}}"></h1>
-                                            <h3 class="font-bold no-margins">
-                                                Average
-                                            </h3>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-9"  style="position:relative !important;"><textarea class="form-control btn-block autoresizing textareaOnInput" id="comment{{lst1.criteria1_model}}"></textarea></div>
+                                <div class="col-md-8" style="position:relative !important;">
+                                    <div><h2>Comment</h2></div>
+                                    <textarea class="form-control btn-block autoresizing textareaOnInput" id="comment{{lst1.criteria1_model}}"></textarea>
                                 </div>
-                           
+                            </div>
+
 
                             <div ng-repeat="lst2 in bi_criteria2_list" ng-if="lst2.criteria1_id == lst1.criteria1_id ">
 
                                 <div class="col-md-12 m-l-lg pull-left"><h3>{{lst2.criteria2_descr}}</h3></div>
 
                                 <div class="col-md-12 m-l-xl">
-                                    <div class="row m-l-lg m-t-md m-b-md"  ng-repeat="q2 in bi_questions_list" ng-if="q2.question_level == 2 && q2.criteria2_id == lst2.criteria2_id">
+                                    <div class="row m-l-lg m-t-md m-b-md" ng-repeat="q2 in bi_questions_list" ng-if="q2.question_level == 2 && q2.criteria2_id == lst2.criteria2_id">
                                         <div class="vote-actions">
                                             <button class="btn btn-success" ng-click="setRatingUp(q2.model_name,q2.rating_scale,q1.question_level)" style="width:4.6em !important">
                                                 <i class="fa fa-chevron-up"> </i>
@@ -175,7 +183,7 @@
                                         </h4>
                                     </div>
                                     <div class="col-md-12 m-l-xl">
-                                        <div class="row m-l-lg m-t-md m-b-md"  ng-repeat="q3 in bi_questions_list" ng-if="q3.question_level == 3 && q3.criteria3_id == lst3.criteria3_id">
+                                        <div class="row m-l-lg m-t-md m-b-md" ng-repeat="q3 in bi_questions_list" ng-if="q3.question_level == 3 && q3.criteria3_id == lst3.criteria3_id">
                                             <div class="vote-actions">
                                                 <button class="btn btn-success" ng-click="setRatingUp(q3.model_name,q3.rating_scale,q1.question_level)" style="width:4.6em !important">
                                                     <i class="fa fa-chevron-up"> </i>
@@ -254,13 +262,13 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <label class="font-noraml"></label>
+                                                    <label class="font-normal"></label>
                                                     <div class="input-group date">
-                                                        <input type="text" id="supervisor_date" ng-model="supervisor_date" class="form-control" required include>
+                                                        <input type="text" id="supervisor_date" ng-model="supervisor_date" class="form-control" mydate required include>
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
 
@@ -281,13 +289,13 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <label class="font-noraml"></label>
+                                                    <label class="font-normal"></label>
                                                     <div class="input-group date">
-                                                        <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
+                                                        <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" mydate required include>
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     </div>
                                                 </div>
-                                               
+
                                             </div>
                                         </div>
 
@@ -357,13 +365,13 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <label class="font-noraml"></label>
+                                                    <label class="font-normal"></label>
                                                     <div class="input-group date">
-                                                        <input type="text" id="supervisor_date" ng-model="supervisor_date" class="form-control" required include>
+                                                        <input type="text" id="supervisor_date2" ng-model="supervisor_date2" class="form-control" mydate required include>
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <h2>Subordinate</h2>
@@ -385,7 +393,7 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
                                                     <textarea type="text" id="subordinate_office_address" ng-model="subordinate_office_address" class="form-control" include></textarea>
                                                 </div>
-                                                
+
 
                                             </div>
                                         </div>
@@ -395,9 +403,9 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <label class="font-noraml"></label>
+                                                    <label class="font-normal"></label>
                                                     <div class="input-group date">
-                                                        <input type="text" id="subordinate_date" ng-model="subordinate_date" class="form-control" required include>
+                                                        <input type="text" id="subordinate_date" ng-model="subordinate_date" class="form-control" mydate required include>
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     </div>
                                                 </div>
@@ -431,9 +439,9 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <label class="font-noraml"></label>
+                                                    <label class="font-normal"></label>
                                                     <div class="input-group date">
-                                                        <input type="text" id="peers_date" ng-model="peers_date" class="form-control" required include>
+                                                        <input type="text" id="peers_date" ng-model="peers_date" class="form-control" mydate required include>
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     </div>
                                                 </div>
@@ -467,13 +475,13 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <label class="font-noraml"></label>
+                                                    <label class="font-normal"></label>
                                                     <div class="input-group date">
-                                                        <input type="text" id="clients_date" ng-model="clients_date" class="form-control" required include>
+                                                        <input type="text" id="clients_date" ng-model="clients_date" class="form-control" mydate required include>
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     </div>
                                                 </div>
-                                               
+
                                             </div>
                                         </div>
 
@@ -494,13 +502,13 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <label class="font-noraml"></label>
+                                                    <label class="font-normal"></label>
                                                     <div class="input-group date">
-                                                        <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
+                                                        <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" mydate required include>
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     </div>
                                                 </div>
-                                               
+
                                             </div>
                                         </div>
 
@@ -570,7 +578,7 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <label class="font-noraml"></label>
+                                                    <label class="font-normal"></label>
                                                     <div class="input-group date">
                                                         <input type="text" id="respondent_date" ng-model="respondent_date" class="form-control" required include>
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -596,7 +604,7 @@
                                                     <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">Date:</span></button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-group" id="data_1">
-                                                    <label class="font-noraml"></label>
+                                                    <label class="font-normal"></label>
                                                     <div class="input-group date">
                                                         <input type="text" id="interviewed_date" ng-model="interviewed_date" class="form-control" required include>
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -627,19 +635,10 @@
             </div>
         </div>
     </div>
+    
 
 </section>
 
-<script>
-    const textInput = document.getElementsByClassName('leftratinginput');
-
-    textInput.addEventListener('keyup', function () {
-        if (this.value.length > 100) {
-            this.value = this.value.slice(0, 100);
-        }
-    });
-
-</script>
 
 
 

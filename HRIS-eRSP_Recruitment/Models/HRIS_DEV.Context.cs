@@ -27,7 +27,6 @@ namespace HRIS_eRSP_Recruitment.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<personnel_tbl> personnel_tbl { get; set; }
     
         public virtual ObjectResult<sp_budgetyears_tbl_combolist1_Result> sp_budgetyears_tbl_combolist1(string par_employment_type)
         {

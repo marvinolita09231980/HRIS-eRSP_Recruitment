@@ -437,6 +437,8 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
     var r2 = "required2";
     var nR2 = "notrequired2";
     var eE = "elEmpty"
+    var pE = "parentElement"
+    var rd = "required_date"
 
     var tu = true;
     var fe = false;
@@ -973,6 +975,29 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
             }
         },
 
+        required_date: function (n, wn) {
+            $("#" + n).css({
+                "border-color": "red",
+                "border-width": "1px",
+                "border-style": "solid"
+            })
+
+            var element = this.D_cl(n)[0];
+            var div = this.D_id(n)[pE];
+            var el = this.D_cE("span")
+            el.className += n;
+            el[iH] = wn;
+            el[st][c] = "red";
+            el[st][csF] = "right";
+
+            if (this.elEmpty(element)) {
+                this.insertAfter(div, el);
+            }
+            else {
+                element[pN][rC](element);
+                this.insertAfter(div, el);
+            }
+        },
 
         //************************************//
         // Add the red border of the element and show the required warning text
@@ -1014,7 +1039,19 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
         if (!this.elEmpty(el)) {
             el[pN][rC](el);
         }
-    },
+        },
+
+        notrequired_date: function (n) {
+            $("#" + n).css({
+                "border-color": "#E5E6E7",
+                "border-width": "1px",
+                "border-style": "solid"
+            })
+            var el = this.D_cl(n)[0];
+            if (!this.elEmpty(el)) {
+                el[pN][rC](el);
+            }
+        },
 
     //**********************************************
     //******** validate date correct format ********
@@ -1027,10 +1064,48 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
             this[nR2](id) //call notrequired2 function
         }
         else {
-            this[r2](id, "Invalid date") //call required2 function
+            this[rd](id, "Invalid date") //call required2 function
             retval = retval + 1
         }
         return retval == 0 ? true : false;
+        },
+
+        //**********************************************
+        //******** validate date correct format ********
+        //**********************************************
+        valid_time: function (eval, id) {
+            var retval = 0;
+            var time24hr = this.convertTo24HourFormat(eval)
+            var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(time24hr);
+
+            if (isValid) {
+                this[nR2](id) 
+            } else {
+                this[rd](id, "Invalid time") //call required2 function
+                retval = retval + 1
+            }
+
+            return retval == 0 ? true : false;
+        },
+        convertTo24HourFormat : function(time12hr) {
+        if (time12hr == null || time12hr.length == 0) return ""
+        var timeTokens = time12hr.split(":");
+        var hours = parseInt(timeTokens[0]);
+        var minutes = parseInt(timeTokens[1].substr(0, 3));
+        var ampm = time12hr.substr(time12hr.length - 2).toUpperCase();
+
+
+        if (ampm === "PM" && hours !== 12) {
+            hours += 12;
+        } else if (ampm === "AM" && hours === 12) {
+            hours = 0;
+        }
+
+        // Format hours and minutes to two digits
+        var formattedHours = hours.toString().padStart(2, '0');
+        var formattedMinutes = minutes.toString().padStart(2, '0');
+
+        return formattedHours + ":" + formattedMinutes;
     },
 
     //**********************************************
@@ -1105,6 +1180,7 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
             {
                 var rq = $("#" + form[x][i])[0][hA]("required") //return true if element has required attribute
                 var date = $("#" + form[x][i])[0][hA]("mydate") //return true if element has mydate attribute
+                var time = $("#" + form[x][i])[0][hA]("mytime") //return true if element has mydate attribute
                 
                 if (rq) {
                     var eval = this.D_id(id)[v]
@@ -1168,11 +1244,24 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
                     else if (date) // if field type is date; note in order this to work you should put mydate attribute to the date input field
                     {
                         if (this[eE](eval)) {
-                            this[r2](id, "Required field")
+                            this[rd](id, "Required field")
                             retval = retval + 1
                         }
                         else {
                             if (!this.valid_date(eval, id)) //call valid_date function ; expected value: false
+                            {
+                                retval = retval + 1
+                            }
+                        }
+                    }
+                    else if (time) // if field type is date; note in order this to work you should put mydate attribute to the date input field
+                    {
+                        if (this[eE](eval)) {
+                            this[rd](id, "Required field")
+                            retval = retval + 1
+                        }
+                        else {
+                            if (!this.valid_time(eval, id)) //call valid_date function ; expected value: false
                             {
                                 retval = retval + 1
                             }
@@ -1490,7 +1579,12 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
             }
             return data
 
-        }
+        },
+        removeLocalStorage: function (arr) {
+            for (var x = 0; x < arr.length; x++) {
+                localStorage.removeItem(arr[x])
+            }
+        },
 
     
  }

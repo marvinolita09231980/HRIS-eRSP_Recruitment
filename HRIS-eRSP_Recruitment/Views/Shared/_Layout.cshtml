@@ -24,13 +24,14 @@
     <link href="~/Content/plugins/dropzone/dropzone.css" rel="stylesheet" />
     <link href="~/Content/style.css" rel="stylesheet">
     <link href="~/Content/plugins/summernote/summernote.css" rel="stylesheet" />
-    <link href="~/Content/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+    @*<link href="~/Content/plugins/summernote/summernote-bs3.css" rel="stylesheet" />*@
     <link href="~/Content/animate.css" rel="stylesheet" />
     <link href="~/Content/style.css" rel="stylesheet" />
 
 
 
     <script src="~/Angular/Angular.js"></script>
+    <script src="~/Scripts/moment.js"></script>
     <script src="~/Angular/ngApp.js"></script>
     <script src="~/Angular/ng-FileUpload.js"></script>
     <script src="~/Angular/ng-SharedLayout.js"></script>
@@ -504,13 +505,25 @@
     <script src="~/Scripts/inspinia.js"></script>
     <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/plugins/clockpicker/clockpicker.js"></script>
-   
+
     <script src="~/Scripts/plugins/select2/select2.min.js"></script>
     <script src="~/Scripts/plugins/pace/pace.min.js"></script>
     <script src="~/Scripts/plugins/iCheck/icheck.min.js"></script>
     <script src="~/Scripts/plugins/summernote/summernote.min.js"></script>
     <script src="~/Scripts/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.summernote').summernote();
 
+        });
+        var edit = function () {
+            $('.click2edit').summernote({ focus: true });
+        };
+        var save = function () {
+            var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
+            $('.click2edit').destroy();
+        };
+    </script>
     <script>
 
         $(document).ready(function () {
@@ -553,7 +566,7 @@
                 "z-index": 99999
             });
 
-           
+
             $('#data_1 .input-group.date').datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,
@@ -577,7 +590,19 @@
 
 
 
+    <script>
+                //$(document).ready(function () {
+                //    const textInput = document.getElementsByClassName('leftratinginput');
 
+                //    textInput.addEventListener('keyup', function () {
+                //        if (this.value.length > 100) {
+                //            this.value = this.value.slice(0, 100);
+                //        }
+                //    });
+                //});
+
+
+    </script>
 
 
 
@@ -588,4 +613,5 @@
 
 
 </body>
+
 </html>

@@ -45,7 +45,6 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
             if (d.data.icon == "success") {
                 s.app_ctrl_nbr = d.data.app_ctrl_nbr
                 s.bi_rating_questiontype_tbl = d.data.bi_rating_questiontype_tbl
-                console.log(d.data.employee[0])
                 s.employee = d.data.employee[0]
                 console.log(s.bi_rating_questiontype_tbl)
             }
@@ -274,6 +273,11 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
             comment_data.push(obj)
         })
 
+        if (!cs.validatesubmit("respondent_1")) {
+            cs.loading("hide");
+            return
+        }
+
         var respondent_data = cs.getFormData("respondent_1")
 
         h.post("../cBackgroundInvestigation/save_respondent_1", {
@@ -306,6 +310,12 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
         //    }
         //    comment_data.push(obj)
         //})
+
+        if (!cs.validatesubmit("respondent_2")) {
+            cs.loading("hide");
+            return
+        }
+
         var respondent_data = cs.getFormData("respondent_2")
 
         h.post("../cBackgroundInvestigation/save_respondent_2", {
@@ -324,6 +334,12 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
 
     s.SaveRespondent_3 = function () {
         cs.loading("show");
+
+        if (!cs.validatesubmit("respondent_3")) {
+            cs.loading("hide");
+            return
+        }
+
         var respondent_data = cs.getFormData("respondent_3")
 
         h.post("../cBackgroundInvestigation/save_respondent_3", {
@@ -344,6 +360,7 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
         var data2submit = []
         var question_type = $("#question_type").val()
         var data = cs.getFormData("questions")
+       
         for (var prop in data) {
             var split = prop.split("_")
             if (parseInt(data[prop]) != 0) {
@@ -358,6 +375,11 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
             }
         }
 
+        if (data2submit.length < 1) {
+            swal("Please add ratings to submit", { icon: "error" })
+            cs.loading("hide");
+            return
+        }
         h.post("../cBackgroundInvestigation/save_bi_rating", {
             bi_ratings: data2submit
         }).then(function (d) {
@@ -453,9 +475,10 @@ ng_eRSP_App.controller("cBackgroundInvestigation_Ctrlr", function (commonScript,
         }
        
     }
-
     
-   
+    s.ReturnToApplicantReview = function () {
+        window.location.href = "/cApplicantsReview/";
+    }
     
 })
 

@@ -5,7 +5,7 @@ ng_eRSP_App.controller("cViewUploadedFileFromAPL_Ctrlr", function ($scope, $http
     var s = $scope
     var h = $http
 
-    s.header_title = "Applicant Attachement"
+    s.header_title = "Applicant Attachment"
     s.modal = 1
     s.info_ctrl_nbr = ""
     s.empl_id = ""
@@ -67,13 +67,13 @@ ng_eRSP_App.controller("cViewUploadedFileFromAPL_Ctrlr", function ($scope, $http
             for (a = e = b = 0; a < 4 * d.length / 3; f = b >> 2 * (++a & 3) & 63, c += String.fromCharCode(f + 71 - (f < 26 ? 6 : f < 52 ? 0 : f < 62 ? 75 : f ^ 63 ? 90 : 87)) + (75 == (a - 1) % 76 ? "\r\n" : ""))a & 3 ^ 3 && (b = b << 8 ^ d[e++]); for (; a++ & 3;)c += "=";
 
             if (c.toString().trim() == "") {
-                c = "../ResourcesImages/149071.png";
+                c = "../ResourcesImages/Screenshot 2023-12-06 105933.png";
             }
             else {
                 c = "data:application/pdf;base64," + c;
             }
         } catch (e) {
-            c = "../ResourcesImages/149071.png";
+            c = "../ResourcesImages/Screenshot 2023-12-06 105933.png";
         }
         return c;
     }
@@ -143,6 +143,14 @@ ng_eRSP_App.controller("cViewUploadedFileFromAPL_Ctrlr", function ($scope, $http
         $("#pdfview").attr("src", pdf)
         $("#pdfview_modal").modal("show");
 
+    }
+
+    s.downloadPdf = function (file_index) {
+        $("#choose_action").modal("hide")
+        var dt = s.att_dtl[file_index]
+        s.path = dt.file_path
+        var pdf = fn_encode_pdf(dt.filedocs)
+        window.open(pdf, '_blank');
     }
 
 

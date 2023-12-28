@@ -66,5 +66,10 @@ namespace HRIS_eRSP_Recruitment.Models
         public string email_notintop5_dttm { get; set; }
         public int applicant_type { get; set; }
         public string applicant_type_descr { get; set; }
+        public Nullable<bool> quali_onlineexam { get; set; }
+        public Nullable<bool> quali_hrmpsb { get; set; }
+        public Nullable<bool> top5examinees { get; set; }
+        public Nullable<bool> congratulatory { get; set; }
+        public double score_rendered { get; set; }
     }
 }

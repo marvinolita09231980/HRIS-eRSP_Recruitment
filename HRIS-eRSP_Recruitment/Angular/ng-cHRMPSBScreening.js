@@ -3,6 +3,9 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
     var s = $scope
     var h = $http
     var cs = commonScript
+
+    
+
     s.sritemno = ""
     s.r_app_ctrl_nbr = ""
     s.r_psb_ctrl_nbr = ""
@@ -87,6 +90,18 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
             $("#reports_btn").prop('disabled', false)
         }
     }
+
+    function removeValue(arr) {
+        for (var x = 0; x < arr.length; x++) {
+            addvalue(arr[x], "")
+        }
+    }
+    function removeValueArray(arr) {
+        for (var x = 0; x < arr.length; x++) {
+            s[arr[x]] = []
+        }
+    }
+
 
     var Init_PSB_List_Grid = function (par_data) {
         s.Data_List = par_data;
@@ -320,8 +335,118 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
         $(".dial").knob();
         Init_PSB_List_Grid([])
         Init_PSB_Rating_Grid([])
+
         
-        cs.loading("hide")
+
+
+        if (localStorage.getItem('budget_year2') == null || localStorage.getItem('budget_year2') == "undefined") {
+            s.budget_year = []
+        }
+        else {
+            var ls_array = JSON.parse(localStorage['budget_year2']);
+            s.budget_year = ls_array
+        }
+
+        
+        if (localStorage.getItem('psbschedule2') == null || localStorage.getItem('psbschedule2') == "undefined") {
+            s.psbschedule = []
+        }
+        else {
+            var ls_array = JSON.parse(localStorage['psbschedule2']);
+            s.psbschedule = ls_array
+        }
+
+        if (localStorage.getItem('items2') == null || localStorage.getItem('items2') == "undefined") {
+            s.psbsched_item = []
+        }
+        else {
+            var ls_array = JSON.parse(localStorage['items2']);
+            s.psbsched_item = ls_array
+        }
+
+        if (localStorage.getItem('psb_action_btn') == null || localStorage.getItem('psb_action_btn') == "undefined") {
+            s.psb_action_btn = []
+        }
+        else {
+            var ls_array = JSON.parse(localStorage['psb_action_btn']);
+            s.psb_action_btn = ls_array
+        }
+
+        
+
+       
+        
+        //ASSIGN VALUESON FILTER IF VALUES IS SET IN LOCAL STORAGE
+
+        if (localStorage.getItem('employment_type2') == null || localStorage.getItem('employment_type2') == "undefined") {
+            addvalue("employment_type", "")
+        }
+        else {
+            addvalue("employment_type", localStorage['employment_type2'])
+        }
+
+        if (localStorage.getItem('budget_code2') == null || localStorage.getItem('budget_code2') == "undefined") {
+            addvalue("budget_code", "")
+        }
+        else {
+            addvalue("budget_code", localStorage['budget_code2'])
+        }
+
+        if (localStorage.getItem('psb_ctrl_nbr2') == null || localStorage.getItem('psb_ctrl_nbr2') == "undefined") {
+            addvalue("psb_ctrl_nbr", "")
+            s.psb_ctrl_nbr_toconcluded = ""
+        }
+        else {
+            addvalue("psb_ctrl_nbr", localStorage['psb_ctrl_nbr2'])
+            s.psb_ctrl_nbr_toconcluded = localStorage['psb_ctrl_nbr2']
+        }
+       
+        if (localStorage.getItem('item_no2') == null || localStorage.getItem('item_no2') == "undefined") {
+            addvalue("item_no", "")
+            cs.loading("hide")
+        }
+        else {
+            addvalue("item_no", localStorage['item_no2'])
+           
+            var item_no = localStorage['item_no2']
+            
+
+              
+            var psb_ctrl_nbr = localStorage['psb_ctrl_nbr2']
+            var employment_type = localStorage['employment_type2']
+            var budget_code = localStorage['budget_code2']
+
+                if (s.psb_status == 2 && item_no != "") {
+                    s.btn_text3 = "Submit"
+                }
+                else {
+                    s.btn_text3 = "PSB Concluded"
+                }
+
+                s.disabled_ReportsBtn()
+                cs.loading("show")
+                h.post("../cHRMPSBScreening/sp_hrmpsbscreening_item_list", {
+                      item_no: item_no
+                    , psb_ctrl_nbr: psb_ctrl_nbr
+                    , employment_type: employment_type
+                    , budget_code: budget_code
+                }).then(function (d) {
+                    if (d.data.icon == "success") {
+                        s.psb_status = d.data.psb_status
+                        s.Data_List_RAW = d.data.psblist
+                        s.Data_List = d.data.psblist.refreshTable("Data_List_Grid", "")
+                    } else {
+                        console.log(d.data.message)
+                    }
+                    s.disabled_ReportsBtn()
+                    cs.loading("hide")
+                })
+
+
+            
+        }
+
+      
 
     }
 
@@ -438,11 +563,13 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
         s.budget_year = []
         s.psbschedule = []
         s.psbsched_item = []
-        localStorage["employment_type"] = val
+        localStorage["employment_type2"] = val
 
-        localStorage.removeItem("budget_code")
-        localStorage.removeItem("psb_ctrl_nbr")
-        localStorage.removeItem("item_no")
+        removeValueArray(["budget_year", "psbschedule", "psbsched_item"])
+        removeValue(["budget_code", "psb_ctrl_nbr", "item_no"])
+        cs.removeLocalStorage(["budget_code2", "psb_ctrl_nbr2", "item_no2"])
+        cs.removeLocalStorage(["budget_year2", "psbschedule2", "items2"])
+
        // s.psb_status = false
         if (!cs.elEmpty(val)) {
             h.post("../cHRMPSBScreening/sp_budgetyears_tbl_combolist1_RCT", {
@@ -450,7 +577,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
             }).then(function (d) {
                 if (d.data.icon == "success") {
                     s.budget_year = d.data.budgetyears
-                    localStorage["budget_year"] = JSON.stringify(d.data.budgetyears)
+                    localStorage["budget_year2"] = JSON.stringify(d.data.budgetyears)
                     cs.clearTable("Data_List_Grid")
                 }
 
@@ -461,6 +588,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
         else {
             cs.loading("hide")
         }
+        cs.clearTable("Data_List_Grid")
         
     }
     
@@ -468,9 +596,13 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
         cs.loading("show")
         s.psb_status = 0
         s.psbschedule = []
-        localStorage["budget_code"] = val
-        localStorage.removeItem("psb_ctrl_nbr")
-        localStorage.removeItem("item_no")
+        localStorage["budget_code2"] = val
+
+        removeValueArray(["psbschedule", "psbsched_item"])
+        removeValue(["psb_ctrl_nbr", "item_no"])
+        cs.removeLocalStorage(["psb_ctrl_nbr2", "item_no2"])
+        cs.removeLocalStorage(["psbschedule2", "items2"])
+        
         //s.psb_status = false;
         if (!cs.elEmpty(val)) {
             h.post("../cHRMPSBScreening/sp_get_psbschedule_dropdown", {
@@ -479,7 +611,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
             }).then(function (d) {
                 if (d.data.icon == "success") {
                     s.psbschedule = d.data.psbschedule
-                    localStorage["psbschedule"] = JSON.stringify(d.data.psbschedule)
+                    localStorage["psbschedule2"] = JSON.stringify(d.data.psbschedule)
                     cs.clearTable("Data_List_Grid")
                 }
 
@@ -490,7 +622,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
         else {
             cs.loading("hide")
         }
-       
+        cs.clearTable("Data_List_Grid")
     }
 
     s.generateRating = function () {
@@ -530,8 +662,14 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
             //s.reactivate = true
             cs.loading("show")
             s.psb_ctrl_nbr_toconcluded = val
-            localStorage["psb_ctrl_nbr"] = val
-            localStorage.removeItem("item_no")
+            localStorage["psb_ctrl_nbr2"] = val
+
+            removeValueArray(["psbsched_item"])
+            removeValue(["item_no"])
+            cs.removeLocalStorage(["item_no2"])
+            cs.removeLocalStorage(["items2"])
+
+            
             h.post("../cHRMPSBScreening/GetItemsInPSB",
                 {
                     psb_ctrl_nbr: val,
@@ -539,22 +677,22 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                     budget_code: s.budget_code
                 }).then(function (d) {
 
-                    s.psb_action_btn = d.data.psb_action_btn
                     s.psbsched_item = d.data.items
-                    localStorage["items"] = JSON.stringify(d.data.items)
+                    localStorage["items2"] = JSON.stringify(d.data.items)
+                   
                     cs.loading("hide")
                 })
         }
         else {
-            cs.clearTable("Data_List_Grid")
             cs.loading("hide")
         }
+        cs.clearTable("Data_List_Grid")
     }
     
     s.selectPSBSchedApplicant = function () {
         var dt = cs.getFormData("head-filter")
         var item_no = $("#item_no").val()
-        
+        localStorage["item_no2"] = item_no
         if (cs.validatesubmit("head-filter")) {
            
             cs.loading("show")
@@ -578,6 +716,8 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                 , budget_code: budget_code
             }).then(function (d) {
                 if (d.data.icon == "success") {
+                    s.psb_action_btn = d.data.psb_action_btn
+                    localStorage["psb_action_btn"] = JSON.stringify(d.data.psb_action_btn)
                     s.psb_status = d.data.psb_status
                     s.Data_List_RAW = d.data.psblist
                     s.Data_List = d.data.psblist.refreshTable("Data_List_Grid", "")
@@ -587,6 +727,8 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                 s.disabled_ReportsBtn()
                 cs.loading("hide")
             })
+
+           
         }
     }
 
@@ -649,6 +791,8 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
         $("#start_psb_modal").modal("show")
     }
     s.set_start_psb = function () {
+        $("#start_psb_modal").modal("hide")
+        cs.loading("show")
         h.post("../cHRMPSBScreening/SetPSBToStart", {
             psb_ctrl_nbr: s.psb_ctrl_nbr_toconcluded,
         }).then(function (d) {
@@ -656,11 +800,15 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                 s.psb_status = d.data.psb_status
                 s.psb_action_btn = d.data.psb_action_btn
                 cs.spinnerAdd("ongoing_psb", "fa fa-check-circle")
-                $("#start_psb_modal").modal("hide")
+
+                cs.loading("hide")
+                swal("HRMPSB started!", { icon: d.data.icon });
               
             }
             else {
+               
                 swal(d.data.message, { icon: d.data.icon });
+                cs.loading("hide")
             }
         })
     }

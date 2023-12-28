@@ -109,17 +109,17 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     }
                     var period_descr = activemonthname + " " + activedate + " to " + expiremonthname + " " + expiredate;
                     db.sp_insert_psb_hiring_period_tbl(ctrl_nbr, active_dttm, expiry_dttm, budget_code, user_id, date.ToString("yyyy-MM-dd"), employment_type, period_descr);
-                    //psb_hiring_period_tbl php = new psb_hiring_period_tbl();
-                    //php.ctrl_nbr        = ctrl_nbr;
-                    //php.period_from     = active_dttm;
-                    //php.period_to       = expiry_dttm;
-                    //php.budget_code     = budget_code;
-                    //php.created_by_user = user_id;
-                    //php.created_dttm    = date;
-                    //php.employment_type = employment_type;
-                    //php.period_descr    = 
-                    //db.psb_hiring_period_tbl.Add(php);
-                    //db.SaveChanges();
+                    psb_hiring_period_tbl php = new psb_hiring_period_tbl();
+                    php.ctrl_nbr        = ctrl_nbr;
+                    php.period_from     = active_dttm;
+                    php.period_to       = expiry_dttm;
+                    php.budget_code     = budget_code;
+                    php.created_by_user = user_id;
+                    php.created_dttm    = date;
+                    php.employment_type = employment_type;
+                    php.period_descr = descr;
+                    db.psb_hiring_period_tbl.Add(php);
+                    db.SaveChanges();
                 }
                 else
                 {

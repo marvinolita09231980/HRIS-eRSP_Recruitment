@@ -398,6 +398,9 @@
                                     <li><a ng-click='goToDocs(profile,2)'>Uploaded Documents</a></li>
                                 </ul>
                             </div>
+                            <div class="btn-group">
+                                <button class="btn btn-info btn-sm dim dropdown-toggle" type="button" ng-click="proceedToOnlineExam(app_ctrl_nbr)">Proceed for online exam<i class="fa fa-star-o"></i></button>
+                            </div>
                         </div>
                         <div class="row m-t-sm padding-left-10">
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 no-padding">
@@ -685,23 +688,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row m-top-20">
+                        @*<div class="row m-top-20">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">EXAMINATION:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
-                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <input type="number" class="form-control text-center" min-max="0,100" id="score_rendered" ng-model="score_rendered" ng-value="" />
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
-                        <div class="row m-top-20">
+                        @*<div class="row m-top-20">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">EXAM DESCRIPTION:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
-                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <select class="form-control disable-white" id="exam_type_descr" ng-model="exam_type_descr">
@@ -712,12 +713,11 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row m-top-20">
+                        </div>*@
+                        @*<div class="row m-top-20">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">EXAM DATE:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
-                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <div class="input-group date no-padding no-margins removeReqOption" data-provide="datepicker" style="margin-bottom:-2px!important;">
@@ -728,21 +728,18 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
-                        <div class="row m-top-20">
+                        @*<div class="row m-top-20">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">IPCR Rating:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
-                                    @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <input type="text" class="form-control text-center" min-max="0,5" id="ipcr_rating" ng-model="ipcr_rating" ng-value="" />
                                 </div>
                             </div>
-                        </div>
-
-
+                        </div>*@
 
                     </div>
                 </div>

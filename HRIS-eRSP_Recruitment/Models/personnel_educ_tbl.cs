@@ -24,5 +24,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public string highest_lvl_earned { get; set; }
         public string year_graduated { get; set; }
         public string schlr_acdmic_rcvd { get; set; }
+        public Nullable<int> school_id { get; set; }
+        public Nullable<int> courses_id { get; set; }
     }
 }

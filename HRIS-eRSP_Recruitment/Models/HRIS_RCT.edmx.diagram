@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e4927b911d9f443dbdfc2c59b5d16eb5" Name="Diagram1">
+      <Diagram DiagramId="e4927b911d9f443dbdfc2c59b5d16eb5" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_attachment_tbl" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_educ_tbl" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_eligibilty_tbl" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
@@ -78,8 +78,6 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicants_review_dates_names" Width="1.5" PointX="13.375" PointY="24.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.insider_outsider_applicant_tbl" Width="1.5" PointX="25.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_questionnaire_tbl" Width="1.5" PointX="25.375" PointY="13.75" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria2_tbl" Width="1.5" PointX="25.375" PointY="7.75" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria3_tbl" Width="1.5" PointX="25.375" PointY="10.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_rating_questiontype_tbl" Width="1.5" PointX="25.375" PointY="22.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_rating_scale_tbl" Width="1.5" PointX="25.375" PointY="25.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.selected_applicants_tbl" Width="1.5" PointX="7.375" PointY="26.75" />
@@ -88,8 +86,24 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_respondent_1_hdr_tbl" Width="1.5" PointX="27.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_respondent_2_hdr_tbl" Width="1.5" PointX="27.375" PointY="4.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_respondent_3_hdr_tbl" Width="1.5" PointX="27.375" PointY="10.75" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.bi_rating_tbl" Width="1.5" PointX="25.375" PointY="18.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_bi_criteria1_tbl" Width="1.5" PointX="27.375" PointY="14.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_empl_photo_img" Width="1.5" PointX="27.375" PointY="24.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_sked_app_item_no_tbl" Width="1.5" PointX="27.375" PointY="20.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.act_counter_tbl" Width="1.5" PointX="27.75" PointY="27.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.adds_images_tbl" Width="1.5" PointX="0.75" PointY="28.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicants_rating_tbl" Width="1.5" PointX="2.75" PointY="28.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria1_average_comments_2_tbl" Width="1.5" PointX="29.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria1_average_comments_3_tbl" Width="1.5" PointX="29.75" PointY="4.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.email_and_approve_dates_tbl" Width="1.5" PointX="29.75" PointY="8.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_panel_departmentheads_tbl" Width="1.5" PointX="29.75" PointY="13.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.psb_status_tbl" Width="1.5" PointX="29.75" PointY="18.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria2_tbl" Width="1.5" PointX="15.375" PointY="27.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria3_tbl" Width="1.5" PointX="29.375" PointY="21.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.applicant_qualified_progress_tbl" Width="1.5" PointX="7.375" PointY="30.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicants_progress_tbl" Width="1.5" PointX="21.375" PointY="29.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_sked_app_tbl" Width="1.5" PointX="23.375" PointY="29.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.bi_rating_tbl" Width="1.5" PointX="15.375" PointY="30.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.combined_item_tbl" Width="1.5" PointX="17.375" PointY="30.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

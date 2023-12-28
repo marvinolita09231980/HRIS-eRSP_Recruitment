@@ -12,14 +12,14 @@ namespace HRIS_eRSP_Recruitment.Controllers
     public class cHRMPSBScreeningController : CustomController
     {
         HRIS_RCTEntities db = new HRIS_RCTEntities();
-        User_Menu um = new User_Menu();
+        //User_Menu um = new User_Menu();
         RCT_Common rct = new RCT_Common();
         // GET: cHRMPSBScreening
         public ActionResult Index()
         {
-            if(Session["user_id"] == null)
+            if (Session["user_id"] == null)
             {
-                return RedirectToAction("Index","Login");
+                return RedirectToAction("Index", "Login");
             }
             if (Convert.ToInt32(Session["panel_mbr_flag"].ToString()) == 1)
             {
@@ -36,69 +36,11 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
-            var psb_status = 0;
-            List<sp_budgetyears_tbl_combolist1_RCT_Result> budgetyear = new List<sp_budgetyears_tbl_combolist1_RCT_Result>();
-            List<sp_get_psbschedule_dropdown_Result> psbschedule = new List<sp_get_psbschedule_dropdown_Result>();
-            List<sp_items_per_psbschedule_Result> psbsched_item = new List<sp_items_per_psbschedule_Result>();
-            List<sp_hrmpsb_screening_list_Result> psblist = new List<sp_hrmpsb_screening_list_Result>();
-            List<psb_sked_mbr_tbl> panels = new List<psb_sked_mbr_tbl>();
-            List<psb_sked_hdr_tbl> psb_sked_hdr_tbl = new List<psb_sked_hdr_tbl>();
-            um = rct.GetAllowAccess();
-
-            //var v_psb_ctrl_nbr = Session["psb_psb_ctrl_nbr"] == null ? "" : Session["psb_psb_ctrl_nbr"].ToString();
-            //var v_employment_type = Session["psb_employment_type"] == null ? "" : Session["psb_employment_type"].ToString();
-            //var v_budget_code = Session["psb_budget_code"] == null ? "" : Session["psb_budget_code"].ToString();
-            //var v_item_no = Session["item_no"] == null ? "" : Session["item_no"].ToString();
-
+            
             var user_id = Session["user_id"].ToString();
 
             try
             {
-                //psb_sked_hdr_tbl = db.psb_sked_hdr_tbl.Where(a => a.psb_status == 1).ToList();
-
-                //if (psb_sked_hdr_tbl.Count() > 0)
-                //{
-                //    var p = psb_sked_hdr_tbl[0];
-                //    budgetyear = db.sp_budgetyears_tbl_combolist1_RCT(p.employment_type).ToList();
-                //    psbschedule = db.sp_get_psbschedule_dropdown(p.employment_type, p.budget_code).ToList();
-                //    if (v_item_no != null)
-                //    {
-                //        psblist = db.sp_hrmpsb_screening_list(p.psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == v_item_no).ToList();
-                //    }
-
-                //    psbsched_item = db.sp_items_per_psbschedule(p.psb_ctrl_nbr).ToList();
-                //    psb_status = (int)p.psb_status;
-                //    panels = db.psb_sked_mbr_tbl.Where(a => a.psb_ctrl_nbr == p.psb_ctrl_nbr).ToList();
-                //}
-                //else
-                //{
-                //    if (Session["psb_employment_type"] != null)
-                //    {
-                //        budgetyear = db.sp_budgetyears_tbl_combolist1_RCT(v_employment_type).ToList();
-                //    }
-
-                //    if (Session["psb_employment_type"] != null && Session["psb_budget_code"] != null)
-                //    {
-                //        psbschedule = db.sp_get_psbschedule_dropdown(v_employment_type, v_budget_code).ToList();
-                //    }
-                //    if (Session["psb_psb_ctrl_nbr"] != null)
-                //    {
-                //        if (v_item_no != null)
-                //        {
-                //            psblist = db.sp_hrmpsb_screening_list(v_psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == v_item_no).ToList();
-                //        }
-
-                //        psbsched_item = db.sp_items_per_psbschedule(v_psb_ctrl_nbr).ToList();
-                //        if (db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == v_psb_ctrl_nbr).Count() != 0)
-                //        {
-                //            psb_status = (int)db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == v_psb_ctrl_nbr).FirstOrDefault().psb_status;
-                //        }
-                //        panels = db.psb_sked_mbr_tbl.Where(a => a.psb_ctrl_nbr == v_psb_ctrl_nbr).ToList();
-
-                //    }
-                //}
-
-                //var list = db.sp_hrmpsb_screening_list(budget_code, employment_type).ToList();
 
                 var pageTitle = Session["page_title"];
 
@@ -107,18 +49,6 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     message = insert.success,
                     icon = icon.success,
                     pageTitle,
-                    um,
-                    //budgetyear,
-                    //psbschedule,
-                    //psblist,
-                    //psb_status,
-                    //psbsched_item,
-                    //panels,
-                    //psb_sked_hdr_tbl,
-                    //psb_ctrl_nbr = v_psb_ctrl_nbr,
-                    //employment_type = v_employment_type,
-                    //budget_code = v_budget_code,
-                    //item_no = v_item_no
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -266,16 +196,21 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
+            int psb_status = 0;
             Session["psb_psb_ctrl_nbr"] = psb_ctrl_nbr;
             Session["item_no"] = item_no;
+            List<sp_psb_action_list_Result> psb_action_btn = new List<sp_psb_action_list_Result>();
             try
             {
-                
-               
-                var psb_status = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault().psb_status;
-                var psblist = db.sp_hrmpsb_screening_list(psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == item_no).ToList();
+
+                if (psb_ctrl_nbr != "")
+                {
+                    psb_action_btn = db.sp_psb_action_list(psb_ctrl_nbr).ToList();
+                    psb_status =Convert.ToInt32(db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault().psb_status);
+                }
+                var psblist = db.sp_hrmpsb_screening_list_V2(psb_ctrl_nbr, "2", user_id, item_no).ToList();
                 //var panels = db.psb_sked_mbr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).ToList();
-                return JSON(new { message = fetch.success, icon = icon.success, psb_status, psblist}, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = fetch.success, icon = icon.success, psb_status, psblist, psb_action_btn}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

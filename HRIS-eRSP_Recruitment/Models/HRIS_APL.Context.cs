@@ -34,7 +34,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<personnel_educ_tbl> personnel_educ_tbl { get; set; }
         public virtual DbSet<personnel_learnanddevt_tbl> personnel_learnanddevt_tbl { get; set; }
         public virtual DbSet<personnel_register_tbl> personnel_register_tbl { get; set; }
-        public virtual DbSet<personnel_tbl> personnel_tbl { get; set; }
         public virtual DbSet<personnel_usersprofile_tbl> personnel_usersprofile_tbl { get; set; }
         public virtual DbSet<personnel_voluntarywork_tbl> personnel_voluntarywork_tbl { get; set; }
         public virtual DbSet<personnel_workexprnce_tbl> personnel_workexprnce_tbl { get; set; }
@@ -42,8 +41,9 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<personnelnames_tbl> personnelnames_tbl { get; set; }
         public virtual DbSet<available_item_hdr_tbl> available_item_hdr_tbl { get; set; }
         public virtual DbSet<available_item_tbl> available_item_tbl { get; set; }
-        public virtual DbSet<adds_images_tbl> adds_images_tbl { get; set; }
         public virtual DbSet<onlineApplicants_register_tbl> onlineApplicants_register_tbl { get; set; }
+        public virtual DbSet<personnel_tbl> personnel_tbl { get; set; }
+        public virtual DbSet<adds_images_tbl> adds_images_tbl { get; set; }
     
         public virtual int sp_remove_availableitemhdrdtlapl(string p_ctrl_no)
         {
@@ -52,15 +52,6 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_ctrl_no", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_remove_availableitemhdrdtlapl", p_ctrl_noParameter);
-        }
-    
-        public virtual int sp_activate_availableitemapl_all(string p_ctrl_no)
-        {
-            var p_ctrl_noParameter = p_ctrl_no != null ?
-                new ObjectParameter("p_ctrl_no", p_ctrl_no) :
-                new ObjectParameter("p_ctrl_no", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_activate_availableitemapl_all", p_ctrl_noParameter);
         }
     
         public virtual int sp_deactive_availableitemaplall(string p_ctrl_no)
@@ -133,6 +124,15 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_employment_type", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_activate_availableitemapl", p_ctrl_noParameter, p_item_noParameter, p_budget_codeParameter, p_employment_typeParameter);
+        }
+    
+        public virtual int sp_activate_availableitemapl_all(string p_ctrl_no)
+        {
+            var p_ctrl_noParameter = p_ctrl_no != null ?
+                new ObjectParameter("p_ctrl_no", p_ctrl_no) :
+                new ObjectParameter("p_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_activate_availableitemapl_all", p_ctrl_noParameter);
         }
     }
 }

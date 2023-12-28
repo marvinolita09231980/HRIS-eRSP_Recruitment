@@ -141,7 +141,8 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
                                            '<li><a ng-click="show_panel(' + row["row"] + ',' + data + ')">SHOW PANEL FOR THIS HRMPSB</a></li>' +
                                            '<li><a ng-click="psb_app_list(' + row["row"] + ',' + data + ')">SHOW APPLICANTS FOR THIS HRMPSB</a></li>' +
                                            '<li><a ng-disabled="' + full["edit_disabled"] +'" ng-click="btn_edit(' + row["row"] + ')">EDIT HRMPSB SCHEDULE</a></li>' +
-                                           '<li><a ng-disabled="' + full["edit_disabled"] +'"  ng-click="btn_refreshPanelList(' + row["row"] + ')">REFRESH PANEL LIST</a></li>' +
+                                            '<li><a ng-disabled="' + full["edit_disabled"] + '"  ng-click="btn_refreshPanelList(' + row["row"] + ')">REFRESH PANEL LIST</a></li>' +
+                                '<li><a ng-show="' + data + '== 2"  ng-click="reactivateHRMPSB(' + row["row"] + ')">REACTIVATE HRMPSB SCHEDULE</a></li>' +
                                            '</ul>' +
                                        '</div>' +
                                        '<button  type="button" ng-disabled="' + full["del_disabled"] + '" class="btn btn-danger btn-sm btn-grid" data-toggle="tooltip" data-placement="top" title="Delete PSB Schedule" ng-click="psb_sched_del(' + row["row"] + ')" ng-disabled="' + data + '==2">Delete</button>' +
@@ -160,7 +161,9 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
 			});
 
 		$("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
-	}
+    }
+
+   
 
     s.fn_disabled_rating = function (data) {
         if (data == true) {
@@ -777,6 +780,40 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
         }
     }
 
+
+    s.reactivateHRMPSB = function (row) {
+        cs.loading("show")
+        var psb_ctrl_nbr = s.PsbSchedule_Data[row].psb_ctrl_nbr
+                    swal({
+                        title: "Are you sure you want to re-activate this PSB Schedule?",
+                        text: "",
+                        icon: "warning",
+                        buttons: ["No", "Yes"],
+                        dangerMode: true,
+                    }).then(function (willDelete) {
+                        if (willDelete) {
+                            h.post("../cHRMPSBScreening/ReactivateHRMPSB", {
+                                psb_ctrl_nbr: psb_ctrl_nbr
+                            }).then(function (d) {
+                                if (d.data.icon == "success") {
+                                    s.PsbSchedule_Data[row].psb_status = d.data.psb_status
+
+                                    s.PsbSchedule_Data = s.PsbSchedule_Data.refreshTable("psbschedule_grid","");
+                                }
+                                else {
+                                    swal(d.data.message, { icon: d.data.icon });
+                                }
+                                
+                                })
+                            cs.loading("hide")
+                        }
+                        else {
+                            cs.loading("hide")
+                        }
+                    });
+         
+    }
+
     s.getItemsforPanel = function (budget_code, employment_type, psb_ctrl_nbr) {
         h.post("../cAddPsbSchedule/getItemsforPanel", { budget_code: budget_code, employment_type: employment_type, psb_ctrl_nbr: psb_ctrl_nbr }).then(function (d) {
             var itemArray = cs.createSingleItemArray(d.data.psb_items_forpanel, "item_no")
@@ -996,6 +1033,7 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
     }
 
     function convertTo12HourFormat(time24hr) {
+        if (time24hr == null)return
         var timeTokens = time24hr.split(":");
         var hours = parseInt(timeTokens[0]);
         var minutes = parseInt(timeTokens[1]);
@@ -1018,6 +1056,7 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
         return formattedHours + ":" + formattedMinutes + " " + ampm;
     }
     function convertTo24HourFormat(time12hr) {
+        if (time12hr == null || time12hr.length == 0) return ""
         var timeTokens = time12hr.split(":");
         var hours = parseInt(timeTokens[0]);
         var minutes = parseInt(timeTokens[1].substr(0, 3));
@@ -1056,8 +1095,8 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
       
 
         var psb_data = cs.getFormData("sched")
-        var psb_time = convertTo24HourFormat(psb_data.psb_time)
-        console.log(psb_data.psb_time)
+        var psb_time = cs.convertTo24HourFormat(psb_data.psb_time)
+        console.log(psb_time)
 
         if (cs.validatesubmit("sched")) {
 			

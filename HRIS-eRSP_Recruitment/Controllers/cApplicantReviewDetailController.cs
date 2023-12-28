@@ -469,11 +469,11 @@ namespace HRIS_eRSP_Recruitment.Controllers
             string educ_rating,
             string wexp_rating,
             string lnd_rating,
-            string elig_rating,
-            string score_rendered,
-            string exam_type_descr,
-            string exam_date,
-            string ipcr_rating
+            string elig_rating
+            //string score_rendered,
+            //string exam_type_descr,
+            //string exam_date,
+            //string ipcr_rating
         )
         {
             CheckSession();
@@ -496,7 +496,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 }
                 else
                 {
-                    var dbe = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr && a.psb_cat_subcode == "001").FirstOrDefault();
+                    var dbe = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_cat_subcode == "001").FirstOrDefault();
                     if (dbe != null)
                     {
                         dbe.psb_pnl_rating = Convert.ToDouble(educ_rating);
@@ -517,7 +517,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                         db2.psb_pnl_rtg_tbl.Add(rate);
 
                     }
-                    var dbe2 = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr && a.psb_cat_subcode == "002").FirstOrDefault();
+                    var dbe2 = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_cat_subcode == "002").FirstOrDefault();
                     if (dbe2 != null)
                     {
                         dbe2.psb_pnl_rating = Convert.ToDouble(lnd_rating);
@@ -538,7 +538,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                         db2.psb_pnl_rtg_tbl.Add(rate);
 
                     }
-                    var dbe3 = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr && a.psb_cat_subcode == "003").FirstOrDefault();
+                    var dbe3 = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_cat_subcode == "003").FirstOrDefault();
                     if (dbe3 != null)
                     {
 
@@ -561,7 +561,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                         db2.psb_pnl_rtg_tbl.Add(rate);
 
                     }
-                    var dbe4 = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr && a.psb_cat_subcode == "004").FirstOrDefault();
+                    var dbe4 = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_cat_subcode == "004").FirstOrDefault();
                     if (dbe4 != null)
                     {
 
@@ -583,43 +583,45 @@ namespace HRIS_eRSP_Recruitment.Controllers
                         db2.psb_pnl_rtg_tbl.Add(rate);
 
                     }
-
-
-                    var exam = db2.applicant_examination.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-
-                    if (exam != null)
-                    {
-                        if (Convert.ToDouble(score_rendered) > 0)
-                        {
-                            exam.score_rendered = Convert.ToDouble(score_rendered);
-                            exam.exam_type_descr = exam_type_descr;
-                            exam.exam_date = Convert.ToDateTime(exam_date);
-                            exam.ipcr_rating = ipcr_rating.ToString();
-                            exam.updated_dttm = DateTime.Now;
-                            exam.updated_by_user = user_id;
-                        }
-
-                    }
-                    else
-                    {
-                        if (Convert.ToDouble(score_rendered) > 0)
-                        {
-                            applicant_examination exm = new applicant_examination();
-                            exm.app_ctrl_nbr = app_ctrl_nbr;
-                            exm.exam_type_descr = exam_type_descr;
-                            exm.score_rendered = Convert.ToDouble(score_rendered);
-                            exm.exam_date = Convert.ToDateTime(exam_date == "" ? "1900-01-01 00:00:00" : exam_date);
-                            exm.created_dttm = DateTime.Now;
-                            exm.created_by_user = user_id;
-                            exm.updated_dttm = Convert.ToDateTime("1900-01-01 00:00:00");
-                            exm.updated_by_user = "";
-                            exm.ipcr_rating = ipcr_rating.ToString();
-                            db2.applicant_examination.Add(exm);
-                        }
-
-                    }
-
                     db2.SaveChanges();
+
+                    //var exam = db2.applicant_examination.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+
+                    //if (exam != null)
+                    //{
+                    //    if (Convert.ToDouble(score_rendered) > 0)
+                    //    {
+                    //        exam.score_rendered = Convert.ToDouble(score_rendered);
+                    //        exam.exam_type_descr = exam_type_descr;
+                    //        exam.exam_date = Convert.ToDateTime(exam_date);
+                    //        exam.ipcr_rating = ipcr_rating.ToString();
+                    //        exam.updated_dttm = DateTime.Now;
+                    //        exam.updated_by_user = user_id;
+                    //        db2.SaveChanges();
+                    //    }
+
+                    //}
+                    //else
+                    //{
+                    //    if (Convert.ToDouble(score_rendered) > 0)
+                    //    {
+                    //        applicant_examination exm = new applicant_examination();
+                    //        exm.app_ctrl_nbr = app_ctrl_nbr;
+                    //        exm.exam_type_descr = exam_type_descr;
+                    //        exm.score_rendered = Convert.ToDouble(score_rendered);
+                    //        exm.exam_date = Convert.ToDateTime(exam_date == "" ? "1900-01-01 00:00:00" : exam_date);
+                    //        exm.created_dttm = DateTime.Now;
+                    //        exm.created_by_user = user_id;
+                    //        exm.updated_dttm = Convert.ToDateTime("1900-01-01 00:00:00");
+                    //        exm.updated_by_user = "";
+                    //        exm.ipcr_rating = ipcr_rating.ToString();
+                    //        db2.applicant_examination.Add(exm);
+                    //        db2.SaveChanges();
+                    //    }
+
+                    //}
+
+                   
 
                     var reviewer_list = db2.sp_reviewer_screening_list(app_ctrl_nbr).ToList();
                     var rtn = db2.sp_getqsrating(app_ctrl_nbr).FirstOrDefault();
@@ -750,9 +752,42 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
-                var app = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                
                 var rtn = db2.sp_getqsrating(app_ctrl_nbr).FirstOrDefault();
-                return JSON(new { message = update.success, icon = icon.success, app, rtn }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = update.success, icon = icon.success, rtn }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ProceedToOnlineExam(string app_ctrl_nbr)
+        {
+            CheckSession();
+            try
+            {
+                var datenow = DateTime.Now;
+                var user = Session["user_id"].ToString();
+                var app = db2.applicant_qualified_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (app == null)
+                {
+                    applicant_qualified_progress_tbl prog = new applicant_qualified_progress_tbl();
+                    prog.app_ctrl_nbr = app_ctrl_nbr;
+                    prog.quali_onlineexam = true;
+                    prog.quali_onlineexam_dttm = datenow;
+                    prog.quali_onlineexam_by = user;
+                    
+                    db2.applicant_qualified_progress_tbl.Add(prog);
+                }
+                else
+                {
+                    app.quali_onlineexam = true;
+                    app.quali_onlineexam_dttm = datenow;
+                    app.quali_onlineexam_by = user;
+                }
+                db2.SaveChanges();
+                return JSON(new { message = "Successfully proceed to exam", icon = icon.success}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException exp)
             {

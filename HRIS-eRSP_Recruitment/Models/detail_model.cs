@@ -196,5 +196,29 @@ namespace HRIS_eRSP_Recruitment.Models
         public bool status { get; set; }
        
     }
-   
+
+    public class respondent_2
+    {
+        public int respondent_2_id { get; set; }
+        public string app_ctrl_nbr { get; set; }
+        public string supervisor_name2 { get; set; }
+        public string supervisor_office_address2 { get; set; }
+        public string supervisor_date2 { get; set; }
+        public string subordinate_name2 { get; set; }
+        public string subordinate_office_address2 { get; set; }
+        public string subordinate_date2 { get; set; }
+        public string peers_name2 { get; set; }
+        public string peers_office_address2 { get; set; }
+        public string peers_date2 { get; set; }
+        public string clients_name { get; set; }
+        public string clients_office_address { get; set; }
+        public string clients_date { get; set; }
+        public string interviewed_by2 { get; set; }
+        public string interviewed_date2 { get; set; }
+        public string created_dttm { get; set; }
+        public string created_by { get; set; }
+        public string updated_dttm { get; set; }
+        public string updated_by { get; set; }
+    }
+
 }

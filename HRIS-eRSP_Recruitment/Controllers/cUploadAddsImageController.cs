@@ -70,49 +70,49 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult SaveAttachements()
-        {
-            List<object> img_name_exist = new List<object>();
-            try
-            {
+        //[HttpPost]
+        //public ActionResult SaveAttachements()
+        //{
+        //    List<object> img_name_exist = new List<object>();
+        //    try
+        //    {
 
-                var hiring_period = Request.Form[0].ToString();
+        //        var hiring_period = Request.Form[0].ToString();
                
                
-                foreach (string i in Request.Files)
-                {
-                    HttpPostedFileBase file = Request.Files[i];
-                    if (file != null)
-                    {
-                        var exist = db2.adds_images_tbl.Where(a => a.img_name == file.FileName).ToList();
-                        if (exist.Count() > 0)
-                        {
-                            img_name_exist.Add(file.FileName);
-                        }
-                        else
-                        {
-                            int length = file.ContentLength;
-                            byte[] img = new byte[length];
-                            file.InputStream.Read(img, 0, length);
-                            adds_images_tbl attch = new adds_images_tbl();
-                            attch.hiring_period = hiring_period;
-                            attch.img_file = img;
-                            attch.img_name = file.FileName;
-                            db2.adds_images_tbl.Add(attch);
-                            db2.SaveChanges();
-                        }
+        //        foreach (string i in Request.Files)
+        //        {
+        //            HttpPostedFileBase file = Request.Files[i];
+        //            if (file != null)
+        //            {
+        //                var exist = db2.adds_images_tbl.Where(a => a.img_name == file.FileName).ToList();
+        //                if (exist.Count() > 0)
+        //                {
+        //                    img_name_exist.Add(file.FileName);
+        //                }
+        //                else
+        //                {
+        //                    int length = file.ContentLength;
+        //                    byte[] img = new byte[length];
+        //                    file.InputStream.Read(img, 0, length);
+        //                    adds_images_tbl attch = new adds_images_tbl();
+        //                    attch.hiring_period = hiring_period;
+        //                    attch.img_file = img;
+        //                    attch.img_name = file.FileName;
+        //                    db2.adds_images_tbl.Add(attch);
+        //                    db2.SaveChanges();
+        //                }
                            
-                    }
-                }
-                var img_list = db2.adds_images_tbl.Where(a => a.hiring_period == hiring_period).ToList();
-                return JSON(new { message = saved.success, icon = icon.success, img_list, img_name_exist}, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException exp)
-            {
-                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //            }
+        //        }
+        //        var img_list = db2.adds_images_tbl.Where(a => a.hiring_period == hiring_period).ToList();
+        //        return JSON(new { message = saved.success, icon = icon.success, img_list, img_name_exist}, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (DbEntityValidationException exp)
+        //    {
+        //        return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
 
         //public ActionResult SaveAttachements(string doc, string[] data, string employment_type, string budget_code, string item_no)
@@ -251,52 +251,52 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
-        public ActionResult getImgList(string hiring_period)
-        {
-            try
-            {
-                var img_list = db2.adds_images_tbl.Where(a => a.hiring_period == hiring_period).ToList();
-                return JSON(new { message = update.success, icon = icon.success, img_list }, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public ActionResult DeleteImg(int id)
-        {
-            try
-            {
-                var img = db2.adds_images_tbl.Where(a => a.id == id).FirstOrDefault();
-                var period = img.hiring_period;
-                db2.adds_images_tbl.Remove(img);
-                db2.SaveChanges();
+        //public ActionResult getImgList(string hiring_period)
+        //{
+        //    try
+        //    {
+        //        var img_list = db2.adds_images_tbl.Where(a => a.hiring_period == hiring_period).ToList();
+        //        return JSON(new { message = update.success, icon = icon.success, img_list }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+        //public ActionResult DeleteImg(int id)
+        //{
+        //    try
+        //    {
+        //        var img = db2.adds_images_tbl.Where(a => a.id == id).FirstOrDefault();
+        //        var period = img.hiring_period;
+        //        db2.adds_images_tbl.Remove(img);
+        //        db2.SaveChanges();
 
-                var img_list = db2.adds_images_tbl.Where(a => a.hiring_period == period).ToList();
-                return JSON(new { message = update.success, icon = icon.success, img_list }, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        var img_list = db2.adds_images_tbl.Where(a => a.hiring_period == period).ToList();
+        //        return JSON(new { message = update.success, icon = icon.success, img_list }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
-        public ActionResult DeleteAllImages(string hiring_period)
-        {
-            try
-            {
+        //public ActionResult DeleteAllImages(string hiring_period)
+        //{
+        //    try
+        //    {
 
-                var imgs = db2.adds_images_tbl;
-                db2.adds_images_tbl.RemoveRange(imgs);           
-                db2.SaveChanges();
+        //        var imgs = db2.adds_images_tbl;
+        //        db2.adds_images_tbl.RemoveRange(imgs);           
+        //        db2.SaveChanges();
 
-                var img_list = db2.adds_images_tbl.Where(a => a.hiring_period == hiring_period).ToList();
-                return JSON(new { message = update.success, icon = icon.success, img_list }, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        var img_list = db2.adds_images_tbl.Where(a => a.hiring_period == hiring_period).ToList();
+        //        return JSON(new { message = update.success, icon = icon.success, img_list }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
     }
 }

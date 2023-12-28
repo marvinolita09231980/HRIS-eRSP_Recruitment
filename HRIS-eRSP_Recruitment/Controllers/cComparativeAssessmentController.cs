@@ -518,7 +518,54 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
             catch (Exception e)
             {
-                return Json(new { message = e.Message, icon = icon.success }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = e.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult CombinedItems(List<sp_psb_item_list_Result> sp_psb_item_list,string combine_descr)
+        {
+            CheckSession();
+            var data = sp_psb_item_list;
+            var user_id = Session["user_id"].ToString();
+            var dttm = DateTime.Now;
+            var items = "";
+            var len = sp_psb_item_list.Count();
+            try
+            {
+                for (var x = 0; x < len; x++)
+                {
+                    var psb_ctrl_nbr = data[x].psb_ctrl_nbr.ToString();
+                    var item_no = data[x].item_no.ToString();
+                    var ex = db.combined_item_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr && a.item_no == item_no).FirstOrDefault();
+                    if (ex == null)
+                    {
+                        combined_item_tbl ci = new combined_item_tbl();
+                        ci.psb_ctrl_nbr = data[x].psb_ctrl_nbr;
+                        ci.item_no = data[x].item_no;
+                        ci.position_code = data[x].position_code;
+                        ci.employment_type = data[x].employment_type;
+                        ci.budget_code = data[x].budget_code;
+                        ci.descr = combine_descr;
+                        ci.combined_by = user_id;
+                        ci.combined_dttm = dttm;
+                        db.combined_item_tbl.Add(ci);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        items += data[x].item_no.ToString() + " ";
+                    }
+
+                    if(items != "")
+                    {
+                        throw new Exception("Item no. " + data[x].item_no + " is already included in the combined items under the description " + ex.descr);
+                    }
+                }
+                return JSON(new { message = "Items successfully combined", icon = icon.success }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
 

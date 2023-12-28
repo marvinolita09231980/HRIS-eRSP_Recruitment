@@ -29,7 +29,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 var empl_id = Session["empl_id"].ToString();
 
 
-                var emp_photo_byte_arr = db2.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
+                var emp_photo_byte_arr = db.vw_empl_photo_img.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
 
 
                 //string imreBase64Data = "";
@@ -37,27 +37,27 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 //***************convert byte array to image***********************************
 
                 //*****************************************************************************
-                   if (emp_photo_byte_arr != null)
-                   {
-                       //imreBase64Data = Convert.ToBase64String(emp_photo_byte_arr);
-                       //imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
-                       imgDataURL = "http://192.168.5.218/storage/images" + emp_photo_byte_arr;
-                   }
-                   else
-                   {
-                       imgDataURL = "../ResourcesImages/upload_profile.png";
-                   }
+                if (emp_photo_byte_arr != null)
+                {
+                    //imreBase64Data = Convert.ToBase64String(emp_photo_byte_arr);
+                    //imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                    imgDataURL = "http://192.168.5.218/storage/images" + emp_photo_byte_arr;
+                }
+                else
+                {
+                    imgDataURL = "../ResourcesImages/upload_profile.png";
+                }
+                //imgDataURL = "../ResourcesImages/upload_profile.png";
+                //if (emp_photo_byte_arr != null)
+                //{
+                //    imreBase64Data = Convert.ToBase64String(emp_photo_byte_arr);
+                //}
+                //if (imreBase64Data != "")
+                //{
+                //    imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                //}
 
-                   //if (emp_photo_byte_arr != null)
-                   //{
-                   //    imreBase64Data = Convert.ToBase64String(emp_photo_byte_arr);
-                   //}
-                   //if (imreBase64Data != "")
-                   //{
-                   //    imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
-                   //}
-                
-              
+
                 var employment_type = Session["employment_type"] == null ? "" : Session["employment_type"].ToString();
                 var budget_code = Session["budget_code"] == null ? "" : Session["budget_code"].ToString();
                 if(employment_type != "")

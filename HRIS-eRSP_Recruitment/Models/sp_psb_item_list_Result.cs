@@ -28,5 +28,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public Nullable<int> endorse_item { get; set; }
         public string salary_grade { get; set; }
         public string endorsement_date { get; set; }
+        public int combined { get; set; }
+        public string combined_descr { get; set; }
     }
 }

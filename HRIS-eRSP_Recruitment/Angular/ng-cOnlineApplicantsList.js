@@ -24,6 +24,10 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
     s.APL_List_Data_Orig = []
     s.filterApplicantItem_data = []
     s.pre_info_ctrl_nbr = ""
+    s.email_view_cont = ""
+    s.email_settup = {}
+    s.row_for_email = ""
+    s.type_for_email = ""
     
     s.addfetch_row = []
     s.alphabet_list = [
@@ -47,6 +51,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
      
 
     }
+    var summernote = $('#summernote').summernote();
 
     var Init_Educ_Grid = function (par_data) {
         s.Educ_Data = par_data;
@@ -453,13 +458,13 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                                         '<div class="btn-group">' +
                                         '<button type="button" id="emailbtn' + row["row"] + '" class="btn btn-danger btn-sm action" type="button" data-toggle="dropdown" data-placement="top" title="Send email notification" >  <i class="fa fa-paper-plane emailbtncls' + row["row"] + '"></i></button >' +
                                                 '<ul class="dropdown-menu ">' +
-                                                    '<li><a ng-click="sendEmailNotification(' + row["row"] + ',1)">Acknowledge Application</a></li>' +
-                                                    '<li><a ng-click="sendEmailNotification(' + row["row"] + ',2)">Not Qualified for Online Exam</a></li>' +
+                                                    '<li><a ng-click="sendNotif(' + row["row"] + ',1)">Acknowledge Application</a></li>' +
+                                                    '<li><a ng-click="sendNotif(' + row["row"] + ',2)">Not Qualified for Online Exam</a></li>' +
                                                '</ul>' +
                                         '</div>' +
                                        '<button type="button" id="prescrnbtn' + row["row"] + '" class="btn btn-primary btn-sm action" data-toggle="tooltip" data-placement="top" title="Pre-screening date" ng-click="prescreen_date(' + row["row"] + ')" >  <i class="fa fa-eye prescrn' + row["row"] + '"></i></button >' +
                                         '</div>' +
-                                        '<button type="button" style="border:1px solid #22B9BB;margin-top:3px;" class="btn btn-default btn-sm text-danger"  ng-click="goToDocs(' + row["row"] + ')">Attachements</button>'
+                                        '<button type="button" style="border:1px solid #22B9BB;margin-top:3px;" class="btn btn-default btn-sm text-danger"  ng-click="goToDocs(' + row["row"] + ')">Attachments</button>'
                                     '</center>';
                         }
                     }
@@ -475,6 +480,196 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
 
+    function localstorage_array_push_1(ls_name, data, correlator_prop1, correlator_val1) {
+        var dt = []
+        var dt_exist = 0
+        if (localStorage.getItem(ls_name) == null || localStorage.getItem(ls_name) == "undefined") {
+            dt = []
+            
+        }
+        else {
+            dt = JSON.parse(localStorage[ls_name])
+            dt_exist = dt.filter(function (d) {
+                return d[correlator_prop1] == correlator_val1
+            }).length
+            
+        }
+        
+        if (dt_exist == 0) {
+           
+            for (var x = 0; x < data.length; x++) {
+                dt.push(data[x])
+            }
+        }
+        
+        localStorage[ls_name] = JSON.stringify(dt);
+        
+    }
+    function localstorage_array_push_2(ls_name, data, correlator_prop1, correlator_val1, correlator_prop2, correlator_val2) {
+        var dt_exist = 0
+        var dt = []
+        if (localStorage.getItem(ls_name) == null || localStorage.getItem(ls_name) == "undefined") {
+            dt = []
+        }
+        else {
+            dt = JSON.parse(localStorage[ls_name])
+            dt_exist = dt.filter(function (d) {
+                return d[correlator_prop1] == correlator_val1
+                    && d[correlator_prop2] == correlator_val2
+            }).length
+        }
+        
+        if (dt_exist.length == 0) {
+            for (var x = 0; x < data.length; x++) {
+                dt.push(data[x])
+            }
+        }
+        localStorage[ls_name] = JSON.stringify(dt);
+    }
+    function localstorage_array_push_3(ls_name, data, correlator_prop1, correlator_val1, correlator_prop2, correlator_val2, correlator_prop3, correlator_val3) {
+        var dt_exist = 0
+        var dt = []
+        if (localStorage.getItem(ls_name) == null || localStorage.getItem(ls_name) == "undefined") {
+            dt = []
+        }
+        else {
+            dt = JSON.parse(localStorage[ls_name])
+            dt_exist = dt.filter(function (d) {
+                return d[correlator_prop1] == correlator_val1
+                    && d[correlator_prop2] == correlator_val2
+                    && d[correlator_prop3] == correlator_val3
+            }).length
+        }
+        
+        if (dt_exist.length == 0) {
+            for (var x = 0; x < data.length; x++) {
+                dt.push(data[x])
+            }
+        }
+        localStorage[ls_name] = JSON.stringify(dt);
+    }
+    function localstorage_array_push_4(ls_name, data, correlator_prop1, correlator_val1, correlator_prop2, correlator_val2, correlator_prop3, correlator_val3, correlator_prop4, correlator_val4) {
+        var dt = []
+        var dt_exist  = 0
+        if (localStorage.getItem(ls_name) == null || localStorage.getItem(ls_name) == "undefined") {
+            dt = []
+        }
+        else {
+            dt = JSON.parse(localStorage[ls_name])
+            dt_exist = dt.filter(function (d) {
+                return d[correlator_prop1] == correlator_val1
+                    && d[correlator_prop2] == correlator_val2
+                    && d[correlator_prop3] == correlator_val3
+                    && d[correlator_prop4] == correlator_val4
+            }).length
+        }
+
+        if (dt_exist.length = 0) {
+            for (var x = 0; x < data.length; x++) {
+                dt.push(data[x])
+            }
+        }
+        localStorage[ls_name] = JSON.stringify(dt);
+    }
+
+    function localstorage_array_check_1(ls_name, correlator_prop, correlator_val) {
+        var return_data = false
+       
+        if (localStorage.getItem(ls_name) == null || localStorage.getItem(ls_name) == "undefined" || localStorage.getItem(ls_name) == []) {
+            return_data = false
+          
+        }
+        else {
+        
+           var dt = JSON.parse(localStorage[ls_name])
+           var dt_exist = dt.filter(function (d) {
+               return d[correlator_prop] == correlator_val
+            }).length
+
+            
+           if (dt_exist.length > 0) {
+               return_data = true
+           }
+           else {
+               return_data = false
+           }
+            
+        }
+       
+        return return_data
+    }
+    function localstorage_array_check_2(ls_name, correlator_prop1, correlator_val1, correlator_prop2, correlator_val2) {
+        var return_data = false
+        if (localStorage.getItem(ls_name) == null || localStorage.getItem(ls_name) == "undefined") {
+            return_data = false
+        }
+        else {
+            if (return_data == true) {
+                var dt = JSON.parse(localStorage[ls_name])
+                var dt_exist = dt.filter(function (d) {
+                    return d[correlator_prop1] == correlator_val1
+                        && d[correlator_prop2] == correlator_val2
+                }).length
+                if (dt_exist.length > 0) {
+                    return_data = true
+                }
+                else {
+                    return_data = false
+                }
+            }
+        }
+       
+        return return_data
+    }
+    function localstorage_array_check_3(ls_name, correlator_prop1, correlator_val1, correlator_prop2, correlator_val2, correlator_prop3, correlator_val3) {
+        var return_data = false
+        if (localStorage.getItem(ls_name) == null || localStorage.getItem(ls_name) == "undefined") {
+            return_data = false
+        }
+        else {
+            if (return_data == true) {
+                var dt = JSON.parse(localStorage[ls_name])
+                var dt_exist = dt.filter(function (d) {
+                    return d[correlator_prop1] == correlator_val1
+                        && d[correlator_prop2] == correlator_val2
+                        && d[correlator_prop3] == correlator_val3
+                }).length
+                if (dt_exist.length > 0) {
+                    return_data = true
+                }
+                else {
+                    return_data = false
+                }
+            }
+        }
+        
+        return return_data
+    }
+    function localstorage_array_check_4(ls_name, correlator_prop1, correlator_val1, correlator_prop2, correlator_val2, correlator_prop3, correlator_val3, correlator_prop4, correlator_val4) {
+        var return_data = false
+        if (localStorage.getItem(ls_name) == null || localStorage.getItem(ls_name) == "undefined") {
+            return_data = false
+        }
+        else {
+            if (return_data == true) {
+                var dt = JSON.parse(localStorage[ls_name])
+                var dt_exist = dt.filter(function (d) {
+                    return d[correlator_prop1] == correlator_val1
+                        && d[correlator_prop2] == correlator_val2
+                        && d[correlator_prop3] == correlator_val3
+                        && d[correlator_prop4] == correlator_val4
+                }).length
+                if (dt_exist.length > 0) {
+                    return_data = true
+                }
+                else {
+                    return_data = false
+                }
+            }
+        }
+        
+        return return_data
+    }
 
     function if19000101(data) {
         if (data == "1900-01-01") return ""
@@ -748,7 +943,13 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
     function init()
     {
-        //cs.loading("show")
+        
+        Init_APL_List_Grid([])
+        cs.loading("show")
+        var employment_type = ""
+        var budget_code = ""
+        var item_no = ""
+        var hiring_period = ""
 
         $("#dd_item_no").select2().on('change', function (e) {
             s.selectItem_no()
@@ -757,73 +958,105 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         $("#dd_department").select2().on('change', function (e) {
             s.selectDepartment()
         })
-        //$("#budget_code").select2().on('change', function (e) {
 
-        //    s.clearFetch()
-        //    var budget_code = $("#budget_code").val()
+        if (localStorage.getItem('budget_year') == null || localStorage.getItem('budget_year') == "undefined") {
+            s.budget_year =[]
+        }
+        else {
+           var ls_array = JSON.parse(localStorage['budget_year']);
+            s.budget_year = ls_array
+        }
 
-        //    //   cs.loading("show")
+        if (localStorage.getItem('HiringPeriods') == null || localStorage.getItem('HiringPeriods') == "undefined") {
+            s.hiring_periods = []
+        }
+        else {
+            var ls_array = JSON.parse(localStorage['HiringPeriods']);
+            s.hiring_periods = ls_array
+        }
+
+        if (localStorage.getItem('department') == null || localStorage.getItem('department') == "undefined") {
+            s.department = []
+        }
+        else {
+            var ls_array = JSON.parse(localStorage['department']);
+            s.department = ls_array
+        }
+
+        if (localStorage.getItem('item_nbrs') == null || localStorage.getItem('item_nbrs') == "undefined") {
+            s.item_nbrs = []
+        }
+        else {
+           var ls_array = JSON.parse(localStorage['item_nbrs']);
+            s.item_nbrs = ls_array
+        }
 
 
+        if (localStorage.getItem('employment_type') == null || localStorage.getItem('employment_type') == "undefined") {
           
-        //    h.post("../cOnlineApplicantsList/getHiringPeriod", { employment_type: s.employment_type, budget_code: budget_code }).then(function (d) {
-        //        s.hiring_periods = d.data.HiringPeriods;
-        //        $("#APL_List_Grid").dataTable().fnClearTable();
+            addvalue("employment_type", "")
+        }
+        else {
+            employment_type = localStorage['employment_type']
+            addvalue("employment_type", localStorage['employment_type'])
+        }
 
-        //    })
+        if (localStorage.getItem('budget_code') == null || localStorage.getItem('budget_code') == "undefined") {
+            addvalue("budget_code", "")
+        }
+        else {
+            addvalue("budget_code", localStorage['budget_code'])
+            budget_code = localStorage['budget_code']
+        }
 
-        //})
+        if (localStorage.getItem('hiring_period') == null || localStorage.getItem('hiring_period') == "undefined") {
+            addvalue("hiring_period", "")
+        }
+        else {
+            addvalue("hiring_period", localStorage['hiring_period'])
+            hiring_period = localStorage['hiring_period']
+        }
+        if (localStorage.getItem('department_code') == null || localStorage.getItem('department_code') == "undefined") {
+            addvalue("dd_department", "")
+        }
+        else {
 
-        var employment_type = ""
-        var budget_code = ""
-        var department_code = ""
-        var hiring_period = ""
-        var item_no = ""
-        //var departmentcount = false
+            addvalue("dd_department", localStorage['department_code'])
+        }
+        if (localStorage.getItem('item_no') == null || localStorage.getItem('item_no') == "undefined") {
+            addvalue("dd_item_no", "")
+        }
+        else {
+
+            addvalue("dd_item_no", localStorage['item_no'])
+            item_no = localStorage['item_no']
+        }
+
       
-        
-
-        //if (s.department.length > 0) {
-        //    departmentcount = true
-        //}
-        //else {
-        //    departmentcount = false
-        //}
-
-        //h.post("../cOnlineApplicantsList/Initialize", {
-        //    departmentcount: departmentcount
-        //}).then(function (d) {
-
-            //s.APL_List_Data_Orig = d.data.APL_list
-            //s.APL_List_Data = d.data.APL_list.refreshTable("APL_List_Grid", "");
-
-            //if (d.data.departments.length > 0) {
-            //    s.department = d.data.departments
-            //  // localStorage["department"] = JSON.stringify(d.data.department)
-            //}
-
-            //if (d.data.budget_year.length > 0) {
-            //    s.budget_year = d.data.budget_year
-            //}
-
-            //if (d.data.HiringPeriods.length > 0) {
-            //    s.hiring_periods = d.data.HiringPeriods
-            //}
-
-            //if (d.data.item_nbrs.length > 0) {
-            //    s.item_nbrs =  d.data.item_nbrs
-            //}
-
-          
-
-            //define_filters(d.data.filter)
+        if (item_no == null || item_no == "") {
            
-           // cs.loading("hide")
-        //})
+            cs.loading("hide")
+        }
+        else {
+           
+            h.post("../cOnlineApplicantsList/getAPLApplicants",
+                {
+                      employment_type: employment_type
+                    , budget_code: budget_code
+                    , item_no: item_no
+                    , hiring_period: hiring_period
+                }
+            ).then(function (d) {
+                console.log(d.data.APL_list)
+                s.APL_List_Data_Orig = d.data.APL_list
+                s.APL_List_Data = d.data.APL_list.refreshTable("APL_List_Grid", "");
+                cs.loading("hide")
+            })
+        }
     }
 
     init()
-    Init_APL_List_Grid(s.APL_List_Data)
+    //Init_APL_List_Grid(s.APL_List_Data)
     Init_Educ_Grid([])
     Init_Elig_Grid([])
     Init_LnD_Grid([])
@@ -832,6 +1065,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
     Init_sendemail_List_Grid2([])
 
     s.selectEmploymentType = function (employment_type) {
+        var ls_array = []
         cs.loading("show")
         s.clearFilter(1)
         s.clearFetch()
@@ -840,15 +1074,110 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         addvalue("budget_code", "")
         addvalue("hiring_period", "")
         addvalue("dd_item_no", "")
-        var employment_type = s.employment_type
-        h.post("../cOnlineApplicantsList/selectEmploymentType", { employment_type: employment_type, start: val("startwith", "jq") }).then(function (d) {
 
-            s.budget_year = d.data.budget_year;
-            $("#APL_List_Grid").dataTable().fnClearTable();
-            cs.loading("hide")
-        })
+        var employment_type = s.employment_type
+        localStorage['employment_type'] = s.employment_type
+
+        
+            h.post("../cOnlineApplicantsList/selectEmploymentType", { employment_type: employment_type, start: val("startwith", "jq") }).then(function (d) {
+                s.budget_year = d.data.budget_year;
+                localStorage['budget_year'] = JSON.stringify(d.data.budget_year);
+                $("#APL_List_Grid").dataTable().fnClearTable();
+                cs.loading("hide")
+            })
+        
+    }
+
+
+    s.selectBudgetCode = function () {
+        var ls_array = []
+        cs.loading("show")
+        s.clearFilter(2)
+        s.clearFetch()
+
+        var budget_code = $("#budget_code").val()
+
+
+
+
+        addvalue("dd_department", "")
+        addvalue("hiring_period", "")
+        addvalue("dd_item_no", "")
+
+        localStorage['budget_code'] = budget_code
+
+        
+          
+            h.post("../cOnlineApplicantsList/getHiringPeriod", { employment_type: s.employment_type, budget_code: budget_code }).then(function (d) {
+                s.hiring_periods = d.data.HiringPeriods;
+                localStorage['HiringPeriods'] = JSON.stringify(d.data.HiringPeriods);
+                $("#APL_List_Grid").dataTable().fnClearTable();
+                cs.loading("hide")
+            })
+        
 
     }
+
+    s.selectHiringPeriod = function () {
+        var ls_array = []
+        s.clearFilter(3)
+        cs.loading("show")
+
+        addvalue("dd_department", "")
+        addvalue("dd_item_no", "")
+        var hiring_period = $("#hiring_period").val()
+
+        localStorage['hiring_period'] = $("#hiring_period").val()
+            h.post("../cOnlineApplicantsList/getDepartments", { hiring_period: hiring_period }).then(function (d) {
+                s.department = d.data.departments;
+                localStorage['department'] = JSON.stringify(d.data.departments);
+                $("#APL_List_Grid").dataTable().fnClearTable();
+                cs.loading("hide")
+            })
+        
+
+    }
+
+    s.selectDepartment = function () {
+        cs.loading("show")
+        var ls_array = []
+        s.clearFilter(4)
+        var employment_type = $("#employment_type").val()
+        var budget_code = $("#budget_code").val()
+        var department_code = $("#dd_department").val()
+        var hiring_period = $("#hiring_period").val() 
+
+        localStorage['department_code'] = department_code
+
+        
+            h.post("../cOnlineApplicantsList/getItemNumbers", { employment_type: employment_type, budget_code: budget_code, department_code: department_code, hiring_period: hiring_period }).then(function (d) {
+                s.item_nbrs = d.data.item_nbrs
+                localStorage['item_nbrs'] = JSON.stringify(d.data.item_nbrs);
+                cs.loading("hide")
+                $("#APL_List_Grid").dataTable().fnClearTable();
+            })
+        
+
+    }
+
+
+    s.selectItem_no = function () {
+
+        cs.loading("show")
+        s.clearFetch()
+        var ret = false
+
+
+        //var employment_type = $("#employment_type").val()
+        //var budget_code = $("#budget_code").val()
+        //var item_no = $("#dd_item_no").val()
+        //var hiring_period = $("#hiring_period").val()
+
+        localStorage['item_no'] = $("#dd_item_no").val()
+        s.getListFromOnline()
+    }
+
+
 
     
     function define_filters(filter) {  
@@ -891,80 +1220,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
     }
 
 
-    s.selectBudgetCode = function () {
-        cs.loading("show")
-        s.clearFilter(2)
-        s.clearFetch()
-
-        var budget_code = $("#budget_code").val()
-
-       
-       
-       
-        addvalue("dd_department", "")
-        addvalue("hiring_period", "")
-        addvalue("dd_item_no", "")
-        h.post("../cOnlineApplicantsList/getHiringPeriod", { employment_type: s.employment_type, budget_code: budget_code}).then(function (d) {
-            s.hiring_periods = d.data.HiringPeriods;
-            $("#APL_List_Grid").dataTable().fnClearTable();
-            cs.loading("hide")
-        })
-        
-      
-    }
-
-
-
-    s.selectHiringPeriod = function () {
-
-        
-        s.clearFilter(3)
-        cs.loading("show")
-
-
-        addvalue("dd_department", "")
-        addvalue("dd_item_no", "")
-        var hiring_period = $("#hiring_period").val()
-       
-        h.post("../cOnlineApplicantsList/getDepartments", { hiring_period: hiring_period }).then(function (d) {
-            s.department = d.data.departments;
-            $("#APL_List_Grid").dataTable().fnClearTable();
-            cs.loading("hide")
-        })
-
-    }
-
-    s.selectDepartment = function () {
-          cs.loading("show")
-       
-          s.clearFilter(4)
-          var employment_type  = $("#employment_type").val()
-          var budget_code      = $("#budget_code").val()
-          var department_code = $("#dd_department").val()
-          var hiring_period    = $("#hiring_period").val()
-          h.post("../cOnlineApplicantsList/getItemNumbers", { employment_type: employment_type, budget_code: budget_code, department_code: department_code, hiring_period: hiring_period }).then(function (d) {
-               s.item_nbrs = d.data.item_nbrs
-               cs.loading("hide")
-               $("#APL_List_Grid").dataTable().fnClearTable();
-            })
-
-    }
   
-   
-
-    s.selectItem_no = function () {
-      
-        cs.loading("show")
-        s.clearFetch()
-        var ret = false
-       
-
-        var employment_type = $("#employment_type").val()
-        var budget_code = $("#budget_code").val()
-        var item_no = $("#dd_item_no").val()
-        var hiring_period = $("#hiring_period").val()
-             s.getListFromOnline()
-    }
 
     s.getListFromOnline = function(){
             var employment_type = $("#employment_type").val()
@@ -1287,30 +1543,31 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
     }
 
 
-
-    s.sendEmailNotification = function (row_id,type) {
-        var swal_title  = "";
-        var swal_text = "";
+    s.sendNotif = function (row_id, type) {
+        
+        s.row_for_email = row_id
+        s.type_for_email = type
+        
         var dt = s.APL_List_Data[row_id]
-        var empl_id = s.APL_List_Data[row_id].APL_info_ctrl_nbr
-        var ret = false
+       
         var data = []
-       
-       
 
+        cs.loading("show")
         h.post("../cOnlineApplicantsList/verifyinReview", {
             dt: dt
         }).then(function (d) {
             data = d.data.inreview
             if (data.length > 0) {
                 dt.app_ctrl_nbr = data[0].app_ctrl_nbr
-                console.log(data)
+               
                 if (type == "1" && data[0].email_aknowldge_dttm != "") {
                     swal("You have already sent acknowldgement email for this applicant", { icon: "error" })
+                    cs.loading("hide")
                     return
                 }
                 else if (type == "2" && data[0].email_aknowldge_regret_dttm != "") {
                     swal("You have already sent notification email for this applicant that he/she was not qualified for the position", { icon: "error" })
+                    cs.loading("hide")
                     return
                 }
                 if (type == "1") {
@@ -1321,6 +1578,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                     swal_title = "Not Qualified for Online Examination Email"
                     swal_text = "Are you sure that you want to inform this applicant that he or she did not qualify for online examination? Please double check your action!"
                 }
+                cs.loading("hide")
                 swal({
                     title: swal_title,
                     text: swal_text,
@@ -1330,52 +1588,191 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                 }).then(function (yes) {
                     if (yes) {
 
-                        $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
-                        $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
-                        $("#emailbtn" + row_id).prop("disabled", true);
+                        cs.loading("show")
 
-                        h.post("../cOnlineApplicantsList/sendEmailNotification", {
+                        h.post("../cOnlineApplicantsList/GetEmailNotification", {
                             dt: dt
                             , email_type: type
                         }).then(function (d) {
-
-                            var se = d.data.se
-                            
-                            s.APL_List_Data[row_id].aknowledge_dttm = se.email_aknowldge_dttm
-                            s.APL_List_Data[row_id].aknowledge_by = d.data.employee_name
-                            s.APL_List_Data[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
-                            s.APL_List_Data[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
-                            s.APL_List_Data[row_id].email_regret_dttm = se.email_regret_dttm
-                            s.APL_List_Data[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
-                            s.APL_List_Data[row_id].email_notintop5_dttm = se.email_notintop5_dttm
-                            s.APL_List_Data[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm
-                           
-                            setTimeout(function () {
-                                s.APL_List_Data.refreshTable("APL_List_Grid", "" + row_id);
-                            }, 500)
-                            
-
-                            swal(d.data.message, { icon: d.data.icon })
-
-                            $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
-                            $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
-                            $("#emailbtn" + row_id).prop("disabled", false);
+                            s.email_settup = d.data.email_settup
+                            summernote.code(d.data.email_settup.email_body)
+                            $("#addNotQualifiedExamReason_modal").modal("show")
+                            cs.loading("hide")
                         })
+
+
                     }
+                    else {
+
+                        s.email_settup = []
+                        summernote.code("")
+                        cs.loading("hide")
+                    }
+
                 });
             }
             else {
-               
+
                 swal("Applicant not yet fetch!", { icon: "error" })
-                
+
             }
-           
+
         })
+        
+     
+
+        
+      
+    }
+
+
+    s.sendEmailNotification2 = function () {
+
+        
+        
+
+       
+        var row_id = parseInt(s.row_for_email);
+        var type = parseInt(s.type_for_email);
+        var dt = s.APL_List_Data[row_id]
+        var data = []
+        var email_data = s.email_settup
+
+        $("#btnsendemailicon").removeClass('fa fa-send');
+        $("#btnsendemailicon").addClass("fa fa-spinner fa-spin");
+        $("#buttonsendemail").prop("disabled", true);
+        $("#buttonsendemailcancel").prop("disabled", true);
+        
+
+        email_data.email_body = summernote.code()
+        
+        
+
+                        h.post("../cOnlineApplicantsList/sendEmailNotification2", {
+                            dt: dt
+                            , email_type: type
+                            , email_settup: email_data
+                        }).then(function (d) {
+                          
+                                var se = d.data.se
+
+                                s.APL_List_Data[row_id].aknowledge_dttm = se.email_aknowldge_dttm
+                                s.APL_List_Data[row_id].aknowledge_by = d.data.employee_name
+                                s.APL_List_Data[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
+                                s.APL_List_Data[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
+                                s.APL_List_Data[row_id].email_regret_dttm = se.email_regret_dttm
+                                s.APL_List_Data[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
+                                s.APL_List_Data[row_id].email_notintop5_dttm = se.email_notintop5_dttm
+                                s.APL_List_Data[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm
+
+                                setTimeout(function () {
+                                    s.APL_List_Data.refreshTable("APL_List_Grid", "" + row_id);
+                                }, 500)
+                            
+                           
+
+                            swal(d.data.message, { icon: d.data.icon })
+                            
+
+                            $("#btnsendemailicon").removeClass("fa fa-spinner fa-spin");
+                            $("#btnsendemailicon").addClass('fa fa-send');
+                            $("#buttonsendemail").prop("disabled", false);
+                            $("#buttonsendemailcancel").prop("disabled", false);
+                        })
+           
+        
+
+    }
+
+
+    //s.sendEmailNotification = function (row_id,type) {
+    //    var swal_title  = "";
+    //    var swal_text = "";
+    //    var dt = s.APL_List_Data[row_id]
+    //    var empl_id = s.APL_List_Data[row_id].APL_info_ctrl_nbr
+    //    var ret = false
+    //    var data = []
+       
+       
+
+    //    h.post("../cOnlineApplicantsList/verifyinReview", {
+    //        dt: dt
+    //    }).then(function (d) {
+    //        data = d.data.inreview
+    //        if (data.length > 0) {
+    //            dt.app_ctrl_nbr = data[0].app_ctrl_nbr
+    //            console.log(data)
+    //            if (type == "1" && data[0].email_aknowldge_dttm != "") {
+    //                swal("You have already sent acknowldgement email for this applicant", { icon: "error" })
+    //                return
+    //            }
+    //            else if (type == "2" && data[0].email_aknowldge_regret_dttm != "") {
+    //                swal("You have already sent notification email for this applicant that he/she was not qualified for the position", { icon: "error" })
+    //                return
+    //            }
+    //            if (type == "1") {
+    //                swal_title = "Send Acknowledgement Email"
+    //                swal_text = "Are you sure that you want to send an acknowledgement email to this applicant? Please double check your action!"
+    //            }
+    //            else if (type == "2") {
+    //                swal_title = "Not Qualified for Online Examination Email"
+    //                swal_text = "Are you sure that you want to inform this applicant that he or she did not qualify for online examination? Please double check your action!"
+    //            }
+    //            swal({
+    //                title: swal_title,
+    //                text: swal_text,
+    //                icon: "info",
+    //                buttons: ["No", "Yes"],
+    //                dangerMode: true,
+    //            }).then(function (yes) {
+    //                if (yes) {
+
+    //                    $(".emailbtncls" + row_id).removeClass('fa fa-paper-plane');
+    //                    $(".emailbtncls" + row_id).addClass("fa fa-spinner fa-spin");
+    //                    $("#emailbtn" + row_id).prop("disabled", true);
+
+    //                    h.post("../cOnlineApplicantsList/sendEmailNotification", {
+    //                          dt: dt
+    //                        , email_type: type
+    //                    }).then(function (d) {
+
+    //                        var se = d.data.se
+                            
+    //                        s.APL_List_Data[row_id].aknowledge_dttm = se.email_aknowldge_dttm
+    //                        s.APL_List_Data[row_id].aknowledge_by = d.data.employee_name
+    //                        s.APL_List_Data[row_id].email_aknowldge_regret_dttm = se.email_aknowldge_regret_dttm
+    //                        s.APL_List_Data[row_id].email_noti_exam_dttm = se.email_noti_exam_dttm
+    //                        s.APL_List_Data[row_id].email_regret_dttm = se.email_regret_dttm
+    //                        s.APL_List_Data[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
+    //                        s.APL_List_Data[row_id].email_notintop5_dttm = se.email_notintop5_dttm
+    //                        s.APL_List_Data[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm
+                           
+    //                        setTimeout(function () {
+    //                            s.APL_List_Data.refreshTable("APL_List_Grid", "" + row_id);
+    //                        }, 500)
+                            
+
+    //                        swal(d.data.message, { icon: d.data.icon })
+
+    //                        $(".emailbtncls" + row_id).removeClass("fa fa-spinner fa-spin");
+    //                        $(".emailbtncls" + row_id).addClass('fa fa-paper-plane');
+    //                        $("#emailbtn" + row_id).prop("disabled", false);
+    //                    })
+    //                }
+    //            });
+    //        }
+    //        else {
+               
+    //            swal("Applicant not yet fetch!", { icon: "error" })
+                
+    //        }
+           
+    //    })
        
 
 
 
-    }
+    //}
 
     
     

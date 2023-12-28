@@ -76,10 +76,11 @@ namespace HRIS_eRSP_Recruitment.Controllers
             try
             {
                 var department = db2.sp_department_tbl_rct(hiring_period).ToList();
-                var psb_sked_hdr = db2.vw_psb_sked_hdr_tbl.Where(a => a.hiring_period == hiring_period && a.psb_status < 2).ToList();
+                //var psb_sked_hdr = db2.vw_psb_sked_hdr_tbl.Where(a => a.hiring_period == hiring_period && a.psb_status < 2).ToList();
+                var psb_sked_hdr = db2.vw_psb_sked_hdr_tbl.Where(a => a.hiring_period == hiring_period).ToList();
                 return JSON2(new
                 {
-                    department
+                     department
                     ,psb_sked_hdr
 
                 }, JsonRequestBehavior.AllowGet);
@@ -201,7 +202,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 && a.employment_type == employment_type 
                 && a.department_code == department_code
                 && a.ctrl_no == hiring_period).ToList();
-                return JSON2(new { message = update.success, icon = icon.success, items }, JsonRequestBehavior.AllowGet);
+                var psb_sked_hdr = db2.vw_psb_sked_hdr_tbl.Where(a => a.hiring_period == hiring_period).ToList();
+                return JSON2(new { message = update.success, icon = icon.success, items, psb_sked_hdr}, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -211,16 +213,15 @@ namespace HRIS_eRSP_Recruitment.Controllers
         public ActionResult getReviewItem(string item_no, string budget_code, string employment_type, string hiring_period,string department_code)
         {
             CheckSession();
-            Session["rw_item_no"] = item_no;
-            Session["rw_budget_code"] = budget_code;
-            Session["rw_employment_type"] = employment_type;
-            Session["rw_hiring_period"] = hiring_period;
-            Session["rw_department_code"] = department_code;
+         
             var psb_ctrl_nbr = "";
+
             List<sp_review_applicant_tbl_list3_Result> review_list = new List<sp_review_applicant_tbl_list3_Result>();
             try
             {
-                var pitm = db2.psb_sked_item_nbrs.Where(a => a.item_no == item_no && a.budget_code == budget_code && a.employment_type == employment_type).FirstOrDefault();
+                var pitm = db2.vw_psb_sked_app_item_no_tbl.Where(a => a.item_no == item_no && a.budget_code == budget_code 
+                && a.employment_type == employment_type && a.hiring_period == hiring_period).FirstOrDefault();
+
                 if (pitm != null)
                 {
                     psb_ctrl_nbr = pitm.psb_ctrl_nbr;
@@ -395,7 +396,15 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult SaveForPsbSched(string psb_ctrl_nbr, string app_ctrl_nbr)
+
+       
+        public ActionResult SaveForPsbSched(string psb_ctrl_nbr, 
+            string app_ctrl_nbr, 
+            string item_no, 
+            string budget_code, 
+            string employment_type, 
+            string hiring_period
+        )
         {
             CheckSession();
             var user_id = Session["user_id"].ToString();
@@ -404,33 +413,71 @@ namespace HRIS_eRSP_Recruitment.Controllers
             try
             {
                 psb_sked_app_tbl ps = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
-                if(ps == null)
+                if (ps == null)
                 {
-                    ps = new psb_sked_app_tbl();
-                    ps.psb_ctrl_nbr = psb_ctrl_nbr;
-                    ps.app_ctrl_nbr = app_ctrl_nbr;
-                    db2.psb_sked_app_tbl.Add(ps);
-
-                    var db = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-                    db.app_status = "2";
-                    db2.SaveChanges();
-                    message = insert.success;
-                    icn = icon.success;
+                    throw new Exception("The applicant has already been added to the HRMPSB screening!");
                 }
-                else
-                {
-                    message = "Application already scheduled for screening";
-                    icn = icon.error;
-                }
+                ps = new psb_sked_app_tbl();
+                ps.psb_ctrl_nbr = psb_ctrl_nbr;
+                ps.app_ctrl_nbr = app_ctrl_nbr;
+                db2.psb_sked_app_tbl.Add(ps);
 
-                return JSON2(new { message, icon = icn }, JsonRequestBehavior.AllowGet);
+                var db = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                db.app_status = "2";
+                db2.SaveChanges();
+                message = "Successfully added to HRMPSB schedule";
+                icn = icon.success;
+              
+                var review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+                return JSON2(new { message , icon = icn, review_list}, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
+                  message = e.Message;
+                return Json(new { message = message, icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult getPsbSchedList(string item_no)
+
+        public ActionResult RemoveFromHRMPSBScreening(string psb_ctrl_nbr,
+          string app_ctrl_nbr,
+          string item_no,
+          string budget_code,
+          string employment_type,
+          string hiring_period
+         )
+        {
+            CheckSession();
+            var user_id = Session["user_id"].ToString();
+            var message = "";
+            var icn = "";
+            try
+            {
+                psb_sked_app_tbl ps = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+                if (ps == null)
+                {
+                    throw new Exception("The applicant has already been added to the HRMPSB screening!");
+                }
+                ps = new psb_sked_app_tbl();
+                ps.psb_ctrl_nbr = psb_ctrl_nbr;
+                ps.app_ctrl_nbr = app_ctrl_nbr;
+                db2.psb_sked_app_tbl.Add(ps);
+
+                var db = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                db.app_status = "2";
+                db2.SaveChanges();
+                message = "Successfully added to HRMPSB schedule";
+                icn = icon.success;
+
+                var review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+                return JSON2(new { message, icon = icn, review_list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Json(new { message = message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult getPsbSchedList(string item_no,string app_ctrl_nbr)
         {
             CheckSession();
             var message = "";
@@ -438,13 +485,27 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var icn = "";
             try
             {
+                var inpsb = (from d in db2.psb_sked_app_tbl
+                             join e in db2.psb_sked_hdr_tbl
+                             on d.psb_ctrl_nbr equals e.psb_ctrl_nbr
+                             where d.app_ctrl_nbr == app_ctrl_nbr
+                             select new
+                             {
+                                
+                                  e.psb_date
+                                 ,e.remarks_details
+                             }).ToList();
 
+                if (inpsb.Count() > 0)
+                {
+                    var strtdate= DateTime.ParseExact(inpsb[0].psb_date.ToString(), "MM/d/yyyy", CultureInfo.InvariantCulture);
+                    throw new Exception("Applicants already added in HRMPSB schedule on " + strtdate +" " + inpsb[0].remarks_details);
+                }
                 var itm = db2.sp_item_psb_schedule(item_no).ToList();
                 var itm_rw = itm.FirstOrDefault();
                 if(itm.Count() == 0)
                 {
-                    message = "Applicants item not scheduled for PSB Screening";
-                    icn = "error";
+                    throw new Exception("Applicants item not scheduled for PSB Screening");
                 }
                 else
                 {
@@ -454,9 +515,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 }
                 return JSON2(new { message, icon = icn, itm, pnl}, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = e.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
         public ActionResult getPsbPanelMember(string psb_ctrl_nbr)
@@ -700,6 +761,219 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
+        public ActionResult GetEmailNotification2(sp_review_applicant_tbl_list3_Result dt, string email_type)
+        {
+            CheckSession();
+
+            var user_id = Session["user_id"].ToString();
+
+            DateTime dttm = DateTime.Now;
+            try
+            {
+                var app = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                if (email_type == "1")
+                {
+                    
+                }
+                else if (email_type == "2")
+                {
+                    if (app.quali_onlineexam == true)
+                    {
+                        throw new Exception("You already qualify this applicant for exam!");
+                    }
+                }
+                else if (email_type == "3")
+                {
+                    if (app.quali_onlineexam == false)
+
+                    {
+                        throw new Exception("The applicant has not been shortlisted yet to proceed to the exam!");
+                    }
+                    if (app.email_aknowldge_regret_dttm != "")
+                    {
+                        throw new Exception("The applicant has already been notified of disqualification from the exam!");
+                    }
+                }
+                else if (email_type == "4")
+                {
+
+                }
+                else if (email_type == "5")
+                { 
+                    if (app.quali_hrmpsb == false)
+                    {
+                        throw new Exception("The applicant has not been shortlisted yet to proceed to the exam!");
+                    }
+                }
+                else if (email_type == "6")
+                {
+                    if (app.top5examinees == true)
+                    {
+                        throw new Exception("The applicant has already been shortlisted as one of the top 5 examinees.!");
+                    }
+                    if (app.quali_hrmpsb == true)
+                    {
+                        throw new Exception("The applicant has already been shortlisted for HRMPSB Screening!");
+                    }
+                }
+                else if (email_type == "7")
+                {
+                }
+                var email_settup = db2.sp_send_email_notification(dt.email_address, dt.empl_id, dt.app_ctrl_nbr, dt.hiring_period, email_type).FirstOrDefault();
+
+                return JSON2(new { email_settup, message = "Applicants is successfully notified!", icon = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult sendEmailNotification2(sp_review_applicant_tbl_list3_Result dt, string email_type, sp_send_email_notification_Result email_settup)
+        {
+            CheckSession();
+            var email_subject = "";
+
+
+            var user_id = Session["user_id"].ToString();
+            var mi = "";
+            DateTime dttm = DateTime.Now;
+            try
+            {
+
+                if (dt.middle_name == "")
+                {
+                    mi = "";
+                }
+                else
+                {
+                    mi = dt.middle_name.Substring(0, 1);
+                }
+
+                if (email_type == "1")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_aknowldge_dttm = dttm;
+                    appreview.email_aknowldge_by = user_id;
+                    appreview.aknowledge_dttm = dttm;
+                    appreview.aknowledge_by = user_id;
+
+                    email_subject = "Aknowledge application email";
+                }
+                else if (email_type == "2")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_aknowldge_regret_dttm = dttm;
+                    appreview.email_aknowldge_regret_by = user_id;
+
+                    email_subject = "email evaluated but not qualified to proceed to online exam";
+
+                }
+
+                else if (email_type == "3")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_noti_exam_dttm = dttm;
+                    appreview.email_noti_exam_by = user_id;
+                    email_subject = "Qualify for examination";
+                }
+                else if (email_type == "4")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_regret_dttm = dttm;
+                    appreview.email_regret_by = user_id;
+                    email_subject = "Regret letter to inform that another candidate was choosen for the position";
+                }
+                else if (email_type == "5")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_noti_hrmpsb_dttm = dttm;
+                    appreview.email_noti_hrmpsb_by = user_id;
+                    email_subject = "Qualify for HRMPSB Screening";
+                }
+                else if (email_type == "6")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_notintop5_dttm = dttm;
+                    appreview.email_notintop5_by = user_id;
+                    email_subject = "Not in top 5 examinees";
+                }
+                else if (email_type == "7")
+                {
+                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+                    appreview.email_congratulatory_dttm = dttm;
+                    appreview.email_congratulatory_by = user_id;
+                    email_subject = "Congratulatory letter";
+                }
+
+                applicants_email_sent_items ems = new applicants_email_sent_items();
+                ems.app_ctrl_nbr = dt.app_ctrl_nbr == null ? "" : dt.app_ctrl_nbr;
+                ems.first_name = dt.first_name;
+                ems.last_name = dt.last_name;
+                ems.middle_name = dt.middle_name;
+                ems.email_address = dt.email_add;
+                ems.hiring_period = dt.hiring_period;
+                ems.email_subject = email_subject;
+                ems.created_dttm = dttm.ToString();
+                ems.created_by_user = user_id;
+                db2.applicants_email_sent_items.Add(ems);
+
+
+                using (MailMessage mm = new MailMessage(email_settup.email_from, dt.email_add))
+                {
+
+                    mm.Subject = email_settup.email_subject;
+                    mm.Body = email_settup.email_body;
+                    mm.IsBodyHtml = true;
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Host = email_settup.email_smtp;
+                        smtp.EnableSsl = (bool)email_settup.email_enable_ssl;
+                        NetworkCredential NetworkCred = new NetworkCredential(email_settup.email_from, email_settup.email_from_pass);
+                        smtp.UseDefaultCredentials = (bool)email_settup.email_default_credentials;
+                        smtp.Credentials = NetworkCred;
+                        smtp.Port = (int)email_settup.email_port;
+                        smtp.Send(mm);
+                    }
+
+                }
+
+
+                db2.SaveChanges();
+
+
+                var apr = db2.vw_applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
+
+                sendingEmailList se = new sendingEmailList();
+                se.app_ctrl_nbr = dt.app_ctrl_nbr == null ? "" : dt.app_ctrl_nbr;
+                se.applicant_name = dt.first_name + " " + mi + ". " + dt.last_name;
+                se.email_address = dt.email_add;
+                se.email_aknowldge_dttm = apr.email_aknowldge_dttm.ToString();
+                se.email_aknowldge_regret_dttm = apr.email_aknowldge_regret_dttm.ToString();
+                se.email_noti_exam_dttm = apr.email_noti_exam_dttm.ToString();
+                se.email_regret_dttm = apr.email_regret_dttm.ToString();
+                se.email_noti_hrmpsb_dttm = apr.email_noti_hrmpsb_dttm.ToString();
+                se.email_notintop5_dttm = apr.email_notintop5_dttm.ToString();
+                se.email_congratulatory_dttm = apr.email_congratulatory_dttm.ToString();
+                se.status = true;
+
+                var empl_id = user_id.Substring(1, user_id.Length - 1);
+                var personnelname = db2.vw_personnelnames_tbl_RCT.Where(a => a.empl_id == empl_id).FirstOrDefault();
+                var employee_name = personnelname.employee_name;
+
+
+                return JSON2(new { employee_name, message = "Applicants is successfully notified!", icon = "success", se }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                string message = DbEntityValidationExceptionError(e);
+                return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
 
         public ActionResult sendEmailNotification(sp_review_applicant_tbl_list3_Result dt, string email_type)
         {
@@ -751,33 +1025,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     email_subject = "email evaluated but not qualified to proceed to online exam.";
 
                 }
-                else if (email_type == "3")
-                {
-                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
-                    appreview.email_noti_exam_dttm = dttm;
-                    appreview.email_noti_exam_by = user_id;
-
-                    email_subject = "Notification for Online Examination";
-
-                }
-                else if (email_type == "5")
-                {
-                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
-                    appreview.email_noti_hrmpsb_dttm = dttm;
-                    appreview.email_noti_hrmpsb_by = user_id;
-
-                    email_subject = "Notification for HRMPSB Screening";
-
-                }
-                else if (email_type == "6")
-                {
-                    var appreview = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
-                    appreview.email_notintop5_dttm = dttm;
-                    appreview.email_notintop5_by = user_id;
-
-                    email_subject = "Notification not in Top 5 applicants";
-
-                }
+                
 
                
                 applicants_email_sent_items ems = new applicants_email_sent_items();
@@ -910,40 +1158,41 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         } 
-        public ActionResult addToPSB(string item_no, string app_ctrl_nbr, string employment_type, string budget_code,string hiring_period,string psb_ctrl_nbr)
+        public ActionResult addToPSB(string item_no, string app_ctrl_nbr, string employment_type, string budget_code,string hiring_period,string psb_ctrl_nbr, string department_code)
         {
             var message = "";
             var icn = "";
+            var user = Session["user_id"].ToString();
+            var datenow = DateTime.Now;
             try
             {
                 List<sp_review_applicant_tbl_list3_Result> review_list = new List<sp_review_applicant_tbl_list3_Result>();
 
-                var inpsb = (from p in db2.psb_sked_item_nbrs
-                            where p.item_no == item_no
-                             && p.employment_type == employment_type
-                             && p.budget_code == budget_code
-                             select new
-                            {
-                                p.psb_ctrl_nbr,
-                                p.employment_type,
-                                p.budget_code
-                            }).FirstOrDefault();
-
-                if (psb_ctrl_nbr == "")
+                var ps = db2.vw_psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+                if (ps != null)
                 {
-                    throw new Exception("You have not selected a HRMSP schedule");
+                    throw new Exception("The applicant has already been added to the HRMPSB screening!");
                 }
-                else
-                {
-                    var psbhdr = db2.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
-                    if (psbhdr.psb_status >= 2)
-                    {
-                        throw new Exception("Cannot add applicants from PSB schedule that is already concluded");
-                    }
 
-                    var app = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+                var ps2 = db2.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+                if (ps2.psb_status >= 2)
+                {
+                    throw new Exception("Cannot add applicants from PSB schedule that is already concluded");
+                }
+                //var ps3 = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                //if (ps3.email_noti_hrmpsb_dttm != "" && ps3.email_noti_hrmpsb_dttm != "1900-01-01")
+                //{
+                //    throw new Exception("The applicant has already been notified for the HRMPSB screening!");
+                //}
+
+                var app = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                     if(app == null)
                     {
+                        var prog = db2.applicant_qualified_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                        prog.quali_hrmpsb = true;
+                        prog.quali_hrmpsb_by = user;
+                        prog.quali_hrmpsb_dttm = datenow;
+
                         psb_sked_app_tbl ap = new psb_sked_app_tbl();
                         ap.app_ctrl_nbr = app_ctrl_nbr;
                         ap.psb_ctrl_nbr = psb_ctrl_nbr;
@@ -952,12 +1201,42 @@ namespace HRIS_eRSP_Recruitment.Controllers
                         var apl = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
                         apl.app_status = "2";
                         db2.SaveChanges();
+
+                        var inpsb = (from p in db2.psb_sked_item_nbrs
+                                     where p.item_no == item_no
+                                      && p.employment_type == employment_type
+                                      && p.budget_code == budget_code
+                                      && p.psb_ctrl_nbr == psb_ctrl_nbr
+                                     select new
+                                     {
+                                         p.psb_ctrl_nbr,
+                                         p.employment_type,
+                                         p.budget_code
+                                     }).ToList();
+                        if (inpsb.Count() == 0)
+                        {
+                            psb_sked_item_nbrs pi = new psb_sked_item_nbrs();
+                            pi.item_no = item_no;
+                            pi.psb_ctrl_nbr = psb_ctrl_nbr;
+                            pi.endorse_no = 0;
+                            pi.selected_approved = false;
+                            pi.budget_code = budget_code;
+                            pi.employment_type = employment_type;
+                            pi.department_code = department_code;
+                            pi.panel_01_02         = false;
+                            pi.panel_03            = false;
+                            pi.panel_04            = false;
+                            pi.panel_05 = false;
+                            db2.psb_sked_item_nbrs.Add(pi);
+                            db2.SaveChanges();
+                        }
+                       
                         message = "Applicants is successfully added to PSb schedule";
                         icn = "success";
-                        review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+                       
                     }
-                }
-               
+
+                review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
                 return JSON2(new { message = message, icon = icn, review_list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exp)
@@ -972,34 +1251,65 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var icn = "";
             try
             {
+               
                 List<sp_review_applicant_tbl_list3_Result> review_list = new List<sp_review_applicant_tbl_list3_Result>();
-                var inpsb = (from p in db2.psb_sked_item_nbrs
+
+                
+
+                var ps1 = db2.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+               
+                if (ps1.psb_status >= 2)
+                {
+                    throw new Exception("Cannot remove applicants from PSB schedule that is already concluded");
+                }
+
+                var ps2 = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (ps2.email_noti_hrmpsb_dttm != "")
+                {
+                    throw new Exception("The applicant has already been notified for the HRMPSB screening!");
+                }
+
+                var prog = db2.applicant_qualified_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                prog.quali_hrmpsb = null;
+                prog.quali_hrmpsb_by = null;
+                prog.quali_hrmpsb_dttm = null;
+
+                var app = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+
+                if(app != null) db2.psb_sked_app_tbl.Remove(app);
+
+
+                var apl = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                apl.app_status = "1";
+                db2.SaveChanges();
+
+                var inpsb = (from p in db2.vw_psb_sked_app_item_no_tbl
                              where p.item_no == item_no
                              && p.employment_type == employment_type
                              && p.budget_code == budget_code
+                             && p.psb_ctrl_nbr == psb_ctrl_nbr
                              select new
                              {
                                  p.psb_ctrl_nbr,
                                  p.employment_type,
                                  p.budget_code
-                             }).FirstOrDefault();
-              
+                             }).ToList();
 
-                var psbhdr = db2.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
-                if(psbhdr.psb_status >= 2)
+                if (inpsb.Count() == 0)
                 {
-                    throw new Exception("Cannot remove applicants from PSB schedule that is already concluded");
+                    var pi = db2.psb_sked_item_nbrs.Where(a => a.item_no == item_no && a.psb_ctrl_nbr == psb_ctrl_nbr
+                    && a.budget_code == budget_code && a.employment_type == employment_type).FirstOrDefault();
+                    if(pi != null)db2.psb_sked_item_nbrs.Remove(pi);
+                    db2.SaveChanges();
                 }
-                var app = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
-                if(app == null) throw new Exception("Applicants not yet in Psb Schedule");
-                db2.psb_sked_app_tbl.Remove(app);
-                var apl = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-                if (apl == null) throw new Exception("Application not found");
-                apl.app_status = "1";
-                db2.SaveChanges();
-                message = "Applicants is successfully added to PSb schedule";
+
+               
+                message = "Applicants is successfully removed from PSb schedule";
                 icn = "success";
                 review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+
+                
+               
                 return JSON2(new { message = message, icon = icn, review_list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exp)
@@ -1021,11 +1331,11 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
-        public ActionResult GetExamSchedules()
+        public ActionResult GetExamSchedules(string app_ctrl_nbr)
         {
             try
             {
-                var examschedules = db2.vw_exam_schedule_tbl.Where(a => a.exam_status == "O").ToList();
+                var examschedules = db2.sp_exam_schedule_tbl(app_ctrl_nbr).ToList();
                 return JSON2(new { icon = icon.success, examschedules }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException exp)
@@ -1071,6 +1381,223 @@ namespace HRIS_eRSP_Recruitment.Controllers
             {
                 var viewdates = db2.vw_applicants_review_dates_names.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).ToList();
                 return JSON2(new { icon = icon.success, viewdates}, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult ViewExam(string app_ctrl_nbr)
+        {
+            try
+            {
+                var viewexam = db2.vw_applicant_examination_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).ToList();
+                return JSON2(new { icon = icon.success, viewexam}, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AddToTop5Examinees(string app_ctrl_nbr)
+        {
+            CheckSession();
+            try
+            {
+                var datenow = DateTime.Now;
+                var user = Session["user_id"].ToString();
+                var x = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (x.score_rendered == 0)
+                {
+                    throw new Exception("The applicants have not received exam ratings yet!");
+                }
+                if (x.email_aknowldge_regret_dttm != "")
+                {
+                    throw new Exception("The applicant has already been notified of disqualification from the exam!");
+                }
+                var app = db2.applicant_qualified_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+               
+                if (app == null)
+                {
+                    applicant_qualified_progress_tbl prog = new applicant_qualified_progress_tbl();
+                    prog.app_ctrl_nbr = app_ctrl_nbr;
+                    prog.top5examinees = true;
+                    prog.top5examinees_dttm = datenow;
+                    prog.top5examinees_by = user;
+                    //prog.congratulatory = false;
+                    db2.applicant_qualified_progress_tbl.Add(prog);
+                }
+                else
+                {
+                    app.top5examinees = true;
+                    app.top5examinees_dttm = datenow;
+                    app.top5examinees_by = user;
+                }
+                db2.SaveChanges();
+
+                var review_list = db2.sp_review_applicant_tbl_list3(x.item_no, x.employment_type, x.budget_code, x.hiring_period).ToList();
+                return JSON(new { message = "Successfully added to top 5 examinees", icon = icon.success, review_list}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                var message = e.Message;
+                return Json(new { message = message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult RemoveFromTop5Examinees(string app_ctrl_nbr)
+        {
+            CheckSession();
+            try
+            {
+                var datenow = DateTime.Now;
+                var user = Session["user_id"].ToString();
+                var x = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (x.quali_hrmpsb == true)
+                {
+                    throw new Exception("The applicants have already been added to the HRMPSB screening!");
+                }
+                
+                var app = db2.applicant_qualified_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+
+                if (app != null)
+                {
+
+                   
+                   
+                    app.top5examinees = null;
+                    app.top5examinees_dttm = null;
+                    app.top5examinees_by = null;
+                    //prog.congratulatory = false;
+                    
+                }
+               
+                db2.SaveChanges();
+
+                var review_list = db2.sp_review_applicant_tbl_list3(x.item_no, x.employment_type, x.budget_code, x.hiring_period).ToList();
+                return JSON(new { message = "Successfully added to top 5 examinees", icon = icon.success, review_list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                var message = e.Message;
+                return Json(new { message = message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult RemoveFromShortlist(string app_ctrl_nbr)
+        {
+            CheckSession();
+            try
+            {
+                var datenow = DateTime.Now;
+                var user = Session["user_id"].ToString();
+                var x = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (x.score_rendered != 0)
+                {
+                    throw new Exception("The applicants have already taken the exam!");
+                }
+                if (x.top5examinees == true)
+                {
+                    throw new Exception("The applicant is already one of the top 5 examinees!");
+                }
+                var app = db2.applicant_qualified_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+
+                if (app != null)
+                {
+                    app.quali_onlineexam = null;
+                    app.quali_onlineexam_dttm = null;
+                    app.top5examinees_by = null;
+                }
+               
+                db2.SaveChanges();
+
+                var review_list = db2.sp_review_applicant_tbl_list3(x.item_no, x.employment_type, x.budget_code, x.hiring_period).ToList();
+                return JSON(new { message = "Successfully remove from shortlist!", icon = icon.success, review_list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                var message = e.Message;
+                return Json(new { message = message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AddToHRMPSBScreening(string app_ctrl_nbr,string psb_ctrl_nbr)
+        {
+            CheckSession();
+            try
+            {
+                var datenow = DateTime.Now;
+                var user = Session["user_id"].ToString();
+                var x = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+
+                if (x.top5examinees == false)
+                {
+                    throw new Exception("The applicant has not yet been shortlisted for HRMPSB Screening!");
+                }
+                
+                var app = db2.applicant_qualified_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+
+                if (app == null)
+                {
+                    applicant_qualified_progress_tbl prog = new applicant_qualified_progress_tbl();
+                    prog.app_ctrl_nbr = app_ctrl_nbr;
+                    prog.quali_hrmpsb = true;
+                    prog.quali_hrmpsb_dttm = datenow;
+                    prog.quali_hrmpsb_by = user;
+                    db2.applicant_qualified_progress_tbl.Add(prog);
+                }
+                else
+                {
+                    app.quali_hrmpsb = true;
+                    app.quali_hrmpsb_dttm = datenow;
+                    app.quali_hrmpsb_by = user;
+                }
+
+                db2.SaveChanges();
+
+                var review_list = db2.sp_review_applicant_tbl_list3(x.item_no, x.employment_type, x.budget_code, x.hiring_period).ToList();
+
+                return JSON(new { message = "Successfully added to HRMPSB Screening", icon = icon.success, review_list}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                var message = e.Message;
+                return Json(new { message = message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult SaveExam(string app_ctrl_nbr, string score_rendered, string exam_type_descr, string exam_date)
+        {
+            try
+            {
+                var user = Session["user_id"].ToString();
+                var datenow = DateTime.Now;
+                var exam  = db2.applicant_examination.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (exam == null)
+                {
+                    applicant_examination exm = new applicant_examination();
+                    exm.app_ctrl_nbr = app_ctrl_nbr;
+                    exm.exam_type_descr = exam_type_descr;
+                    exm.score_rendered = Convert.ToDouble(score_rendered);
+                    exm.exam_date = Convert.ToDateTime(exam_date);
+                    exm.created_dttm = datenow;
+                    exm.created_by_user = user;
+                    db2.applicant_examination.Add(exm);
+
+                }
+                else
+                {
+                    exam.app_ctrl_nbr = app_ctrl_nbr;
+                    exam.exam_type_descr = exam_type_descr;
+                    exam.score_rendered = Convert.ToDouble(score_rendered);
+                    exam.exam_date = Convert.ToDateTime(exam_date);
+                    exam.updated_dttm = datenow;
+                    exam.updated_by_user = user;
+                }
+                db2.SaveChanges();
+                return JSON2(new { icon = icon.success,message="Successfully saved!"  }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException exp)
             {

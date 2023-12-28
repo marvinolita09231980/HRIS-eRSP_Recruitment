@@ -16,13 +16,20 @@ namespace HRIS_eRSP_Recruitment.Controllers
         // GET: cBackgroundInvestigation
         public ActionResult Index(string app_ctrl_nbr)
         {
+            if (Session["user_id"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             Session["bi_app_ctrl_nbr"] = app_ctrl_nbr;
+
             if (Session["bi_app_ctrl_nbr"] == null)
             {
                 return RedirectToAction("Index", "cApplicantsReview");
             }
             else
             {
+               
                 return View();
             }
 
@@ -217,7 +224,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
 
 
-        public ActionResult save_respondent_2(bi_respondent_2_hdr_tbl respondent_data)
+        public ActionResult save_respondent_2(respondent_2 respondent_data)
         {
             var respondent_2_id = 0;
             var app_ctrl_nbr = Session["bi_app_ctrl_nbr"].ToString();
@@ -230,20 +237,20 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 {
                     bi_respondent_2_hdr_tbl res = new bi_respondent_2_hdr_tbl();
                     res.app_ctrl_nbr                    = app_ctrl_nbr;
-                    res.supervisor_name                 = respondent_data.supervisor_name;
-                    res.supervisor_office_address       = respondent_data.supervisor_office_address;
-                    res.supervisor_date                 = respondent_data.supervisor_date;
-                    res.subordinate_name                = respondent_data.subordinate_name;
-                    res.subordinate_office_address      = respondent_data.subordinate_office_address;
-                    res.subordinate_date                = respondent_data.subordinate_date;
-                    res.peers_name                      = respondent_data.peers_name;
-                    res.peers_office_address            = respondent_data.peers_office_address;
-                    res.peers_date                      = respondent_data.peers_date;
+                    res.supervisor_name                 = respondent_data.supervisor_name2;
+                    res.supervisor_office_address       = respondent_data.supervisor_office_address2;
+                    res.supervisor_date                 = respondent_data.supervisor_date2;
+                    res.subordinate_name                = respondent_data.subordinate_name2;
+                    res.subordinate_office_address      = respondent_data.subordinate_office_address2;
+                    res.subordinate_date                = respondent_data.subordinate_date2;
+                    res.peers_name                      = respondent_data.peers_name2;
+                    res.peers_office_address            = respondent_data.peers_office_address2;
+                    res.peers_date                      = respondent_data.peers_date2;
                     res.clients_name                    = respondent_data.clients_name;
                     res.clients_office_address          = respondent_data.clients_office_address;
                     res.clients_date                    = respondent_data.clients_date;
-                    res.interviewed_by                  = respondent_data.interviewed_by;
-                    res.interviewed_date                = respondent_data.interviewed_date;
+                    res.interviewed_by                  = respondent_data.interviewed_by2;
+                    res.interviewed_date                = respondent_data.interviewed_date2;
                     res.created_dttm                    = datenow;
                     res.created_by                      = user_id;
                     res.updated_dttm                    = "";
@@ -252,20 +259,20 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 }
                 else
                 {
-                    resx.supervisor_name = respondent_data.supervisor_name;
-                    resx.supervisor_office_address = respondent_data.supervisor_office_address;
-                    resx.supervisor_date = respondent_data.supervisor_date;
-                    resx.subordinate_name = respondent_data.subordinate_name;
-                    resx.subordinate_office_address = respondent_data.subordinate_office_address;
-                    resx.subordinate_date = respondent_data.subordinate_date;
-                    resx.peers_name = respondent_data.peers_name;
-                    resx.peers_office_address = respondent_data.peers_office_address;
-                    resx.peers_date = respondent_data.peers_date;
+                    resx.supervisor_name = respondent_data.supervisor_name2;
+                    resx.supervisor_office_address = respondent_data.supervisor_office_address2;
+                    resx.supervisor_date = respondent_data.supervisor_date2;
+                    resx.subordinate_name = respondent_data.subordinate_name2;
+                    resx.subordinate_office_address = respondent_data.subordinate_office_address2;
+                    resx.subordinate_date = respondent_data.subordinate_date2;
+                    resx.peers_name = respondent_data.peers_name2;
+                    resx.peers_office_address = respondent_data.peers_office_address2;
+                    resx.peers_date = respondent_data.peers_date2;
                     resx.clients_name = respondent_data.clients_name;
                     resx.clients_office_address = respondent_data.clients_office_address;
                     resx.clients_date = respondent_data.clients_date;
-                    resx.interviewed_by = respondent_data.interviewed_by;
-                    resx.interviewed_date = respondent_data.interviewed_date;
+                    resx.interviewed_by = respondent_data.interviewed_by2;
+                    resx.interviewed_date = respondent_data.interviewed_date2;
                     resx.updated_dttm = "";
                     resx.updated_by = "";
 

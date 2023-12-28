@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d71a55af6a0348cca45d48f360f59c38" Name="Diagram1" >
-        <EntityTypeShape EntityType="HRIS_PAYModel.personnel_tbl" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

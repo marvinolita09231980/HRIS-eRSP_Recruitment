@@ -1135,6 +1135,30 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
 
 
     }
+    s.proceedToOnlineExam = function (app_ctrl_nbr) {
+        cs.loading("show")
+        var dt = s.Applicant_grid_Data.filter(function (d) {
+            return d.app_ctrl_nbr == app_ctrl_nbr
+        })[0]
+        console.log(dt.app_ctrl_nbr)
+        swal({
+            title: "Qualify Applicant to Exam",
+            text: "Would you like to proceed?",
+            icon: "info",
+            buttons: ["No", "Yes"],
+            dangerMode: true,
+        }).then(function (yes) {
+            if (yes) {
+                h.post("../cApplicantReviewDetail/ProceedToOnlineExam", {
+                    app_ctrl_nbr: dt.app_ctrl_nbr
+                }).then(function (d) {
+                    swal(d.data.message, { icon: d.data.icon })
+                    cs.loading("hide")
+                })
+            }
+        });
+       
+    }
 
     s.selectApp = function (row) {
         cs.loading("show")
@@ -1825,25 +1849,25 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
         var wexp_rating = s.wexp_rating
         var lnd_rating = s.lnd_rating
         var elig_rating = s.elig_rating
-        var score_rendered = scorerendered25(s.score_rendered)
-        var ipcr_rating = s.ipcr_rating
-        var exam_type_descr = s.exam_type_descr
-        var exam_date = s.exam_date
+        //var score_rendered = scorerendered25(s.score_rendered)
+        //var ipcr_rating = s.ipcr_rating
+        //var exam_type_descr = s.exam_type_descr
+        //var exam_date = s.exam_date
 
-        if (parseInt(s.score_rendered) > 0 && (!cs.Validate1Field("exam_type_descr") || !cs.Validate1Field("exam_date"))) {
-            return
-        }
+        //if (parseInt(s.score_rendered) > 0 && (!cs.Validate1Field("exam_type_descr") || !cs.Validate1Field("exam_date"))) {
+        //    return
+        //}
        
-        if (s.ipcr_rating != "") {
-            if (isNaN(s.ipcr_rating)) {
-                cs.required2("ipcr_rating","Required a number")
-                return
-            }
-            else if (parseFloat(s.ipcr_rating) > 5) {
-                cs.required2("ipcr_rating", "Must not greater than 5")
-                return
-            }
-        }
+        //if (s.ipcr_rating != "") {
+        //    if (isNaN(s.ipcr_rating)) {
+        //        cs.required2("ipcr_rating","Required a number")
+        //        return
+        //    }
+        //    else if (parseFloat(s.ipcr_rating) > 5) {
+        //        cs.required2("ipcr_rating", "Must not greater than 5")
+        //        return
+        //    }
+        //}
 
 
         h.post("../cApplicantReviewDetail/SaveRating",
@@ -1854,10 +1878,10 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
                 , wexp_rating: wexp_rating
                 , lnd_rating: lnd_rating
                 , elig_rating: elig_rating
-                , score_rendered: score_rendered
-                , exam_type_descr: exam_type_descr
-                , exam_date: exam_date
-                , ipcr_rating: ipcr_rating
+                //, score_rendered: score_rendered
+                //, exam_type_descr: exam_type_descr
+                //, exam_date: exam_date
+                //, ipcr_rating: ipcr_rating
             }).then(function (d) {
                 if (d.data.icon == "success") {
                     s.getReviewer_List();
@@ -2429,27 +2453,21 @@ ng_eRSP_App.directive("rateApplicant", ["commonScript", "$http", function (cs, h
                     {
                         app_ctrl_nbr: app_ctrl_nbr
                     }).then(function (d) {
-                        var app = d.data.app
-                        if (d.data.app == null) {
-                            swal("Not Included In PSB!", "This applicants need to be added to PSB schedule before you can rate for it", { icon: "error" })
-                        }
-                        else {
-                         
+                       
+                       
                             scope.educ_rating = d.data.rtn.education == 0 ? 22 : d.data.rtn.education
                             scope.wexp_rating = d.data.rtn.experience == 0 ? 22 : d.data.rtn.experience
                             scope.lnd_rating = d.data.rtn.training == 0 ? 22 : d.data.rtn.training
                             scope.elig_rating = d.data.rtn.eligibility == 0 ? 22 : d.data.rtn.eligibility
-                            scope.score_rendered = ((d.data.rtn.examination * 100) / 25)
-                            scope.exam_type_descr = d.data.rtn.exam_type_descr
-                            scope.exam_date = d.data.rtn.exam_date
                             scope.appctrlnbr = d.data.rtn.app_ctrl_nbr
-                            scope.psbctrlnbr = d.data.rtn.psb_ctrl_nbr
-                            scope.ipcr_rating = d.data.rtn.ipcr_rating  
+                           
 
                             console.log(d.data.rtn.ipcr_rating)
                             $("#add_rating").modal("show")
-                        }
+                        
                     })
+
+                
             })
         }
     }

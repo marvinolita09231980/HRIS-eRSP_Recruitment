@@ -17,6 +17,9 @@ angular.module('ng_eRSP_App2',[]).controller("LoginCtrlr", function ($scope, $ht
             if (d.data.isLogin == 1) {
                 location.href = "../cMainPage/Index"
             }
+            else {
+                localStorage.clear(); 
+            }
         })
     }
     init()

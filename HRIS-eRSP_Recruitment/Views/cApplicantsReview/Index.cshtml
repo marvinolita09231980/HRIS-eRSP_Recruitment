@@ -20,7 +20,7 @@
     .currency {
         text-align: right;
     }
-
+    
     .dt-hdr-rw {
         height: 46px;
     }
@@ -409,7 +409,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="addexamresult" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-sm">
             <div class="modal-content animated slideInLeft">
@@ -543,7 +542,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="viewdates" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-sm">
             <div class="modal-content animated slideInLeft">
@@ -748,7 +746,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="email_view_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-llg">
             <div class="modal-content animated slideInLeft">
@@ -808,8 +805,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="modal fade" id="sendemailgrid_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-llg">
             <div class="modal-content animated slideInLeft">
@@ -843,8 +838,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="modal fade" id="sendemailgrid_modal2" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-llg">
             <div class="modal-content animated slideInLeft">
@@ -914,7 +907,40 @@
         </div>
     </div>
 
+    <div class="modal fade" id="sendnotif_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-llg">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Email Preview</b></h2></center>
+                </div>
+                <div class="modal-body">
 
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+
+                                <div class="ibox-content no-padding">
+                                    <div id="summernote2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right m-b-md">
+                        <button type="button" id="buttonsendemail" class="btn btn-success pull-right" ng-click="sendEmailNotification2()">Send&nbsp;&nbsp;<span id="btnsendemailicon" style="" class="fa fa-send"></span></button>
+                        <button type="button" id="buttonsendemailcancel" class="btn btn-danger pull-right" data-dismiss="modal">Close&nbsp;&nbsp;<span style="" class="fa fa-times"></span></button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
         <div class="row">
             <div class="col-lg-4">
@@ -985,7 +1011,7 @@
                                 <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">Department Name:</span><span style="" class="fa fa-cubes pull-right m-r-sm m-t-xs"></span></button>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9  no-padding">
-                                <select class="form-control disable-white btn-block" id="department_code1" ng-model="department_code1">
+                                <select class="form-control disable-white btn-block" id="department_code1" ng-model="department_code1" ng-change="selectDepartment()">
                                     <option value="">--Select Here--</option>
                                     <option ng-repeat="l in department" value="{{l.department_code}}">{{l.department_name1}}</option>
                                 </select>
@@ -1001,7 +1027,7 @@
                                 <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">Item No:</span><span style="" class="fa fa-cubes pull-right m-r-sm m-t-xs"></span></button>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
-                                <select class="form-control removeReqOption" style="height:34px !important;" id="item_nbr1" ng-model="item_nbr1" required>
+                                <select class="form-control removeReqOption" style="height:34px !important;" id="item_nbr1" ng-model="item_nbr1" ng-change="selectItem()" required>
                                     <option value="" selected>--Select Here--</option>
                                     <option ng-repeat="l in items" value="{{l.item_no}}">&nbsp;{{l.item_no}}&nbsp;-&nbsp;{{l.position_long_title}}</option>
                                 </select>
@@ -1023,12 +1049,12 @@
                         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 m-t-xs">
 
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 m-t-xs pull-right">
+                        <div id="item_display" class="col-xs-12 col-sm-12 col-md-9 col-lg-9 m-t-xs pull-right">
                             <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2  no-padding">
                                 <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HRMPSB Schedule:</span></button>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8  no-padding">
-                                <select class="form-control disable-white btn-block" id="psb_ctrl_nbr_disp" ng-model="psb_ctrl_nbr_disp">
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8  no-padding" >
+                                <select class="form-control disable-white btn-block" id="psb_ctrl_nbr_disp" ng-model="psb_ctrl_nbr_disp" ng-click="selectPSBSchedule()" ng-disabled="psb_number_disabled">
                                     <option value="">--Select Here--</option>
                                     <option ng-repeat="l in psb_sked_hdr" value="{{l.psb_ctrl_nbr}}">{{l.psb_date}} - {{l.remarks_details}}</option>
                                     @*<option value="23-014">2023-07-26 - 3rd Quarter - Batch I (PAO,PHRMDO and DDOPH MARAGUSAN)</option>
@@ -1043,193 +1069,378 @@
                         </div>
 
                     </div>
-                    <div class="row m-t-xs no-padding" style="">
+                    @*<div class="row m-t-xs no-padding">
 
+                            <div class="col-lg-12 m-b-md">
+                                <table id="Applicant_List_Grid" class="table table-responsive table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th width="4%">CONTROL NO.</th>
+                                            <th width="">APPLICANT</th>
+                                            <th width="">DEPARTMENT</th>
+                                            <th width="">STATUS</th>
+                                            <th width="">CONTACT</th>
+                                            <th width="20%">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+                        </div>*@
+                    <div class="row m-t-lg">
                         <div class="col-lg-12 m-b-md">
-                            <table id="Applicant_List_Grid" class="table table-responsive table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th width="4%">CONTROL NO.</th>
-                                        <th width="">APPLICANT</th>
-                                        <th width="">DEPARTMENT</th>
-                                        <th width="">STATUS</th>
-                                        <th width="">CONTACT</th>
-                                        <th width="20%">ACTION</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div class="tabs-container">
+                                <ul class="nav nav-tabs">
+                                    <li ng-click="changeTab(1)" class="active"><a data-toggle="tab" href="#tab-1">Review</a></li>
+                                    <li ng-click="changeTab(2)" class=""><a data-toggle="tab" href="#tab-2">Qualified For Exam</a></li>
+                                    <li ng-click="changeTab(3)" class=""><a data-toggle="tab" href="#tab-3">Top 5 Examinees</a></li>
+                                    <li ng-click="changeTab(4)" class=""><a data-toggle="tab" href="#tab-4">For HRMPSB Screening</a></li>
+
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab-1" class="tab-pane active">
+                                        <div class="panel-body">
+                                            <div class="row no-padding" style="margin-top:-10px!important;">
+                                                <table id="Applicant_Review_Grid" class="table table-responsive table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="4%">CONTROL NO.</th>
+                                                            <th width="">APPLICANT</th>
+                                                            <th width="">DEPARTMENT</th>
+                                                            <th width="">STATUS</th>
+                                                            <th width="">CONTACT</th>
+                                                            <th width="20%">ACTION</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-2" class="tab-pane">
+                                        <div class="panel-body">
+                                            <div class="row no-padding" style="margin-top:-10px!important;">
+                                                <table id="Applicant_OnlineExam_Grid" class="table table-responsive table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="4%">CONTROL NO.</th>
+                                                            <th width="">APPLICANT</th>
+                                                            <th width="">DEPARTMENT</th>
+                                                            <th width="">EXAM SCHEDULE</th>
+                                                            <th width="">CONTACT</th>
+                                                            <th width="20%">ACTION</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-3" class="tab-pane">
+                                        <div class="panel-body">
+                                            <div class="row no-padding" style="margin-top:-10px!important;">
+                                                <table id="Applicant_Top5_Grid" class="table table-responsive table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="4%">CONTROL NO.</th>
+                                                            <th width="">APPLICANT</th>
+                                                            <th width="">DEPARTMENT</th>
+                                                            <th width="">CONTACT</th>
+                                                            <th width="20%">ACTION</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-4" class="tab-pane">
+                                        <div class="panel-body">
+                                            <div class="row no-padding" style="margin-top:-10px!important;">
+                                                <table id="Applicant_Hrmpsb_Grid" class="table table-responsive table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="4%">CONTROL NO.</th>
+                                                            <th width="">APPLICANT</th>
+                                                            <th width="">DEPARTMENT</th>
+                                                            <th width="">CONTACT</th>
+                                                            <th width="20%">ACTION</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
                         </div>
-
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
+    </div>
 
-
-        <div class="modal fade" id="spinner_load" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
-            <div class="modal-dialog modal-lg modal-dialog-centered ">
-
-                <div class="spiner-example">
-                    <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="row" style="padding-top:5px;">
-
-                            <div class="col-sm-12">
-                                <div style="width:50%; float:left;" class="no-padding">
-                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Initializing data</span>
-                                </div>
-                                <div style="width:50%; float:right;" class="no-padding">
-                                    <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
-                                        <div class="sk-bounce1" style="background-color:white"></div>
-                                        <div class="sk-bounce2" style="background-color:white"></div>
-                                        <div class="sk-bounce3" style="background-color:white"></div>
-
+    <div class="modal fade" id="exam_rating" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title text-center" id="modalLabelSmall"><b>EXAM RATINGS</b></h2>
+                </div>
+                <div class="modal-footer detail">
+                    <div class="modal-footer detail">
+                        <form id="exam_fields" action="" onsubmit="return false" novalidate>
+                            <div class="row m-top-20">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">EXAMINATION:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
+                                        @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div style="margin-left:-15px!important;" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" id="exam_app_ctrl_nbr" ng-model="exam_app_ctrl_nbr" style="display:none!important" />
+                                            <input type="number" class="form-control text-center" min-max="0,24" id="score_rendered2" ng-keyup="calculate_perc()" ng-model="score_rendered2" ng-value="" required/>
+                                        </div>
+                                        <div class="input-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control  btn-group text-center" id="score_perc_disp" ng-model="score_perc_disp" ng-value="" disabled />
+                                            <div class="input-group-addon birth_date">
+                                                <span><b>%</b></span>
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>
-
                             </div>
 
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-        </div>
-        <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-            <div class="modal-dialog modal-llllg">
-                <div class="modal-content  modal-content-add-edit">
-                    <div class="modal-header navy-bg text-white">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW</h3>
-                    </div>
-                    <div class="modal-body with-background" style="padding:0px !important">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="modal_updateapp" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header navy-bg text-white">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h3 class="modal-title text-center" id="modalLabelSmall">UPDATE APPLICANTS INFO</h3>
-                    </div>
-                    <div class="modal-body with-background" style="padding:0px !important">
-
-                        <div class="row m-t-lg m-b-lg">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <button class="btn btn-info btn-block pull-right" ng-click="updateProfileFrom()"><span id="" class="fa fa-save"></span>&nbsp;&nbsp;Update Profile</button>
+                            <div class="row m-top-20">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">EXAM DESCRIPTION:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
+                                        @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <select class="form-control disable-white" id="exam_type_descr2" ng-model="exam_type_descr2" required>
+                                            <option value="" selected>--Select Here--</option>
+                                            <option value="Essay" selected>Essay</option>
+                                            <option value="Multiple Choice" selected>Multiple Choice</option>
+                                            <option value="Essay and Multiple Choice" selected>Essay and Multiple Choice</option>
+                                            <option value="Programming" selected>Programming</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <button class="btn btn-warning btn-block pull-right" ng-click="updateQS()"><span id="" class="fa fa-save"></span>&nbsp;&nbsp;Update QS</button>
+                            </div>
+                            <div class="row m-top-20">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">EXAM DATE:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
+                                        @*<span class="font-bold form-control label-blue"><b>APPLICATION NO.:</b></span>*@
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="input-group date no-padding no-margins removeReqOption" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                            <input type="text" id="exam_date2" ng-model="exam_date2" class="form-control text-center" required/>
+                                            <div class="input-group-addon birth_date">
+                                                <span class="fa fa-calendar"></span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
                             </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer detail">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <button id="setexambtn" class=" btn btn-warning font-bold pull-left" ng-click="setExamDate()">
+                                <i class="fa fa-check"></i>&nbsp;&nbsp;Set Exam Schedule
+                            </button>
+                            
+                            <button class=" btn btn-danger font-bold" data-dismiss="modal">
+                                <i class="fa fa-close"></i>&nbsp;&nbsp;Close
+                            </button>
+
+                            <button class=" btn btn-success font-bold" ng-click="saveExamRating()">
+                                <i class="fa fa-save"></i>&nbsp;&nbsp;Save
+                            </button>
+
                         </div>
 
                     </div>
-                    <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="spinner_load" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+            <div class="spiner-example">
+                <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="row" style="padding-top:5px;">
+
+                        <div class="col-sm-12">
+                            <div style="width:50%; float:left;" class="no-padding">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white">Initializing data</span>
+                            </div>
+                            <div style="width:50%; float:right;" class="no-padding">
+                                <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                    <div class="sk-bounce1" style="background-color:white"></div>
+                                    <div class="sk-bounce2" style="background-color:white"></div>
+                                    <div class="sk-bounce3" style="background-color:white"></div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
 
                     </div>
+
                 </div>
+
             </div>
+
+
         </div>
-        <div class="modal fade" id="select_id_employee_PDS" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content animated slideInLeft">
-                    <div class="modal-header modal-header-add-edit text-white">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
-                    </div>
-                    <div class="modal-footer">
-                        <table id="select_id_employee_PDS_grid" class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th width="10%">ID</th>
-                                    <th width="32">FIRST NAME</th>
-                                    <th width="12%">LAST NAME</th>
-                                    <th width="12%">BIRTH DATE</th>
-                                    <th width="10%">ACTION</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
+    </div>
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-llllg">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW</h3>
                 </div>
-            </div>
-        </div>
-        <div class="modal fade" id="select_id_employee_QS" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content animated slideInLeft">
-                    <div class="modal-header modal-header-add-edit text-white">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
-                    </div>
-                    <div class="modal-footer">
-                        <table id="select_id_employee_QS_grid" class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th width="10%">ID</th>
-                                    <th width="32">FIRST NAME</th>
-                                    <th width="12%">LAST NAME</th>
-                                    <th width="12%">BIRTH DATE</th>
-                                    <th width="10%">ACTION</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-            <div class="modal-dialog" style="width:90% !important;height:100% !important;">
-                <div class="modal-content  modal-content-add-edit">
-                    <div class="modal-header navy-bg text-white">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
-                    </div>
-                    <div class="modal-body" style="padding:0px !important">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <iframe style="width:90% !important;height:90% !important;border:0px none;" id="iframe_print_preview"></iframe>
-                            </div>
+                <div class="modal-body with-background" style="padding:0px !important">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="modal fade" id="modal_updateapp" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title text-center" id="modalLabelSmall">UPDATE APPLICANTS INFO</h3>
+                </div>
+                <div class="modal-body with-background" style="padding:0px !important">
+
+                    <div class="row m-t-lg m-b-lg">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <button class="btn btn-info btn-block pull-right" ng-click="updateProfileFrom()"><span id="" class="fa fa-save"></span>&nbsp;&nbsp;Update Profile</button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <button class="btn btn-warning btn-block pull-right" ng-click="updateQS()"><span id="" class="fa fa-save"></span>&nbsp;&nbsp;Update QS</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="select_id_employee_PDS" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
+                </div>
+                <div class="modal-footer">
+                    <table id="select_id_employee_PDS_grid" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">ID</th>
+                                <th width="32">FIRST NAME</th>
+                                <th width="12%">LAST NAME</th>
+                                <th width="12%">BIRTH DATE</th>
+                                <th width="10%">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="select_id_employee_QS" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
+                </div>
+                <div class="modal-footer">
+                    <table id="select_id_employee_QS_grid" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">ID</th>
+                                <th width="32">FIRST NAME</th>
+                                <th width="12%">LAST NAME</th>
+                                <th width="12%">BIRTH DATE</th>
+                                <th width="10%">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog" style="width:90% !important;height:100% !important;">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                </div>
+                <div class="modal-body" style="padding:0px !important">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <iframe style="width:90% !important;height:90% !important;border:0px none;" id="iframe_print_preview"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <script>

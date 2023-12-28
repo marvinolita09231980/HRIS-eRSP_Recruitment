@@ -136,8 +136,12 @@
                                 <button class="btn btn-success font-bold" ng-click="show_file(file_index)">
                                     View File&nbsp;<i id="add" class="fa fa-plus"></i>
                                 </button>
+                                @*<button class="btn btn-success font-bold" ng-click="downloadPdf(file_index)">
+                    Download File&nbsp;<i id="add" class="fa fa-download"></i>
+                </button>*@
                             </center>
                         </div>
+                        <img src="~/ResourcesImages/Screenshot 2023-12-06 105933.png" />
 
                     </div>
                 </div>
@@ -212,6 +216,11 @@
                                 <img src="~/ResourcesImages/pdf_icon.png" alt="" height="136" width="114">
                                 <div>{{split_filename(l.file_path)}}</div>
                             </div>
+
+                            @*<div class="col-sm-3 dropzone-previews" ng-repeat="l in att_dtl track by $index" ng-click="choose_file($index)">
+                                <img src="{{l.file_path | docIcon}}" alt="" height="136" width="114">
+                                <div>{{l.file_path}}</div>
+                            </div>*@
                         </div>
                     </div>
                     <div class="ibox-content" ng-show="nofile">
