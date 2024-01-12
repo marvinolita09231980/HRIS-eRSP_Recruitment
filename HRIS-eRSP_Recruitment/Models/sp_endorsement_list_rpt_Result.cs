@@ -14,7 +14,6 @@ namespace HRIS_eRSP_Recruitment.Models
     public partial class sp_endorsement_list_rpt_Result
     {
         public string applicant_name { get; set; }
-        public byte[] org_logo { get; set; }
         public string item_no { get; set; }
         public string country_gov_name { get; set; }
         public string provincial_name { get; set; }
@@ -31,5 +30,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public Nullable<int> applicants_count { get; set; }
         public string exec_gender { get; set; }
         public string branch { get; set; }
+        public Nullable<long> ap_rank { get; set; }
+        public string gender { get; set; }
     }
 }

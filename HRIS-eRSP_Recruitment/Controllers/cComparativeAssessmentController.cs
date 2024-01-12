@@ -19,12 +19,16 @@ namespace HRIS_eRSP_Recruitment.Controllers
         User_Menu um = new User_Menu();
         RCT_Common rct = new RCT_Common();
         //GET:cComparativeAssessment
+       
         public ActionResult Index()
         {
+            Session.Remove("comparative_psb_ctrl_nbr");
+            Session.Remove("comparative_item_no");
             if (Session["user_id"] == null)
             {
                 return RedirectToAction("Index", "Login");
             }
+           
             return View();
         }
         public ActionResult Initialize(string year, string month)
@@ -267,22 +271,30 @@ namespace HRIS_eRSP_Recruitment.Controllers
             try
             {
                 var sp_psb_item_list = db.sp_psb_item_list(psb_ctrl_nbr).ToList();
+                var sp_combined_item_tbl = db.sp_combined_item_tbl(psb_ctrl_nbr).ToList();
 
-                return JSON(new { message = fetch.success, icon = icon.success, sp_psb_item_list }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = fetch.success, icon = icon.success, sp_psb_item_list, sp_combined_item_tbl }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
                 return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult comparative_item_applicant(string psb_ctrl_nbr,string item_no)
+       
+        public ActionResult comparative_item_applicant(string psb_ctrl_nbr,string item_no,string budget_code,string employment_type,string salary_grade,bool ranked)
         {
             CheckSession();
             try
             {
-                var comparative = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "3").ToList();
+                Session["comparative_psb_ctrl_nbr"] = psb_ctrl_nbr;
+                Session["comparative_item_no"] = item_no;
+                Session["comparative_budget_code"] = budget_code;
+                Session["comparative_employement_type"] = employment_type;
+                Session["comparative_salary_grade"] = salary_grade;
+                Session["comparative_ranked"] = ranked;
+                //var comparative = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "3").ToList();
 
-                return JSON(new { message = fetch.success, icon = icon.success, comparative }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = fetch.success, icon = icon.success }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -469,12 +481,12 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult prepareEndorsement(string psb_ctrl_nbr, string item_no)
+        public ActionResult prepareEndorsement(string psb_ctrl_nbr, string item_no,bool ranked)
         {
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var message = "";
-            var endorse = new List<sp_endorsename_list_Result>();
+           
             try
             {
                 var isSelected = db.selected_applicants_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr && a.item_no == item_no && a.status == "F").ToList();
@@ -484,15 +496,30 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 }
                 else
                 {
-                    endorse = db.sp_endorsename_list(psb_ctrl_nbr, item_no, "4").ToList();
-                    if (endorse.Count() == 0)
+                    if (ranked)
                     {
-                        throw new Exception("No applicants endorse for this item, please select applicants in View List");
+                        var endorse = db.sp_endorsename_list_ranked(psb_ctrl_nbr, item_no, "4").ToList();
+                        if (endorse.Count() == 0)
+                        {
+                            throw new Exception("No applicants endorse for this item, please select applicants in View List");
+                        }
+                        return JSON(new { message = message, icon = icon.success, endorse }, JsonRequestBehavior.AllowGet);
                     }
+                    else
+                    {
+                        var endorse = db.sp_endorsename_list(psb_ctrl_nbr, item_no, "4").ToList();
+                        if (endorse.Count() == 0)
+                        {
+                            throw new Exception("No applicants endorse for this item, please select applicants in View List");
+                        }
+                        return JSON(new { message = message, icon = icon.success, endorse }, JsonRequestBehavior.AllowGet);
+                    }
+                   
+                   
                 }
                 
 
-                return JSON(new { message = message, icon = icon.success, endorse }, JsonRequestBehavior.AllowGet);
+               
             }
             catch (Exception e)
             {
@@ -530,38 +557,75 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var dttm = DateTime.Now;
             var items = "";
             var len = sp_psb_item_list.Count();
+            var ctrl_nbr = sp_psb_item_list[0].psb_ctrl_nbr.ToString();
             try
             {
+                var psb_ctrl_nbr = data[0].psb_ctrl_nbr.ToString();
+              
+                combined_item_hdr_tbl hdr = new combined_item_hdr_tbl();
+                hdr.psb_ctrl_nbr = psb_ctrl_nbr;
+                hdr.position_code = data[0].position_code;
+                hdr.employment_type = data[0].employment_type;
+                hdr.budget_code = data[0].budget_code;
+                hdr.descr = combine_descr;
+                hdr.combined_by = user_id;
+                hdr.combined_dttm = dttm;
+                db.combined_item_hdr_tbl.Add(hdr);
+                db.SaveChanges();
+
+                var id = db.combined_item_hdr_tbl.OrderByDescending(a => a.combined_id).FirstOrDefault();
+
                 for (var x = 0; x < len; x++)
                 {
-                    var psb_ctrl_nbr = data[x].psb_ctrl_nbr.ToString();
+                   
                     var item_no = data[x].item_no.ToString();
-                    var ex = db.combined_item_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr && a.item_no == item_no).FirstOrDefault();
-                    if (ex == null)
-                    {
-                        combined_item_tbl ci = new combined_item_tbl();
-                        ci.psb_ctrl_nbr = data[x].psb_ctrl_nbr;
+                    
+                    
+                        combined_item_dtl_tbl ci = new combined_item_dtl_tbl();
+                        ci.combined_id = id.combined_id;
                         ci.item_no = data[x].item_no;
-                        ci.position_code = data[x].position_code;
-                        ci.employment_type = data[x].employment_type;
-                        ci.budget_code = data[x].budget_code;
-                        ci.descr = combine_descr;
-                        ci.combined_by = user_id;
-                        ci.combined_dttm = dttm;
-                        db.combined_item_tbl.Add(ci);
+                        db.combined_item_dtl_tbl.Add(ci);
                         db.SaveChanges();
-                    }
-                    else
-                    {
-                        items += data[x].item_no.ToString() + " ";
-                    }
-
-                    if(items != "")
-                    {
-                        throw new Exception("Item no. " + data[x].item_no + " is already included in the combined items under the description " + ex.descr);
-                    }
+                  
                 }
-                return JSON(new { message = "Items successfully combined", icon = icon.success }, JsonRequestBehavior.AllowGet);
+                var sp_combined_item_tbl = db.sp_combined_item_tbl(ctrl_nbr).ToList();
+                var psb_item_list = db.sp_psb_item_list(ctrl_nbr).ToList();
+                return JSON(new { message = "Items successfully combined", icon = icon.success, sp_combined_item_tbl, psb_item_list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult DeleteCombinedItems(sp_combined_item_tbl_Result row_data)
+        {
+            CheckSession();
+            var user_id = Session["user_id"].ToString();
+            var message = "";
+            var combined_id = row_data.combined_id;
+            var psb_ctrl_nbr = row_data.psb_ctrl_nbr;
+            
+
+            try
+            {
+                var combined = db.combined_item_hdr_tbl.Where(a => a.combined_id == combined_id).FirstOrDefault();
+                if (combined == null)
+                {
+                    throw new Exception("Data not found!");
+                }
+                db.combined_item_hdr_tbl.Remove(combined);
+                var combined2 = db.combined_item_dtl_tbl.Where(a => a.combined_id == combined_id);
+                if (combined2 == null)
+                {
+                    throw new Exception("Data not found!");
+                }
+                db.combined_item_dtl_tbl.RemoveRange(combined2);
+
+                db.SaveChanges();
+
+                var sp_combined_item_tbl = db.sp_combined_item_tbl(psb_ctrl_nbr).ToList();
+                var sp_psb_item_list = db.sp_psb_item_list(psb_ctrl_nbr).ToList();
+                return JSON(new { message = "Successfully deleted", icon = icon.success, sp_combined_item_tbl, sp_psb_item_list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

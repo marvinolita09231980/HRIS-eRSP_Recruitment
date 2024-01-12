@@ -220,5 +220,54 @@ namespace HRIS_eRSP_Recruitment.Models
         public string updated_dttm { get; set; }
         public string updated_by { get; set; }
     }
+    public class sp_comparative_assessment_list_container
+    {
+        public string app_ctrl_nbr { get; set; }
+        public string psb_ctrl_nbr { get; set; }
+        public string empl_id { get; set; }
+        public string applicant_name { get; set; }
+        public string last_name { get; set; }
+        public string first_name { get; set; }
+        public string middle_name { get; set; }
+        public string birth_date { get; set; }
+        public string gender { get; set; }
+        public string gender_descr { get; set; }
+        public string civil_status { get; set; }
+        public string civil_status_descr { get; set; }
+        public string app_address { get; set; }
+        public string app_status { get; set; }
+        public string item_no { get; set; }
+        public string position_code { get; set; }
+        public string position_long_title { get; set; }
+        public string employment_type { get; set; }
+        public string appointment_descr { get; set; }
+        public Nullable<bool> is_employee { get; set; }
+        public string budget_code { get; set; }
+        public string approval_id { get; set; }
+        public string department_name { get; set; }
+        public string department_code { get; set; }
+        public Nullable<double> cbi_100rating { get; set; }
+        public Nullable<double> cbi_rating { get; set; }
+        public decimal qs_total_100perc { get; set; }
+        public Nullable<double> qs_rating { get; set; }
+        public decimal exam_100perc { get; set; }
+        public decimal exam_rating { get; set; }
+        public decimal total_rating { get; set; }
+        public Nullable<bool> added_next_status { get; set; }
+        public string approval_status { get; set; }
+        public Nullable<bool> hasSelected_approved { get; set; }
+        public byte[] empl_photo_img { get; set; }
+        public string hiring_period { get; set; }
+        public string email { get; set; }
+        public string email_regret_dttm { get; set; }
+        public string email_regret_by { get; set; }
+        public string email_congratulatory_dttm { get; set; }
+        public string email_congratulatory_by { get; set; }
+        public double education { get; set; }
+        public double lnd { get; set; }
+        public double experience { get; set; }
+        public double eligibility { get; set; }
+        public Nullable<long> applicant_rank { get; set; }
+    }
 
 }

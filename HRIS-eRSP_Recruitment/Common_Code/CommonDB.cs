@@ -431,15 +431,16 @@ namespace HRIS_Common
             //{
             var userid = parmvalue1.Substring(0, 1);
             DataTable dt = new DataTable();
-            if(userid == "A")
-            {
-                connStr = System.Configuration.ConfigurationManager.ConnectionStrings["HRIS_APL"].ConnectionString;
-            }
-            else
-            {
-                connStr = System.Configuration.ConfigurationManager.ConnectionStrings["HRIS_PAY"].ConnectionString;
-            }
-           
+            //if(userid == "A")
+            //{
+            //    connStr = System.Configuration.ConfigurationManager.ConnectionStrings["HRIS_APL"].ConnectionString;
+            //}
+            //else
+            //{
+            //    connStr = System.Configuration.ConfigurationManager.ConnectionStrings["HRIS_PAY"].ConnectionString;
+            //}
+            connStr = System.Configuration.ConfigurationManager.ConnectionStrings["HRIS_APL"].ConnectionString;
+
             using (SqlConnection cn = new SqlConnection(connStr))
             {
                 SqlCommand cmd = new SqlCommand(sp_script, cn);

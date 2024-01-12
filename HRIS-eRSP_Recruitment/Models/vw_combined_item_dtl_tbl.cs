@@ -10,17 +10,16 @@
 namespace HRIS_eRSP_Recruitment.Models
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_endorsename_list_Result
+    public partial class vw_combined_item_dtl_tbl
     {
-        public string app_ctrl_nbr { get; set; }
-        public string psb_ctrl_nbr { get; set; }
-        public string empl_id { get; set; }
-        public string applicant_name { get; set; }
-        public string last_name { get; set; }
-        public string first_name { get; set; }
-        public string middle_name { get; set; }
-        public string birth_date { get; set; }
-        public Nullable<long> applicant_rank { get; set; }
+        public string item_no { get; set; }
+        public string position_long_title { get; set; }
+        public string department_name1 { get; set; }
+        public string budget_code { get; set; }
+        public string employment_type { get; set; }
+        public string department_code { get; set; }
+        public string position_code { get; set; }
     }
 }

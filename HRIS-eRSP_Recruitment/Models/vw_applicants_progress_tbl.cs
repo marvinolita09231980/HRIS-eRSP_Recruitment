@@ -29,5 +29,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public bool top5examinees { get; set; }
         public bool congratulatory { get; set; }
         public double score_rendered { get; set; }
+        public string email_add { get; set; }
     }
 }

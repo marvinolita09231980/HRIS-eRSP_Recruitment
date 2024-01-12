@@ -25,6 +25,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     s.item_nbr1 = ""
     s.department_code1 = ""
     s.rowindex_forexamtimeset = ""
+    s.emailreceipent = ""
 
     s.exam_row = ""
     s.exam_app_ctrl_nbr =""
@@ -1193,6 +1194,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             return
         }
 
+        s.emailreceipent = dt.email_address
 
         if (type == "1" && dt.email_aknowldge_dttm != "") {
            

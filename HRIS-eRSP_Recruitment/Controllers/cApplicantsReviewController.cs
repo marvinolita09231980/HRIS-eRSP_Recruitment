@@ -789,7 +789,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     {
                         throw new Exception("The applicant has not been shortlisted yet to proceed to the exam!");
                     }
-                    if (app.email_aknowldge_regret_dttm != "")
+                    if (IFNULL(app.email_aknowldge_regret_dttm,"") != "")
                     {
                         throw new Exception("The applicant has already been notified of disqualification from the exam!");
                     }

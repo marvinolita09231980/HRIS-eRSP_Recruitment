@@ -12,8 +12,9 @@ namespace HRIS_eRSP_Recruitment.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class combined_item_tbl
+    public partial class vw_combined_item_tbl
     {
+        public int combined_id { get; set; }
         public string psb_ctrl_nbr { get; set; }
         public string item_no { get; set; }
         public string position_code { get; set; }

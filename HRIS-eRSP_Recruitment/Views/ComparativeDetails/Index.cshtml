@@ -1,0 +1,407 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    div.datepicker {
+        z-index: 3000 !important;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .currency {
+        text-align: right;
+    }
+
+    .dt-hdr-rw {
+        height: 46px;
+    }
+
+    .form-control.detail {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 30px !important;
+    }
+
+    .money {
+        text-align: right !important;
+    }
+
+
+    .row {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    /*li a{
+        height:35px !important;
+    }*/
+    .btn {
+        vertical-align: auto;
+    }
+
+    /*table.dataTable tbody td {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }*/
+    table.dataTable thead tr th {
+        font-size: medium;
+    }
+
+    .btn.action {
+        height: 18px;
+    }
+
+    .modal-footer.detail {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .active-tab {
+        background-color: #507CD1 !important;
+        color: white !important;
+    }
+
+    .hidden-element {
+        display: none;
+    }
+
+    .detail > .row {
+        margin-top: 5px;
+    }
+
+    .font-bold {
+        font-weight: bold !important;
+    }
+
+    .btn-reject {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+    /*div.modal-dialog.modal-lg{
+        width:900px !important;
+    }*/
+    div.modal-dialog.modal-lllg {
+        width: 1200px !important;
+    }
+
+
+    .chkbox {
+        width: 25px;
+        height: 25px;
+    }
+
+    .action-btn button {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    span.checkmark {
+        margin-top: -.3px !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: -30px !important;
+    }
+
+    label input[type="checkbox"] {
+        font-size: large !important;
+        margin-top: -.5px !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: 56px !important;
+    }
+
+    label.container {
+        font-size: large !important;
+        margin-top: -.5px !important;
+        width: 26px !important;
+        height: 26.5px !important;
+        margin-left: 56px !important;
+    }
+
+        label.container span.fa.fa-spinner.fa-spin {
+            margin-top: 3px !important;
+            margin-left: -77px !important;
+            color: red;
+        }
+
+    .grid-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .dropdown-menu {
+        margin-left: -150px !important;
+    }
+
+    #prepareEndorsement {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+
+    .headerendorse {
+        text-align: center !important;
+        margin-bottom: -20px;
+    }
+
+    #prepareEndorsement.date {
+        text-align: right;
+        margin-bottom: 10px;
+    }
+
+    #prepareEndorsement.endorsement {
+        margin-bottom: 20px;
+    }
+
+    #prepareEndorsement.applicant-list {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        #prepareEndorsement.applicant-list th, #prepareEndorsement.applicant-list td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+    #prepareEndorsement.selected {
+        font-weight: bold;
+    }
+
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<style>
+    .btn-grid {
+        height: 28px;
+        padding: 2px 2px 2px 2px;
+        font-size: 10px;
+        width: 70px;
+        margin-top: 3px;
+        margin-right: 3px;
+    }
+    .dropdown-menu {
+        margin-left: -200px !important;
+    }
+</style>
+
+<script src="~/Angular/ng-cComparativeDetails.js"></script>
+<section ng-app="ng_eRSP_App" ng-controller="cComparativeDetails_Ctrlr">
+    <div class="row wrapper border-bottom white-bg page-heading" style="background-color:#507CD1">
+        <div class="col-lg-6">
+            <h2 class="text-white"><b>Comparative Details</b></h2>
+        </div>
+        <div class="col-lg-6 pull-right">
+            <button class="btn btn-info pull-right" ng-click="backevent()">Back</button>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="ibox-title">
+            <div class="row">
+                <button class="btn btn-info pull-right" ng-click="printComparative()">Print Comparative</button>
+                <button class="btn btn-success pull-right" ng-click="prepareEndorsement()">View Enodorsment</button>
+            </div>
+            <div class="row no-padding">
+                <table id="Data_List_Grid" class="table table-responsive table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th class="no-padding no-margin" width="5%">Gender</th>
+                            <th class="no-padding no-margin" width="5%">Education<br>25%</th>
+                            <th class="no-padding no-margin" width="5%">Training<br>25%</th>
+                            <th class="no-padding no-margin" width="5%">Experience<br>25%</th>
+                            <th class="no-padding no-margin" width="5%">Eligibility<br>25%</th>
+                            <th class="no-padding no-margin" width="5%">QS<br>100%</th>
+                            <th class="no-padding no-margin" width="5%">QS<br>25%</th>
+                            <th class="no-padding no-margin" width="5%">Exam<br>100%</th>
+                            <th class="no-padding no-margin" width="5%">Exam<br>25%</th>
+                            <th class="no-padding no-margin" width="5%">CBI<br />100%</th>
+                            <th class="no-padding no-margin" width="5%">CBI<br />25%</th>
+                            <th class="no-padding no-margin" width="5%">Over-All<br /> Total</th>
+                            <th class="no-padding no-margin" width="5%">Rank</th>
+                            <th class="no-padding no-margin" width="4%">Send Email</th>
+                            <th class="no-padding no-margin" width="4%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="prepareEndorsement" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Prepare Endorsement</b></h2></center>
+                </div>
+                <div class="modal-body">
+                    <form id="endorseForm">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">ENDORSEMENT DATE:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <div class="input-group date no-padding no-margins" data-provide="datepicker" style="margin-bottom:-2px!important;">
+                                        <input type="text" id="endorse_dt" ng-model="endorse_dt" class="form-control text-center" required include />
+                                        <div class="input-group-addon birth_date">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row m-t-md">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">ENDORSE BY:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="input-group date no-padding no-margins" style="margin-bottom:-2px!important;">
+                                            <select class="form-control disable-white text-left norequired  no-padding" id="endorse_by" ng-model="endorse_by" required>
+                                                <option value="">-- --</option>
+                                                <option value="U10601"> GRACELYN M. MABIDA</option>
+                                                <option value="U0027">	LARA ZAPHIRE KRISTY N. BERMEJO </option>
+                                                <option value="U0028"> JANET I. TANHUECO</option>
+                                                <option value="U0644">SHERYL S. MACALDE</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </form>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+                            <h1 class="headerendorse" style="font-size:25px !important;">REPUBLIC OF THE PHILIPPINES</h1>
+                            <h2 class="headerendorse" style="font-size:20px !important;">PROVINCE OF DAVAO DE ORO</h2>
+                            <br />
+                            <h2 class="headerendorse m-t-md" style="font-size:20px !important;">PROVINCIAL GOVERNOR'S OFFICE</h2>
+                            <br />
+                            <br />
+                            <br />
+                            <div style="text-align:center !important">
+                                {{endorse_date}}
+                            </div>
+                            <div class="endorsement">
+                                <p style="text-align:center !important; font-size:15px;">Endorsement</p>
+                                <p class="justified" style="max-width:600px;margin:0 auto;text-indent:0">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The applicant below who is vying for the position of <b>{{endorse_position}}</b>, <b>SG-{{endorse_salary_grade}}</b>
+                                    with <b>item no. {{endorse_item_no}}</b> at <b>{{endorse_department_name1}}</b> has complied with the minimum requirements and passed the screening
+                                    of the Human Resource Merit Promotion and Selection Board (HRMPSB). His/her application is respectfully endorsed to
+                                    the Honorable Governor for her final action/appointment:
+                                </p>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <div>
+
+                                <table class="center">
+                                    <tr>
+                                        <th width="25%"></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th width="25%"></th>
+                                    </tr>
+                                    <tbody>
+                                        <tr ng-repeat="l in endorse_list">
+                                            <td></td>
+                                            <td>{{l.applicant_rank}}&nbsp;&nbsp;</td>
+                                            <td><b style="text-transform:capitalize !important;">{{l.applicant_name}}</b></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @*<div ng-repeat="l in endorse_list">{{l.applicant_rank}}&nbsp;&nbsp;-&nbsp;&nbsp;<b style="text-transform:capitalize !important;">{{l.applicant_name}}</b></div>*@
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-info pull-right" ng-click="printEndorsement()"><span id="" class="fa fa-arrow-right"></span>&nbsp;&nbsp;Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:90%!important;">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                </div>
+                <div class="modal-body" style="padding:0px !important">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="sendnotif_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-llg">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Email Preview</b></h2></center>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div>To: <span>{{emailreceipent}}</span></div>
+                                <div class="ibox-content no-padding">
+                                    <div id="summernote2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right m-b-md">
+                        <button type="button" id="buttonsendemail" class="btn btn-success pull-right" ng-click="sendEmailNotification2()">Send&nbsp;&nbsp;<span id="btnsendemailicon" style="" class="fa fa-send"></span></button>
+                        <button type="button" id="buttonsendemailcancel" class="btn btn-danger pull-right" data-dismiss="modal">Close&nbsp;&nbsp;<span style="" class="fa fa-times"></span></button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

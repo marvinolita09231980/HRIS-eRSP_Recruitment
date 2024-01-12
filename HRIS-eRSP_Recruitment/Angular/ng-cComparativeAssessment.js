@@ -41,6 +41,8 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     s.selected_approved = false
     s.positionlist = []
     s.selectedItemRow = []
+    s.combined_grid_List_All = []
+    s.item_grid_List_All = []
     s.month = [
         { id: "01", text: "January" },
         { id: "02", text: "February" },
@@ -225,23 +227,24 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                     {
                         "mData": "endorsement_date",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-center btn-block'><strong>" + data + "</strong></span>" 
+                            return "<span class='text-center btn-block'><strong>" + data + "</strong></span>" +
+                                "<span class='text-center btn-block'><strong>" + rank_status(full["combined"]) + "</strong></span>" 
                         }
                     },
 
                     {
-                        "mData": "psb_status",
+                        "mData": "combined",
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
                             return '<div>' +
-                                '<button style="margin-top:3px;"  type="button" class="btn btn-default text-info" ng-click="comparative_item_applicant(' + row["row"] + ')">VIEW LIST</button>' +
-                                '<div class="btn-group">' +
-                                '<button class="btn btn-default text-warning dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">PRINT...</button>' +
-                                '<ul class="dropdown-menu ">' +
-                                '<li><a ng-click="printComparative(' + row["row"] + ',3)">Comparative</a></li>' +
-                                '<li><a ng-click="prepareEndorsement(' + row["row"] + ',4)">Endorsement</a></li>' +
-                                '</ul>' +
-                                '</div>' +
+                                '<button ng-disabled="'+data+'" style="margin-top:3px;"  type="button" class="btn btn-default text-info" ng-click="comparative_item_applicant(' + row["row"] + ')">VIEW LIST</button>' +
+                                //'<div class="btn-group">' +
+                                //'<button class="btn btn-default text-warning dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">PRINT...</button>' +
+                                //'<ul class="dropdown-menu ">' +
+                                //'<li><a ng-click="printComparative(' + row["row"] + ',3)">Comparative</a></li>' +
+                                //'<li><a ng-click="prepareEndorsement(' + row["row"] + ',4)">Endorsement</a></li>' +
+                                //'</ul>' +
+                                //'</div>' +
 
 
                                 '</div>';
@@ -257,6 +260,15 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
             });
 
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+
+    function rank_status(data) {
+        if (data) {
+            return "Rank with other items"
+        }
+        else {
+            return ""
+        }
     }
 
     var Init_PSB_item_Grid2 = function (par_data) {
@@ -312,7 +324,61 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
 
-  
+
+    var Init_Combined_item_Grid = function (par_data) {
+        s.combined_grid_List = par_data;
+        s.item_Table = $('#Data_combined_Grid').dataTable(
+            {
+                data: s.combined_grid_List,
+                sDom: 'rt<"bottom"p>',
+                pageLength: 10,
+                //order: [[6, 'asc']],
+                columns: [
+
+                    {
+                        "mData": "psb_ctrl_nbr",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-left btn-block'>" + data + "</span>"
+                        }
+                    },
+
+                    {
+                        "mData": "position_long_title",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-left btn-block'><strong>" + data + "</strong></span>" +
+                                "<span class='text-left btn-block'>" + full["department_name1"] + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "descr",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'><strong>" + data + "</strong></span>"
+                        }
+                    },
+
+                    {
+                        "mData": "combined",
+                        "bSortable": false,
+                        "mRender": function (data, type, full, row) {
+                            return '<div><center>' +
+                                '<button style="margin-top:3px;"  type="button" class="btn btn-default text-info" ng-click="comparative_item_applicant_ranked(' + row["row"] + ')">VIEW LIST</button>' +
+                                '<button style="margin-top:3px;"  type="button" class="btn btn-danger" ng-click="deleteCombinedItems(' + row["row"] + ')">Delete</button>' +
+                                '</center></div>';
+                        }
+                    }
+                    //data-toggle="tab" href="#tab-7"
+                ],
+                "createdRow": function (row, data, index) {
+                    //$(row).addClass("dt-row");
+
+                    $compile(row)($scope);  //add this to compile the DOM
+                },
+
+            });
+
+        $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+
     function fa_icon_changed(data) {
         console.log(data)
         if (data) {
@@ -472,6 +538,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
     function tab_table_data(table) {
         s.selectedItemRow = []
+        s.item_grid_List_All = table
         //var OnlineExam_Data = table.filter(function (d) {
         //    return d.quali_onlineexam == true
         //})
@@ -489,6 +556,8 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
        
     }
 
+
+   
 
     function positionlist(data) {
         var list = []
@@ -527,6 +596,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         Init_item_list([])
         Init_PSB_item_Grid([])
         Init_PSB_item_Grid2([])
+        Init_Combined_item_Grid([])
         h.post("../cComparativeAssessment/Initialize", { year: y, month: s.mo }).then(function (d) {
             if (d.data.icon == "success") {
                 s.budget_year = d.data.budgetyears
@@ -836,11 +906,25 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
     s.selectPosition = function (position) {
         s.selectedItemRow = []
-        var dt = s.item_grid_List.filter(function (d) {
+        var dt = s.item_grid_List_All.filter(function (d) {
             return d.position_code == position
         })
-        
-        s.item_grid_List2 = dt.refreshTable("Data_item_Grid2", "")
+        var dt2 = s.combined_grid_List_All.filter(function (d) {
+            return d.position_code == position
+        })
+        var dt3 = s.item_grid_List_All.filter(function (d) {
+            return d.position_code == position
+        })
+        if (position == "") {
+            s.item_grid_List = s.item_grid_List_All.refreshTable("Data_item_Grid", "")
+            s.item_grid_List2 = s.item_grid_List_All.refreshTable("Data_item_Grid2", "")
+            s.combined_grid_List = s.combined_grid_List_All.refreshTable("Data_combined_Grid", "")
+        }
+        else {
+            s.item_grid_List = dt3.refreshTable("Data_item_Grid", "")
+            s.item_grid_List2 = dt.refreshTable("Data_item_Grid2", "")
+            s.combined_grid_List = dt2.refreshTable("Data_combined_Grid", "")
+        }
 
     }
 
@@ -854,12 +938,16 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                     var combineddescr = $("#combine_descr").val()
                     h.post("../cComparativeAssessment/CombinedItems", { sp_psb_item_list: s.selectedItemRow, combine_descr: combineddescr }).then(function (d) {
                         if (d.data.icon == "success") {
-
+                            s.combined_grid_List_All = d.data.sp_combined_item_tbl
+                            s.combined_grid_List = d.data.sp_combined_item_tbl.refreshTable("Data_combined_Grid", "")
+                            tab_table_data(d.data.psb_item_list)
+                            $("#position_code").val("")
                         }
                         swal({ title: d.data.message, icon: d.data.icon })
                     })
 
                 }
+
             }
             else {
                 swal({ title: "Please select item!", icon: "error" })
@@ -897,54 +985,25 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
     }
 
-    //s.selectEmploymentType = function (val) {
-    //    cs.loading("show")
-    //    s.psb_status = 0
-    //    s.budget_year = []
-    //    s.psbschedule = []
-    //    // s.psb_status = false
-    //    if (!cs.elEmpty(val)) {
-    //        h.post("../cHRMPSBScreening/sp_budgetyears_tbl_combolist1_RCT", {
-    //            employment_type: val
-    //            , budget_code: ""
-    //            , psb_ctrl_nbr: ""
-    //        }).then(function (d) {
-    //            if (d.data.icon == "success") {
-    //                s.budget_year = d.data.budgetyears
-    //                cs.clearTable("Data_item_Grid")
-    //            }
-
-    //            cs.loading("hide")
-    //        })
-    //    }
-    //    else {
-    //        cs.loading("hide")
-    //    }
-
-    //}
-    //s.selectBudgetCode = function (val) {
-    //    cs.loading("show")
-    //    s.psb_status = 0
-    //    s.psbschedule = []
-    //    //s.psb_status = false;
-    //    if (!cs.elEmpty(val)) {
-    //        h.post("../cHRMPSBScreening/sp_get_psbschedule_dropdown", {
-    //            employment_type: s.employment_type
-    //            , budget_code: val
-    //            , psb_ctrl_nbr: ""
-    //        }).then(function (d) {
-    //            if (d.data.icon == "success") {
-    //                s.psbschedule = d.data.psbschedule
-    //                cs.clearTable("Data_item_Grid")
-    //            }
-    //            cs.loading("hide")
-    //        })
-    //    }
-    //    else {
-    //        cs.loading("hide")
-    //    }
-
-    //}
+    s.deleteCombinedItems = function (row) {
+        cs.loading("show")
+        var dt = s.combined_grid_List[row]
+       
+        h.post("../cComparativeAssessment/DeleteCombinedItems",
+            {
+                row_data: dt,
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+                    s.combined_grid_List_All = d.data.sp_combined_item_tbl
+                    s.combined_grid_List = d.data.sp_combined_item_tbl.refreshTable("Data_combined_Grid", "")
+                    tab_table_data(d.data.sp_psb_item_list)
+                    $("#position_code").val("")
+                } 
+                cs.loading("hide")
+                swal({ title: d.data.message, icon: d.data.icon })
+            })
+    }
+    
     s.selectPsb_date = function (val) {
         s.psbsched_item = []
         if (!cs.elEmpty(val)) {
@@ -954,7 +1013,8 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                     psb_ctrl_nbr: val,
                 }).then(function (d) {
                     if (d.data.icon == "success") {
-                      
+                        s.combined_grid_List_All = d.data.sp_combined_item_tbl
+                        s.combined_grid_List = d.data.sp_combined_item_tbl.refreshTable("Data_combined_Grid", "")
                         tab_table_data(d.data.sp_psb_item_list)
                         cs.loading("hide")
                     } else {
@@ -1198,6 +1258,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
     }
 
+
     s.prepareEndorsement = function (row, reptype) {
         cs.loading('show')
         s.selectedRow = row
@@ -1259,21 +1320,58 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         s.itemnumber = dt.item_no
         s.positionname = dt.position_long_title
         s.departmentname = dt.department_name1
-        s.departmentname = dt.department_name1
+         console.log(dt)
         cs.loading("show")
         h.post("../cComparativeAssessment/comparative_item_applicant",
             {
                   psb_ctrl_nbr: dt.psb_ctrl_nbr
                 , item_no: dt.item_no
+                , budget_code: dt.budget_code
+                , employment_type: dt.employment_type
+                , salary_grade: dt.salary_grade
+                , ranked: false
 
             }).then(function (d) {
                 if (d.data.icon == "success") {
-                    s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
                     cs.loading("hide")
-                    $("#comparative_item_applicant").modal("show")
+                    location.href = "../ComparativeDetails"
+                    
+                    //s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
+                    //cs.loading("hide")
+                    //$("#comparative_item_applicant").modal("show")
                 }
                 else {
-                    cs.loading("show")
+                    cs.loading("hide")
+                }
+            });
+    }
+    s.comparative_item_applicant_ranked = function (row) {
+        var dt = s.combined_grid_List[row]
+        s.itemnumber = dt.item_no
+        s.positionname = dt.position_long_title
+        s.departmentname = dt.department_name1
+        console.log(dt)
+        cs.loading("show")
+        h.post("../cComparativeAssessment/comparative_item_applicant",
+            {
+                psb_ctrl_nbr: dt.psb_ctrl_nbr
+                , item_no: dt.combined_id
+                , budget_code: dt.budget_code
+                , employment_type: dt.employment_type
+                , salary_grade: dt.salary_grade
+                , ranked: true
+
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+                    cs.loading("hide")
+                    location.href = "../ComparativeDetails"
+
+                    //s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
+                    //cs.loading("hide")
+                    //$("#comparative_item_applicant").modal("show")
+                }
+                else {
+                    cs.loading("hide")
                 }
             });
     }
@@ -1316,9 +1414,6 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                     cs.loading("hide")
                 }
             });
-        
-       
-      
     }
     s.remove_comparative = function (row) {
         var dt = s.Data_List[row]

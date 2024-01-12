@@ -11,7 +11,7 @@ namespace HRIS_eRSP_Recruitment.Models
 {
     using System;
     
-    public partial class sp_endorsename_list_Result
+    public partial class sp_endorsename_list_ranked_Result
     {
         public string app_ctrl_nbr { get; set; }
         public string psb_ctrl_nbr { get; set; }

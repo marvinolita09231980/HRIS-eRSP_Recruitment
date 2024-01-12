@@ -247,6 +247,7 @@
     <Compile Include="Controllers\cHRMPSBRatingController.cs" />
     <Compile Include="Controllers\cHRMPSBScreeningController.cs" />
     <Compile Include="Controllers\cMainPageController.cs" />
+    <Compile Include="Controllers\ComparativeDetailsController.cs" />
     <Compile Include="Controllers\cOnlineApplicantsListController.cs" />
     <Compile Include="Controllers\cPanelChairmanController.cs" />
     <Compile Include="Controllers\cPanelMyRatingController.cs" />
@@ -266,10 +267,16 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\act_counter_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\adds_images_tbl.cs">
-      <DependentUpon>HRIS_APL.tt</DependentUpon>
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\applicants_email_sent_items.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\applicants_rating_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\applicants_review_tbl.cs">
@@ -296,6 +303,9 @@
     <Compile Include="Models\applicant_learnanddevt_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\applicant_qualified_progress_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\applicant_workexprnce_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -310,6 +320,12 @@
     </Compile>
     <Compile Include="Models\available_item_tbl.cs">
       <DependentUpon>HRIS_APL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bi_criteria1_average_comments_2_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bi_criteria1_average_comments_3_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\bi_criteria1_average_comments_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
@@ -344,10 +360,19 @@
     <Compile Include="Models\bi_respondent_3_hdr_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\combined_item_dtl_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\combined_item_hdr_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\document_type_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\emaildata.cs" />
+    <Compile Include="Models\email_and_approve_dates_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\endorsement_print_dtl_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -465,6 +490,9 @@
     <Compile Include="Models\psb_mbr_role_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\psb_panel_departmentheads_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\psb_panel_permanent_mbr_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -502,6 +530,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\psb_sked_mbr_tbl_original.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\psb_status_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\psb_systemsetup_rating_tbl.cs">
@@ -613,7 +644,16 @@
     <Compile Include="Models\sp_chiefexecutive_list_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_comaparative_asessment_rpt_ranked_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_comaparative_asessment_rpt_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_combined_item_tbl_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_comparative_assessment_list_ranked_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_comparative_assessment_list_Result.cs">
@@ -637,6 +677,9 @@
     <Compile Include="Models\sp_delete_psbschedule_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_department_tbl_APL_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_department_tbl_rct_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -646,7 +689,13 @@
     <Compile Include="Models\sp_endorsement_list_rpt_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_endorsename_list_ranked_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_endorsename_list_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_exam_schedule_tbl_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_executive_position_dropdown_list_Result.cs">
@@ -719,6 +768,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_hrmpsb_screening_list_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_hrmpsb_screening_list_V2_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_hrmpsb_screening_profile_Result.cs">
@@ -913,6 +965,9 @@
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_applicants_progress_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_applicants_review_dates_names.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -955,10 +1010,19 @@
     <Compile Include="Models\vw_civilstatus_tbl_RCT.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_combined_item_dtl_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_combined_item_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_departments_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_educ_type_tbl_sort.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_empl_photo_img.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_exam_schedule_tbl.cs">
@@ -983,6 +1047,12 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_psb_panel_permanent_mbr_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_psb_sked_app_item_no_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_psb_sked_app_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_psb_sked_hdr_tbl.cs">
@@ -1253,6 +1323,7 @@
     <Content Include="Angular\ng-cBackGroundInvestigationQuestion.js" />
     <Content Include="Angular\ng-cChiefExecutive.js" />
     <Content Include="Angular\ng-cComparativeAssessment.js" />
+    <Content Include="Angular\ng-cComparativeDetails.js" />
     <Content Include="Angular\ng-cEmbedScreening.js" />
     <Content Include="Angular\ng-cExamSchedule.js" />
     <Content Include="Angular\ng-cGuestUserInfo.js" />
@@ -2224,6 +2295,7 @@
     <Content Include="ResourcesImages\LOGO HRIS 2.jpg" />
     <Content Include="ResourcesImages\LOGO HRIS 3.jpg" />
     <Content Include="ResourcesImages\pdf_icon.png" />
+    <Content Include="ResourcesImages\Screenshot 2023-12-06 105933.png" />
     <Content Include="ResourcesImages\SEPTEMBER.csv" />
     <Content Include="ResourcesImages\show.jpg" />
     <Content Include="ResourcesImages\unshow.jpg" />
@@ -3229,6 +3301,7 @@
     <Content Include="Views\cExamSchedule\Index.cshtml" />
     <Content Include="Views\cBackgroundInvestigation\Index.cshtml" />
     <Content Include="Views\cBackgroundInvestigationQuestion\Index.cshtml" />
+    <Content Include="Views\ComparativeDetails\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

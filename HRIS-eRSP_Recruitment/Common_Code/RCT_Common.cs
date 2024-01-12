@@ -237,7 +237,7 @@ namespace HRIS_eRSP_Recruitment.Common_Code
         }
         public ActionResult RedirectLogin()
         {
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("Index", "Login",new { area = "" });
 
         }
         public bool Sessionactive()

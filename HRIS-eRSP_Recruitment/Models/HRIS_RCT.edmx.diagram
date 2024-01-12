@@ -100,10 +100,13 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria2_tbl" Width="1.5" PointX="15.375" PointY="27.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_criteria3_tbl" Width="1.5" PointX="29.375" PointY="21.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_qualified_progress_tbl" Width="1.5" PointX="7.375" PointY="30.75" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicants_progress_tbl" Width="1.5" PointX="21.375" PointY="29.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_psb_sked_app_tbl" Width="1.5" PointX="23.375" PointY="29.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_rating_tbl" Width="1.5" PointX="15.375" PointY="30.75" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.combined_item_tbl" Width="1.5" PointX="17.375" PointY="30.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.combined_item_dtl_tbl" Width="1.5" PointX="29.375" PointY="24.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.combined_item_hdr_tbl" Width="1.5" PointX="17.375" PointY="30.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_combined_item_tbl" Width="1.5" PointX="25.375" PointY="30.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_combined_item_dtl_tbl" Width="1.5" PointX="30.375" PointY="27.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicants_progress_tbl" Width="1.5" PointX="19.375" PointY="30.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
