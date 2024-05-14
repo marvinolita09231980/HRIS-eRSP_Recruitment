@@ -23,5 +23,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public string middlename { get; set; }
         public string user_id { get; set; }
         public string user_password { get; set; }
+        public Nullable<System.DateTime> created_dttm { get; set; }
     }
 }

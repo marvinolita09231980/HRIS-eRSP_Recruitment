@@ -269,5 +269,74 @@ namespace HRIS_eRSP_Recruitment.Models
         public double eligibility { get; set; }
         public Nullable<long> applicant_rank { get; set; }
     }
+    public class applicants_tbl_2
+    {
+        public string info_ctrl_nbr { get; set; }
+        public string last_name { get; set; }
+        public string first_name { get; set; }
+        public string middle_name { get; set; }
+        public string birth_date { get; set; }
+        public string gender { get; set; }
+        public string civil_status { get; set; }
+        public string app_address { get; set; }
+        public Nullable<System.DateTime> applied_dttm { get; set; }
+        public Nullable<bool> is_employee { get; set; }
+        public string empl_id { get; set; }
+        public Nullable<System.DateTime> created_dttm { get; set; }
+        public string created_by_user { get; set; }
+        public Nullable<System.DateTime> updated_dttm { get; set; }
+        public string updated_by_user { get; set; }
+        public byte[] empl_photo_img { get; set; }
+        public string mobile_number { get; set; }
+        public string email_add { get; set; }
+    }
+
+    public class app_ctrl_nbr_list
+    {
+        public string app_ctrl_nbr { get; set; }
+       
+    }
+    public class app_ctrl_nbr_list_2
+    {
+        public string app_ctrl_nbr { get; set; }
+        public string item_no { get; set; }
+        public string employment_type { get; set; }
+        public string budget_code { get; set; }
+        public string hiring_period { get; set; }
+        public string psb_ctrl_nbr { get; set; }
+        public string department_code { get; set; }
+
+    }
+
+    public class prescreenAllData
+    {
+        public string app_ctrl_nbr          { get; set; }
+        public string item_no               { get; set; }
+        public string employment_type       { get; set; }
+        public string budget_code           { get; set; }
+        public string ctrl_no               { get; set; }
+        public string APL_info_ctrl_nbr     { get; set; }
+    }
+
+    public class comparativeTempList
+    {
+        public string   app_ctrl_nbr { get; set; }
+        public string   approval_id { get; set; }
+        public string   psb_ctrl_nbr { get; set; }
+        public string   item_no { get; set; }
+        public bool     hasSelected_approved { get; set; }
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }

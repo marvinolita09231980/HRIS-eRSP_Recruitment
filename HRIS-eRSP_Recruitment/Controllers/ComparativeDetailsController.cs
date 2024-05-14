@@ -2,6 +2,7 @@
 using HRIS_eRSP_Recruitment.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -24,15 +25,16 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Initialize()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             um = rct.GetAllowAccess();
             var user_id = Session["user_id"].ToString();
-            var psb_ctrl_nbr = Session["comparative_psb_ctrl_nbr"].ToString();
-            var item_no = Session["comparative_item_no"].ToString();
-            var budget_code    = Session["comparative_budget_code"].ToString();
-            var employment_type= Session["comparative_employement_type"].ToString();
-            var salary_grade = Session["comparative_salary_grade"].ToString();
-            var ranked = (bool)Session["comparative_ranked"];
+            var psb_ctrl_nbr = Session["ca_psb_ctrl_nbr"].ToString();
+            var item_no = Session["ca_item_no"].ToString();
+            var budget_code    = Session["ca_budget_code"].ToString();
+            var employment_type= Session["ca_employment_type"].ToString();
+            var salary_grade = Session["ca_salary_grade"].ToString();
+            var ranked = (bool)Session["ca_ranked"];
             //um = rct.GetAllowAccess();
            
             try
@@ -40,7 +42,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 if (ranked)
                 {
                     var combined_id = Convert.ToInt32(item_no);
-                    var comparative = db.sp_comparative_assessment_list_ranked(psb_ctrl_nbr, combined_id, "3").OrderBy(a => a.last_name).ToList();
+                    var comparative = db.sp_comparative_assessment_list_ranked(psb_ctrl_nbr, combined_id, "3").ToList();
                     return JSON(new { message = fetch.success, icon = icon.success, comparative, psb_ctrl_nbr, item_no, budget_code, employment_type, salary_grade, ranked }, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -50,7 +52,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 }
                 
             }
-            catch (Exception e)
+            catch (DbEntityValidationException e)
             {
                 return Json(new { message = e.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
@@ -59,6 +61,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult GetEndorseList(string item_no, string budget_code, string employment_type,bool ranked)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var endorse_item_no = "";
             try
@@ -109,6 +112,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult GetEmailNotification2(sp_comparative_assessment_list_container dt, string email_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
 
             var user_id = Session["user_id"].ToString();
@@ -188,6 +192,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult sendEmailNotification2(sp_comparative_assessment_list_container dt, string email_type, sp_send_email_notification_Result email_settup)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var email_subject = "";
 

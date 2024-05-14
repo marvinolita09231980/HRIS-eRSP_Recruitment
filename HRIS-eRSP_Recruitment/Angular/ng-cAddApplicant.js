@@ -97,6 +97,7 @@ ng_eRSP_App.controller("cAddApplicant_Ctrlr", function (commonScript,$scope, $ht
             {
                 data: s.Applicant_List_Data,
                 sDom: 'rt<"bottom"p>',
+                order:[[1,'asc']],
                 pageLength: 10,
                 columns: [
                     {
@@ -107,6 +108,7 @@ ng_eRSP_App.controller("cAddApplicant_Ctrlr", function (commonScript,$scope, $ht
                     },
 
                     {
+                        sortable:false,
                         "mData": "applicant_name",
                         "mRender": function (data, type, full, row) {
                             return "<span class='text-left btn-block'>" + data + "</span>"

@@ -36,6 +36,10 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
     s.ipcr_rating = 0
     s.exam_type_descr = ""
     s.exam_date = ""
+    s.rating_user_id = ""
+    s.user_id = ""
+    s.psb_ctrl_nbr       = ""
+    s.psb_sked_hdr_list  = []
 
     s.main_edit = false
     s.dtl_edit = false
@@ -159,6 +163,9 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
         var i_key = Object.keys(obj)
         var f_key = Object.keys(data)
         var f_val = Object.keys(data).map(function (itm) { return data[itm]; });
+        console.log(i_key)
+        console.log(f_key)
+        console.log(f_val)
         for (var i = 0; i < i_key.length; i++) {
             for (var f = 0; f < f_key.length; f++) {
                 if (i_key[i] == f_key[f]) {
@@ -1087,9 +1094,15 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
         s.year = cs.RetrieveYear();
         s.rowLen = "10"
         h.post("../cApplicantReviewDetail/Initialize").then(function (d) {
-            app_ctrl_nbr = d.data.app_ctrl_nbr
+            s.psb_ctrl_nbr      = d.data.psb_ctrl_nbr
+            s.psb_sked_hdr_list = d.data.psb_sked_hdr_list 
 
+            s.user_id = d.data.user_id
+            app_ctrl_nbr = d.data.app_ctrl_nbr
             s.sp_reviewer_screening_list2()
+            
+            
+
 
             //if (app_ctrl_nbr == localStorage["app_ctrl_nbr"]) {
             //
@@ -1167,6 +1180,8 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
         h.post("../cApplicantReviewDetail/setAppCtrlNbr", {
             app_ctrl_nbr: app_ctrl_nbr
         }).then(function (d) {
+            s.psb_ctrl_nbr      = d.data.psb_ctrl_nbr     
+            s.psb_sked_hdr_list = d.data.psb_sked_hdr_list
             s.getReviewer_List();
             s.getDtl_List();
             s.getDropdownList();
@@ -1215,7 +1230,10 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
             s.position_code = d.data.reviewer_list[0].position_code
             s.app_status = d.data.reviewer_list[0].app_status
             s.app_ctrl_nbr = d.data.reviewer_list[0].app_ctrl_nbr
+            console.log(d.data.reviewer_list)
             s.profile = d.data.reviewer_list.formInnerText(s.profile);
+
+            console.log(s.profile)
             $(document).ready(cs.loading("hide"))
             //localStorage["reviewer_list"] = JSON.stringify(d.data.reviewer_list)
             //localStorage["info_ctrl_nbr"] = d.data.reviewer_list[0].info_ctrl_nbr
@@ -1841,47 +1859,26 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
 
 
 
-    s.saveRating = function (appctrlnbr, psbctrlnbr) {
-        cs.notrequired2("ipcr_rating")
-        var app_ctrl_nbr = appctrlnbr
-        var psb_ctrl_nbr = psbctrlnbr
-        var educ_rating = s.educ_rating
-        var wexp_rating = s.wexp_rating
-        var lnd_rating = s.lnd_rating
-        var elig_rating = s.elig_rating
-        //var score_rendered = scorerendered25(s.score_rendered)
-        //var ipcr_rating = s.ipcr_rating
-        //var exam_type_descr = s.exam_type_descr
-        //var exam_date = s.exam_date
-
-        //if (parseInt(s.score_rendered) > 0 && (!cs.Validate1Field("exam_type_descr") || !cs.Validate1Field("exam_date"))) {
-        //    return
-        //}
+    s.saveRating = function (appctrlnbr) {
        
-        //if (s.ipcr_rating != "") {
-        //    if (isNaN(s.ipcr_rating)) {
-        //        cs.required2("ipcr_rating","Required a number")
-        //        return
-        //    }
-        //    else if (parseFloat(s.ipcr_rating) > 5) {
-        //        cs.required2("ipcr_rating", "Must not greater than 5")
-        //        return
-        //    }
-        //}
-
-
+        //if (cs.Validate1Field("psb_ctrl_nbr")) {
+       
+        var app_ctrl_nbr = appctrlnbr
+        var psb_ctrl_nbr = $("#psb_ctrl_nbr").val()
+        var educ_rating  = s.educ_rating
+        var wexp_rating  = s.wexp_rating
+        var lnd_rating   = s.lnd_rating
+        var elig_rating  = s.elig_rating
+        cs.loading("show")
         h.post("../cApplicantReviewDetail/SaveRating",
             {
                   app_ctrl_nbr: app_ctrl_nbr
-                , psb_ctrl_nbr: psb_ctrl_nbr
+                //, psb_ctrl_nbr: psb_ctrl_nbr
                 , educ_rating: educ_rating
                 , wexp_rating: wexp_rating
                 , lnd_rating: lnd_rating
                 , elig_rating: elig_rating
-                //, score_rendered: score_rendered
-                //, exam_type_descr: exam_type_descr
-                //, exam_date: exam_date
-                //, ipcr_rating: ipcr_rating
+               
             }).then(function (d) {
                 if (d.data.icon == "success") {
                     s.getReviewer_List();
@@ -1895,12 +1892,17 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
                     s.exam_date = d.data.rtn.exam_date
                     s.appctrlnbr = d.data.rtn.app_ctrl_nbr
                     s.psbctrlnbr = d.data.rtn.psb_ctrl_nbr
+                    s.psb_ctrl_nbr = d.data.rtn.psb_ctrl_nbr
                     s.ipcr_rating = d.data.rtn.ipcr_rating
+                    cs.loading("hide")
                 }
                 else {
+                    cs.loading("hide")
                     swal(d.data.message, { icon: d.data.icon })
+                    
                 }
             })
+       // }
     }
 
     s.fn_educdetails = function() {
@@ -2054,7 +2056,7 @@ ng_eRSP_App.directive("openModal", ["commonScript", "$http", function (cs, h) {
                   
                     h.post("../cApplicantReviewDetail/GetRating", { app_ctrl_nbr: scope.app_ctrl_nbr }).then(function (d) {
                         if (d.data.icon == "success") {
-                           
+                            s.rating_user_id = d.data.rtn.user_id
                             scope.educ_rating = d.data.rtn.education == 0 ? 22 : d.data.rtn.education 
                             scope.wexp_rating = d.data.rtn.experience == 0 ? 22 : d.data.rtn.experience 
                             scope.lnd_rating = d.data.rtn.training == 0 ? 22 : d.data.rtn.training 
@@ -2417,6 +2419,7 @@ ng_eRSP_App.directive("saveRating", ["commonScript", "$http", function (cs, h) {
                        
 
                         if (d.data.icon == "success") {
+                            s.rating_user_id = d.data.rtn.user_id
                             scope.profile = d.data.reviewer_list.formInnerText(scope.profile);
                             swal("Successfully add rating!", { icon: "success" })
 
@@ -2447,14 +2450,14 @@ ng_eRSP_App.directive("rateApplicant", ["commonScript", "$http", function (cs, h
         link: function (scope, elem, attrs) {
             elem.on('click', function () {
                 var app_ctrl_nbr = attrs.rateApplicant
-              
+                cs.loading("show")
 
                 h.post("../cApplicantReviewDetail/CheckifInPsbSchedule",
                     {
                         app_ctrl_nbr: app_ctrl_nbr
                     }).then(function (d) {
-                       
-                       
+
+                            scope.rating_user_id = d.data.rtn.user_id
                             scope.educ_rating = d.data.rtn.education == 0 ? 22 : d.data.rtn.education
                             scope.wexp_rating = d.data.rtn.experience == 0 ? 22 : d.data.rtn.experience
                             scope.lnd_rating = d.data.rtn.training == 0 ? 22 : d.data.rtn.training
@@ -2462,7 +2465,8 @@ ng_eRSP_App.directive("rateApplicant", ["commonScript", "$http", function (cs, h
                             scope.appctrlnbr = d.data.rtn.app_ctrl_nbr
                            
 
-                            console.log(d.data.rtn.ipcr_rating)
+                           cs.loading("hide")
+                             
                             $("#add_rating").modal("show")
                         
                     })

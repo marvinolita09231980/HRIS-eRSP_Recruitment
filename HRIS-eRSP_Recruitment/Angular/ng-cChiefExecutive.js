@@ -20,6 +20,7 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
     s.slideInnerText = []
     s.psbsched_item = []
     s.individual = {}
+    s.item_group_by_hiring_period
     s.month = [
         { id: "01", text: "January" },
         { id: "02", text: "February" },
@@ -82,15 +83,15 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                     {
                         "mData": "psb_ctrl_nbr",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-left btn-block'>" + data + " - " + full["psb_date"] + "</span>"
+                            return "<button class='btn btn-warning'>" + data + " - " + full["psb_date"] + "</button>"
                         }
                     },
 
                     {
                         "mData": "item_no",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-left btn-block'><strong>" + data + " - " + full["position_long_title"] + "</strong></span>" +
-                                "<span class='text-left btn-block'>" + full["department_name1"] + "</span>"
+                            return "<span class='text-left btn-block text-default'><strong>" + data + " - " + full["position_long_title"] + "</strong></span>" +
+                                "<span class='text-left btn-block text-success'>" + full["department_name1"] + "</span>"
                         }
                     },
 
@@ -99,7 +100,7 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
                             return '<center><div class="btn-group">' +
-                                '<button style="border:2px solid blue;height:30px; padding-bottom:4px;"  type="button" class="form-control btn btn-default text-success" ng-click="indorseitem_applicant_list(' + row["row"] + ',4)">VIEW ENDORSED APPLICANTS</button ><br/>' +
+                                '<button style="padding-bottom:4px;"  type="button" class="btn btn-info" ng-click="indorseitem_applicant_list(' + row["row"] + ',4)">VIEW ENDORSED APPLICANTS</button ><br/>' +
                                // '<button  type="button" class="btn btn-info btn-sm action chkbox" ng-click="indorseitem_applicant_list(' + row["row"] + ')" ><i class="fa fa-info"></i></button >' +
                                 //'<button  type="button" class="btn btn-success btn-sm action chkbox" ng-click="app_detail(' + row["row"] + ')" ><i class="fa fa-file-text"></i></button >' +
                                 //'<button  type="button" class="btn btn-warning btn-sm action chkbox" ng-click="app_detail(' + row["row"] + ')" ><i class="fa fa-file"></i></button >' +
@@ -107,6 +108,36 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                         }
                     }
                     //data-toggle="tab" href="#tab-7"
+                ],
+                "createdRow": function (row, data, index) {
+                    //$(row).addClass("dt-row");
+                    $compile(row)($scope);  //add this to compile the DOM
+                },
+
+            });
+
+        $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+    var Init_PSBSCHED_Grid = function (par_data) {
+        s.PSBSCHED_List = par_data;
+        s.PSBSCHED_Table = $('#Data_psbsched_Grid').dataTable(
+            {
+                data: s.PSBSCHED_List,
+                sDom: 'rt<"bottom"p>',
+                pageLength: 10,
+                //order: [[6, 'asc']],
+                columns: [
+                   
+
+                    {
+                        "mData": "remarks_details",
+                        "mRender": function (data, type, full, row) {
+                            return "<div ng-click='getItemIndorse(" + row["row"] + ")'><h3 class='text-left btn-block text-success'><strong class='text-warning'>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Title</strong>:&ensp;<strong>" + data + "</strong></h3>" +
+                                "<h3 class='text-left btn-block'><strong class='text-warning'>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;Date</strong>:&ensp;<span class='text-default'>" + full["psb_date"] + "</span></h3>" +
+                                "<h3 class='text-left btn-block'><strong class='text-warning'>Hiring Period</strong>:&ensp;<span class='text-default'>" + full["active_dttm"] + " -- " + full["expiry_dttm"] + "</span></h3>" 
+                        }
+                    },
+                    
                 ],
                 "createdRow": function (row, data, index) {
                     //$(row).addClass("dt-row");
@@ -185,8 +216,8 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                         "mRender": function (data, type, full, row) {
 
                             return '<center>' +
-                                '<button  type="button" class="btn btn-danger btn-sm action chkbox" ng-click="remove_comparative(' + row["row"] + ')" ' + HSAD(full) +'><i class="fa fa-times"></i></button >' +
-                                '<button  type="button" class="btn btn-info btn-sm action chkbox" ng-click="approved_comparative(' + row["row"] + ')" ' + HSAD(full)+'><i class="fa ' + changefa(full) + '"></i></button >' +
+                                '<button ng-hide="' + hidebtnifapprovedx(full) + '" type="button" class="btn btn-danger" ng-click="remove_comparative(' + row["row"] + ')" ' + HSAD(full) +'><i class="fa fa-times"></i></button >' +
+                                '<button ng-hide="' + hidebtnifapprovedc(full) + '" type="button" class="btn btn-info" ng-click="approved_comparative(' + row["row"] + ')" ' + HSAD(full)+'><i class="fa ' + changefa(full) + '"></i></button >' +
                                 //'<button  type="button" class="btn btn-info btn-sm action chkbox" ng-click="app_detail(' + row["row"] + ')" ><i class="fa fa-edit"></i></button >' +
                                 //'<label class="container  m-left-24 p-bot-10 p-top-10">' +
                                 //   '<input type="checkbox" ng-click="check_box(' + row["row"] + ',' + data + ')" id="item' + row["row"] + '" ng-model="item' + row["row"] + '" ng-checked="' + full["selected_approved"] + '">' +
@@ -250,6 +281,53 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
 
         
        
+    }
+
+    function hidebtnifapprovedc(full) { //IF ALREADY SELECTED ITEM DISABLE BUTTON
+     
+        if (full.selected_approved == true) {
+
+            var retval = false
+
+            if (full.approval_status == "F") {
+                retval = false
+            }
+            else {
+                retval = true
+            }
+            return retval
+
+        }
+        else {
+            return false
+
+        }
+
+
+
+    }
+    function hidebtnifapprovedx(full) { //IF ALREADY SELECTED ITEM DISABLE BUTTON
+        var retval = true
+
+        if (full.selected_approved == true) {
+
+            if (full.approval_status == "F") {
+                retval = false
+            }
+            else {
+                retval = true
+            }
+
+            return retval
+
+        }
+        else {
+            return retval
+
+        }
+
+
+
     }
 
     function HSADR(data) { //IF ALREADY SELECTED ITEM DISABLE NOT SELECTED BUTTON
@@ -547,6 +625,7 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
         Init_PSB_List_Grid2([])
         Init_PSB_List_Grid3([])
         Init_item_list([])
+        Init_PSBSCHED_Grid([])
        
         cs.loading("show")
         h.post("../cChiefExecutive/Initialize", { employment_type: s.employment_type, approval_status: s.approval_status }).then(function (d) {
@@ -660,14 +739,31 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
 
         h.post("../cChiefExecutive/set_Item_no", { item_no: val, psb_ctrl_nbr: s.psb_ctrl_nbr }).then(function (d) {
             if (d.data.icon == "success") {
-               
+                console.log(d.data.endorsed)
                 s.Data_List = d.data.endorsed.refreshTable("Data_List_Grid", "")
             }
 
         })
-
     }
-    
+
+    s.getItemIndorse = function (row) {
+        var dt = s.PSBSCHED_List[row]
+       cs.loading("show")
+        h.post("../cChiefExecutive/getItemIndorse",
+            {
+                psb_ctrl_nbr: dt.psb_ctrl_nbr,
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+                    console.log(d.data.getItemIndorse)
+                    s.item_grid_List = d.data.getItemIndorse.refreshTable("Data_item_Grid", "")
+                    cs.loading("hide")
+                } else {
+                    console.log(d.data.message)
+                    cs.loading("hide")
+                }
+            })
+    }
+
 
     s.selectPsb_date = function (val) {
         s.firstGrid = true
@@ -679,11 +775,15 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
             s.psb_ctrl_nbr_toconcluded = val
             h.post("../cChiefExecutive/sp_hrmpsbscreening_item_list",
                 {
-                    psb_ctrl_nbr: val,
+                    year: val,
                 }).then(function (d) {
                     if (d.data.icon == "success") {
 
-                        s.item_grid_List = d.data.sp_exec_2bapprovedlist.refreshTable("Data_item_Grid", "")
+                        //s.item_grid_List = d.data.sp_exec_2bapprovedlist.refreshTable("Data_item_Grid", "")
+                       
+                        //s.item_group_by_hiring_period = Object.groupBy()
+
+                        s.PSBSCHED_List = d.data.sp_hrmps_sched_header_list.refreshTable("Data_psbsched_Grid","")
 
                     } else {
                         console.log(d.data.message)
@@ -730,8 +830,9 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
 
         s.approved_comparative = function (row_id) {
             var dt = s.Data_List
-            console.log(dt[row_id])
-           
+            if (dt[row_id].selected_approved == true) {
+                return
+            }
                     swal({
                         title: "Are you sure to approve this application?",
                         text: "",
@@ -755,19 +856,19 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                         },
 
                     }).then(function (response) {
-                            if (response) {
-                                h.post("../cChiefExecutive/ApproveExec2", {
-                                        data: dt[row_id],
-                                        psb_ctrl_nbr: s.psb_ctrl_nbr,
-                                        item_no: s.item_no
-                                }).then(function (d) {
-                                        s.Data_List = d.data.chiefexecutive_list.refreshTable("Data_List_Grid", "")
-                                        swal("Successfully Approved", { icon: "success" })
-                                    })
-                                
-                            }
-                            
-                        });
+                        if (response) {
+                            h.post("../cChiefExecutive/ApproveExec2", {
+                                    data: dt[row_id],
+                                    psb_ctrl_nbr: s.psb_ctrl_nbr,
+                                    item_no: s.item_no
+                            }).then(function (d) {
+                                if (d.data.icon == "success") {
+                                    s.Data_List = d.data.chiefexecutive_list.refreshTable("Data_List_Grid", "")
+                                }
+                                swal(d.data.message, { icon:d.data.icon })
+                            })
+                        }
+                    });
     }
 
     s.remove_comparative = function (row_id) {
@@ -870,7 +971,7 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                 , item_no: dt.item_no
              }).then(function (d) {
                  if (d.data.icon == "success") {
-                    
+                     console.log(d.data.indorseitem_applicant_list)
                      s.Data_List = d.data.indorseitem_applicant_list.refreshTable("Data_List_Grid", "")
                      //$("#comparative_item_applicant").modal("show")
                      s.firstGrid = false

@@ -135,14 +135,35 @@ ng_eRSP_App.controller("cViewUploadedFileFromAPL_Ctrlr", function ($scope, $http
     }
 
    
+    //s.show_file = function (file_index) {
+    //    $("#choose_action").modal("hide")
+    //    var dt = s.att_dtl[file_index]
+    //    s.path = dt.file_path
+    //    var pdf = fn_encode_pdf(dt.filedocs)
+    //    $("#pdfview").attr("src", pdf)
+    //    $("#pdfview_modal").modal("show");
+    //}
     s.show_file = function (file_index) {
         $("#choose_action").modal("hide")
         var dt = s.att_dtl[file_index]
         s.path = dt.file_path
-        var pdf = fn_encode_pdf(dt.filedocs)
-        $("#pdfview").attr("src", pdf)
-        $("#pdfview_modal").modal("show");
-
+       
+        h.post("../cViewUploadedFileFromAPL/getPDFFile", {
+            info_ctrl_nbr: dt.apl_id
+            , doc_type: dt.doc_type
+            , file_path: dt.file_path
+        }).then(function (d) {
+            if (d.data.icon == "success") {
+                console.log()
+                var pdf = fn_encode_pdf(d.data.pdf_file.filedocs)
+                $("#pdfview").attr("src", pdf)
+                $("#pdfview_modal").modal("show");
+            }
+            else {
+                swal({ title:d.data.message,icon:d.data.icon})
+            }
+        })
+      
     }
 
     s.downloadPdf = function (file_index) {

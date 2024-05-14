@@ -22,8 +22,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
        
         public ActionResult Index()
         {
-            Session.Remove("comparative_psb_ctrl_nbr");
-            Session.Remove("comparative_item_no");
+            //Session.Remove("ca_psb_ctrl_nbr");
+            //Session.Remove("ca_item_no");
             if (Session["user_id"] == null)
             {
                 return RedirectToAction("Index", "Login");
@@ -33,11 +33,19 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Initialize(string year, string month)
         {
+            //Session["comparative_psb_ctrl_nbr"] = psb_ctrl_nbr;
+            //Session["comparative_item_no"] = item_no;
+            //Session["comparative_budget_code"] = budget_code;
+            //Session["comparative_employement_type"] = employment_type;
+            //Session["comparative_salary_grade"] = salary_grade;
+            //Session["comparative_ranked"] = ranked;
             CheckSession();
             um = rct.GetAllowAccess();
             var user_id = Session["user_id"].ToString();
             var psb_ctrl_nbr = Session["ca_psb_ctrl_nbr"] != null ? Session["ca_psb_ctrl_nbr"].ToString() : "";
             var item_no = Session["ca_item_no"] != null ? Session["ca_item_no"].ToString() : "";
+            var budget_code = Session["ca_budget_code"] != null ? Session["ca_budget_code"].ToString() : "";
+            var employment_type = Session["ca_employment_type"] != null ? Session["ca_employment_type"].ToString() : "";
             var reporttype = Session["ca_reporttype"] != null ? Session["ca_reporttype"].ToString() : "";
 
             //um = rct.GetAllowAccess();
@@ -49,7 +57,16 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 var psbschedule = db.vw_psb_sked_hdr_tbl.Where(a => a.psb_status >= 2).ToList();
                 var psbsched_item = db.sp_hrmpsbscreening_item_list(psb_ctrl_nbr).ToList();
                 var comparative = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "3").ToList();
-                return JSON(new { message = fetch.success, icon = icon.success, sched, psbschedule, reporttype, psb_ctrl_nbr, item_no, psbsched_item, comparative,um, budgetyears }, JsonRequestBehavior.AllowGet);
+                var sp_psb_item_list     = db.sp_psb_item_list(psb_ctrl_nbr).ToList();
+                var sp_combined_item_tbl = db.sp_combined_item_tbl(psb_ctrl_nbr).ToList();
+                return JSON(new { message = fetch.success, icon = icon.success, sched, psbschedule
+                    , reporttype, psb_ctrl_nbr, item_no, psbsched_item
+                    , comparative,um, budgetyears
+                    ,budget_code
+                    ,employment_type
+                    ,sp_psb_item_list
+                    ,sp_combined_item_tbl
+                }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -286,13 +303,21 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
-                Session["comparative_psb_ctrl_nbr"] = psb_ctrl_nbr;
-                Session["comparative_item_no"] = item_no;
-                Session["comparative_budget_code"] = budget_code;
-                Session["comparative_employement_type"] = employment_type;
-                Session["comparative_salary_grade"] = salary_grade;
-                Session["comparative_ranked"] = ranked;
-                //var comparative = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "3").ToList();
+                Session["ca_psb_ctrl_nbr"] = psb_ctrl_nbr;
+                Session["ca_item_no"] = item_no;
+                Session["ca_budget_code"] = budget_code;
+                Session["ca_employment_type"] = employment_type;
+                Session["ca_salary_grade"] = salary_grade;
+                Session["ca_ranked"] = ranked;
+
+                //Session["comparative_psb_ctrl_nbr"] = psb_ctrl_nbr;
+                //Session["comparative_item_no"] = item_no;
+                //Session["comparative_budget_code"] = budget_code;
+                //Session["comparative_employement_type"] = employment_type;
+                //Session["comparative_salary_grade"] = salary_grade;
+                //Session["comparative_ranked"] = ranked;
+
+                var comparative = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "3").ToList();
 
                 return JSON(new { message = fetch.success, icon = icon.success }, JsonRequestBehavior.AllowGet);
             }
@@ -351,6 +376,49 @@ namespace HRIS_eRSP_Recruitment.Controllers
             catch (DbEntityValidationException e)
             {
                     return Json(new { message = DbEntityValidationExceptionError(e) }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult approvedComparativeAll(List<comparativeTempList> data)
+        {
+            CheckSession();
+            var app_status = "";
+            var user_id = Session["user_id"].ToString();
+            var message = "";
+            var submitcount = 0;
+           
+            var ranked = (bool)Session["ca_ranked"];
+            try
+            {
+                var psb_ctrl_nbr = data[0].psb_ctrl_nbr;
+                var item_no = data[0].item_no;
+                for (var x = 0; x < data.Count(); x++)
+                {
+                    var app_ctrl_nbr = data[x].app_ctrl_nbr;
+                    db.sp_insert_transaction_to_approvalworkflow_tbl_RCT(user_id, app_ctrl_nbr, transaction_code);
+                    
+                    submitcount = submitcount + 1;
+                    
+                }
+
+                if (ranked)
+                {
+                    var ca_item_no = Session["ca_item_no"].ToString();
+                    var combined_id = Convert.ToInt32(ca_item_no);
+                    var comparative = db.sp_comparative_assessment_list_ranked(psb_ctrl_nbr, combined_id, "3").ToList();
+                    message = submit.success;
+                    return JSON(new { message = message, icon = icon.success, submitcount, comparative }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var comparative = db.sp_comparative_assessment_list(psb_ctrl_nbr, item_no, "3").ToList();
+                    message = submit.success;
+                    return JSON(new { message = message, icon = icon.success, submitcount, comparative }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(e) }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -498,7 +566,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 {
                     if (ranked)
                     {
-                        var endorse = db.sp_endorsename_list_ranked(psb_ctrl_nbr, item_no, "4").ToList();
+                        var endorse = db.sp_endorsename_list_ranked(psb_ctrl_nbr, item_no, "4").OrderBy(a => a.applicant_rank).ToList();
                         if (endorse.Count() == 0)
                         {
                             throw new Exception("No applicants endorse for this item, please select applicants in View List");
@@ -507,7 +575,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     }
                     else
                     {
-                        var endorse = db.sp_endorsename_list(psb_ctrl_nbr, item_no, "4").ToList();
+                        var endorse = db.sp_endorsename_list(psb_ctrl_nbr, item_no, "4").OrderBy(a => a.applicant_rank).ToList();
                         if (endorse.Count() == 0)
                         {
                             throw new Exception("No applicants endorse for this item, please select applicants in View List");

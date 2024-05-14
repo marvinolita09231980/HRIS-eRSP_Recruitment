@@ -61,6 +61,10 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     s.year = cs.RetrieveYear()
     s.profile = {}
 
+    function addvalue(id, value) {
+        $("#" + id).val(value)
+        s[id] = value
+    }
 
     s.encode_idv = function (d, a, e, b, c, f) {
         c = "";
@@ -237,7 +241,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
                             return '<div>' +
-                                '<button ng-disabled="'+data+'" style="margin-top:3px;"  type="button" class="btn btn-default text-info" ng-click="comparative_item_applicant(' + row["row"] + ')">VIEW LIST</button>' +
+                                '<button ng-disabled="' + data + '" style="margin-top:3px;"  type="button" class="btn btn-default text-info" ng-click="comparative_item_applicant(' + row["row"] + ')">VIEW LIST</button>' +
                                 //'<div class="btn-group">' +
                                 //'<button class="btn btn-default text-warning dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">PRINT...</button>' +
                                 //'<ul class="dropdown-menu ">' +
@@ -245,6 +249,18 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                                 //'<li><a ng-click="prepareEndorsement(' + row["row"] + ',4)">Endorsement</a></li>' +
                                 //'</ul>' +
                                 //'</div>' +
+
+
+                                '</div>';
+                        }
+                    },
+                    {
+                        "mData": "combined",
+                        "bSortable": false,
+                        "mRender": function (data, type, full, row) {
+                            return '<div>' +
+                                '<input ng-disabled="' + data + '" id="combineCbRow' + row["row"] + '"  type="checkbox" class="form-control" ng-click="addRow(' + row["row"] + ')" ng-checked="' + data + '"/> ' +
+                               
 
 
                                 '</div>';
@@ -582,11 +598,9 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
 
     function init() {
 
-        $("#endorse_no").prop("disabled", true);
-        $("#printComparative").prop("disabled", true);
-        $("#reporttype").prop("disabled", true);
-        $("#submitExec").prop("disabled", true)
-        $("#submitExec").html("Submit")
+       
+        
+
         var d = new Date();
         var y = d.getFullYear().toString();
         var m = (d.getMonth() + 1).toString();
@@ -597,36 +611,66 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
         Init_PSB_item_Grid([])
         Init_PSB_item_Grid2([])
         Init_Combined_item_Grid([])
+        cs.loading("show")
         h.post("../cComparativeAssessment/Initialize", { year: y, month: s.mo }).then(function (d) {
             if (d.data.icon == "success") {
                 s.budget_year = d.data.budgetyears
                 s.psbsched_item = d.data.psbsched_item
                 s.psbsched = d.data.sched;
                 s.psbschedule = d.data.psbschedule
-
-                s.psb_ctrl_nbr = c.ifnull(d.data.psb_ctrl_nbr, "")
-                s.item_no = c.ifnull(d.data.item_no, "")
+                addvalue("psb_ctrl_nbr", cs.ifnull(d.data.psb_ctrl_nbr, ""))
+                addvalue("item_no", cs.ifnull(d.data.item_no, ""))
+                addvalue("budget_code", d.data.budget_code)
+                addvalue("employment_type", d.data.employment_type)
                 if (!cs.elEmpty(d.data.item_no)) {
                     $("#reporttype").prop("disabled", false);
                 }
 
-                s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
-                if (d.data.comparative.length > 0) {
-                    d.data.comparative.hasSelected()
-                }
+                s.combined_grid_List_All = d.data.sp_combined_item_tbl
+                s.combined_grid_List = d.data.sp_combined_item_tbl.refreshTable("Data_combined_Grid", "")
+                tab_table_data(d.data.sp_psb_item_list)
 
-                s.included_list = s.Data_List;
+                //s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
+                //if (d.data.comparative.length > 0) {
+                //    d.data.comparative.hasSelected()
+                //}
 
-                if (s.Data_List.length == 0) {
-                    $("#submitExec").prop("disabled", true)
-                }
-                else {
-                    $("#submitExec").prop("disabled", false)
-                }
+                //s.included_list = s.Data_List;
 
+                //if (s.Data_List.length == 0) {
+                //    $("#submitExec").prop("disabled", true)
+                //}
+                //else {
+                //    $("#submitExec").prop("disabled", false)
+                //}
+
+               
+
+                $("#endorse_no").prop("disabled", true);
+                $("#printComparative").prop("disabled", true);
+                $("#reporttype").prop("disabled", true);
+                $("#submitExec").prop("disabled", true)
+                $("#submitExec").html("Submit")
+
+                //$("#employment_type").val(localStorage.getItem('employment_type'))
+                //$("#budget_code").val(localStorage.getItem('budget_code'))
+                //$("#psb_ctrl_nbr").val(localStorage.getItem('psb_ctrl_nbr'))
+                //$("#position_code").val(localStorage.getItem('position_code'))
+
+                //console.log($("#employment_type").val())
+                //console.log($("#budget_code").val())
+                //console.log($("#psb_ctrl_nbr").val())
+                //console.log($("#position_code").val())
+
+                //localStorage.removeItem('employment_type')
+                //localStorage.removeItem('budget_code')
+                //localStorage.removeItem('psb_ctrl_nbr')
+                //localStorage.removeItem('position_code')
             } else {
                 console.log(d.data.message)
             }
+           
+            cs.loading("hide")
         })
 
         $(".wizbutton").click(function () {
@@ -936,6 +980,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
             if (len > 0) {
                 if (cs.Validate1Field("combine_descr")) {
                     var combineddescr = $("#combine_descr").val()
+                    cs.loading("show")
                     h.post("../cComparativeAssessment/CombinedItems", { sp_psb_item_list: s.selectedItemRow, combine_descr: combineddescr }).then(function (d) {
                         if (d.data.icon == "success") {
                             s.combined_grid_List_All = d.data.sp_combined_item_tbl
@@ -943,6 +988,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
                             tab_table_data(d.data.psb_item_list)
                             $("#position_code").val("")
                         }
+                        cs.loading("hide")
                         swal({ title: d.data.message, icon: d.data.icon })
                     })
 
@@ -1316,11 +1362,23 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
     }
 
     s.comparative_item_applicant = function (row) {
+        
+
+        //localStorage['employment_type'] = $("#employment_type").val()
+        //localStorage['budget_code'] = $("#budget_code").val()
+        //localStorage['psb_ctrl_nbr'] = $("#psb_ctrl_nbr").val()
+        //localStorage['position_code'] = $("#position_code").val()
+
+        //console.log(localStorage['employment_type'])
+        //console.log(localStorage['budget_code'])
+        //console.log(localStorage['psb_ctrl_nbr'])
+        //console.log(localStorage['position_code'])
+
         var dt = s.item_grid_List[row]
         s.itemnumber = dt.item_no
         s.positionname = dt.position_long_title
         s.departmentname = dt.department_name1
-         console.log(dt)
+       
         cs.loading("show")
         h.post("../cComparativeAssessment/comparative_item_applicant",
             {
@@ -1346,6 +1404,12 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
             });
     }
     s.comparative_item_applicant_ranked = function (row) {
+
+        //localStorage['employment_type'] = $("#employment_type").val()
+        //localStorage['budget_code'] = $("#budget_code").val()
+        //localStorage['psb_ctrl_nbr'] = $("#psb_ctrl_nbr").val()
+        //localStorage['position_code'] = $("#position_code").val()
+
         var dt = s.combined_grid_List[row]
         s.itemnumber = dt.item_no
         s.positionname = dt.position_long_title

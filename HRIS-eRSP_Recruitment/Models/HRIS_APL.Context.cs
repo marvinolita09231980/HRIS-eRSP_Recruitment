@@ -42,8 +42,12 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<available_item_hdr_tbl> available_item_hdr_tbl { get; set; }
         public virtual DbSet<available_item_tbl> available_item_tbl { get; set; }
         public virtual DbSet<onlineApplicants_register_tbl> onlineApplicants_register_tbl { get; set; }
-        public virtual DbSet<personnel_tbl> personnel_tbl { get; set; }
         public virtual DbSet<adds_images_tbl> adds_images_tbl { get; set; }
+        public virtual DbSet<VW_available_item_hdr_tbl_distinct> VW_available_item_hdr_tbl_distinct { get; set; }
+        public virtual DbSet<onlineAppliedItem_tbl> onlineAppliedItem_tbl { get; set; }
+        public virtual DbSet<vw_applieditems_tbl> vw_applieditems_tbl { get; set; }
+        public virtual DbSet<personnel_tbl> personnel_tbl { get; set; }
+        public virtual DbSet<applicant_attachment_tbl> applicant_attachment_tbl { get; set; }
     
         public virtual int sp_remove_availableitemhdrdtlapl(string p_ctrl_no)
         {

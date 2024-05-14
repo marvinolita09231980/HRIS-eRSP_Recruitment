@@ -12,6 +12,7 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
     s.positions = []
     s.budgetyears = []
     s.checkeditem = []
+    s.toAddItemtempList = []
     s.show_btn = true;
     s.item_exist_list = []
     s.item_no = ""
@@ -57,21 +58,21 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
                             return '<center><div class="btn-group action-btn">' +
                                 '<button type="button" data="' + row["row"] + '" id="ctrl_edit' + row["row"] + '" class="btn btn-success btn-sm" ng-click="fn_addAPLItemHDR(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Add items on Header">  <i class="fa fa-plus"></i></button >' +
                                 '<button type="button" data="' + row["row"] + '" id="ctrl_edit' + row["row"] + '" class="btn btn-primary btn-sm" ng-click="fn_editAPLItemHDR(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Deactivate/Remove items on header ">  <i class="fa fa-pencil"></i></button >' +
-                                '<button ng-hide="' + full["active_status"] +'" type="button" data="' + row["row"] + '" id="ctrl_edit' + row["row"] + '" class="btn btn-danger btn-sm" ng-click="fn_deactiveAPLItemHDR(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Deactivate all items in header">'+
+                                '<button ng-hide="' + full["active_status"] + '" type="button" data="' + row["row"] + '" id="ctrl_edit' + row["row"] + '" class="btn btn-danger btn-sm" ng-click="fn_deactiveAPLItemHDR(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Show items in online application">'+
                                     '<span>' +
                                         '<i class="fa fa-flash"></i>' +
                                         '<i class="fa-stack2x fa fa-ban" style="color:red"></i>' +
                                     '</span>' +
                                         '</button > ' +
-                                '<button ng-show="' + full["active_status"] +'" type="button" data="' + row["row"] + '" id="ctrl_edit' + row["row"] + '" class="btn btn-danger btn-sm" ng-click="fn_deactiveAPLItemHDR(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Deactivate all items in header">  <i class="fa fa-bolt"></i></button >' +
+                                '<button ng-show="' + full["active_status"] +'" type="button" data="' + row["row"] + '" id="ctrl_edit' + row["row"] + '" class="btn btn-danger btn-sm" ng-click="fn_deactiveAPLItemHDR(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Hide items from online application">  <i class="fa fa-bolt"></i></button >' +
 
-                                '<button ng-hide="' + full["active_forpsb"] +'" type="button" data="' + row["row"] + '" id="ctrl_activeforpsb' + row["row"] + '" class="btn btn-warning btn-sm" ng-click="fn_activeForPSB(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Active For PSB">'+
+                                '<button ng-hide="' + full["active_forpsb"] + '" type="button" data="' + row["row"] + '" id="ctrl_activeforpsb' + row["row"] + '" class="btn btn-warning btn-sm" ng-click="fn_activeForPSB(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Disable Item for fetching">'+
                                     '<span>'+
                                         '<i class="fa fa-flash"></i>'+
                                         '<i class="fa-stack2x fa fa-ban" style="color:#EC4758"></i>'+
                                     '</span>'+
                                 '</button > ' +
-                                '<button ng-show="' + full["active_forpsb"] + '" type="button" data="' + row["row"] + '" id="ctrl_inactiveforpsb' + row["row"] + '" class="btn btn-warning btn-sm" ng-click="fn_inactiveForPSB(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Active For PSB">  <i class="fa fa-flash"></i></button >' +
+                                '<button ng-show="' + full["active_forpsb"] + '" type="button" data="' + row["row"] + '" id="ctrl_inactiveforpsb' + row["row"] + '" class="btn btn-warning btn-sm" ng-click="fn_inactiveForPSB(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Enable Item for fetching">  <i class="fa fa-flash"></i></button >' +
 
                                 '<button type="button" data="' + row["row"] + '" id="deletebtn' + row["row"] + '" class="btn btn-danger btn-sm" ng-click="fn_deletebtn_click(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete this data">  <i class="fa fa-trash"></i></button >' +
                                 //'<button type="button" data="' + row["row"]+ '" id="ctrl_del' + row["row"] + '" class="btn btn-danger btn-sm deleteHdrItem" data-toggle="tooltip" data-placement="top" title="Delete">  <i class="fa fa-trash"></i></button >' +
@@ -136,12 +137,15 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
                         "mData": "in_publication",
                         "mRender": function (data, type, full, row)
                         {
-                            return '<center>' +
-                                
-                                '<button id="btn1' + full["item_no"] + '" ng-show="' + s.fn_toggle_btn(data, full["inOnline"]) + ' == 1" item="' + full["item_no"] + '" data="' + row["row"] + '" type="button"  class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Deactivate/Remove items on header"><i id="icon1'+  row["row"] +'" class="text-success fa fa-check"></i></button >' +
-                                '<button id="btn2' + full["item_no"] + '" ng-show="' + s.fn_toggle_btn(data, full["inOnline"]) + ' == 2" item="' + full["item_no"] + '" data="' + row["row"] + '" type="button"  class="btn btn-danger  btn-sm activateitem" data-toggle="tooltip" data-placement="top" title="Deactivate all items in header">   <i id="icon2'+  row["row"] +'" class="fa fa-toggle-off"></i></button >' +
-                                '<button id="btn3' + full["item_no"] + '" ng-show="' + s.fn_toggle_btn(data, full["inOnline"]) + ' == 3" item="' + full["item_no"] + '" data="' + row["row"] + '" type="button"  class="btn btn-warning btn-sm selectedItem2" data-toggle="tooltip" data-placement="top" title="Add items on Header">              <i id="icon3' + row["row"] +'" class="fa fa-plus"></i></button>' +
-                                '</center>'
+                            return '<input ng-disabled="' + data + '" id="onlineItemCbRow' + full["item_no"] + '"  type="checkbox" class="form-control" ng-click="addToOnlineApplicationCB(' + full["item_no"] + ')"  ng-checked="' + data + '"/> '
+                            //return '<center>' +
+                            //    '<button id="btn1' + full["item_no"] + '" ng-show="' + s.fn_toggle_btn(data, full["inOnline"]) + ' == 1" item="' + full["item_no"] + '" data="' + row["row"] + '" type="button"  class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Deactivate/Remove items on header"><i id="icon1'+  row["row"] +'" class="text-success fa fa-check"></i></button >' +
+                            //    '<button id="btn2' + full["item_no"] + '" ng-show="' + s.fn_toggle_btn(data, full["inOnline"]) + ' == 2" item="' + full["item_no"] + '" data="' + row["row"] + '" type="button"  class="btn btn-danger  btn-sm activateitem" data-toggle="tooltip" data-placement="top" title="Deactivate all items in header">   <i id="icon2'+  row["row"] +'" class="fa fa-toggle-off"></i></button >' +
+                            //    '<button id="btn3' + full["item_no"] + '" ng-show="' + s.fn_toggle_btn(data, full["inOnline"]) + ' == 3" item="' + full["item_no"] + '" data="' + row["row"] + '" type="button"  class="btn btn-warning btn-sm selectedItem2" data-toggle="tooltip" data-placement="top" title="Add items on Header">              <i id="icon3' + row["row"] +'" class="fa fa-plus"></i></button>' +
+
+
+
+                            //    '</center>'
 
                             //return '<label class="container">' +                                
 
@@ -168,7 +172,7 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
         s.available_item_data_edit = par_data;
         s.available_item_table_edit = $('#available_item_grid_edit').dataTable(
             {
-                data: s.available_item_data,
+                data: s.available_item_data_edit,
                 //stateSave: false,
                 sDom: 'rt<"bottom"p>',
                 pageLength: 10,
@@ -204,7 +208,7 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
                         "mRender": function (data, type, full, row) {
                             return '<center><div class="btn-group action-btn">' +
                                 '<button type="button" data="' + row["row"] + '" id="aplitemdeactive' + row["row"] + '" class="btn btn-warning btn-sm" ng-click="fn_aplitemdeactive(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Deactivate">  <i class="fa fa-ban"></i></button >' +
-                                '<button type="button" data="' + row["row"] + '" id="aplitemremove' + row["row"] + '" class="btn btn-danger btn-sm" ng-click="fn_aplitemremove(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Remove" ng-disabled="' + s.fn_disabled(full["active_status"]) +'">  <i class="fa fa-trash"></i></button >' +
+                                '<button type="button" data="' + row["row"] + '" id="aplitemremove' + row["row"] + '" class="btn btn-danger btn-sm" ng-click="fn_aplitemremove(' + full["item_no"] + ')" data-toggle="tooltip" data-placement="top" title="Remove" ng-disabled="' + s.fn_disabled(full["active_status"]) +'">  <i class="fa fa-trash"></i></button >' +
                                 '</div></center>'
                         },
                         "searchable": false
@@ -361,7 +365,7 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
                 s.employment_type = d.data.employment_type
                 $("#employment_type").val(d.data.employment_type)
                 s.departments = d.data.departments
-            
+                
                 s.available_item_hdr = d.data.data_items_hdr.refreshTable("online_item_hdr_grid", "")
 
                
@@ -411,9 +415,10 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
         var budget_code = $("#budget_code").val()
         var employment_type = $("#employment_type").val()
        
-        
+        cs.loading("show")
         h.post("../cAddAvailableItemInAPL/Open_Items", { budget_code: budget_code, employment_type: employment_type}).then(function (d) {
             if (d.data.icon == "success") {
+                cs.loading("hide")
                 s.departments = fn_departments(d.data.data_items)
                 s.available_item_data_orig = d.data.data_items.filter(onlyUnique);
                 s.available_item_data = s.available_item_data_orig.refreshTable("available_item_grid", "")
@@ -433,16 +438,26 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
     function fn_departments(data) {
         var datalen = data.length
         var dept_data = []
+        console.log(data)
         for (var x = 0; x < datalen; x++) {
-            var dept_object = {}
-            dept_object = {
-                 department_code: data[x].department_code
-                ,department_name1: data[x].department_name1
+            var exist = dept_data.filter(function (d) {
+                return d.department_code == data[x].department_code
+            })
+          
+            if (exist.length == 0) {
+                var dept_object = {}
+                dept_object = {
+                      department_code: data[x].department_code
+                    , department_name1: data[x].department_name1
+                }
+                
+               dept_data.push(dept_object)
+                
             }
-            dept_data.push(dept_object)
+
         }
 
-        dept_data = dept_data.filter(onlyUnique)
+       // dept_data = dept_data.filter(onlyUnique)
         console.log(dept_data)
         return dept_data
 
@@ -679,6 +694,8 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
     }
     s.fn_aplitemremove = function (row) {
         var dt = s.available_item_data_edit[row]
+
+
         swal({
             title: "Are you sure you want to delete this record?",
             text: "",
@@ -705,8 +722,28 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
             });
        
     }
-    s.fn_aplitemremove = function (row) {
-        var dt = s.available_item_data_edit[row]
+    s.fn_aplitemremove = function (item) {
+
+        var item_no = ""
+        var itm = item.toString();
+        if (itm.length == 1) {
+            item_no = "000" + itm
+        }
+        else if (itm.length == 2) {
+            item_no = "00" + itm
+        }
+        else if (itm.length == 3) {
+            item_no = "0" + itm
+        }
+        else if (itm.length == 4) {
+            item_no = itm
+        }
+
+
+        var dt = s.available_item_data_edit.filter(function (i) {
+            return i.item_no == item_no
+        })
+
         swal({
             title: "Are you sure you want to delete this record?",
             text: "",
@@ -717,10 +754,10 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
             .then(function (willDelete) {
                 if (willDelete) {
                     h.post("../cAddAvailableItemInAPL/fn_aplitemremove", {
-                        ctrl_no: dt.ctrl_no
-                        , item_no: dt.item_no
-                        , budget_code: dt.budget_code
-                        , employment_type: dt.employment_type
+                          ctrl_no: dt[0].ctrl_no
+                        , item_no: dt[0].item_no
+                        , budget_code: dt[0].budget_code
+                        , employment_type: dt[0].employment_type
                     }).then(function (d) {
                         if (d.data.icon == "success") {
                             s.available_item_data_edit = d.data.data_items_dtl.refreshTable("available_item_grid_edit", "")
@@ -896,6 +933,63 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
 
     }
 
+
+    s.addToOnlineApplicationCB = function (item) {
+        var item_no = ""
+        var itm = item.toString();
+        if (itm.length == 1) {
+            item_no = "000" + itm
+        }
+        else if (itm.length == 2) {
+            item_no = "00" + itm
+        }
+        else if (itm.length == 3) {
+            item_no = "0" + itm
+        }
+        else if (itm.length == 4) {
+            item_no = itm
+        }
+
+        console.log(item_no)
+
+        var dt = s.available_item_data.filter(function (i) {
+            return i.item_no == item_no
+        })
+
+
+        var cbrow = $("#onlineItemCbRow" + item_no)[0].checked
+
+        
+       
+        if (cbrow) {
+            var ex = s.toAddItemtempList.filter(function (d) {
+                return d.item_no == item_no
+            })
+            if (ex.length == 0) {
+
+                s.toAddItemtempList.push(
+                    {
+                         
+                        "item_no": item_no
+                        , "budget_code"         : dt[0].budget_code
+                        , "employment_type"     : dt[0].employment_type
+                        , "position_code"       : dt[0].position_code
+                        , "position_title1"     : dt[0].position_title1
+                        , "position_long_title" : dt[0].position_long_title
+                        , "department_code"     : dt[0].department_code
+                        , "department_name1"    : dt[0].department_name1
+                    }
+                )
+            }
+        }
+        else {
+            s.toAddItemtempList = s.toAddItemtempList.filter(function (d) {
+                return d.item_no != item_no
+            })
+        }
+        console.log(s.toAddItemtempList)
+    }
+
     s.fn_addItemsOnline = function () {
         var i_id = "submitItems_i"
         var submit_btn = "submitItems_btn"
@@ -906,7 +1000,7 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
     
         if (s.edit == true) {
            
-            if (s.checkeditem.length == 0) {
+            if (s.toAddItemtempList.length == 0) {
                 swal("No selected item!", { icon: "warning" })
                 cs.loading("hide")
             }
@@ -914,7 +1008,7 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
 
                 h.post("../cAddAvailableItemInAPL/addItemToAPLHDR", {
                     ctrl_no: s.control_number,
-                    item_list: s.checkeditem
+                    item_list: s.toAddItemtempList
                 }).then(function (d) {
                     if (d.data.icon == "success") {
                         //scope.available_item_hdr = d.data.data_items_hdr.refreshTable("online_item_hdr_grid", "")
@@ -924,6 +1018,7 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
                         i_id.replaceClass("fa-spinner fa-spin", "fa-thumbs-up")
                         submit_btn.enabled()
                         cancel_btn.enabled()
+                        s.toAddItemtempList =[]
                     }
                     else {
                         swal(d.data.message, { icon: d.data.icon })
@@ -957,7 +1052,7 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
                 return
             }
 
-            if (s.checkeditem.length == 0) {
+            if (s.toAddItemtempList.length == 0) {
                 swal("No selected item!", { icon: "warning" })
                
                 i_id.replaceClass("fa-spinner fa-spin", "fa-thumbs-up")
@@ -972,12 +1067,13 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
                     descr: descr,
                     budget_code: budget_code,
                     employment_type: employment_type,
-                    item_list: s.checkeditem
+                    item_list: s.toAddItemtempList
                 }).then(function (d) {
                     if (d.data.icon == "success") {
                         s.available_item_hdr = d.data.data_items_hdr.refreshTable("online_item_hdr_grid", "")
                         swal(d.data.message, { icon: d.data.icon })
                         $("#onlineItemSetup").modal("hide")
+                        s.toAddItemtempList = []
                     }
                     else {
                         swal(d.data.message, { icon: d.data.icon })
@@ -1019,6 +1115,57 @@ ng_eRSP_App.controller("cAddAvailableItemInAPL_Ctrlr", function (commonScript, $
                 cs.loading("hide")
             }
         });
+    }
+    s.filterMultipleItem = function (str) {
+        var list = []
+        //cs.search_in_list(item2[i], attrs.tableref)
+        var item = str.split(",")
+        var item2 = item.filter(function (d) {
+            return d.length > 3
+        })
+
+        var data = s.available_item_data
+
+        for (var i = 0; i < item2.length; i++) {
+            var dt = data.filter(function (d) {
+                return d.item_no == item2[i]
+            })[0]
+            if (dt !== undefined) {
+                list.push(dt)
+            }
+        }
+        if (str.length > 0) {
+            list.refreshTable("available_item_grid", "")
+        }
+        else {
+            s.available_item_data.refreshTable("available_item_grid", "")
+        } 
+    }
+
+    s.filterMultipleItem_2 = function (str) {
+        var list = []
+        //cs.search_in_list(item2[i], attrs.tableref)
+        var item = str.split(",")
+        var item2 = item.filter(function (d) {
+            return d.length > 3
+        })
+
+        var data = s.available_item_data_edit
+
+        for (var i = 0; i < item2.length; i++) {
+            var dt = data.filter(function (d) {
+                return d.item_no == item2[i]
+            })[0]
+            if (dt !== undefined) {
+                list.push(dt)
+            }
+        }
+        if (str.length > 0) {
+            list.refreshTable("available_item_grid_edit", "")
+        }
+        else {
+            s.available_item_data_edit.refreshTable("available_item_grid_edit", "")
+        }
     }
 })
 

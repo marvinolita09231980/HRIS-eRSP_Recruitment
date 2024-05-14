@@ -294,7 +294,7 @@
                 <div class="modal-body">
                     <div class="row no-padding" style="margin-top:-10px!important;">
                         <div class="col-lg-12 tabs-container m-b-md">
-                            <table id="psbschedule_grid" class="table table-striped table-bordered table-hover">
+                            <table id="psbschedule_grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th width="10%">NBR</th>
@@ -393,7 +393,7 @@
                 </div>
                 <div class="modal-footer m-top-n30">
                     <div class="col-lg-12 tabs-container m-b-md">
-                        <table id="psb_panel" class="table table-striped table-bordered table-hover">
+                        <table id="psb_panel" style="width:100%;" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th width="10%">CTRL NBR</th>
@@ -815,7 +815,7 @@
                     <center><h2 class="modal-title" id="modalLabelSmall"><b>Send To Many</b></h2></center>
                 </div>
                 <div class="modal-body">
-                    <table id="sendemail_List_Grid" class="table table-striped table-bordered table-hover">
+                    <table id="sendemail_List_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="3%"></th>
@@ -848,7 +848,7 @@
                     <center><h2 class="modal-title" id="modalLabelSmall"><b>Send To Many</b></h2></center>
                 </div>
                 <div class="modal-body">
-                    <table id="sendemail_List_Grid2" class="table table-striped table-bordered table-hover">
+                    <table id="sendemail_List_Grid2" style="width:100%;" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="3%"></th>
@@ -883,7 +883,42 @@
                 <div class="modal-body">
                     <div class="row no-padding" style="margin-top:-10px!important;">
                         <div class="col-lg-12 tabs-container m-b-md">
-                            <table id="examschedule_grid" class="table table-striped table-bordered table-hover">
+                            <table id="examschedule_grid" style="width:100%;" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>DATE</th>
+                                        <th>TYPE</th>
+                                        <th>LOCATION</th>
+                                        <th>TIME</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-top-n30">
+                    @*<button class=" btn btn-danger font-bold pull-right m-right-10" data-dismiss="modal">
+                            Close&nbsp;<i class="fa fa-close"></i>
+                        </button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="examScheduleGridModal_All" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-llg">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Exam Schedule Grid</b></h2></center>
+                </div>
+                <div class="modal-body">
+                    <div class="row no-padding" style="margin-top:-10px!important;">
+                        <div class="col-lg-12 tabs-container m-b-md">
+                            <table id="examschedule_grid_All" style="width:100%;" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>DATE</th>
@@ -933,6 +968,7 @@
 
                 <div class="modal-footer">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right m-b-md">
+                        <button type="button" class="btn btn-info pull-left" ng-click="printPageArea()">Print&nbsp;&nbsp;<span style="" class="fa fa-print"></span></button>
                         <button type="button" id="buttonsendemail" class="btn btn-success pull-right" ng-click="sendEmailNotification2()">Send&nbsp;&nbsp;<span id="btnsendemailicon" style="" class="fa fa-send"></span></button>
                         <button type="button" id="buttonsendemailcancel" class="btn btn-danger pull-right" data-dismiss="modal">Close&nbsp;&nbsp;<span style="" class="fa fa-times"></span></button>
 
@@ -947,7 +983,10 @@
                 <h2 class="text-white"><b>Applicants Reviews</b></h2>
             </div>
             <div class="col-lg-6 pull-right" style="margin-top:12px;">
-                <input type="search" class="form-control block" ng-model="search_name" ng-keyup="search_in_list(search_name,'Applicant_List_Grid')" placeholder="Search ....">
+                <input ng-show="show_search==1" type="search" class="form-control block headerSearch" tableref="Applicant_Review_Grid" placeholder="Search ....">
+                <input ng-show="show_search==2" type="search" class="form-control block headerSearch" tableref="Applicant_OnlineExam_Grid" placeholder="Search ....">
+                <input ng-show="show_search==3" type="search" class="form-control block headerSearch" tableref="Applicant_Top5_Grid" placeholder="Search ....">
+                <input ng-show="show_search==4" type="search" class="form-control block headerSearch" tableref="Applicant_Hrmpsb_Grid" placeholder="Search ....">
             </div>
         </div>
     </div>
@@ -1002,7 +1041,7 @@
                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7  no-padding">
                                 <select class="form-control disable-white btn-block" id="hiring_period" ng-model="hiring_period" ng-change="selectHiringPeriod(hiring_period)">
                                     <option value="">--Select Here--</option>
-                                    <option ng-repeat="l in hiringperiodlist" value="{{l.ctrl_nbr}}">{{l.period_descr}}</option>
+                                    <option ng-repeat="l in hiringperiodlist" value="{{l.ctrl_no}}">{{l.descr}}</option>
                                 </select>
                             </div>
                         </div>
@@ -1053,56 +1092,54 @@
                             <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2  no-padding">
                                 <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HRMPSB Schedule:</span></button>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8  no-padding" >
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8  no-padding">
                                 <select class="form-control disable-white btn-block" id="psb_ctrl_nbr_disp" ng-model="psb_ctrl_nbr_disp" ng-click="selectPSBSchedule()" ng-disabled="psb_number_disabled">
                                     <option value="">--Select Here--</option>
                                     <option ng-repeat="l in psb_sked_hdr" value="{{l.psb_ctrl_nbr}}">{{l.psb_date}} - {{l.remarks_details}}</option>
-                                    @*<option value="23-014">2023-07-26 - 3rd Quarter - Batch I (PAO,PHRMDO and DDOPH MARAGUSAN)</option>
-                                        <option value="23-015">
-                                            2023-08-03 - 3rd Quarter - Batch 2
-                                        </option>*@
-
                                 </select>
-                                @*<input id="psb_ctrl_nbr_disp" ng-model="psb_ctrl_nbr_disp" class="form-control disable-white" disabled />*@
+
                             </div>
 
                         </div>
 
                     </div>
-                    @*<div class="row m-t-xs no-padding">
 
-                            <div class="col-lg-12 m-b-md">
-                                <table id="Applicant_List_Grid" class="table table-responsive table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th width="4%">CONTROL NO.</th>
-                                            <th width="">APPLICANT</th>
-                                            <th width="">DEPARTMENT</th>
-                                            <th width="">STATUS</th>
-                                            <th width="">CONTACT</th>
-                                            <th width="20%">ACTION</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-
-                        </div>*@
                     <div class="row m-t-lg">
                         <div class="col-lg-12 m-b-md">
                             <div class="tabs-container">
                                 <ul class="nav nav-tabs">
-                                    <li ng-click="changeTab(1)" class="active"><a data-toggle="tab" href="#tab-1">Review</a></li>
-                                    <li ng-click="changeTab(2)" class=""><a data-toggle="tab" href="#tab-2">Qualified For Exam</a></li>
-                                    <li ng-click="changeTab(3)" class=""><a data-toggle="tab" href="#tab-3">Top 5 Examinees</a></li>
-                                    <li ng-click="changeTab(4)" class=""><a data-toggle="tab" href="#tab-4">For HRMPSB Screening</a></li>
+                                    <li id="1" ng-click="changeTab(1)" class="active"><a data-toggle="tab" href="#tab-1">Review</a></li>
+                                    <li id="2" ng-click="changeTab(2)" class=""><a data-toggle="tab" href="#tab-2">Qualified For Exam</a></li>
+                                    <li id="3" ng-click="changeTab(3)" class=""><a data-toggle="tab" href="#tab-3">Top 5 Examinees</a></li>
+                                    <li id="4" ng-click="changeTab(4)" class=""><a data-toggle="tab" href="#tab-4">For HRMPSB Screening</a></li>
+                                    <li class="">
+                                        <button id="addToTop5Btn" class="btn btn-info pull-right" type="button" ng-click="addtoTop5All()" title="Click for more action">Add to Top 5 </button>
+                                        <button id="addToHRMPSBBtn" class="btn btn-info pull-right" type="button" ng-click="addtoHRMPSBAll()" title="Click for more action">Add to HRMPSB</button>
+                                        <button id="assignexamAll" class="btn btn-success pull-right  m-r-sm" type="button" ng-click="assignExamScheduleToAll()" title="Click for more action">Assign Exam Schedule To ALL</button>
+
+                                    </li>
+
+                                    @*<div class="btn-group">
+                                            <button class="btn btn-danger btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">MORE...</button>
+                                            <ul class="dropdown-menu ">
+                                                <li><a ng-click="updateDataFromApl()">SYNC PROFILE FROM ONLINE APPLICATION</a></li>
+                                                <li><a ng-click="identifyidQS()">SYNC QS FROM HRIS PDS</a></li>
+                                                <li><a ng-click="updatefromqsapl()">SYNC QS ONLINE APPLICATION</a></li>
+                                                <li><a ng-click="goToDocs()">UPLOADED DOCUMENTS</a></li>
+                                                <li><a ng-click="goToDocs()">PRINT SCORE SHEET</a></li>
+
+                                                <li><a ng-click="composeEmail()">SEND EMAIL NOTIFICATION</a></li>
+                                                <li><a ng-click="btn_show_pds()">PRINT PDS FROM ONLINE APPLICATION</a></li>
+                                                <li ng-show="app_row_delete()" style="color:red;"><a ng-click="deleteFromReview()">DELETE APPLICANTS</a></li>
+                                            </ul>
+                                        </div>*@
 
                                 </ul>
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
                                             <div class="row no-padding" style="margin-top:-10px!important;">
-                                                <table id="Applicant_Review_Grid" class="table table-responsive table-striped table-bordered table-hover">
+                                                <table id="Applicant_Review_Grid" style="width:100%;" class="table table-responsive table-striped table-bordered table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th width="4%">CONTROL NO.</th>
@@ -1121,7 +1158,7 @@
                                     <div id="tab-2" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row no-padding" style="margin-top:-10px!important;">
-                                                <table id="Applicant_OnlineExam_Grid" class="table table-responsive table-striped table-bordered table-hover">
+                                                <table id="Applicant_OnlineExam_Grid" style="width:100%" class="table table-responsive table-striped table-bordered table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th width="4%">CONTROL NO.</th>
@@ -1129,10 +1166,12 @@
                                                             <th width="">DEPARTMENT</th>
                                                             <th width="">EXAM SCHEDULE</th>
                                                             <th width="">CONTACT</th>
+                                                            <th width="3%">TOP 5</th>
                                                             <th width="20%">ACTION</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody></tbody>
+
                                                 </table>
                                             </div>
                                         </div>
@@ -1140,13 +1179,14 @@
                                     <div id="tab-3" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row no-padding" style="margin-top:-10px!important;">
-                                                <table id="Applicant_Top5_Grid" class="table table-responsive table-striped table-bordered table-hover">
+                                                <table id="Applicant_Top5_Grid" style="width:100%" class="table table-responsive table-striped table-bordered table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th width="4%">CONTROL NO.</th>
                                                             <th width="">APPLICANT</th>
                                                             <th width="">DEPARTMENT</th>
                                                             <th width="">CONTACT</th>
+                                                            <th width="3%">HRMPSB</th>
                                                             <th width="20%">ACTION</th>
                                                         </tr>
                                                     </thead>
@@ -1158,7 +1198,7 @@
                                     <div id="tab-4" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row no-padding" style="margin-top:-10px!important;">
-                                                <table id="Applicant_Hrmpsb_Grid" class="table table-responsive table-striped table-bordered table-hover">
+                                                <table id="Applicant_Hrmpsb_Grid" style="width:100%" class="table table-responsive table-striped table-bordered table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th width="4%">CONTROL NO.</th>
@@ -1173,7 +1213,42 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    @*<div id="tab-5" class="tab-pane">
+                                            <div class="panel-body">
+                                                <div class="row no-padding" style="margin-top:-10px!important;">
+                                                    <table id="Applicant_List_Grid" style="width:100%" class="table table-responsive table-striped table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="">APPLICANT</th>
+                                                                <th width="">POSITION</th>
+                                                                <th width="">STATUS</th>
+                                                                <th width="">SEX</th>
+                                                                <th width="">GENDER</th>
+                                                                <th width="">PWD</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                    @*<div id="tab-5" class="tab-pane">
+                                            <div class="panel-body">
+                                                <div class="row no-padding" style="margin-top:-10px!important;">
+                                                    <table id="Position_List_Grid" style="width:100%" class="table table-responsive table-striped table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="">POSITION</th>
+                                                                <th width="">NUMBER OF APPLICANTS</th>
+                                                                <th width="">APPLICANTS W/ PWD</th>
+                                                                <th width="">APPLICANTS SUBJECT FOR INTERVIEW</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>*@
                                 </div>
 
 
@@ -1198,6 +1273,7 @@
                 <div class="modal-footer detail">
                     <div class="modal-footer detail">
                         <form id="exam_fields" action="" onsubmit="return false" novalidate>
+                           
                             <div class="row m-top-20">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -1207,10 +1283,10 @@
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                         <div style="margin-left:-15px!important;" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                             <input type="text" id="exam_app_ctrl_nbr" ng-model="exam_app_ctrl_nbr" style="display:none!important" />
-                                            <input type="number" class="form-control text-center" min-max="0,24" id="score_rendered2" ng-keyup="calculate_perc()" ng-model="score_rendered2" ng-value="" required/>
-                                        </div>
+                                            <input type="number" class="form-control text-center" min-max="0,100" id="score_rendered2" ng-keyup="calculate_perc()" ng-model="score_rendered2" ng-value="" required />
+                                        </div>  
                                         <div class="input-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <input type="text" class="form-control  btn-group text-center" id="score_perc_disp" ng-model="score_perc_disp" ng-value="" disabled />
+                                            <input type="number" class="form-control  btn-group text-center" id="score_perc_disp" ng-model="score_perc_disp" ng-value="" disabled />
                                             <div class="input-group-addon birth_date">
                                                 <span><b>%</b></span>
                                             </div>
@@ -1245,7 +1321,7 @@
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                         <div class="input-group date no-padding no-margins removeReqOption" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                            <input type="text" id="exam_date2" ng-model="exam_date2" class="form-control text-center" required/>
+                                            <input type="text" id="exam_date2" ng-model="exam_date2" class="form-control text-center" required />
                                             <div class="input-group-addon birth_date">
                                                 <span class="fa fa-calendar"></span>
                                             </div>
@@ -1262,7 +1338,7 @@
                             <button id="setexambtn" class=" btn btn-warning font-bold pull-left" ng-click="setExamDate()">
                                 <i class="fa fa-check"></i>&nbsp;&nbsp;Set Exam Schedule
                             </button>
-                            
+
                             <button class=" btn btn-danger font-bold" data-dismiss="modal">
                                 <i class="fa fa-close"></i>&nbsp;&nbsp;Close
                             </button>
@@ -1275,6 +1351,116 @@
 
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="change_item_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-keyboard="false">
+        <div class="modal-dialog lg">
+            <div class="modal-content animated slideInLeft with-background">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title text-white" id="modalLabelSmall"><b>Change Applicant Item</b></h2></center>
+                </div>
+                <form id="change_item" ng-model="change_item">
+                    <div class="modal-footer detail">
+                        <div class=" row" style="padding-top:5px">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <label class="pull-left m-l-sm font-13">APPLICATION NUMBER:</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <input type="text" id="change_item_app_ctrl_nbr" class="form-control" disabled />
+                            </div>
+                        </div>
+                        <div class=" row" style="padding-top:5px">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <label class="pull-left m-l-sm font-13">PREVIOUS ITEM:</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <input type="text" id="change_item_previous" class="form-control" disabled />
+                            </div>
+                        </div>
+                        <div class=" row" style="padding-top:5px">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <label class="pull-left m-l-sm font-13">EMPLOYMENT TYPE:</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <select class="form-control disable-white removeReqOption" id="change_item_employment_type" ng-model="change_item_employment_type" disabled required>
+                                    <option value="">--Select Year--</option>
+                                    <option value="RE">Permanent</option>
+                                    <option value="CE">Casual</option>
+                                    <option value="JO">Job Order</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class=" row" style="padding-top:5px">
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <label class="pull-left m-l-sm font-13">BUDGET CODE:</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <select class="form-control disable-white removeReqOption" id="change_item_budget_code" ng-model="change_item_budget_code" disabled required>
+                                    <option value="">--Select Year--</option>
+                                    <option ng-repeat="l in budget_year" value="{{l.budget_code}}">{{l.budget_description}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row" style="padding-top:5px">
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <label class="pull-left m-l-sm font-13">HIRING PERIOD:</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <select class="form-control disable-white btn-block" style="width:100%!important" id="change_item_hiring_period" ng-model="itm.ctrl_nbr" disabled required>
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in hiringperiodlist" value="{{l.ctrl_no}}">&nbsp;{{l.descr}}&nbsp;</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+                        <div class="row" style="padding-top:5px">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-12  no-padding">
+                                <label class="pull-left m-l-sm font-13">Department:</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-12  no-padding">
+                                <select class="form-control disable-white btn-block" id="change_item_department_code" ng-model="change_item_department_code" ng-change="change_item_selectDepartment()" required>
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in department" value="{{l.department_code}}">{{l.department_name1}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px">
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <label class="pull-left m-l-sm font-13">NEW ITEM:</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding">
+                                <select class="form-control disable-white btn-block" style="width:100%!important" id="change_item_new" ng-model="change_item_new" required>
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="l in change_item_items" value="{{l.item_no}}">&nbsp;{{l.item_no}}&nbsp;-&nbsp;{{l.position_long_title}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12">
+                                <button id="btncancelsavetoreview" class=" btn btn-danger font-bold" data-dismiss="modal">
+                                    Close&nbsp;<i class="fa fa-close"></i>
+                                </button>
+                                <button id="btnsavetoreview" class=" btn btn-success font-bold" ng-click="changeItem(itm)">
+                                    Save&nbsp;<i id="icnsavetoreview" class="fa fa-save"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -1321,25 +1507,25 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-        <div class="modal-dialog modal-llllg">
-            <div class="modal-content  modal-content-add-edit">
-                <div class="modal-header navy-bg text-white">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW</h3>
-                </div>
-                <div class="modal-body with-background" style="padding:0px !important">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+    @*<div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-llllg">
+                <div class="modal-content  modal-content-add-edit">
+                    <div class="modal-header navy-bg text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW</h3>
+                    </div>
+                    <div class="modal-body with-background" style="padding:0px !important">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>*@
 
     <div class="modal fade" id="modal_updateapp" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
         <div class="modal-dialog modal-sm">
@@ -1381,7 +1567,7 @@
                     <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
                 </div>
                 <div class="modal-footer">
-                    <table id="select_id_employee_PDS_grid" class="table table-striped table-bordered table-hover">
+                    <table id="select_id_employee_PDS_grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="10%">ID</th>
@@ -1407,7 +1593,7 @@
                     <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
                 </div>
                 <div class="modal-footer">
-                    <table id="select_id_employee_QS_grid" class="table table-striped table-bordered table-hover">
+                    <table id="select_id_employee_QS_grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="10%">ID</th>
@@ -1442,6 +1628,7 @@
             </div>
         </div>
     </div>
+
 </section>
 
 <script>

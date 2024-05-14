@@ -168,6 +168,13 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult UserAccessOnPage(sp_user_menu_access_role_list_RCT_Result list)
         {
+            Session.Remove("ca_psb_ctrl_nbr");
+            Session.Remove("ca_item_no");
+            Session.Remove("ca_budget_code");
+            Session.Remove("ca_employment_type");
+            Session.Remove("ca_salary_grade");
+            Session.Remove("ca_ranked");
+
             CheckSession();
             Session["allow_add"] = list.allow_add;
             Session["allow_delete"] = list.allow_delete;

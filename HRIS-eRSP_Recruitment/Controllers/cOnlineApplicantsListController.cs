@@ -34,6 +34,11 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Index()
         {
+
+            if (Session["user_id"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             CheckSession();
             Session["page"] = "cOnlineApplicantsList";
             return View();
@@ -171,26 +176,174 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(e), icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult EditPrescreenDate(string app_ctrl_nbr, string item_no, string employment_type, string budget_code, string hiring_period, string fetch_dttm)
+
+
+        public ActionResult EditPrescreenDate(string app_ctrl_nbr, string item_no, string employment_type, string budget_code, string hiring_period, string fetch_dttm,string empl_id)
         {
             CheckSession();
             Session["budget_code"] = budget_code;
 
             var user_id = Session["user_id"].ToString();
-            var empl_id = Session["empl_id"].ToString();
+            var u_empl_id = Session["empl_id"].ToString();
+
+            var datenow = DateTime.Now;
             List<sp_get_applicantlist_from_APL_Result> APL_list = new List<sp_get_applicantlist_from_APL_Result>();
             try
             {
+                
+                
+                
+
+                var in_print_screen = db.prescreen_tbl.Where(a => a.empl_id == empl_id && a.item_no == item_no && a.hiring_period == hiring_period).FirstOrDefault();
+                if (in_print_screen == null)
+                {
+                    prescreen_tbl p = new prescreen_tbl();
+                    p.empl_id          = empl_id; 
+                    p.prescreen_dttm   = fetch_dttm;
+                    p.created_by       = user_id;
+                    p.created_by_dttm  = datenow;
+                    p.updated_by       = "";
+                    p.updated_by_dttm  = Convert.ToDateTime("1900-01-01");
+                    p.hiring_period = hiring_period;
+                    p.item_no          = item_no;
+                    db.prescreen_tbl.Add(p);
+                }
+                else
+                {
+                    in_print_screen.prescreen_dttm = fetch_dttm;
+                    in_print_screen.updated_by_dttm = datenow;
+                    in_print_screen.updated_by = user_id;
+
+                }
+
                 var sqledit = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-                sqledit.prescreen_dttm = Convert.ToDateTime(fetch_dttm);
-                sqledit.presreen_by = user_id;
+
+                if (sqledit != null)
+                {
+                    sqledit.prescreen_dttm = Convert.ToDateTime(fetch_dttm);
+                    sqledit.presreen_by = user_id;
+                }
+
                 db.SaveChanges();
                
-                var personnelname= db.vw_personnelnames_tbl_RCT.Where(a => a.empl_id == empl_id).FirstOrDefault();
+                var personnelname= db.vw_personnelnames_tbl_RCT.Where(a => a.empl_id == u_empl_id).FirstOrDefault();
                 var employee_name = personnelname.employee_name;
                 //APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, "", hiring_period).ToList();
 
                 return JSON2(new { employee_name, icon = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(e), icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AddPrescreenDateAll(string prescreen_dttm, List<prescreenAllData> data)
+        {
+            CheckSession();
+            Session["budget_code"] = data[0].budget_code;
+
+            var user_id = Session["user_id"].ToString();
+            var u_empl_id = Session["empl_id"].ToString();
+
+            var datenow = DateTime.Now;
+            List<sp_get_applicantlist_from_APL_Result> APL_list = new List<sp_get_applicantlist_from_APL_Result>();
+            try
+            {
+
+                var employment_type  = data[0].employment_type;
+                var budget_code      = data[0].budget_code;
+                var item_no          = data[0].item_no;
+                var hiring_period    = data[0].ctrl_no;
+
+                for (var x=0; x<data.Count();x++)
+                {
+                    var x_APL_info_ctrl_nbr = data[x].APL_info_ctrl_nbr;
+                    var x_item_no = data[x].item_no;
+                    var x_ctrl_no = data[x].ctrl_no;
+                    var x_app_ctrl_nbr = data[x].app_ctrl_nbr;
+
+                    var in_print_screen = db.prescreen_tbl.Where(a => a.empl_id == x_APL_info_ctrl_nbr && a.item_no == x_item_no && a.hiring_period == x_ctrl_no).FirstOrDefault();
+                    if (in_print_screen == null)
+                    {
+                        prescreen_tbl p = new prescreen_tbl();
+                        p.empl_id = x_APL_info_ctrl_nbr;
+                        p.prescreen_dttm = prescreen_dttm;
+                        p.created_by = user_id;
+                        p.created_by_dttm = datenow;
+                        p.updated_by = "";
+                        p.updated_by_dttm = Convert.ToDateTime("1900-01-01");
+                        p.hiring_period = x_ctrl_no;
+                        p.item_no = x_item_no;
+                        db.prescreen_tbl.Add(p);
+                    }
+                    else
+                    {
+                        in_print_screen.prescreen_dttm = prescreen_dttm;
+                        in_print_screen.updated_by_dttm = datenow;
+                        in_print_screen.updated_by = user_id;
+
+                    }
+
+                    var sqledit = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == x_app_ctrl_nbr).FirstOrDefault();
+
+                    if (sqledit != null)
+                    {
+                        sqledit.prescreen_dttm = Convert.ToDateTime(prescreen_dttm);
+                        sqledit.presreen_by = user_id;
+                    }
+
+                    db.SaveChanges();
+                }
+              
+
+                //var personnelname = db.vw_personnelnames_tbl_RCT.Where(a => a.empl_id == u_empl_id).FirstOrDefault();
+                //var employee_name = personnelname.employee_name;
+                APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, "", hiring_period).ToList();
+
+                return JSON2(new {message="Pre-screen date successfully recorded!",  icon = "success", APL_list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(e), icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult RemovePrescreenDate(string app_ctrl_nbr, string item_no, string employment_type, string budget_code, string hiring_period, string fetch_dttm, string empl_id)
+        {
+            CheckSession();
+            Session["budget_code"] = budget_code;
+
+            var user_id = Session["user_id"].ToString();
+            var u_empl_id = Session["empl_id"].ToString();
+
+            var datenow = DateTime.Now;
+            List<sp_get_applicantlist_from_APL_Result> APL_list = new List<sp_get_applicantlist_from_APL_Result>();
+            try
+            {
+
+
+
+
+                var in_print_screen = db.prescreen_tbl.Where(a => a.empl_id == empl_id && a.item_no == item_no && a.hiring_period == hiring_period).FirstOrDefault();
+
+                db.prescreen_tbl.Remove(in_print_screen);
+
+                var sqledit = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+
+                if (sqledit != null)
+                {
+                    sqledit.prescreen_dttm = null;
+                    sqledit.presreen_by = null;
+                }
+
+                db.SaveChanges();
+
+                //var personnelname = db.vw_personnelnames_tbl_RCT.Where(a => a.empl_id == u_empl_id).FirstOrDefault();
+                //var employee_name = personnelname.employee_name;
+                APL_list = db.sp_get_applicantlist_from_APL("", employment_type, budget_code, item_no, "", hiring_period).ToList();
+
+                return JSON2(new { APL_list, icon = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -287,7 +440,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             var user_id = Session["user_id"].ToString();
-        
+            db.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 foreach (var l in data)
@@ -537,7 +690,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             try
             {
 
-                if (dt.middlename == "")
+                if (dt.middlename == "" || dt.middlename == null)
                 {
                     mi = "";
                 }

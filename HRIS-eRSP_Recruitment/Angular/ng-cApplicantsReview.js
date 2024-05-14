@@ -11,6 +11,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 	s.recieved = false
     s.header_title = "APPLICANT LIST"
     s.department = []
+    s.change_item_items = []
 	s.modal = 1
 	s.rowLen = ""
 	s.pageTitle = ""
@@ -26,13 +27,18 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     s.department_code1 = ""
     s.rowindex_forexamtimeset = ""
     s.emailreceipent = ""
-
+    s.show_search = 1
     s.exam_row = ""
     s.exam_app_ctrl_nbr =""
     s.psb_number_disabled = false
 
     var row_for_email = ""
     var type_for_email = ""
+
+    s.pagenumber1 = ""
+    s.pagenumber2 = ""
+    s.pagenumber3 = ""
+    s.pagenumber4 = ""
    
 	s.main_edit = false
 	s.dtl_edit = false
@@ -65,6 +71,9 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     var budget_year_re = []
     var budget_year_ce = []
     var budget_year_jo = []
+
+    s.selectedAppRow4Top5 = []
+    s.selectedAppRow4HRMPSB = []
 
     s.show
 
@@ -167,16 +176,52 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 	s.svc = [{ id: false, text: 'No' }, { id: true, text: 'Yes' }]
    
 
+    function civil_status(status) {
+    var data = ""
+        switch (status) {
+            case "D":
+                data = "Divorced";
+                break;
+            case "M":
+                data = "Married";
+                break;
+            case "S":
+                data = "Single";
+                break;
+            case "T":
+                data = "Separated";
+                break;
+            case "W":
+                data = "Widow / Widower";
+                break;
+            default:
+            // code block
+        }
+        return data
+    }
+    function sex(sex) {
+        var data = ""
+        switch (sex) {
+            case "M":
+                data = "Male";
+                break;
+            case "F":
+                data = "Female";
+                break;
+            default:
+            // code block
+        }
+        return data
+    }
+    var Init_Position_List_Grid = function (par_data) {
+        s.Position_List_Data = par_data;
 
-
-	var Init_Applicant_List_Grid = function (par_data) {
-        s.Applicant_List_Data = par_data;
-        s.Applicant_List_Data_Orig = s.Applicant_List_Data;
-       
-		s.Applicant_List_Table = $('#Applicant_List_Grid').dataTable(
-			{
-				data: s.Applicant_List_Data,
-				sDom: 'rt<"bottom"p>',
+        s.Position_List_Table = $('#Position_List_Grid').dataTable(
+            {
+                data: s.Position_List_Data,
+                sDom: 'rt<"bottom"p>',
+                order: [[1, "asc"]],
+                sortable: false,
                 pageLength: 10,
                 initComplete: function () {
                     cs.loading("hide")
@@ -186,9 +231,73 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                 },
                 columns: [
                     {
-                        "mData": "app_ctrl_nbr",
+                        "mData": "Position_long_title",
                         "mRender": function (data, type, full, row) {
-                            return "<span>" + data + "</span>"
+                            return "<span>" + data + "</span>" +
+                                "<small>" + full["app_address"] + "</small>"
+                        }
+                    },
+                    //{
+                    //    "mData": "empl_photo_img",
+                    //    "mRender": function (data, type, full, row) {
+                    //        return "<span><img alt='image'  class='img-circle grid-img' src='" + fn_encode_idv(data) + "'></span>"
+                    //    }
+                    //},
+
+                    {
+                        "mData": "no_applicants",
+                        "mRender": function (data, type, full, row) {
+                            return "<h4 class='text-left btn-block'>" + data + "</h4>"
+                        }
+                    },
+                    {
+                        "mData": "with_pwd",
+                        "mRender": function (data, type, full, row) {
+                            return "<h4 class='text-left btn-block'>" + civil_status(data) + "</h4>"
+
+                        }
+                    },
+                    {
+                        "mData": "for_review",
+                        "mRender": function (data, type, full, row) {
+                            return "<h4 class='text-left btn-block'>" + sex(data) + "</h4>"
+                        }
+                    }
+
+                ],
+                "createdRow": function (row, data, index) {
+                    //$(row).addClass("dt-row");
+                    $compile(row)($scope);  //add this to compile the DOM
+                },
+
+            });
+
+        $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+
+
+	var Init_Applicant_List_Grid = function (par_data) {
+        s.Applicant_List_Data = par_data;
+       
+		s.Applicant_List_Table = $('#Applicant_List_Grid').dataTable(
+			{
+				data: s.Applicant_List_Data,
+                sDom: 'rt<"bottom"p>',
+                order: [[1, "asc"]],
+                sortable: false,
+                pageLength: 10,
+                initComplete: function () {
+                    cs.loading("hide")
+                },
+                drawCallback: function () {
+                    cs.loading("hide")
+                },
+                columns: [
+                    {
+                        "mData": "applicant_name",
+                        "mRender": function (data, type, full, row) {
+                            return "<span>" + data + "</span>" +
+                                "<small>" + full["app_address"] + "</small>"
                         }
                     },
                     //{
@@ -199,103 +308,36 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                     //},
 
 					{
-						"mData": "applicant_name",
+						"mData": "position_long_title",
 						"mRender": function (data, type, full, row) {
-                            return "<h4 class='text-left btn-block'>" + data + "</h4>" +
-                                "<small>" + full["app_address"] +"</small>"
+                            return "<h4 class='text-left btn-block'>" + data + "</h4>" 
 						}
 					},
 					{
-                        "mData": "department_name1",
+                        "mData": "civil_status",
 						"mRender": function (data, type, full, row) {
-                            return "<h4 class='text-left btn-block'>" + data + "</h4>"+
-                                "<small class=' btn-block'>" + full["position_long_title"] + "</small>"
+                            return "<h4 class='text-left btn-block'>" + civil_status(data) + "</h4>"
+                               
 						}
                     },
                     {
-                        "mData": "item_in_psb",
+                        "mData": "gender",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-center btn-block'>" + s.fn_status2(data) + "</span>" +
-                                   "<button class='text-left btn btn-block btn-primary no-padding no-margin " + ifExamNotSet(full["exam_date"])+"' style='font-size:14px;' ng-click='setExamDate(" + row["row"] + ")'>Set Exam Date</button>"+
-                                   "<button class='text-left btn btn-block btn-primary no-padding no-margin " + ifExamSet(full["exam_date"]) +"' style='font-size:12px;' ng-click='setExamDate(" + row["row"] + ")'>"+
-                                       "<span class='text-left'>Exam: " + full["exam_date"] + "</span><br>" +
-                                       "<span class='text-left'>Type: " + full["exam_type"] + "</span>" +
-                                   "</button>"
+                            return "<h4 class='text-left btn-block'>" + sex(data) + "</h4>" 
                         }
                     },
 					{
-                        "mData": "email_add",
+                        "mData": "gender2",
 						"mRender": function (data, type, full, row) {
-                            return "<div class='text-left btn-block'><strong>Email</strong>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<small>" + data + "</small></div>"+
-                                "<div class='text-left btn-block'><strong>Mobile</strong>&nbsp;:&nbsp;<small>" + full["mobile_number"] + "</small></div>"
+                            return "<h4 class='text-left btn-block'>" + data + "</h4>" 
 						}
-					},
+                    },
 					{
-                        "mData": "applicant_type",
-						"bSortable": false,
+                        "mData": "pwd_statutory",
                         "mRender": function (data, type, full, row) {
-                        return '<div>'+
-                                '<button class="btn btn-info btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Review Application" ng-click="appl_review(' + row["row"] + ')">REVIEW&nbsp;<i class="fa fa-plus"></i></button>' +
-                            '<button class="btn btn-success btn-sm btn-grid" ng-disabled="' + full["psb_concluded"]+'" id="btntopsb' + row["row"] + '" type="button" data-toggle="tooltip" data-placement="top" title="Add to PSB" ng-click="addtopsb(' + row["row"] + ')">' + s.fn_itemstatuslabel(full["item_in_psb"]) + '&nbsp;<i id="icntopsb' + row["row"] + '" class="fa ' + s.fn_itemstatus(full["item_in_psb"]) + '"></i></button>'+
-                                '<div class="btn-group">' +
-                                    '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">MORE...</button>' +
-                                    '<ul class="dropdown-menu ">'+
-                                        '<li><a ng-click="identifyidPDS(' + row["row"] + ')">UPDATE PROFILE FROM PDS</a></li>' +
-                                        '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">UPDATE PROFILE FROM ONLINE APPLICATION</a></li>' +
-                                        '<li><a ng-click="identifyidQS(' + row["row"] + ')">UPDATE QS FROM HRIS PDS</a></li>' +
-                                        '<li><a ng-click="updatefromqsapl(' + row["row"] + ')">UPDATE QS ONLINE APPLICATION</a></li>' +
-                                        '<li><a ng-click="goToDocs(' + row["row"] + ',2)">UPLOADED DOCUMENTS</a></li>' +
-                                        '<li><a ng-click="goToDocs(' + row["row"] + ',1)">PRINT SCORE SHEET</a></li>' +
-                                        //'<li><a ng-click="composeEmail(' + row["row"] + ')">SEND EMAIL NOTIFICATION</a></li>' +
-                                        '<li><a ng-click="btn_show_pds(' + row["row"] + ')">PRINT PDS FROM ONLINE APPLICATION</a></li>' +
-                                        '<li ng-show = "' + full["app_status"] +'==1" style="color:red;"><a ng-click="deleteFromReview(' + row["row"] + ')">DELETE APPLICANTS</a></li>' +
-                                    '</ul>' +
-                                '</div>' +
-                                '<div class="btn-group">' +
-                                    '<button class="btn btn-danger btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">SEND EMAIL</button>' +
-                                    '<ul class="dropdown-menu ">' +
-                                        '<li><a ng-click="sendEmailNotification(' + row["row"] + ',1)">Acknowledge Email</a></li>' +
-                                        //'<li><a ng-click="sendEmailNotification(' + row["row"] + ',2)">Not Qualified for Online Examination</a></li>' +
-                                        //'<li><a ng-click="sendEmailNotification(' + row["row"] + ',3)">Notification for Online Examination</a></li>' +
-                                        //'<li><a ng-click="sendEmailNotification(' + row["row"] + ',5)">Notification for HRMPSB Screening</a></li>' +
-                                        //'<li><a ng-click="sendEmailNotification(' + row["row"] + ',6)">Notification not in Top 5 applicants</a></li>' +
-                                        '<li ng-if="' + full["app_status"] +' == 1"><a ng-click="sendEmailNotification(' + row["row"] + ',2)">Not Qualified for Examination</a></li>' +
-                                        '<li ng-if="' + full["app_status"] +' == 1"><a ng-click="sendEmailNotification(' + row["row"] + ',3)">Notification for Examination</a></li>' +
-                                        '<li ng-if="' + full["app_status"] +' == 2"><a ng-click="sendEmailNotification(' + row["row"] + ',5)">Notification for HRMPSB Screening</a></li>' +
-                                        '<li ng-if="' + full["app_status"] +' == 3"><a ng-click="sendEmailNotification(' + row["row"] + ',6)">Notification not in Top 5 applicants</a></li>' +
-                                     '</ul>' +
-                                '</div>' +
-                            '<button class="btn btn-info btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" ng-click="viewDates(' + row["row"] + ')">DATES</button>' +
-                            '<div class="btn-group">' +
-                            '<button class="btn btn-success btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">BI</button>' +
-                                    '<ul class="dropdown-menu form-group" style="font-size:18px">' +
-                                    '<li>'+
-                            '<div class="i-checks" style="margin-left:20px;margin-top:15px;"> <label> <input type="radio" ng-checked="' + typecheckin(data) +'" id="in' + row["row"] + '" value="insider" name="a" style="width:20px;height:20px;" ng-click="setApplicantType(1,' + row["row"]+')"> <i></i> Insider </label></div>'+
-                            '<div class="i-checks" style="margin-left:20px;"> <label> <input type="radio" ng-checked="' + typecheckout(data) + '" id="out' + row["row"] + '" value="outsider" name="a" style="width:20px;height:20px;" ng-click="setApplicantType(2,' + row["row"] +')"> <i></i>Outsider</label></div>'+
-                                    '</li > ' +
-                                    '<li><a ng-click="backgrounInvestigation(' + row["row"] + ',2)">Background Investigation Rating</a></li>' +
-                                    '</ul>' +
-                            '</div>' +
-                           
-                                //'<button ng-show = "'+full["app_status"]+'==1" class="btn btn-danger btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Review Application" ng-click="deleteFromReview('+row["row"]+')">DELETE&nbsp;<i class="fa fa-plus"></i></button>' +
-
-
-
-
-
-
-                            //'<div class="btn-group">' +
-                            //      '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">SEND EMAIL</button>' +
-                            //        '<ul class="dropdown-menu ">' +
-                            //        '<li><a ng-click="identifyidPDS(' + row["row"] + ')">UPDATE PROFILE FROM PDS</a></li>' +
-                            //        '<li><a ng-click="updateDataFromApl(' + row["row"] + ')">UPDATE PROFILE FROM ONLINE APPLICATION</a></li>' +
-                            //        '<li><a ng-click="identifyidQS(' + row["row"] + ')">UPDATE QS FROM HRIS PDS</a></li>' +
-                            //        '</ul>' +
-                            //'</div>' +
-
-                            '</div>' 
-						}
-					}
+                            return "<h4 class='text-left btn-block'>" + data + "</h4>"
+                        }
+                    }
 
 				],
 				"createdRow": function (row, data, index) {
@@ -308,13 +350,31 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 		$("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
 
+    function currentPageNumber() {
+       
+        if ($("#Applicant_Review_Grid_paginate a.paginate_button.current")[0] != undefined) {
+            s.pagenumber1 = $("#Applicant_Review_Grid_paginate a.paginate_button.current")[0].text;
+        }
+        if ($("#Applicant_OnlineExam_Grid_paginate a.paginate_button.current")[0] != undefined) {
+            s.pagenumber2 = $("#Applicant_OnlineExam_Grid_paginate a.paginate_button.current")[0].text;
+        }
+        if ($("#Applicant_Top5_Grid_paginate a.paginate_button.current")[0] != undefined) {
+            s.pagenumber3 = $("#Applicant_Top5_Grid_paginate a.paginate_button.current")[0].text;
+        }
+        if ($("#Applicant_Hrmpsb_Grid_paginate a.paginate_button.current")[0] != undefined) {
+            s.pagenumber4 = $("#Applicant_Hrmpsb_Grid_paginate a.paginate_button.current")[0].text;
+        }
+      
+    }
 
 
     function tab_table_data(table) {
-        
+     
+
         var OnlineExam_Data = table.filter(function (d) {
             return d.quali_onlineexam == true
         })
+
         var Top5Examiness_Data = table.filter(function (d) {
             return d.top5examinees == true
         })
@@ -322,11 +382,13 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         var HRMPSB_Data = table.filter(function (d) {
             return d.quali_hrmpsb == true
         })
+        
 
-        s.Applicant_Review_Data = table.refreshTable("Applicant_Review_Grid", "")
-        s.Applicant_OnlineExam_Data = OnlineExam_Data.refreshTable("Applicant_OnlineExam_Grid", "")
-        s.Applicant_Top5_Data = Top5Examiness_Data.refreshTable("Applicant_Top5_Grid", "")
-        s.Applicant_Hrmpsb_Data = HRMPSB_Data.refreshTable("Applicant_Hrmpsb_Grid", "")
+        s.Applicant_Review_Data = table.refreshTable2x("Applicant_Review_Grid", s.pagenumber1)
+        s.Applicant_OnlineExam_Data = OnlineExam_Data.refreshTable2x("Applicant_OnlineExam_Grid", s.pagenumber2)
+        s.Applicant_Top5_Data = Top5Examiness_Data.refreshTable2x("Applicant_Top5_Grid", s.pagenumber3)
+        s.Applicant_Hrmpsb_Data = HRMPSB_Data.refreshTable2x("Applicant_Hrmpsb_Grid", s.pagenumber4)
+       
     }
 
 
@@ -336,15 +398,17 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             {
                 data: s.Applicant_List_Data,
                 sDom: 'rt<"bottom"p>',
+                order: [[1, "asc"]],
                 pageLength: 10,
-                initComplete: function () {
-                    cs.loading("hide")
-                },
-                drawCallback: function () {
-                    cs.loading("hide")
-                },
+                //initComplete: function () {
+                //    cs.loading("hide")
+                //},
+                //drawCallback: function () {
+                //    cs.loading("hide")
+                //},
                 columns: [
                     {
+                        
                         "mData": "app_ctrl_nbr",
                         "mRender": function (data, type, full, row) {
                             return "<span>" + data + "</span>"
@@ -359,6 +423,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                     //},
 
                     {
+                        sortable: false,
                         "mData": "applicant_name",
                         "mRender": function (data, type, full, row) {
                             return "<h4 class='text-left btn-block'>" + data + "</h4>" +
@@ -398,19 +463,21 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                 '<ul class="dropdown-menu ">' +
                                 '<li><a ng-click="sendEmailNotification(' + row["row"] + ',1)">Acknowledge Email</a></li>' +
                                 '<li ng-if="' + full["quali_onlineexam"] + ' == false"><a ng-click="sendEmailNotification(' + row["row"] + ',2)">Not Qualified for Examination</a></li>' +
+                                '<li><a ng-click="printEmailNotif(' + row["row"] + ',1)">Print Acknowledgement</a></li>' +
+                                '<li><a ng-click="printEmailNotif(' + row["row"] + ',2)">Print Not Qualified for Examination</a></li>' +
                                 '</ul>' +
                                 '</div>' +
                                 '<button class="btn btn-info btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" ng-click="viewDates(' + row["row"] + ')">DATES</button>' +
-                                //'<div class="btn-group">' +
-                                //'<button class="btn btn-success btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">BI</button>' +
-                                //'<ul class="dropdown-menu form-group" style="font-size:18px">' +
-                                //'<li>' +
-                                //'<div class="i-checks" style="margin-left:20px;margin-top:15px;"> <label> <input type="radio" ng-checked="' + typecheckin(data) + '" id="in' + row["row"] + '" value="insider" name="a" style="width:20px;height:20px;" ng-click="setApplicantType(1,' + row["row"] + ')"> <i></i> Insider </label></div>' +
-                                //'<div class="i-checks" style="margin-left:20px;"> <label> <input type="radio" ng-checked="' + typecheckout(data) + '" id="out' + row["row"] + '" value="outsider" name="a" style="width:20px;height:20px;" ng-click="setApplicantType(2,' + row["row"] + ')"> <i></i>Outsider</label></div>' +
-                                //'</li > ' +
+                                '<div class="btn-group">' +
+                                '<button class="btn btn-success btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">BI</button>' +
+                                '<ul class="dropdown-menu form-group" style="font-size:18px">' +
+                                '<li>' +
+                                '<div class="i-checks" style="margin-left:20px;margin-top:15px;"> <label> <input type="radio" ng-checked="' + typecheckin(data) + '" id="in' + row["row"] + '" value="insider" name="a' + row["row"] + '" style="width:20px;height:20px;" ng-click="setApplicantType(1,' + row["row"] + ')"> <i></i> Insider </label></div>' +
+                                '<div class="i-checks" style="margin-left:20px;"> <label> <input type="radio" ng-checked="' + typecheckout(data) + '" id="out' + row["row"] + '" value="outsider" name="a' + row["row"] + '" style="width:20px;height:20px;" ng-click="setApplicantType(2,' + row["row"] + ')"> <i></i>Outsider</label></div>' +
+                                '</li > ' +
                                 //'<li><a ng-click="backgrounInvestigation(' + row["row"] + ',2)">Background Investigation Rating</a></li>' +
-                                //'</ul>' +
-                                //'</div>' +
+                                '</ul>' +
+                                '</div>' +
                                 '<div class="btn-group">' +
                                 '<button class="btn btn-danger btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">MORE...</button>' +
                                 '<ul class="dropdown-menu ">' +
@@ -425,6 +492,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                 '<li ng-show = " app_row_delete(' + row["row"] +')" style="color:red;"><a ng-click="deleteFromReview(' + row["row"] + ')">DELETE APPLICANTS</a></li>' +
                                 '</ul>' +
                                 '</div>' +
+                                '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Change applicants item" ng-click="changeApplicantsItem(' + row["row"]+')">Change Item</button>' +
                                 '</div>'
                         }
                     }
@@ -466,13 +534,14 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             {
                 data: s.Applicant_OnlineExam_Data,
                 sDom: 'rt<"bottom"p>',
+                order: [[1, "asc"]],
                 pageLength: 10,
-                initComplete: function () {
-                    cs.loading("hide")
-                },
-                drawCallback: function () {
-                    cs.loading("hide")
-                },
+                //initComplete: function () {
+                //    cs.loading("hide")
+                //},
+                //drawCallback: function () {
+                //    cs.loading("hide")
+                //},
                 columns: [
                     {
                         "mData": "app_ctrl_nbr",
@@ -489,6 +558,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                     //},
 
                     {
+                        sortable: false,
                         "mData": "applicant_name",
                         "mRender": function (data, type, full, row) {
                             return "<h4 class='text-left btn-block'>" + data + "</h4>" +
@@ -524,6 +594,13 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                         }
                     },
                     {
+                        "mData": "top5examinees",
+                        "mRender": function (data, type, full, row) {
+                            return '<input ng-disabled="' + data + '" id="top5CbRow' + row["row"] + '"  type="checkbox" class="form-control" ng-click="addToTop5CB(' + row["row"] + ')"  ng-checked="' + data + '"/> '
+                           // return '<input ng-disabled="' + data + '" id="top5CbRow' + row["row"] + '"  type="checkbox" class="form-control" ng-click="addRow(' + row["row"] + ')" ng-checked="' + data + '"/> '
+                        }
+                    },
+                    {
                         "mData": "applicant_type",
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
@@ -532,12 +609,14 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                 '<div class="btn-group">' +
                                 '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">SEND EMAIL</button>' +
                                 '<ul class="dropdown-menu ">' +
-                                '<li><a ng-click="sendEmailNotification(' + row["row"] + ',3)">Notification for Examination</a></li>' +
-                                '<li><a ng-click="sendEmailNotification(' + row["row"] + ',6)">Notification not in Top 5 applicants</a></li>' +
+                                '<li ng-hide="' + full["top5examinees"] + '"><a ng-click="sendEmailNotification(' + row["row"] + ',3)">Notification for Examination</a></li>' +
+                                '<li ng-hide="' + full["top5examinees"] + '"><a ng-click="sendEmailNotification(' + row["row"] + ',6)">Notification not in Top 5 applicants</a></li>' +
+                                '<li><a ng-click="printEmailNotif(' + row["row"] + ',3)">Print Notification for Examination</a></li>' +
+                                '<li><a ng-click="printEmailNotif(' + row["row"] + ',6)">Print not in Top 5 applicants</a></li>' +
                                 '</ul>' +
                                 '</div>' +
-                                '<button class="btn btn-success btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Add to top 5 examinees" ng-click="addToTop5Examinees(' + row["row"] + ')">Top 5 Exam...&nbsp;</button>' +
-                                '<button class="btn btn-danger btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Remove From Shortlist" ng-click="removeFromShortlist(' + row["row"] + ')">Remove...&nbsp;</button>' +
+                                '<button ng-hide="' + full["top5examinees"] + '" class="btn btn-success btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Add to top 5 examinees" ng-click="addToTop5Examinees(' + row["row"] + ')">Top 5 &nbsp;</button>' +
+                                '<button ng-hide="' + full["top5examinees"] + '" class="btn btn-danger btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Remove From Shortlist" ng-click="removeFromShortlist(' + row["row"] + ')">Remove&nbsp;</button>' +
                                 '</div>'
                         }
                     }
@@ -583,19 +662,21 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         console.log(out)
         return out
     }
+
     var Init_Applicant_Top5_Grid = function (par_data) {
         s.Applicant_Top5_Data = par_data;
         s.Applicant_Top5_Table = $('#Applicant_Top5_Grid').dataTable(
             {
                 data: s.Applicant_Top5_Data,
                 sDom: 'rt<"bottom"p>',
+                order: [[1, "asc"]],
                 pageLength: 10,
-                initComplete: function () {
-                    cs.loading("hide")
-                },
-                drawCallback: function () {
-                    cs.loading("hide")
-                },
+                //initComplete: function () {
+                //    cs.loading("hide")
+                //},
+                //drawCallback: function () {
+                //    cs.loading("hide")
+                //},
                 columns: [
                     {
                         "mData": "app_ctrl_nbr",
@@ -604,6 +685,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                         }
                     },
                     {
+                        sortable: false,
                         "mData": "applicant_name",
                         "mRender": function (data, type, full, row) {
                             return "<h4 class='text-left btn-block'>" + data + "</h4>" +
@@ -625,12 +707,19 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                         }
                     },
                     {
+                        "mData": "quali_hrmpsb",
+                        "mRender": function (data, type, full, row) {
+                            return '<input ng-disabled="' + data + '" id="hrmpsbCbRow' + row["row"] + '"  type="checkbox" class="form-control" ng-click="addToHRMPSBCB(' + row["row"] + ')"  ng-checked="' + data + '"/> '
+                            // return '<input ng-disabled="' + data + '" id="top5CbRow' + row["row"] + '"  type="checkbox" class="form-control" ng-click="addRow(' + row["row"] + ')" ng-checked="' + data + '"/> '
+                        }
+                    },
+                    {
                         "mData": "applicant_type",
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
                             return '<div>' +
-                                '<button class="btn btn-success btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Add to HRMPSB Screening" ng-click="addToHRMPSBScreening(' + row["row"] + ')">To HRMPSB Screen...&nbsp;</button>' +
-                                '<button class="btn btn-danger btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Remove From Top 5 Examinees" ng-click="removeFromTop5Examinees(' + row["row"] + ')">Remove From Top 5 Examinees</button>' +
+                                '<button ng-hide="' + full["quali_hrmpsb"] +'" class="btn btn-success btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Add to HRMPSB Screening" ng-click="addToHRMPSBScreening(' + row["row"] + ')">To HRMPSB &nbsp;<i class="fa fa-arrow-right"></i></button>' +
+                                '<button ng-hide="' + full["quali_hrmpsb"] +'" class="btn btn-danger btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Remove From Top 5 Examinees" ng-click="removeFromTop5Examinees(' + row["row"] + ')">Remove</button>' +
                                
                                 '</div>'
                         }
@@ -653,13 +742,14 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             {
                 data: s.Applicant_Hrmpsb_Data,
                 sDom: 'rt<"bottom"p>',
+                order: [[1, "asc"]],
                 pageLength: 10,
-                initComplete: function () {
-                    cs.loading("hide")
-                },
-                drawCallback: function () {
-                    cs.loading("hide")
-                },
+                //initComplete: function () {
+                //    cs.loading("hide")
+                //},
+                //drawCallback: function () {
+                //    cs.loading("hide")
+                //},
                 columns: [
                     {
                         "mData": "app_ctrl_nbr",
@@ -668,6 +758,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                         }
                     },
                     {
+                        sortable: false,
                         "mData": "applicant_name",
                         "mRender": function (data, type, full, row) {
                             return "<h4 class='text-left btn-block'>" + data + "</h4>" +
@@ -697,9 +788,10 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                 '<button class="btn btn-warning btn-sm dropdown-toggle" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">SEND EMAIL</button>' +
                                 '<ul class="dropdown-menu ">' +
                                 '<li><a ng-click="sendEmailNotification(' + row["row"] + ',5)">Notification for HRMPSB Screening</a></li>' +
+                                '<li><a ng-click="printEmailNotif(' + row["row"] + ',5)">Print Notification for HRMPSB Screening</a></li>' +
                                 '</ul>' +
                                 '</div>' +
-                                '<button class="btn btn-danger btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Remove from HRMPSB screening" ng-click="removeFromHRMPSBScreening(' + row["row"] + ')">Remove From HRMPSB Screen...&nbsp;</button>' +
+                                '<button class="btn btn-danger btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Remove from HRMPSB screening" ng-click="removeFromHRMPSBScreening(' + row["row"] + ')">Remove &nbsp;</button>' +
                                 //'<button class="btn btn-success btn-sm btn-grid" type="button" data-toggle="tooltip" data-placement="top" title="Add to HRMPSB Screening" ng-click="addToHRMPSBScreening(' + row["row"] + ')">Top 5 Exam...&nbsp;</button>' +
                                 '</div>'
                         }
@@ -715,6 +807,9 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
+
+
+
     s.backgrounInvestigation = function (row) {
         var app_ctrl_nbr = s.Applicant_List_Data[row].app_ctrl_nbr
 
@@ -813,7 +908,6 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             // Format hours and minutes to two digits
             var formattedHours = hours.toString().padStart(2, '0');
             var formattedMinutes = minutes.toString().padStart(2, '0');
-            console.log(formattedHours + ":" + formattedMinutes + " " + ampm)
             return formattedHours + ":" + formattedMinutes + " " + ampm;
         } 
     }
@@ -875,7 +969,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             if (d.data.icon = "success") {
                 if (d.data.viewexam.length > 0) {
                     addvalue("exam_app_ctrl_nbr", dt.app_ctrl_nbr)
-                    addvalue("score_rendered2", d.data.viewexam[0].score_rendered)
+                    addvalue("score_rendered2", parseFloat((d.data.viewexam[0].score_rendered * 100)/25))
                     addvalue("exam_type_descr2", d.data.viewexam[0].exam_type_descr)
                     addvalue("exam_date2", d.data.viewexam[0].exam_date)
                     if (d.data.viewexam[0].score_rendered == "") {
@@ -907,19 +1001,23 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         })
     }
 
+
     s.calculate_perc = function () {
         var score = $("#score_rendered2").val()
-        var score_perc = (parseFloat(score) / 25) * 100 
+        var score_perc = ((parseFloat(score)*25) /100) 
         if (isNaN(score_perc)) {
             return
         }
+        console.log(score_perc)
         addvalue("score_perc_disp", score_perc)
     }
 
+
     s.saveExamRating = function () {
         if (cs.validatesubmit("exam_fields")) {
+            var score = $("#score_rendered2").val()
             var exam_app_ctrl_nbr  = $("#exam_app_ctrl_nbr").val()
-            var score_rendered2    = $("#score_rendered2  ").val()
+            var score_rendered2    = ((parseFloat(score) * 25) / 100) 
             var exam_type_descr2   = $("#exam_type_descr2 ").val()
             var exam_date2         = $("#exam_date2       ").val()
             h.post("../cApplicantsReview/SaveExam", {
@@ -934,16 +1032,221 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         }
     }
 
+   //s.addRow = function (row) {
+   //    var dt = s.item_grid_List2[row]
+   //    var cbrow = $("#top5CbRow" + row)[0].checked
+   //
+   //    if (cbrow) {
+   //        var ex = s.selectedItemRow.filter(function (d) {
+   //            return d.item_no == dt.item_no
+   //        })
+   //        if (ex.length == 0) {
+   //            s.selectedItemRow.push(dt)
+   //        }
+   //    }
+   //    else {
+   //        s.selectedItemRow = s.selectedItemRow.filter(function (d) {
+   //            return d.item_no != dt.item_no
+   //        })
+   //    }
+   //
+   //
+   //}
+
+    s.addToHRMPSBCB = function (row) {
+        var dt = s.Applicant_Top5_Data[row]
+
+        if (!cs.Validate1Field2("psb_ctrl_nbr_disp", "Required Field")) {
+            $("#hrmpsbCbRow" + row).prop("checked",false)
+            return
+        }
+
+        var cbrow = $("#hrmpsbCbRow" + row)[0].checked
+        var activeTab = $(".nav-tabs li.active").prop("id")
+        var psb_ctrl_nbr = $("#psb_ctrl_nbr_disp").val()
+        if (cbrow) {
+            var ex = s.selectedAppRow4HRMPSB.filter(function (d) {
+                return d.app_ctrl_nbr == dt.app_ctrl_nbr
+            })
+            if (ex.length == 0) {
+
+                s.selectedAppRow4HRMPSB.push(
+                    {
+                        "app_ctrl_nbr": dt.app_ctrl_nbr
+                        , "item_no": dt.item_no
+                        , "employment_type": dt.employment_type
+                        , "budget_code": dt.budget_code
+                        , "hiring_period": dt.hiring_period
+                        , "department_code": dt.department_code
+                        , "psb_ctrl_nbr": psb_ctrl_nbr
+                    }
+                )
+            }
+        }
+        else {
+            s.selectedAppRow4HRMPSB = s.selectedAppRow4HRMPSB.filter(function (d) {
+                return d.app_ctrl_nbr != dt.app_ctrl_nbr
+            })
+        }
+
+        if (s.selectedAppRow4HRMPSB.length > 0 && activeTab == "3") {
+            $("#addToHRMPSBBtn").removeClass("hidden")
+        }
+        else {
+            $("#addToHRMPSBBtn").addClass("hidden")
+        }
+    }
+    s.addtoHRMPSBAll = function () {
+        cs.loading("show")
+        h.post("../cApplicantsReview/addToPSBAll", {
+            data: s.selectedAppRow4HRMPSB
+        }).then(function (d) {
+            s.Applicant_List_Data = d.data.review_list
+            s.Applicant_List_Data_Orig = d.data.review_list
+            tab_table_data(d.data.review_list)
+            swal({ title: d.data.message, icon: d.data.icon })
+            s.selectedAppRow4HRMPSB = []
+            $("#addToHRMPSBBtn").addClass("hidden")
+            cs.loading("hide")
+        })
+    }
+
+    s.addToHRMPSBScreening = function (row) {
+
+        var dt = s.Applicant_Top5_Data[row]
+
+        if (cs.Validate1Field2("psb_ctrl_nbr_disp", "Required Field")) {
+            var psb_ctrl_nbr = $("#psb_ctrl_nbr_disp").val()
+            var item_no = dt.item_no;
+            var budget_code = dt.budget_code
+            var employment_type = dt.employment_type
+            var hiring_period = dt.hiring_period
+            var department_code = dt.department_code
+            var app_ctrl_nbr = dt.app_ctrl_nbr
+
+            cs.loading("show")
+
+            swal({
+                title: "Add Applicant to HRMPS Schedule",
+                text: "Would you like to proceed?",
+                icon: "info",
+                buttons: ["No", "Yes"],
+                dangerMode: true,
+            }).then(function (yes) {
+                if (yes) {
+                    //currentPageNumber();
+                    h.post("../cApplicantsReview/addToPSB", {
+                          item_no: item_no
+                        , app_ctrl_nbr: app_ctrl_nbr
+                        , employment_type: employment_type
+                        , budget_code: budget_code
+                        , hiring_period: hiring_period
+                        , psb_ctrl_nbr: psb_ctrl_nbr
+                        , department_code: department_code
+                    }).then(function (d) {
+                        if (d.data.icon == "success") {
+
+                            h.post("../cApplicantsReview/sp_psb_pnl_rtg_tbl_qsupdate", {
+                                  app_ctrl_nbr: app_ctrl_nbr
+                                , psb_ctrl_nbr: psb_ctrl_nbr
+                                , employment_type: employment_type
+                                , budget_code: budget_code
+                                , hiring_period: hiring_period
+                                , item_no: item_no
+                            }).then(function (d) {
+                                if (d.data.icon == "success") {
+                                    s.Applicant_List_Data = d.data.review_list
+                                    s.Applicant_List_Data_Orig = d.data.review_list
+                                    tab_table_data(d.data.review_list)
+                                }
+
+                                swal({ title: d.data.message, icon: d.data.icon })
+                                cs.loading("hide")
+                            })
+                        }
+                        else {
+                            swal({ title: d.data.message, icon: d.data.icon })
+                            cs.loading("hide")
+                        }
+
+
+                    })
+                }
+                else {
+                    cs.loading("hide")
+                }
+            });
+
+        }
+
+    }
+
+
+
+    s.addToTop5CB = function (row) {
+        var dt = s.Applicant_OnlineExam_Data[row]
+        var cbrow = $("#top5CbRow" + row)[0].checked
+        var activeTab = $(".nav-tabs li.active").prop("id")
+        if (cbrow) {
+            var ex = s.selectedAppRow4Top5.filter(function (d) {
+                return d.app_ctrl_nbr == dt.app_ctrl_nbr
+            })
+            if (ex.length == 0) {
+               
+                s.selectedAppRow4Top5.push(
+                    {
+                        "app_ctrl_nbr"      : dt.app_ctrl_nbr
+                        ,"item_no"          : dt.item_no        
+                        ,"employment_type"  : dt.employment_type
+                        ,"budget_code"      : dt.budget_code    
+                        ,"hiring_period"    : dt.hiring_period  
+                    }
+                )
+            }
+        }
+        else {
+            s.selectedAppRow4Top5 = s.selectedAppRow4Top5.filter(function (d) {
+                return d.app_ctrl_nbr != dt.app_ctrl_nbr
+            })
+        }
+
+        if (s.selectedAppRow4Top5.length > 0 && activeTab == "2") {
+            $("#addToTop5Btn").removeClass("hidden")
+        }
+        else {
+            $("#addToTop5Btn").addClass("hidden")
+        }
+    }
+
+    s.addtoTop5All = function () {
+       
+        h.post("../cApplicantsReview/AddToTop5ExamineesAll", {
+            data: s.selectedAppRow4Top5
+        }).then(function (d) {
+           
+            s.Applicant_List_Data = d.data.review_list
+            s.Applicant_List_Data_Orig = d.data.review_list
+            tab_table_data(d.data.review_list)
+            s.selectedAppRow4Top5 = []
+            $("#addToTop5Btn").addClass("hidden")
+            swal({ title: d.data.message, icon: d.data.icon })
+            
+            cs.loading("hide")
+        })
+    }
+
+
     s.addToTop5Examinees = function (row) {
         var dt = s.Applicant_OnlineExam_Data[row]
         swal({
-            title: "Add Applicant to Qualified Examinees",
+            title: "Add Applicant to Top 5 Examinees",
             text: "Would you like to proceed?",
             icon: "info",
             buttons: ["No", "Yes"],
             dangerMode: true,
         }).then(function (yes) {
             if (yes) {
+                //currentPageNumber();
                 h.post("../cApplicantsReview/AddToTop5Examinees", {
                     app_ctrl_nbr: dt.app_ctrl_nbr
                 }).then(function (d) {
@@ -961,11 +1264,12 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                 cs.loading("hide")
             }
         });
-        
     }
+
+
                 
     s.removeFromTop5Examinees = function (row) {
-        var dt = s.Applicant_OnlineExam_Data[row]
+        var dt = s.Applicant_Top5_Data[row]
         swal({
             title: "Remove Applicant from Qualified Examinees",
             text: "Would you like to proceed?",
@@ -974,6 +1278,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             dangerMode: true,
         }).then(function (yes) {
             if (yes) {
+                //currentPageNumber();
                 h.post("../cApplicantsReview/RemoveFromTop5Examinees", {
                     app_ctrl_nbr: dt.app_ctrl_nbr
                 }).then(function (d) {
@@ -990,13 +1295,11 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                 cs.loading("hide")
             }
         });
-
     }
+
 
     s.removeFromShortlist = function (row) {
         var dt = s.Applicant_OnlineExam_Data[row]
-
-
         swal({
             title: "Remove Applicant from Qualified Examinees",
             text: "Would you like to proceed?",
@@ -1026,61 +1329,12 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         
     }
 
-    s.addToHRMPSBScreening = function (row) {
-
-        var dt = s.Applicant_Top5_Data[row]
-
-        if (cs.Validate1Field2("psb_ctrl_nbr_disp", "Required Field")) {
-            var psb_ctrl_nbr = $("#psb_ctrl_nbr_disp").val()
-            var item_no = dt.item_no;
-            var budget_code = dt.budget_code
-            var employment_type = dt.employment_type
-            var hiring_period = dt.hiring_period
-            var department_code = dt.department_code
-            var app_ctrl_nbr = dt.app_ctrl_nbr
-
-            cs.loading("show")
-
-            swal({
-                title:"Add Applicant to HRMPS Schedule",
-                text: "Would you like to proceed?",
-                icon: "info",
-                buttons: ["No", "Yes"],
-                dangerMode: true,
-            }).then(function (yes) {
-                if (yes) {
-                    h.post("../cApplicantsReview/addToPSB", {
-                        item_no: item_no
-                        , app_ctrl_nbr: app_ctrl_nbr
-                        , employment_type: employment_type
-                        , budget_code: budget_code
-                        , hiring_period: hiring_period
-                        , psb_ctrl_nbr: psb_ctrl_nbr
-                        , department_code: department_code
-                    }).then(function (d) {
-                        if (d.data.icon == "success") {
-                            s.Applicant_List_Data = d.data.review_list
-                            s.Applicant_List_Data_Orig = d.data.review_list
-                            tab_table_data(d.data.review_list)
-                        }
-
-                        swal({ title: d.data.message, icon: d.data.icon })
-                        cs.loading("hide")
-                    })
-                }
-                else {
-                    cs.loading("hide")
-                }
-            });
-           
-        }
-
-    }
+   
     s.removeFromHRMPSBScreening = function (row) {
 
         var dt = s.Applicant_Hrmpsb_Data[row]
-
-            console.log(dt)
+        console.log(dt)
+           
                 var psb_ctrl_nbr = dt.psb_ctrl_nbr;
                 var item_no = dt.item_no;
                 var budget_code = dt.budget_code;
@@ -1093,7 +1347,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         }
 
         cs.loading("show")
-
+       
         swal({
             title: "Remove Applicant from HRMPS Schedule",
             text: "Would you like to proceed?",
@@ -1102,6 +1356,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             dangerMode: true,
         }).then(function (yes) {
             if (yes) {
+                //currentPageNumber();
                 h.post("../cApplicantsReview/removeFromPsb", {
                     item_no: item_no
                     , app_ctrl_nbr: app_ctrl_nbr
@@ -1131,10 +1386,10 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     }
 
     s.sendEmailNotification = function (row_id, type) {
-        cs.loading("show")
+         cs.loading("show")
          row_for_email = row_id
          type_for_email = type
-        var dt = []
+        var dt = [] 
       
         var swal_title = ""
         var swal_text = ""
@@ -1238,7 +1493,6 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                 }).then(function (yes) {
                     if (yes) {
                         s.email_settup = d.data.email_settup
-                        console.log(d.data.email_settup.email_body)
                         summernote.code(d.data.email_settup.email_body)
                         $("#sendnotif_modal").modal("show")
                         cs.loading("hide")
@@ -1256,12 +1510,162 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     }
 
 
+    s.printEmailNotif = function (row_id, type) {
+        var dt = []
+
+        var email           = ""  
+        var empl_id         = ""
+        var app_ctrl_nbr    = ""
+        var hiring_period   = ""
+       
+        
+        s.employee_name_print = 'EMAIL REPORT';
+        var SaveName = "Crystal_Report";
+        var ReportType = "inline";
+        var ReportPath = "~/Reports/cryEmailPrinting/";
+        var ReportName = "";
+        var sp = "";
+
+        if (type == "1") {
+            dt = s.Applicant_Review_Data[row_id];
+            swal_title = "Send Acknowledgement Email"
+
+            ReportName = "cryAknowledgement";
+            email = dt.email_add;
+            empl_id = dt.empl_id;
+            app_ctrl_nbr = dt.app_ctrl_nbr;
+            hiring_period = dt.hiring_period;
+           
+
+        } else if (type == "2") {
+
+            dt = s.Applicant_Review_Data[row_id]
+            swal_title = "Not Qualified for Examination Email"
+
+            ReportName = "cryNotQualifiedForExam";
+
+            email = dt.email_add;
+            empl_id = dt.empl_id;
+            app_ctrl_nbr = dt.app_ctrl_nbr;
+            hiring_period = dt.hiring_period;
+
+
+        } else if (type == "3") {
+            dt = s.Applicant_OnlineExam_Data[row_id]
+            swal_title = "Qualified for Online Examination Email"
+
+            ReportName = "cryNotifForOnlineExam";
+
+            email = dt.email_add
+            empl_id = dt.empl_id
+            app_ctrl_nbr = dt.app_ctrl_nbr
+            hiring_period = dt.hiring_period
+
+        } else if (type == "5") {
+            dt = s.Applicant_Hrmpsb_Data[row_id]
+            swal_title = "Notify For HRMPSB Screening"
+
+            ReportName = "cryNoticeForHRMPSB";
+
+            email = dt.email_add
+            empl_id = dt.empl_id
+            app_ctrl_nbr = dt.app_ctrl_nbr
+            hiring_period = dt.hiring_period
+
+        } else if (type == "6") {
+            dt = s.Applicant_OnlineExam_Data[row_id]
+            swal_title = "Notify not in top 5 Examinees"
+
+            ReportName = "cryNotifNotInTop5Examinee";
+
+            email = dt.email_add
+            empl_id = dt.empl_id
+            app_ctrl_nbr = dt.app_ctrl_nbr
+            hiring_period = dt.hiring_period
+        }
+
+        
+        ReportPath = ReportPath + "" + ReportName + ".rpt";
+        sp = "sp_send_email_notification_PRINT,p_email," + email + ",p_empl_id," + empl_id + ",p_app_ctrl_nbr," + app_ctrl_nbr + ",p_hiring_period," + hiring_period + ",p_email_type," + type;
+
+        cs.loading('show')
+
+        var iframe = document.getElementById('iframe_print_preview');
+        var iframe_page = $("#iframe_print_preview")[0];
+        iframe.style.visibility = "hidden";
+        s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+            + "&ReportName=" + ReportName
+            + "&SaveName=" + SaveName
+            + "&ReportType=" + ReportType
+            + "&ReportPath=" + ReportPath
+            + "&id=" + sp //+ parameters
+        console.log(s.embed_link)
+        if (!/*@cc_on!@*/0) { //if not IE
+            iframe.onload = function () {
+                iframe.style.visibility = "visible";
+                cs.loading('hide')
+            };
+        }
+        else if (iframe_page.innerHTML()) {
+            var ifTitle = iframe_page.contentDocument.title;
+            if (ifTitle.indexOf("404") >= 0) {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+            else if (ifTitle != "") {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+        }
+        else {
+            iframe.onreadystatechange = function () {
+                if (iframe.readyState == "complete") {
+                    iframe.style.visibility = "visible";
+                    //$("#modal_loading").modal("hide")
+                    cs.loading('hide')
+                }
+            };
+        }
+        iframe.src = s.embed_link;
+        $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+    }
+
+
+    //s.printPageArea = function (areaID) {
+    //    var areaID = "summernote2"
+    //    var printContent = document.getElementById(areaID).innerHTML;
+    //    var originalContent = document.body.innerHTML;
+    //    document.body.innerHTML = printContent;
+    //    window.print();
+    //    document.body.innerHTML = originalContent;
+    //}
+
+
     s.sendEmailNotification2 = function () {
 
-
+       
         var row_id = parseInt(row_for_email);
         var type = parseInt(type_for_email);
-        var dt = s.Applicant_List_Data[row_id]
+        var dt = {}
+        if (type == 1 || type == 2) {
+           
+            dt = s.Applicant_Review_Data[row_id]
+        }
+        else if (type == 3 || type == 6) {
+          
+            dt = s.Applicant_OnlineExam_Data[row_id]
+        }
+        else if (type == 3 || type == 6) {
+           
+            dt = s.Applicant_OnlineExam_Data[row_id]
+        }
+        else if (type == 5) {
+           
+            dt = s.Applicant_Hrmpsb_Data[row_id]
+        }
+
+     
+        
         var data = []
         var email_data = s.email_settup
 
@@ -1273,14 +1677,14 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
         email_data.email_body = summernote.code()
 
-
-
+        //console.log(dt)
+        //return
         h.post("../cApplicantsReview/sendEmailNotification2", {
-            dt: dt
+              dt: dt
             , email_type: type
             , email_settup: email_data
         }).then(function (d) {
-       
+
 
             var se = d.data.se
 
@@ -1291,8 +1695,8 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             s.Applicant_List_Data[row_id].email_noti_hrmpsb_dttm = se.email_noti_hrmpsb_dttm
             s.Applicant_List_Data[row_id].email_notintop5_dttm = se.email_notintop5_dttm
             s.Applicant_List_Data[row_id].email_congratulatory_dttm = se.email_congratulatory_dttm
-          
-            
+
+
 
             setTimeout(function () {
                 s.APL_List_Data.refreshTable("APL_List_Grid", "" + row_id);
@@ -1300,14 +1704,14 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
 
 
-            swal({ title: d.data.message,  icon: d.data.icon })
+            swal({ title: d.data.message, icon: d.data.icon })
 
 
             $("#btnsendemailicon").removeClass("fa fa-spinner fa-spin");
             $("#btnsendemailicon").addClass('fa fa-send');
             $("#buttonsendemail").prop("disabled", false);
             $("#buttonsendemailcancel").prop("disabled", false);
-        })
+        });
         
     }
     
@@ -1806,6 +2210,67 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
 
+    var Init_ExamSchedule_Grid_All = function (par_data) {
+        s.ExamSchedule_Data_All = par_data;
+        s.ExamSchedule_Table_All = $('#examschedule_grid_All').dataTable(
+            {
+                data: s.ExamSchedule_Data_All,
+                sDom: 'rt<"bottom"p>',
+                pageLength: 10,
+                columns: [
+
+                    {
+                        "mData": "exam_date",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'>" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "exam_type",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'>" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "exam_location",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-left btn-block' style='font-size:13px;'>" + data + "</span><br>" +
+                                "<span class='text-left btn-block no-padding text-info " + vw_zoomdt(full["exam_type"]) + "' style='margin-top:-18px;font-size:12px;'>Meeting ID: " + full["zoom_meeting_id"] + "</span></br>" +
+                                "<span class='text-left btn-block no-padding text-info " + vw_zoomdt(full["exam_type"]) + "' style='margin-top:-18px;font-size:12px;'>Passcode: " + full["zoom_passcode"] + "</span></br>"
+
+                        }
+                    },
+                    {
+                        "mData": "exam_time",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'>" + convertTo12HourFormat(data) + "</span>"
+                        }
+                    },
+
+                    {
+                        "mData": "selected_schedule",
+                        "mRender": function (data, type, full, row) {
+                            return '<div>' +
+                                '<div class="btn-group">' +
+                                '<button class="btn btn-info btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Set exam schedule" ng-click="set_exam_schedule_All(' + row["row"] + ')">Set Exam</button>' +
+                                //'<button class="btn btn-success btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Selected exam schedule">Selected</button>' +
+
+                                '</div>' +
+                                '</div>';
+
+                        }
+                    }
+                    //data-toggle="tab" href="#tab-7"
+                ],
+                "createdRow": function (row, data, index) {
+                    //$(row).addClass("dt-row");
+                    $compile(row)($scope);  //add this to compile the DOM
+                },
+
+            });
+
+        $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
 
 	function fltr(data) {
 		if (cs.elEmpty(s.app_status))
@@ -1840,16 +2305,19 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         var dt = s.Applicant_OnlineExam_Data[parseInt(s.exam_row)]
         
         var exam_id = s.ExamSchedule_Data[row].exam_id
+        currentPageNumber();
         h.post("../cApplicantsReview/SetExamSchedule", {
               app_ctrl_nbr       :dt.app_ctrl_nbr
              ,hiring_period      :dt.hiring_period
              ,item_no            :dt.item_no
              ,budget_code        :dt.budget_code
-             , employment_type: dt.employment_type 
+             ,employment_type: dt.employment_type 
              ,exam_id           :exam_id 
         }).then(function (d) {
             swal({ title: d.data.message, icon: d.data.icon })
-            
+          
+            //var pagenumber = $("#Applicant_OnlineExam_Grid_paginate a.paginate_button.current")[0].text;
+            //s.Applicant_OnlineExam_Data = d.data.review_list.refreshTable2x("Applicant_OnlineExam_Grid", pagenumber)
             tab_table_data(d.data.review_list)
             $("#examScheduleGridModal").modal("hide")
         })
@@ -1924,6 +2392,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
        
 
         //ASSIGN VALUESON FILTER IF VALUES IS SET IN LOCAL STORAGE
+
         if (localStorage.getItem('employment_type1') == null || localStorage.getItem('employment_type1') == "undefined") {
             addvalue("employment_type", "")
         }
@@ -1975,9 +2444,14 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             s.application_status = d.data.application_status
         })
         
-       GetReviewItem()
-	}
+        GetReviewItem()
 
+        $("#assignexamAll").addClass("hidden")
+        $("#addToTop5Btn").addClass("hidden")
+        $("#addToHRMPSBBtn").addClass("hidden")
+      
+	}
+    Init_Position_List_Grid([])
     Init_Applicant_List_Grid([])
     Init_Applicant_Review_Grid([])
     Init_Applicant_OnlineExam_Grid([])
@@ -1990,7 +2464,94 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     Init_select_applicant_QS_Grid([])
     Init_PsbSchedule_Grid([])
     Init_ExamSchedule_Grid([])
+    Init_ExamSchedule_Grid_All()
 	init()
+
+
+    s.changeApplicantsItem = function (row) {
+        var dt = s.Applicant_Review_Data[row]
+       
+        $("#change_item_app_ctrl_nbr").val(dt.app_ctrl_nbr)
+        $("#change_item_previous").val(dt.item_no)
+        $("#change_item_employment_type").val($("#employment_type").val())
+        $("#change_item_budget_code").val($("#budget_code").val())
+        $("#change_item_hiring_period").val($("#hiring_period").val())
+        $("#change_item_department_code").val("")
+        $("#change_item_new").val("")
+        $("#change_item_modal").modal("show")
+    }
+
+    s.change_item_selectDepartment = function () {
+        // cs.loading("show")
+
+        var employment_type = $("#change_item_employment_type").val()
+        var budget_code = $("#change_item_budget_code").val()
+        var hiring_period = $("#change_item_hiring_period").val()
+        var department_code = $("#change_item_department_code").val()
+        
+        h.post("../cApplicantsReview/getPublicationVacant", {
+            budget_code: budget_code,
+            employment_type: employment_type,
+            department_code: department_code,
+            hiring_period: hiring_period
+        }).then(function (d) {
+            if (d.data.icon == "success") {
+                s.change_item_items = d.data.items
+            }
+            else {
+                console.log(d.data.message)
+            }
+            cs.loading("hide")
+        })
+
+    }
+    s.changeItem = function () {
+        if (cs.validatesubmit("change_item")) {
+            var app_ctrl_nbr = $("#change_item_app_ctrl_nbr").val()
+            var item_no_previous = $("#change_item_previous").val()
+            var department_code = $("#change_item_department_code").val()
+            var hiring_period = $("#change_item_hiring_period").val()
+            var item_no_new = $("#change_item_new").val()
+            //currentPageNumber();
+            swal({
+                title: "Change Applicants Item",
+                text: "Would you like to change the item for this applicant?",
+                icon: "warning",
+                buttons: ["No", "Yes"],
+                dangerMode: true,
+            }).then(function (yes) {
+                if (yes) {
+                    cs.loading("show")
+                    h.post("../cApplicantsReview/ChangeItem",
+                        {
+                              app_ctrl_nbr: app_ctrl_nbr
+                            , item_no_previous: item_no_previous
+                            , hiring_period: hiring_period
+                            , item_no_new: item_no_new
+                        }).then(function (d) {
+
+                            if (d.data.icon == "success") {
+                                $("#department_code1").val(department_code)
+                                s.items = s.change_item_items
+                                localStorage["items1"] = JSON.stringify(d.data.items)
+                              
+                                tab_table_data(d.data.review_list)
+
+                                $("#item_nbr1").val(item_no_new)
+                                swal({ title: d.data.message, icon: d.data.icon })
+                            }
+                            else {
+                                swal({ title: "Successfully Updated!", icon: d.data.icon })
+                            }
+                            cs.loading("hide")
+                          
+                            $("#change_item_modal").modal("hide")
+                        })
+                }
+            });
+        }
+    }
+
 
 	//header search box to search row in Main Applicant list
 	s.search_in_list = function (value, table) {
@@ -2014,9 +2575,12 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         var app_ctrl_nbr = row_id.app_ctrl_nbr
 
 		
-		h.post("../cApplicantsReview/HasPsbCtrlNbr", { app_ctrl_nbr: app_ctrl_nbr }).then(function (d) {
-			if (d.data.psb_ctrl_nbr_count > 0) {
-				location.href = "cQualificationStandard/Index?app_ctrl_nbr=" + app_ctrl_nbr 
+        h.post("../cApplicantsReview/HasPsbCtrlNbr", { app_ctrl_nbr: app_ctrl_nbr }).then(function (d) {
+
+            if (d.data.psb_ctrl_nbr_count > 0) {
+
+                location.href = "cQualificationStandard/Index?app_ctrl_nbr=" + app_ctrl_nbr 
+
 			}
 			else
 			{
@@ -2456,6 +3020,53 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         })
     }
 
+    //function filterApplicant_List_Grid(filter) {
+    //    var hp = $("#hiring_period").val()
+    //    var dc = $("#department_code1").val()
+    //    var im = $("#item_nbr1").val()
+    //    if (filter == 1) {
+    //        if (hp.length > 0) {
+
+    //            var dt = s.Applicant_List_Data_Orig.filter(function (d) {
+    //                return d.hiring_period == hp
+    //            })
+              
+    //            s.Applicant_List_Data = dt.refreshTable("Applicant_List_Grid", "");
+               
+    //        }
+    //        else {
+                
+    //            s.Applicant_List_Data = s.Applicant_List_Data_Orig.refreshTable("Applicant_List_Grid", "");
+    //        }
+    //    }
+    //    else if (filter == 2) {
+    //        var dt = s.Applicant_List_Data_Orig.filter(function (d) {
+    //            return d.hiring_period == hp && d.department_code == dc
+    //        })
+    //        s.Applicant_List_Data = dt.refreshTable("Applicant_List_Grid", "");
+    //    }
+    //    else if (filter == 3) {
+    //        var dt = s.Applicant_List_Data_Orig.filter(function (d) {
+    //            return d.hiring_period == hp && d.department_code == dc && d.item_no == im
+    //        })
+
+    //        console.log(dt)
+
+    //        s.Applicant_List_Data = dt.refreshTable("Applicant_List_Grid", "");
+    //    }
+       
+    //}
+
+    function getAllApplicants(budget_code, employment_type) {
+      
+
+        h.post("../cApplicantsReview/getAllApplicants", { budget_code: budget_code, employment_type: employment_type }).then(function (d) {
+            s.Applicant_List_Data = d.data.AllApplicants.refreshTable("Applicant_List_Grid", "");
+            s.Applicant_List_Data_Orig = d.data.AllApplicants
+
+        })
+    }
+
 
 
     s.selectBudgetCode = function (val) {
@@ -2463,7 +3074,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
       
         var employment_type = s.employment_type
         var budget_code = s.budget_code
-
+        //getAllApplicants(budget_code, employment_type)
         removeValueArray(["hiringperiodlist","department", "items"])
         removeValue(["hiring_period", "item_nbr1", "department_code1", "app_status"])
         //cs.removeLocalStorage(["hiringperiodlist", "department", "items"])
@@ -2474,9 +3085,9 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
        localStorage['budget_code1'] = val;
        
-       h.post("../cApplicantsReview/getHiringPeriod", {employment_type: employment_type, budget_code: budget_code}).then(function (d) {
-           s.hiringperiodlist = d.data.hiringperiodlist
-           localStorage["hiringperiodlist1"] = JSON.stringify(d.data.hiringperiodlist)
+        h.post("../cAddAvailableItemInAPL/Open_Items_Hdr", { budget_code: s.budget_code, employment_type: s.employment_type }).then(function (d) {
+            s.hiringperiodlist = d.data.data_items_hdr
+            localStorage["hiringperiodlist1"] = JSON.stringify(d.data.data_items_hdr)
            cs.loading("hide")
        })
     }
@@ -2497,12 +3108,13 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
 
     s.selectHiringPeriod = function (val) {
+       // filterApplicant_List_Grid(1)
         removeValueArray(["department", "items"])
         removeValue(["item_nbr1", "department_code1", "app_status"])
        //cs.removeLocalStorage(["department", "items"])
        //cs.removeLocalStorage(["item_nbr1", "department_code1"])
         localStorage.removeItem("review_list1")
-        $("#Applicant_List_Grid").dataTable().fnClearTable();
+       // $("#Applicant_List_Grid").dataTable().fnClearTable();
 
         localStorage['hiring_period1'] = val;
 
@@ -2531,6 +3143,8 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         var employment_type = $("#employment_type").val()
         var budget_code = $("#budget_code").val()
         var department_code = $("#department_code1").val()
+
+       // filterApplicant_List_Grid(2)
 
         localStorage["department_code1"] = $("#department_code1").val()
 
@@ -2564,6 +3178,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         var hiring_period = s.hiring_period;
         var department_code = s.department_code1 == null ? $("#department_code1").val() : s.department_code1;
         //var department_code = s.department_code1
+        currentPageNumber()
         h.post("../cApplicantsReview/getReviewItem", {
               item_no: item_no
             , budget_code: budget_code
@@ -2600,7 +3215,9 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
         var item_no = $("#item_nbr1").val()
         localStorage['item_nbr1'] = item_no;
-        
+
+      //  filterApplicant_List_Grid(3)
+        //currentPageNumber();
         h.post("../cApplicantsReview/getReviewItem", {
               item_no: item_no
             , budget_code: s.budget_code
@@ -2627,10 +3244,11 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     }
 
     s.selectPSBSchedule = function () {
-        
+       
         var eval = $("#psb_ctrl_nbr_disp").val()
 
         localStorage['psb_ctrl_nbr1'] = eval;
+        
        
     }
 
@@ -3337,6 +3955,74 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         // *******************************************************
     }
     s.changeTab = function (tab) {
+        $("#addToHRMPSBBtn").addClass("hidden")
+        
+        if (tab == 1) {
+            s.show_search = 1
+            $("#tab-4").removeClass("active");
+            $("#tab-2").removeClass("active");
+            $("#tab-3").removeClass("active");
+            $("#tab-1").addClass("active");
+            $("#assignexamAll").addClass("hidden")
+        }
+        else if (tab == 2) {
+            s.show_search = 2
+            $("#tab-4").removeClass("active");
+            $("#tab-1").removeClass("active");
+            $("#tab-3").removeClass("active");
+            $("#tab-2").addClass("active");
+
+            $("#assignexamAll").removeClass("hidden")
+        }
+        else if (tab == 3) {
+            
+            s.show_search = 3
+            console.log(s.Applicant_Top5_Data)
+            var dt = s.Applicant_Top5_Data.filter(function (d) {
+                return d.psb_ctrl_nbr != ""
+            })
+
+
+            if (dt.length > 0) {
+                var psb_nbr = dt[0].psb_ctrl_nbr
+                $("#psb_ctrl_nbr_disp").val(psb_nbr)
+                $("#psb_ctrl_nbr_disp").prop("disabled", true)
+            }
+            else {
+                $("#psb_ctrl_nbr_disp").prop("disabled", false)
+            }
+
+            $("#tab-4").removeClass("active");
+            $("#tab-1").removeClass("active");
+            $("#tab-2").removeClass("active");
+            $("#tab-3").addClass("active");
+            $("#assignexamAll").addClass("hidden")
+            
+          
+        }
+        else if (tab == 4) {
+            s.show_search = 4
+
+
+            var dt = s.Applicant_Top5_Data.filter(function (d) {
+                return d.psb_ctrl_nbr != ""
+            })
+            if (dt.length > 0) {
+                var psb_nbr = dt[0].psb_ctrl_nbr
+                $("#psb_ctrl_nbr_disp").val(psb_nbr)
+                $("#psb_ctrl_nbr_disp").prop("disabled", true)
+            }
+            else {
+                $("#psb_ctrl_nbr_disp").prop("disabled", false)
+            }
+
+            $("#tab-3").removeClass("active");
+            $("#tab-1").removeClass("active");
+            $("#tab-2").removeClass("active");
+            $("#tab-4").addClass("active");
+            $("#assignexamAll").addClass("hidden")
+           
+        }
 
         if (tab == 4 || tab == 3) {
             $("#item_display").css("display", "block")
@@ -3344,6 +4030,78 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         else {
             $("#item_display").css("display", "none")
         }
+    }
+
+    s.setExamDate = function () {
+        s.rowindex_forexamtimeset = s.exam_row
+        $("#exam_rating").modal("hide")
+        h.post("../cApplicantsReview/GetExamSchedules", { app_ctrl_nbr: s.exam_app_ctrl_nbr }).then(function (d) {
+            if (d.data.icon == "success") {
+                s.ExamSchedule_Data = d.data.examschedules.refreshTable("examschedule_grid", "")
+                $("#examScheduleGridModal").modal("show")
+            }
+            else {
+                swal(d.data.message, { icon: d.data.icon })
+            }
+
+        })
+
+    }
+
+    s.assignExamScheduleToAll = function () {
+
+        if (cs.Validate1Field("item_nbr1")) {
+
+            
+               
+            h.post("../cApplicantsReview/GetExamSchedulesAll").then(function (d) {
+                    if (d.data.icon == "success") {
+                        s.ExamSchedule_Data_All = d.data.examschedulesAll.refreshTable("examschedule_grid_All", "")
+                        $("#examScheduleGridModal_All").modal("show")
+                    }
+                    else {
+                        swal(d.data.message, { icon: d.data.icon })
+                    }
+
+                })
+
+
+
+        }
+    }
+
+    s.set_exam_schedule_All = function (row) {
+
+        var app_ctrl_nbr_list = []
+        var dt = s.ExamSchedule_Data_All[row]
+        var exam_id = dt.exam_id
+        var hiring_period = $("#hiring_period").val()
+        var item_no = $("#item_nbr1").val()
+        var budget_code = $("#budget_code").val()
+        var employment_type = $("#employment_type").val()
+        for (var x = 0; x < s.Applicant_OnlineExam_Data.length; x++) {
+            var obj = {
+                app_ctrl_nbr: s.Applicant_OnlineExam_Data[x].app_ctrl_nbr
+            }
+            app_ctrl_nbr_list.push(obj)
+        }
+
+
+            var app_ctrl_nbr_list = s.Applicant_OnlineExam_Data
+
+
+            h.post("../cApplicantsReview/SetExamScheduleAll", {
+                  app_ctrl_nbr_list: app_ctrl_nbr_list
+                , hiring_period: hiring_period
+                , item_no: item_no
+                , budget_code: budget_code
+                , employment_type: employment_type
+                , exam_id: exam_id
+            }).then(function (d) {
+                tab_table_data(d.data.review_list)
+                swal({ title: d.data.message, icon: d.data.icon })
+                $("#examScheduleGridModal_All").modal("hide")
+            })
     }
 })
 

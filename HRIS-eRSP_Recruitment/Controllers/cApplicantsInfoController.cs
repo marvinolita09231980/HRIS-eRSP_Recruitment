@@ -881,5 +881,41 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult getApplications(string info_ctrl_nbr)
+        {
+
+            try
+            {
+                var applications = (from ar in db2.applicants_review_tbl
+                                    join ax in db2.applicants_tbl
+                                    on ar.info_ctrl_nbr equals ax.info_ctrl_nbr
+                                    join po in db2.vw_positions_tbl
+                                    on ar.position_code equals po.position_code
+                                    join dp in db2.vw_departments_tbl
+                                    on ar.department_code equals dp.department_code
+                                    join hr in db2.psb_hiring_period_tbl
+                                    on ar.hiring_period equals hr.ctrl_nbr
+                                    where ax.info_ctrl_nbr == info_ctrl_nbr
+                                    select new
+                                    {
+                                        ar.app_ctrl_nbr
+                                         ,ar.item_no
+                                         ,po.position_code
+                                         ,po.position_long_title
+                                         ,dp.department_code
+                                         ,dp.department_name1
+                                         ,hr.ctrl_nbr
+                                         ,hr.period_descr
+
+                                    }).ToList();
+
+                return JSON(new { message = fetch.success, icon = icon.success, applications }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        
     }
 }

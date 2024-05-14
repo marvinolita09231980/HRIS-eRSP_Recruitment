@@ -673,7 +673,7 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
 						"bSortable": false,
                         "mRender": function (data, type, full, row) {
                             return '<center><div class="btn-group">' +
-                                '<button type="button" ng-hide="' + data + '" class="btn btn-success btn-sm action" data-toggle="tab" ng-click="ng_add_app(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Add Item">  <i id="icnbtnadd3' + row["row"] + '" class="' + s.fa_icon_changed(data) + '"></i></button >' +
+                                '<button type="button" ng-hide="' + data + '" class="btn btn-success btn-sm action" data-toggle="tab" ng-click="ng_add_app(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Add Item" disabled>  <i id="icnbtnadd3' + row["row"] + '" class="' + s.fa_icon_changed(data) + '"></i></button >' +
                                 //'<button ng-disabled="' + full["haschild"] + '"  type="button" ng-show="' + data + '" class="btn btn-danger btn-sm action" data-toggle="tab" ng-click="ng_remove_app(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Remove Item">  <i id="icnbtndel2' + row["row"] + '" class="fa fa-trash"></i></button >' +
                                 '</div></center>';
 							//return '<label class="container">' +
@@ -1009,13 +1009,10 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
     function GetHiringPeriod() {
         var employment_type = s.employmenttype
         var budget_code = s.budgetcode
-        h.post("../cAddPsbSchedule/getHiringPeriod", {
-            employment_type: employment_type
-            , budget_code: budget_code
-        }).then(function (d) {
-            if (d.data.icon == "success") {
-                s.hiring_periods = d.data.hiring_periods
-             }
+       
+        h.post("../cAddAvailableItemInAPL/Open_Items_Hdr", { budget_code: budget_code, employment_type: employment_type }).then(function (d) {
+            s.hiring_periods = d.data.data_items_hdr
+            console.log(d.data.data_items_hdr)
         })
     }
 

@@ -30,6 +30,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
     s.type_for_email = ""
     
     s.addfetch_row = []
+    s.prescreenDataTempList = []
     s.alphabet_list = [
    
        { alpha_name: 'A' }, { alpha_name: 'B' }, { alpha_name: 'C' }, { alpha_name: 'D' }, { alpha_name: 'E' }, { alpha_name: 'F' },
@@ -446,6 +447,13 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                         }
                     },
                     {
+                        "mData": "prescreen_dttm",
+                        "mRender": function (data, type, full, row) {
+                            return '<input ng-disabled="' + isPrescreen(data) + '" id="prescreenCbRow' + row["row"] + '"  type="checkbox" class="form-control" ng-click="prescreenCB(' + row["row"] + ')"  ng-checked="' + isPrescreen(data) + '"/> '
+                            // return '<input ng-disabled="' + data + '" id="top5CbRow' + row["row"] + '"  type="checkbox" class="form-control" ng-click="addRow(' + row["row"] + ')" ng-checked="' + data + '"/> '
+                        }
+                    },
+                    {
                         "mData": "review",
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
@@ -478,6 +486,15 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
             });
 
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+
+    function isPrescreen(data) {
+        if (data == "" || data == null) {
+            return false
+        }
+        else {
+            return true
+        }
     }
 
     function localstorage_array_push_1(ls_name, data, correlator_prop1, correlator_val1) {
@@ -680,6 +697,8 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         if (data == "1900-01-01" || data == "") return "hidden"
         else return ""
     }
+
+   
     s.show_child_info = function (row) {
         var id1 = "childinfo" + row;
         id1.removeClass("hidden")
@@ -755,14 +774,81 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         }
     }
 
+
+
+    s.prescreenCB = function (row) {
+        var dt = s.APL_List_Data[row]
+        var cbrow = $("#prescreenCbRow" + row)[0].checked
+
+        console.log(dt)
+
+        if (cbrow) {
+            var ex = s.prescreenDataTempList.filter(function (d) {
+                return d.app_ctrl_nbr == dt.app_ctrl_nbr
+            })
+            if (ex.length == 0) {
+                s.prescreenDataTempList.push(
+                    {
+                             "app_ctrl_nbr"      :dt.app_ctrl_nbr
+                            ,"item_no"           :dt.item_no
+                            ,"employment_type"   :dt.employment_type
+                            ,"budget_code"       :dt.budget_code
+                            ,"ctrl_no"           :dt.ctrl_no
+                            ,"APL_info_ctrl_nbr" :dt.APL_info_ctrl_nbr
+                    }
+                )
+            }
+        }
+        else {
+            s.prescreenDataTempList = s.prescreenDataTempList.filter(function (d) {
+                return d.app_ctrl_nbr != dt.app_ctrl_nbr
+            })
+        }
+
+        if (s.prescreenDataTempList.length > 0) {
+            $("#addPrescreendateBtn").removeClass("hidden")
+        }
+        else {
+            $("#addPrescreendateBtn").addClass("hidden")
+        }
+    }
+
+    s.View_Prescreendate_ToAllModal = function(){
+       
+        $("#addprescreenall").modal("show")
+    }
+
+    s.addPrescreendateToAll = function () {
+        var prescreen_dttm_all = $("#prescreen_dttm_all").val()
+        if (cs.Validate1Field("prescreen_dttm_all") == true) {
+            cs.loading("show")
+            h.post("../cOnlineApplicantsList/AddPrescreenDateAll", {
+                  prescreen_dttm: prescreen_dttm_all
+                , data: s.prescreenDataTempList
+            }).then(function (d) {
+
+                if (d.data.icon == "success") {
+                    s.APL_List_Data = d.data.APL_list.refreshTable("APL_List_Grid", s.rowindex + "");
+                    cs.loading("hide")
+                    $("#addprescreenall").modal("hide")
+                    s.prescreenDataTempList = []
+                }
+                else {
+                    cs.loading("hide")
+                    swal(d.data.message, { icon: d.data.icon })
+                }
+            })
+        }
+    }
+
     s.editPrescreenDate = function () {
 
         var dt = s.APL_List_Data[s.rowindex]
         var prescreen_dttm = $("#prescreen_dttm").val()
 
-
+       
         if (cs.Validate1Field("prescreen_dttm") == true) {
-
+            cs.loading("show")
             h.post("../cOnlineApplicantsList/EditPrescreenDate", {
                   app_ctrl_nbr: dt.app_ctrl_nbr
                 , item_no: dt.item_no
@@ -770,6 +856,7 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                 , budget_code: dt.budget_code
                 , hiring_period: dt.ctrl_no
                 , fetch_dttm: prescreen_dttm
+                , empl_id: dt.APL_info_ctrl_nbr
             }).then(function (d) {
               
                 if (d.data.icon == "success") {
@@ -779,15 +866,46 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                     setTimeout(function () {
                         s.APL_List_Data.refreshTable("APL_List_Grid", s.rowindex + "");
                     },500)
-                   
+
+                    cs.loading("hide")
                     $("#editprescreen").modal("hide")
                 }
                 else {
-
+                    cs.loading("hide")
                     swal(d.data.message, { icon: d.data.icon })
                 }
             })
         }
+    }
+
+    s.removePrescreenDate = function () {
+
+        var dt = s.APL_List_Data[s.rowindex]
+        var prescreen_dttm = $("#prescreen_dttm").val()
+
+        cs.loading("show")
+
+            h.post("../cOnlineApplicantsList/RemovePrescreenDate", {
+                  app_ctrl_nbr: dt.app_ctrl_nbr
+                , item_no: dt.item_no
+                , employment_type: dt.employment_type
+                , budget_code: dt.budget_code
+                , hiring_period: dt.ctrl_no
+                , fetch_dttm: prescreen_dttm
+                , empl_id: dt.APL_info_ctrl_nbr
+            }).then(function (d) {
+
+                if (d.data.icon == "success") {
+                    s.APL_List_Data = d.data.APL_list.refreshTable("APL_List_Grid", s.rowindex + "");
+                    cs.loading("hide")
+                    $("#editprescreen").modal("hide")
+                }
+                else {
+                    cs.loading("hide")
+                    swal(d.data.message, { icon: d.data.icon })
+                }
+            })
+        
     }
 
     s.fetch_education = function (row) {
@@ -1053,6 +1171,8 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
                 cs.loading("hide")
             })
         }
+
+        $("#addPrescreendateBtn").addClass("hidden")
     }
 
     init()
@@ -1108,9 +1228,9 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
         
           
-            h.post("../cOnlineApplicantsList/getHiringPeriod", { employment_type: s.employment_type, budget_code: budget_code }).then(function (d) {
-                s.hiring_periods = d.data.HiringPeriods;
-                localStorage['HiringPeriods'] = JSON.stringify(d.data.HiringPeriods);
+        h.post("../cAddAvailableItemInAPL/Open_Items_Hdr", { budget_code: budget_code , employment_type: s.employment_type}).then(function (d) {
+            s.hiring_periods = d.data.data_items_hdr;
+                localStorage['HiringPeriods'] = JSON.stringify(d.data.data_items_hdr);
                 $("#APL_List_Grid").dataTable().fnClearTable();
                 cs.loading("hide")
             })
@@ -1642,7 +1762,6 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
         $("#btnsendemailicon").addClass("fa fa-spinner fa-spin");
         $("#buttonsendemail").prop("disabled", true);
         $("#buttonsendemailcancel").prop("disabled", true);
-        
 
         email_data.email_body = summernote.code()
         

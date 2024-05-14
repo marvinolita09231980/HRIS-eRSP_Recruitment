@@ -1,13 +1,11 @@
-/*@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");*/
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
 /*
  *
  *   INSPINIA - Responsive Admin Theme
  *   version 2.4
  *
 */
-
-
 h1,
 h2,
 h3,
@@ -44,8 +42,6 @@ h5 {
   color: #a7b1c2;
   font-weight: 600;
   padding: 14px 20px 14px 25px;
- 
-
 }
 .nav.navbar-right > li > a {
   color: #999c9e;
@@ -164,9 +160,8 @@ h5 {
   font-size: 12px;
 }
 .nav-header {
-    padding: 33px 25px;
-    background-image: url('patterns/header-profile.png');
-    background-size: 250px;
+  padding: 33px 25px;
+  background: url("patterns/header-profile.png") no-repeat;
 }
 .pace-done .nav-header {
   transition: all 0.4s;
@@ -182,10 +177,10 @@ h5 {
   height: auto !important;
 }
 .nav-header a {
-    color: #F1D640;
+  color: #DFE4ED;
 }
 .nav-header .text-muted {
-    color: #F1D640;
+  color: #8095a8;
 }
 .minimalize-styl-2 {
   padding: 4px 12px;
@@ -325,8 +320,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 }
 .navbar-fixed-top,
 .navbar-static-top {
-    background: #f3f3f4;
-    background-color: #273a4a !important;
+  background: #f3f3f4;
 }
 .fixed-nav #wrapper {
   margin-top: 0;
@@ -386,8 +380,8 @@ body.canvas-menu .logo-element {
   display: none;
 }
 body.mini-navbar .nav-header {
-    padding: 0;
-    background-color: #412C12;
+  padding: 0;
+  background-color: #1ab394;
 }
 body.canvas-menu .nav-header {
   padding: 33px 25px;
@@ -1589,7 +1583,7 @@ table.dataTable thead .sorting_desc_disabled {
   background: transparent;
 }
 .dataTables_wrapper {
-  padding-bottom: 0px;
+  padding-bottom: 30px;
 }
 .dataTables_length {
   float: left;
@@ -3305,7 +3299,7 @@ body.tour-open .animated {
   border-bottom: 1px solid #e7eaec;
 }
 body {
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #2f4050;
   font-size: 13px;
   color: #676a6c;
@@ -3562,7 +3556,6 @@ body.body-small .footer.fixed {
 .table > thead > tr > th {
   border-bottom: 1px solid #DDDDDD;
   vertical-align: bottom;
-
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -3572,7 +3565,7 @@ body.body-small .footer.fixed {
 .table > tfoot > tr > td {
   border-top: 1px solid #e7eaec;
   line-height: 1.42857;
-  padding: 2px;
+  padding: 8px;
   vertical-align: top;
 }
 /* PANELS */
@@ -5622,25 +5615,16 @@ body.body-small .vote-icon {
 .metismenu .collapse.in {
   display: block;
 }
-
-
-
 .metismenu .collapsing {
-    position: relative;
-    height: 0;
-    overflow: hidden;
-    -webkit-transition-timing-function: ease;
-    -moz-transition-timing-function: ease;
-    -o-transition-timing-function: ease;
-    transition-timing-function: ease;
-    -webkit-transition-duration: .35s;
-    -moz-transition-duration: .35s;
-    -o-transition-duration: .35s;
-    transition-duration: .35s;
-    -webkit-transition-property: height, visibility;
-    -moz-transition-property: height, visibility;
-    -o-transition-property: height, visibility;
-    transition-property: height, visibility;
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+  -webkit-transition-duration: .35s;
+  transition-duration: .35s;
+  -webkit-transition-property: height, visibility;
+  transition-property: height, visibility;
 }
 /*
  *  Usage:
@@ -6556,11 +6540,6 @@ body.landing-page {
   font-family: 'Open Sans', helvetica, arial, sans-serif;
   background-color: #fff;
 }
-.row.landing-page {
-    color: #676a6c;
-    font-family: 'Open Sans', helvetica, arial, sans-serif;
-    background-color: #fff;
-}
 .landing-page {
   /* CUSTOMIZE THE NAVBAR
   -------------------------------------------------- */
@@ -6729,43 +6708,12 @@ body.landing-page {
   height: 470px;
   width: 100%;
 }
-    .landing-page .header-back.one {
-        background-image: url('../ResourcesImages/HRIS LOGO 2.png');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        box-sizing: border-box;
-    }
-    .landing-page .header-back.two {
-        
-        background: url('../ResourcesImages/DDO Official Brand Logo 1.png') 50% 0 no-repeat;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        box-sizing: border-box;
-    }
-    .landing-page .header-back.three {
-       
-        background: url('../ResourcesImages/DDO Official Brand Logo 0.png') 50% 0 no-repeat;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        box-sizing: border-box;
-    }
-    .landing-page .header-back.four {
-        background: url('../ResourcesImages/HRIS_PICTURES/2.jpg') 50% 0 no-repeat;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        box-sizing: border-box;
-    }
-    .landing-page .header-back.five {
-        background: url('../ResourcesImages/IMG_20200120_194311.jpg') 50% 0 no-repeat;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        box-sizing: border-box;
-    }
+.landing-page .header-back.one {
+  background: url('../img/landing/header_one.jpg') 50% 0 no-repeat;
+}
+.landing-page .header-back.two {
+  background: url('../img/landing/header_two.jpg') 50% 0 no-repeat;
+}
 .landing-page .carousel {
   height: 470px;
 }
@@ -7515,8 +7463,8 @@ body.rtls.top-navigation .footer.fixed {
   background: #0e9aef !important;
 }
 .skin-1 .nav-header {
-    background: #412C12;
-    background: url('patterns/header-profile-skin-1.png');
+  background: #0e9aef;
+  background: url('patterns/header-profile-skin-1.png');
 }
 .skin-1.mini-navbar .nav-second-level {
   background: #3e495f;
@@ -7618,8 +7566,8 @@ body.skin-2 {
   background: #23c6c8 !important;
 }
 .skin-2 .nav-header {
-    background: #412C12;
-    background: url('patterns/header-profile-skin-2.png');
+  background: #23c6c8;
+  background: url('patterns/header-profile-skin-2.png');
 }
 .skin-2.mini-navbar .nav-second-level {
   background: #ededed;
@@ -8169,15 +8117,14 @@ body.md-skin {
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
-    margin: 0 0 0 250px;
+    margin: 0 0 0 220px;
     min-height: 1200px;
-
   }
-.navbar-static-side {
+  .navbar-static-side {
     z-index: 2001;
     position: absolute;
-    width: 250px;
-}
+    width: 220px;
+  }
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
   .navbar-top-links .dropdown-alerts {
@@ -8266,19 +8213,9 @@ body.md-skin {
     display: inline-block;
   }
 }
-
-.row.wrapper {
-    padding-top:10px;
-    padding-bottom:5px;
-}
-.headerX {
-    font-size: 25px;
-    font-stretch: initial;
-    font-weight: 100;
-}
 /* Only demo */
 @media (max-width: 1000px) {
-    .welcome-message {
+  .welcome-message {
     display: none;
   }
 }
@@ -8287,168 +8224,6 @@ body.md-skin {
     display: none;
   }
   #page-wrapper {
-    margin: 0px;
+    margin: 0;
   }
-}
-.table > thead > tr > th {
-    background-color: #507cd1 !important;
-    color:white;
-    font-weight:normal;
-}
-input ,select {
-    border-radius:2px  !important;
-}
-table{
-    width:100% !important;
-}
-input[type=password]::-ms-reveal,
-input[type=password]::-ms-clear {
-    display: none;
-}
-input[type=password] {
-    padding-right:33px;
-}
-span.password_eye {
-    margin-top: -32px !important;
-    margin-right: 2px !important;
-    z-index: 1000 !important;
-    background-color: white !important;
-    padding: 8px !important;
-    cursor: pointer !important;
-}
-
-#container {
-    position: relative;
-    height: 21%;
-    width: 100%;
-}
-#containerX {
-    position: relative;
-    height: 62%;
-    width: 100%;
-}
-/*For Flip that supported with the EI and FireFox*/
-    #container > div {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        -webkit-transition: 1s ease-in-out;
-        -moz-transition: 1s ease-in-out;
-        transition: 1s ease-in-out;
-    }
-
-#containerX > div.upper, #containerX > div.lower {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    -webkit-transition: 1s ease-in-out;
-    -moz-transition: 1s ease-in-out;
-    transition: 1s ease-in-out;
-}
-
-    #container > div.lower {
-        -moz-backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        -moz-transform: perspective(800px) rotateY(180deg);
-        -webkit-transform: perspective(800px) rotateY(180deg);
-        transform: perspective(800px) rotateY(180deg);
-    }
-
-    #containerX > div.lower {
-        -moz-backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        -moz-transform: perspective(800px) rotateY(180deg);
-        -webkit-transform: perspective(800px) rotateY(180deg);
-        transform: perspective(800px) rotateY(180deg);
-    }
-
-    #container > div h1 {
-        font-size: 20px;
-        padding: 0;
-        margin: 0;
-        color: white;
-        line-height: 40px;
-    }
-
-    #container > div p {
-        font-size: 11px;
-        padding: 0;
-        margin: 0;
-        color: white;
-        line-height: 20px;
-    }
-
-    #container > div a {
-        color: white;
-    }
-
-    #container > div.upper 
-    {
-        -moz-backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        -moz-transform: perspective(800px) rotateY(0deg);
-        -webkit-transform: perspective(800px) rotateY(0deg);
-        transform: perspective(800px) rotateY(0deg);
-    }
-    #containerX > div.upper {
-        -moz-backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        -moz-transform: perspective(800px) rotateY(0deg);
-        -webkit-transform: perspective(800px) rotateY(0deg);
-        transform: perspective(800px) rotateY(0deg);
-    }
-
-    #container:hover > div.lower {
-        -moz-transform: perspective(800px) rotateY(0);
-        -webkit-transform: perspective(800px) rotateY(0);
-        transform: perspective(800px) rotateY(0);
-    }
-
-    #container:hover > div.upper {
-        -webkit-transform: perspective(800px) rotateY(-179.9deg);
-        -moz-transform: perspective(800px) rotateY(-179.9deg);
-        transform: perspective(800px) rotateY(-179.9deg);
-    }
-
-    #container:hover > div.lower {
-        -moz-transform: perspective(800px) rotateY(0);
-        -webkit-transform: perspective(800px) rotateY(0);
-        transform: perspective(800px) rotateY(0);
-    }
-
-    #containerX.showLower > div.upper {
-        -webkit-transform: perspective(800px) rotateY(-179.9deg);
-        -moz-transform: perspective(800px) rotateY(-179.9deg);
-        transform: perspective(800px) rotateY(-179.9deg);
-    }
-    #containerX.showLower > div.lower {
-        -moz-transform: perspective(800px) rotateY(0);
-        -webkit-transform: perspective(800px) rotateY(0);
-        transform: perspective(800px) rotateY(0);
-    }
-
-    #containerX.showUpper > div.upper {
-        -webkit-transform: perspective(800px) rotateY(-179.9deg);
-        -moz-transform: perspective(800px) rotateY(-179.9deg);
-        transform: perspective(800px) rotateY(-179.9deg);
-    }
-    #containerX.showUpper > div.lower {
-        -moz-transform: perspective(800px) rotateY(0);
-        -webkit-transform: perspective(800px) rotateY(0);
-        transform: perspective(800px) rotateY(0);
-    }
-
-.zoom:hover {
-    transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-    -webkit-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    transition: all 1s ease;
 }

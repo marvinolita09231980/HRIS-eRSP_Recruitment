@@ -232,7 +232,9 @@
     <Compile Include="Controllers\cAddAvailableItemInAPLController.cs" />
     <Compile Include="Controllers\cAddGeneralPanelController.cs" />
     <Compile Include="Controllers\cAddPsbScheduleController.cs" />
+    <Compile Include="Controllers\cAddRespondentController.cs" />
     <Compile Include="Controllers\cAddReviewQSController.cs" />
+    <Compile Include="Controllers\cApplicantForBIController.cs" />
     <Compile Include="Controllers\cApplicantReviewDetailController.cs" />
     <Compile Include="Controllers\cApplicantsInfoController.cs" />
     <Compile Include="Controllers\cApplicantsReviewController.cs" />
@@ -271,6 +273,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\adds_images_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\admin_authority_rct_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\applicants_email_sent_items.cs">
@@ -360,6 +365,18 @@
     <Compile Include="Models\bi_respondent_3_hdr_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\bi_respondent_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bi_respondent_torate_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bi_respondent_type_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\change_item_history_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\combined_item_dtl_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -442,6 +459,9 @@
     <Compile Include="Models\onlineApplicants_register_tbl.cs">
       <DependentUpon>HRIS_APL.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\onlineAppliedItem_tbl.cs">
+      <DependentUpon>HRIS_APL.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\personneladdresses_tbl.cs">
       <DependentUpon>HRIS_APL.tt</DependentUpon>
     </Compile>
@@ -480,6 +500,9 @@
     </Compile>
     <Compile Include="Models\personnel_workexprnce_tbl.cs">
       <DependentUpon>HRIS_APL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\prescreen_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\psb_cbirating_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
@@ -543,6 +566,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_add_available_items_to_RCT_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_add_to_hrmpsb_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_apl_item_applicant_report_Result.cs">
@@ -695,6 +721,9 @@
     <Compile Include="Models\sp_endorsename_list_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_exam_schedule_tbl_2_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_exam_schedule_tbl_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -776,6 +805,9 @@
     <Compile Include="Models\sp_hrmpsb_screening_profile_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_hrmps_sched_header_list_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_if_employee_exist_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -806,6 +838,27 @@
     <Compile Include="Models\sp_item_psb_schedule_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_number_applicants_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_number_appx_insider_outsider_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_number_appx_per_civilstatus_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_number_appx_per_ethnicity_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_number_appx_per_gender_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_number_appx_per_religion_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_number_appx_withdisability_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_online_items_hdr_APL_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -834,6 +887,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_positions_tbl_rct_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_position_tbl_list_all_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_position_tbl_RCT_Result.cs">
@@ -867,6 +923,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_psb_name_info_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_psb_pnl_rtg_tbl_qsupdate_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_psb_sked_hdr_tbl_list_Result.cs">
@@ -906,6 +965,9 @@
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_review_applicant_tbl_list4_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_review_applicant_tbl_list_all_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_review_applicant_tbl_list_Result.cs">
@@ -989,6 +1051,9 @@
     <Compile Include="Models\vw_applicant_examination_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_applicant_for_bi.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_applicant_learnanddevt_tbl_list.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -997,6 +1062,12 @@
     </Compile>
     <Compile Include="Models\vw_applicant_workexprnce_tbl_list.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_applieditems_tbl.cs">
+      <DependentUpon>HRIS_APL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VW_available_item_hdr_tbl_distinct.cs">
+      <DependentUpon>HRIS_APL.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_available_item_tbl_active.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
@@ -1046,6 +1117,9 @@
     <Compile Include="Models\vw_positions_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_psb_app_tbl.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_psb_panel_permanent_mbr_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
@@ -1093,6 +1167,48 @@
     </Compile>
     <Compile Include="Models\zoomcredential_tbl.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\cryEmailPrinting\cryNotifRegret.cs">
+      <DependentUpon>cryNotifRegret.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\cryEmailPrinting\cryNotifCongratulatory.cs">
+      <DependentUpon>cryNotifCongratulatory.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\cryEmailPrinting\cryNotifNotInTop5Examinee.cs">
+      <DependentUpon>cryNotifNotInTop5Examinee.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\cryEmailPrinting\cryNotifForOnlineExam.cs">
+      <DependentUpon>cryNotifForOnlineExam.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\cryEmailPrinting\cryNoticeForHRMPSB.cs">
+      <DependentUpon>cryNoticeForHRMPSB.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryEmailPrinting\cryNotQualifiedForExam.cs">
+      <DependentUpon>cryNotQualifiedForExam.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\cryEmailPrinting\cryAknowledgement.cs">
+      <DependentUpon>cryAknowledgement.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Reports\cryPDS\cryPDCivilService2.cs">
       <AutoGen>True</AutoGen>
@@ -1280,6 +1396,12 @@
     <Compile Include="Reports\CrystalViewer.aspx.designer.cs">
       <DependentUpon>CrystalViewer.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\SummaryReports\crySummaryAppxReports.cs">
+      <DependentUpon>crySummaryAppxReports.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ResourcesImages\Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UploadImage.ashx.cs">
@@ -1304,8 +1426,10 @@
     <Content Include="Angular\ng-cAddGeneralPanel.js" />
     <Content Include="Angular\ng-cAddPanelRole.js" />
     <Content Include="Angular\ng-cAddPsbSchedule.js" />
+    <Content Include="Angular\ng-cAddRespondent.js" />
     <Content Include="Angular\ng-cAddReviewQS.js" />
     <Content Include="Angular\ng-cAppInfoAttacheDetail.js" />
+    <Content Include="Angular\ng-cApplicantForBI.js" />
     <Content Include="Angular\ng-cApplicantReviewDetail.js" />
     <Content Include="Angular\ng-cApplicantReviewDetail.min.js">
       <DependentUpon>ng-cApplicantReviewDetail.js</DependentUpon>
@@ -1329,6 +1453,7 @@
     <Content Include="Angular\ng-cGuestUserInfo.js" />
     <Content Include="Angular\ng-cHRMPSBRating.js" />
     <Content Include="Angular\ng-cHRMPSBScreening.js" />
+    <Content Include="Angular\ng-cMainPage.js" />
     <Content Include="Angular\ng-cOnlineApplicantsList.js" />
     <Content Include="Angular\ng-cPanelMyRating.js" />
     <Content Include="Angular\ng-cPrintScoreSheet.js" />
@@ -3244,6 +3369,7 @@
     <Content Include="Scripts\Pdf\web\locale\zh-TW\viewer.properties" />
     <Content Include="Scripts\Pdf\web\viewer.js.map" />
     <None Include="Scripts\_references.js" />
+    <Content Include="update_script.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3302,6 +3428,8 @@
     <Content Include="Views\cBackgroundInvestigation\Index.cshtml" />
     <Content Include="Views\cBackgroundInvestigationQuestion\Index.cshtml" />
     <Content Include="Views\ComparativeDetails\Index.cshtml" />
+    <Content Include="Views\cAddRespondent\Index.cshtml" />
+    <Content Include="Views\cApplicantForBI\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3323,6 +3451,34 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\cryEmailPrinting\cryNotifRegret.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryNotifRegret.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryEmailPrinting\cryNotifCongratulatory.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryNotifCongratulatory.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryEmailPrinting\cryNotifNotInTop5Examinee.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryNotifNotInTop5Examinee.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryEmailPrinting\cryNotifForOnlineExam.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryNotifForOnlineExam.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryEmailPrinting\cryNoticeForHRMPSB.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryNoticeForHRMPSB.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryEmailPrinting\cryNotQualifiedForExam.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryNotQualifiedForExam.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryEmailPrinting\cryAknowledgement.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryAknowledgement.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\cryPDS\cryPDCivilService.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryPDCivilService2.cs</LastGenOutput>
@@ -3446,6 +3602,10 @@
     <EmbeddedResource Include="Reports\cryEndorsement\cryEndorsement.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryEndorsement.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\SummaryReports\crySummaryAppxReports.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>crySummaryAppxReports.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

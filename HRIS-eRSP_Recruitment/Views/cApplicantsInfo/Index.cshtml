@@ -179,7 +179,7 @@
                                             </div>
                                         </div>
                                         <div class="row no-padding" style="margin-top:-10px!important;">
-                                            <table id="appl_edu_grid" class="table table-striped table-bordered table-hover">
+                                            <table id="appl_edu_grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th width="">SCHOOL NAME</th>
@@ -205,7 +205,7 @@
                                             </div>
                                         </div>
                                         <div class="row no-padding" style="margin-top:-10px!important;">
-                                            <table id="appl_elegib_grid" class="table table-striped table-bordered table-hover">
+                                            <table id="appl_elegib_grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th width="15%">NUMBER</th>
@@ -230,7 +230,7 @@
                                             </div>
                                         </div>
                                         <div class="row no-padding" style="margin-top:-10px!important;">
-                                            <table id="appl_lnd_grid" class="table table-striped table-bordered table-hover">
+                                            <table id="appl_lnd_grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th rowspan="2" width="40%">L&D TITLE</th>
@@ -260,7 +260,7 @@
                                             </div>
                                         </div>
                                         <div class="row no-padding" style="margin-top:-10px!important;">
-                                            <table id="appl_workexp_grid" class="table table-striped table-bordered table-hover">
+                                            <table id="appl_workexp_grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th colspan="2" width="">WORK EXPERIENCE</th>
@@ -830,7 +830,7 @@
                                 <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9  no-padding">
                                     <select class="form-control disable-white btn-block" style="width:100%!important" id="ctrl_nbr" ng-model="itm.ctrl_nbr" ng-change="selectHiringPeriod(itm.ctrl_nbr)" required>
                                         <option value="">--Select Here--</option>
-                                        <option ng-repeat="l in hiring_period" value="{{l.ctrl_nbr}}">&nbsp;{{l.period_descr}}&nbsp;</option>
+                                        <option ng-repeat="l in hiring_period" value="{{l.ctrl_no}}">&nbsp;{{l.descr}}-&nbsp;</option>
                                     </select>
 
                                 </div>
@@ -862,7 +862,7 @@
                             </div>
 
                         </div>
-                       
+
                     </div>
                     <div class="modal-footer detail">
                         <div class="row" style="padding-top:5px;">
@@ -892,7 +892,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox-title">
-                            <form ng-model="fd" novalidate>
+                            <form id="fd" ng-model="fd" novalidate>
                                 <div class="row m-top-10">
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 btn-group" ng-show="toggle_data_btn == true">
@@ -932,7 +932,7 @@
                                             @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;margin-right:10px;"><b>LAST NAME:<span style="color:red">*</span></b></span>*@
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                            <input class="form-control removeReq border-blue" id="last_name" ng-model="fd.last_name" required />
+                                            <input class="form-control removeReq border-blue" id="last_name_2" ng-model="fd.last_name" required />
                                             <small class="text-center last_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
                                         </div>
                                     </div>
@@ -1034,7 +1034,7 @@
                                             @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;"><b>FIRST NAME:<span style="color:red">*</span></b></span>*@
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                            <input class="form-control removeReq border-blue" id="first_name" ng-model="fd.mobile_no" required />
+                                            <input class="form-control removeReq border-blue" id="mobile_number" ng-model="fd.mobile_number" required />
                                             <small class="text-center first_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
 
                                         </div>
@@ -1047,7 +1047,7 @@
                                             @*<span class="pull-left font-bold form-control label-blue" style="margin-top:9px;"><b>FIRST NAME:<span style="color:red">*</span></b></span>*@
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                            <input class="form-control  removeReq border-blue" id="first_name" ng-model="fd.email_address" required />
+                                            <input class="form-control  removeReq border-blue" id="email_add" ng-model="fd.email_add" required />
                                             <small class="text-center first_name hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;Required field! </small>
 
                                         </div>
@@ -1101,9 +1101,9 @@
                             </div>
                             <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6" style="padding-right:0!important;margin-bottom:25px!important;float:left;">
                                 <input type="text" style="color:black!important;display:inline-block!important;" class="form-control" maxlength="8" id="current_empl_id" ng-model="current_empl_id" ng-keyup="FindPersonnel(current_empl_id)">
-                                
+
                                 <button id="icon_spinner1" style="height:34px;display:inline-block!important;position:absolute;float:right" class="btn btn-primary hidden pull-right">
-                                    <i  class="text-info fa fa-spinner fa-spin "></i>
+                                    <i class="text-info fa fa-spinner fa-spin "></i>
                                 </button>
 
                             </div>
@@ -1112,7 +1112,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3"  style="padding-right:0!important;margin-bottom:25px!important;float:left;">
+                            <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3" style="padding-right:0!important;margin-bottom:25px!important;float:left;">
                                 <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee Name:</b></span>
                             </div>
                             <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8" style="padding-right:0!important;margin-bottom:25px!important;float:left;">
@@ -1123,7 +1123,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <div  ng-show="empl_id_added" class="row" style="padding-top:5px;">
+                    <div ng-show="empl_id_added" class="row" style="padding-top:5px;">
                         <div class="col-sm-12 pull-right">
 
                             <button class=" btn btn-danger font-bold" data-dismiss="modal">
@@ -1155,58 +1155,58 @@
         </div>
     </div>
     @*<div class="modal fade" id="choose_applicanttype2" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content animated slideOutLeft with-background">
-                <div class="modal-header modal-header-add-edit text-white">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <center><h2 class="modal-title" id="modalLabelSmall"><b>Fetch Data From PDS</b></h2></center>
-                </div>
-                <div class="modal-footer">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div style="width:50%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee ID:</b></span>
+            <div class="modal-dialog modal-md">
+                <div class="modal-content animated slideOutLeft with-background">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <center><h2 class="modal-title" id="modalLabelSmall"><b>Fetch Data From PDS</b></h2></center>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div style="width:50%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee ID:</b></span>
+                                </div>
+                                <div style="width:50%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" style="color:black!important" class="form-control" maxlength="8" ng-model="current_empl_id2" disabled>
+                                    <small ng-show="person_warning" class="text-center hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;{{person_message}} </small>
+                                </div>
                             </div>
-                            <div style="width:50%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                <input type="text" style="color:black!important" class="form-control" maxlength="8" ng-model="current_empl_id2" disabled>
-                                <small ng-show="person_warning" class="text-center hidden pull-right" style="font-size:12px;height:15px;color:red">  <i class="fa fa-info-circle"></i>&nbsp;{{person_message}} </small>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div style="width:23.5%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee Name:</b></span>
+                                </div>
+                                <div style="width:76.5%;padding-right:0!important;margin-bottom:25px!important;float:left;">
+                                    <input type="text" style="color:black!important" class="form-control" maxlength="8" ng-model="current_employee_name2" disabled>
+                                </div>
+
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div style="width:23.5%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Employee Name:</b></span>
-                            </div>
-                            <div style="width:76.5%;padding-right:0!important;margin-bottom:25px!important;float:left;">
-                                <input type="text" style="color:black!important" class="form-control" maxlength="8" ng-model="current_employee_name2" disabled>
+
+                    <div class="modal-footer detail">
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-12 pull-right">
+
+                                <button class=" btn btn-danger font-bold" ng-click="cancelfetch2()">
+                                    Cancel&nbsp;<i class="fa fa-close"></i>
+                                </button>
+                                <button class="btn btn-success font-bold" ng-click="fetchfromPDS2()">
+                                    Fetch&nbsp;<i id="add" class="fa fa-save"></i>
+                                </button>
+
                             </div>
 
                         </div>
                     </div>
+
                 </div>
-
-                <div class="modal-footer detail">
-                    <div class="row" style="padding-top:5px;">
-                        <div class="col-sm-12 pull-right">
-
-                            <button class=" btn btn-danger font-bold" ng-click="cancelfetch2()">
-                                Cancel&nbsp;<i class="fa fa-close"></i>
-                            </button>
-                            <button class="btn btn-success font-bold" ng-click="fetchfromPDS2()">
-                                Fetch&nbsp;<i id="add" class="fa fa-save"></i>
-                            </button>
-
-                        </div>
-
-                    </div>
-                </div>
-
             </div>
-        </div>
-    </div>*@
+        </div>*@
     <div class="modal fade" id="select_id_employee" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-md">
             <div class="modal-content animated slideInLeft">
@@ -1217,7 +1217,7 @@
                     <center><h2 class="modal-title" id="modalLabelSmall"><b>SELECT EMPLOYEE</b></h2></center>
                 </div>
                 <div class="modal-footer">
-                    <table id="select_id_employee_grid" class="table table-striped table-bordered table-hover">
+                    <table id="select_id_employee_grid" style="width:100%" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="10%">ID</th>
@@ -1243,7 +1243,7 @@
                     <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
                 </div>
                 <div class="modal-footer">
-                    <table id="select_id_employee_APL_grid" class="table table-striped table-bordered table-hover">
+                    <table id="select_id_employee_APL_grid" style="width:100%" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="10%">ID</th>
@@ -1269,7 +1269,7 @@
                     <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
                 </div>
                 <div class="modal-footer">
-                    <table id="select_id_employee_PDS_grid" class="table table-striped table-bordered table-hover">
+                    <table id="select_id_employee_PDS_grid" style="width:100%" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="10%">ID</th>
@@ -1295,7 +1295,7 @@
                     <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
                 </div>
                 <div class="modal-footer">
-                    <table id="select_id_employee_QS_grid" class="table table-striped table-bordered table-hover">
+                    <table id="select_id_employee_QS_grid" style="width:100%" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="10%">ID</th>
@@ -1303,6 +1303,32 @@
                                 <th width="12%">LAST NAME</th>
                                 <th width="12%">BIRTH DATE</th>
                                 <th width="10%">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="application_list_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog llg">
+            <div class="modal-content animated slideInLeft">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelfetch()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <center><h2 class="modal-title" id="modalLabelSmall">SELECT APPLICANT</h2></center>
+                </div>
+                <div class="modal-footer">
+                    <table id="application_list_grid" style="width:100%" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>APPLICATION NO.</th>
+                                <th>ITEM NO.</th>
+                                <th>POSITION NAME</th>
+                                <th>DEPARTMENT NAME</th>
+                                <th>HIRING PERIOD</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -1366,11 +1392,11 @@
                                 </select>
                             </div>
                             @*<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 no-padding">
-                                <select class="form-control disable-white" id="mo" ng-model="mo" ng-change="selectDate()">
-                                    <option value="">--Select Month--</option>
-                                    <option ng-repeat="l in month" value="{{l.id}}">{{l.text}}</option>
-                                </select>
-                            </div>*@
+                                    <select class="form-control disable-white" id="mo" ng-model="mo" ng-change="selectDate()">
+                                        <option value="">--Select Month--</option>
+                                        <option ng-repeat="l in month" value="{{l.id}}">{{l.text}}</option>
+                                    </select>
+                                </div>*@
                         </div>
                         <div class="col-sm-12 col-xs-12 col-md-5 col-lg-5 m-t-xs  m-t-md" ng-show="filter_show">
                             <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 no-padding">
@@ -1397,7 +1423,7 @@
                             <button id="dd-applicant-type" data-toggle="dropdown" class="btn btn-primary btn-block dropdown-toggle">Add Applicants&nbsp;&nbsp;<span style="" class="fa fa-user-plus"></span></button>
                             @*<button class="btn btn-primary" style="border-radius:3px;height:33.6px;"><span style="" class="fa fa-refresh"></span></button>*@
                             <ul class="dropdown-menu">
-                                <li><a ng-click='AddApplicant("cAddApplicants")'>NEW APPLICANT</a></li>
+                                @*<li><a ng-click='AddApplicant("cAddApplicants")'>NEW APPLICANT</a></li>*@
                                 <li><a ng-click='Select_ApplType(1)'>EMPLOYEE FROM HRIS</a></li>
                                 <li><a ng-click='Select_ApplType(2)'>SELECT FROM ONLINE APPLICATION</a></li>
                             </ul>
@@ -1414,7 +1440,7 @@
         <div class="ibox-title">
             <div class="row no-padding" style="margin-top:-10px!important;">
                 <div class="col-lg-12 tabs-container m-b-md">
-                    <table id="Applicant_List_Grid" class="table table-striped table-bordered table-hover">
+                    <table id="Applicant_List_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="10%">APP. NBR</th>

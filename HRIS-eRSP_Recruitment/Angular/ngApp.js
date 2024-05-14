@@ -224,9 +224,12 @@ ng_eRSP_App.run(function () {
             $("#" + table).dataTable().fnAddData(this);
         }
 
+
         if (id != "") {
-           
+            
             for (var x = 1; x <= $("#" + table).DataTable().page.info().pages; x++) {
+                console.log($("#" + table).DataTable().page.info().pages)
+                console.log(get_page(id, table))
                 if (get_page(id,table) == false) {
                     $("#" + table).dataTable().fnPageChange(x);
                 }
@@ -237,6 +240,25 @@ ng_eRSP_App.run(function () {
         }
         return this;
     }
+
+
+    Array.prototype.refreshTable2x = function (table,page_number) {
+        if (this.length == 0) {
+            $("#" + table).dataTable().fnClearTable();
+        }
+        else {
+            $("#" + table).dataTable().fnClearTable();
+            $("#" + table).dataTable().fnAddData(this);
+        }
+
+        
+        if (page_number != "") {
+
+            $("#" + table).dataTable().fnPageChange(parseInt(page_number)-1);
+        }
+        return this;
+    }
+
 
     Array.prototype.in = function (data,compare) {
         var retdata = []
@@ -420,6 +442,7 @@ ng_eRSP_App.run(function () {
 ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
    
     var email_rgx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var cp_regex = /^(09|\+639)\d{9}$/
     var g = "getElementById";
     var gCl = "getElementsByClassName"
     var cE = "createElement"
@@ -1058,7 +1081,6 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
     //**********************************************
         valid_date: function (eval, id) {
 
-     
         var retval = 0;
         if (moment(eval, f8, tu)[iV]()) {
             this[nR2](id) //call notrequired2 function
@@ -1125,6 +1147,22 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
         return retval == 0 ? true : false;
     },
 
+    //**********************************************
+    //******** validate email correct format *******
+    //**********************************************
+    valid_cp_number: function (eval, id) {
+        var retval = 0;
+
+        if (cp_regex.test(eval.trim())) {
+            this[nR2](id) //call notrequired2 function
+        }
+        else {
+            this[r2](id, "Invalid mobile number") //call required2 function
+
+            retval = retval + 1
+        }
+        return retval == 0 ? true : false;
+    },
    
     //**********************************************
     //******** validate textbox format *******
@@ -1160,6 +1198,141 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
         //******** 9. directives: norequired                                                        ********
         //******** 10. add norequired  to class to remove required warning when validation is true  ********                                                      ********
         //**************************************************************************************************
+        validateform: function (idf) {
+            var hA = "hasAttribute";
+            var i = "id";
+            var l = "length";
+            var f = "form";
+            var t = "type";
+            var v = "value";
+            var retval = 0;
+            var form = $(this.D_id(idf))[0] // form element
+
+            var l = form[l] //lenght of the form- number of child element
+
+            for (var x = 0; x < l; x++) {
+                var tp = form[x][t] //element type
+                var id = form[x][i] // element id
+
+                if ($("#" + id)[0] != undefined) {
+                    var rq = $("#" + form[x][i])[0][hA]("required") //return true if element has required attribute
+                    var date = $("#" + form[x][i])[0][hA]("mydate") //return true if element has mydate attribute
+                    var time = $("#" + form[x][i])[0][hA]("mytime") //return true if element has mydate attribute
+                    var mobile = $("#" + form[x][i])[0][hA]("mobile") //return true if element has mydate attribute
+                    if (rq) {
+                        var eval = this.D_id(id)[v]
+                        if (tp == "text" && !date) // if field type is text
+                        {
+                           
+                            if (this[eE](eval)) {
+
+                                    this[r2](id, "Required field")
+                                    retval = retval + 1
+                                }
+                            else {
+                                if (mobile)
+                                {
+                                    if (!this.valid_cp_number(eval, id)) //call valid_email function ; expected value: false
+                                    {
+                                        retval = retval + 1
+                                    }
+                                }
+                                else
+                                {
+                                    this[nR2](id)
+                                }
+                                    
+                            }
+                            
+                        }
+                        if (tp == "number") // if field type is text
+                        {
+                            var ao = $("#" + form[x][i])[0][hA]("allowZero")
+                            if (this[eE](eval)) {
+                                this[r2](id, "Required field")
+                                retval = retval + 1
+                            }
+                            else {
+                                if (ao) {
+
+                                }
+                                else {
+                                    if (eval == 0 || eval == "0") {
+                                        this[r2](id, "Required field")
+                                        retval = retval + 1
+                                    }
+                                    else {
+                                        this[nR2](id)
+                                    }
+
+                                }
+                            }
+                        }
+                        else if (tp == "email") // if field type is email
+                        {
+                            if (this[eE](eval)) {
+                                this[r2](id, "Required field")
+                                retval = retval + 1
+                            }
+                            else {
+                                if (!this.valid_email(eval, id)) //call valid_email function ; expected value: false
+                                {
+                                    retval = retval + 1
+                                }
+                            }
+                        }
+                        else if (tp == "select-one") {
+                            if (this[eE](eval)) {
+                                this[r2](id, "Required field")
+                                retval = retval + 1
+                            }
+                            else {
+                                this[nR2](id)
+                            }
+                        }
+                        else if (date) // if field type is date; note in order this to work you should put mydate attribute to the date input field
+                        {
+                            if (this[eE](eval)) {
+                                this[rd](id, "Required field")
+                                retval = retval + 1
+                            }
+                            else {
+                                if (!this.valid_date(eval, id)) //call valid_date function ; expected value: false
+                                {
+                                    retval = retval + 1
+                                }
+                            }
+                        }
+                        else if (time) // if field type is date; note in order this to work you should put mydate attribute to the date input field
+                        {
+                            if (this[eE](eval)) {
+                                this[rd](id, "Required field")
+                                retval = retval + 1
+                            }
+                            else {
+                                if (!this.valid_time(eval, id)) //call valid_date function ; expected value: false
+                                {
+                                    retval = retval + 1
+                                }
+                            }
+                        }
+                        else if (tp == "textarea") {
+
+                            if (this[eE](eval)) {
+                                this[r2](id, "Required field")
+                                retval = retval + 1
+                            }
+                            else {
+                                this[nR2](id)
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            return retval == 0 ? true : false;
+        },
     validatesubmit: function (idf) {
         var hA = "hasAttribute";
         var i = "id";
@@ -1171,7 +1344,7 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
         var form = $(this.D_id(idf))[0] // form element
        
         var l = form[l] //lenght of the form- number of child element
-    
+      
         for (var x = 0; x < l; x++) {
             var tp = form[x][t] //element type
             var id = form[x][i] // element id
@@ -1183,6 +1356,7 @@ ng_eRSP_App.service("commonScript", ["$compile", "$filter", function (c, f) {
                 var time = $("#" + form[x][i])[0][hA]("mytime") //return true if element has mydate attribute
                 
                 if (rq) {
+                    console.log(id)
                     var eval = this.D_id(id)[v]
                     if (tp == "text" && !date) // if field type is text
                     {

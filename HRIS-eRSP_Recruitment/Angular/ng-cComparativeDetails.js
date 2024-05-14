@@ -13,11 +13,12 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
     var salary_grade = ""
     var ranked = false
     var summernote = $('#summernote2').summernote();
-
+    s.applicant = ""
+    s.is = ""
     var row_for_email = ""
     var type_for_email = ""
 
-
+    s.forComparative_temp_list = []
     s.emailreceipent = ""
 
     s.encode_idv = function (d, a, e, b, c, f) {
@@ -166,6 +167,14 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                     },
                     {
                         "mData": "app_status",
+                        "mRender": function (data, type, full, row) {
+                            return '<div>' +
+                                '<input id="toComparativeCbRow' + row["row"] + '"  align="left"  type="checkbox" class="form-control pull-left" ng-click="addToComparative5CB(' + row["row"] + ')" ng-checked="' + inComparative(data) + '" ng-disabled="' + inComparative(data)+'"/>' +
+                                '</div>';
+                        }
+                    },
+                    {
+                        "mData": "app_status",
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
                             return '<div>' +
@@ -178,6 +187,8 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                                 '<ul class="dropdown-menu ">' +
                                 '<li><a ng-click="sendEmailNotification(' + row["row"] + ',7)">Congratulatory Email</a></li>' +
                                 '<li><a ng-click="sendEmailNotification(' + row["row"] + ',4)">Regret Email</a></li>' +
+                                '<li><a ng-click="printEmailNotif(' + row["row"] + ',7)">Print Congratulatory Letter</a></li>' +
+                                '<li><a ng-click="printEmailNotif(' + row["row"] + ',4)">Print Regret Letter</a></li>' +
                                 '</ul>' +
                                 '</div>' +
                                 //'<div class="btn-group">' +
@@ -195,7 +206,8 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
                             return '<div>' +
-                                '<input id="includeRow' + row["row"] + '"  align="left"  type="checkbox" class="form-control pull-left" ng-click="approved_comparative(' + row["row"] + ')" ng-checked="' + data + '==4"/>' +
+                                '<button id="includeRow' + row["row"] + '" class="btn ' + comparativeAddClassColor(data)+'" type="button" ng-click="approved_comparative(' + row["row"] + ')">'+
+                                '<i class="fa ' + comparativeAddClassIcon(data) +'"></i></button > ' +
                                 '</div>';
                         }
                     }
@@ -210,6 +222,36 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
 
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
+
+    function inComparative(data) {
+      
+        if (parseInt(data) >= 4) {
+            console.log(parseInt(data))
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    function comparativeAddClassIcon(data) {
+
+        if (parseInt(data) >= 4) {
+            return "fa-times" 
+        }
+        else {
+            return "fa-arrow-right" 
+        }
+    }
+    function comparativeAddClassColor(data) {
+
+        if (parseInt(data) >= 4) {
+            return "btn-danger"
+        }
+        else {
+            return "btn-info"
+        }
+    }
+
 
     Init_PSB_List_Grid([])
 
@@ -240,6 +282,7 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                   
                    
                 } else {
+                  //  console.log(d.data.comparative)
                     s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
                 }
                 
@@ -260,6 +303,7 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                 
             }
         })
+        $("#addToComparativeBtn").addClass("hidden")
     }
 
 
@@ -270,8 +314,8 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
     s.approved_comparative = function (row) {
         var dt = s.Data_List[row]
 
-        var cbrow = $("#includeRow" + row)[0].checked
-        if (cbrow) {
+        var app_status = parseInt(dt.app_status)
+        if (app_status < 4) {
 
 
             swal({
@@ -286,18 +330,18 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                         cs.loading("show")
                         h.post("../cComparativeAssessment/approved_comparative",
                             {
-                                app_ctrl_nbr: dt.app_ctrl_nbr
-                                , approval_id: dt.approval_id
-                                , psb_ctrl_nbr: dt.psb_ctrl_nbr
-                                , item_no: dt.item_no
-                                , hasSelected_approved: dt.hasSelected_approved
+                                  app_ctrl_nbr          : dt.app_ctrl_nbr
+                                , approval_id           : dt.approval_id
+                                , psb_ctrl_nbr          : dt.psb_ctrl_nbr
+                                , item_no               : dt.item_no
+                                , hasSelected_approved  : dt.hasSelected_approved
 
                             }).then(function (d) {
                                 if (d.data.icon == "success") {
                                     swal("Successfully Added for Indorsement", { icon: "success", timer: 1500 })
                                     s.Data_List[row].app_status = d.data.app_status
                                     s.Data_List = s.Data_List.refreshTable("Data_List_Grid", "")
-                                    s.get_sp_psb_item_list(dt.psb_ctrl_nbr)
+                                    //s.get_sp_psb_item_list(dt.psb_ctrl_nbr)
                                     cs.loading("hide")
                                 }
                                 else {
@@ -333,7 +377,7 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                                     swal("Successfully Remove Indorsement", { icon: "warning", timer: 1500 })
                                     s.Data_List[row].app_status = d.data.app_status
                                     s.Data_List = s.Data_List.refreshTable("Data_List_Grid", "")
-                                    s.get_sp_psb_item_list(dt.psb_ctrl_nbr)
+                                    //s.get_sp_psb_item_list(dt.psb_ctrl_nbr)
                                     cs.loading("hide")
                                 }
                                 else {
@@ -345,26 +389,87 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                 });
         }
     }
+
+    s.addToComparative5CB = function (row) {
+       
+        var dt = s.Data_List[row]
+        var cbrow = $("#toComparativeCbRow" + row)[0].checked
+        if (cbrow) {
+            var ex = s.forComparative_temp_list.filter(function (d) {
+                return d.app_ctrl_nbr == dt.app_ctrl_nbr
+            })
+            if (ex.length == 0) {
+
+                s.forComparative_temp_list.push(
+                    {
+                       "app_ctrl_nbr"           :dt.app_ctrl_nbr
+                      ,"approval_id"            :dt.approval_id
+                      ,"psb_ctrl_nbr"           :dt.psb_ctrl_nbr
+                      ,"item_no"                :dt.item_no
+                      ,"hasSelected_approved"   :dt.hasSelected_approved
+                    }
+                )
+            }
+        }
+        else {
+            s.forComparative_temp_list = s.forComparative_temp_list.filter(function (d) {
+                return d.app_ctrl_nbr != dt.app_ctrl_nbr
+            })
+        }
+
+        if (s.forComparative_temp_list.length > 0) {
+            $("#addToComparativeBtn").removeClass("hidden")
+        }
+        else {
+            $("#addToComparativeBtn").addClass("hidden")
+        }
+    }
+
+    s.approvedComparativeAll = function () {
+        var dt = s.forComparative_temp_list
+
+        cs.loading("show")
+
+        h.post("../cComparativeAssessment/approvedComparativeAll",
+            {
+              data:dt
+
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+                    swal("Successfully Added for Indorsement", { icon: "success", timer: 1500 })
+                    s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
+                    cs.loading("hide")
+                }
+                else {
+                    swal(d.data.message, {icon:d.data.icon})
+                    cs.loading("hide")
+                }
+            });
+
+       
+       
+    }
+
     
 
 
-    s.get_sp_psb_item_list = function (psb_ctrl_nbr) {
-        h.post("../cComparativeAssessment/sp_psb_item_list",
-            {
-                psb_ctrl_nbr: psb_ctrl_nbr,
-            }).then(function (d) {
-                if (d.data.icon == "success") {
+    //s.get_sp_psb_item_list = function (psb_ctrl_nbr) {
+    //    h.post("../cComparativeAssessment/sp_psb_item_list",
+    //        {
+    //            psb_ctrl_nbr: psb_ctrl_nbr,
+    //        }).then(function (d) {
+    //            if (d.data.icon == "success") {
                 
-                    s.sp_psb_item_list = d.data.sp_psb_item_list
-                    s.item_grid_List = d.data.sp_psb_item_list.refreshTable("Data_item_Grid", psb_ctrl_nbr)
+    //                s.sp_psb_item_list = d.data.sp_psb_item_list
+    //                s.item_grid_List = d.data.sp_psb_item_list.refreshTable("Data_item_Grid", psb_ctrl_nbr)
 
-                } else {
-                    console.log(d.data.message)
+    //            } else {
+    //                console.log(d.data.message)
 
-                }
-            })
+    //            }
+    //        })
 
-    }
+    //}
 
 
 
@@ -464,7 +569,15 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                         , ranked: ranked
                     }).then(function (d) {
                         if (d.data.icon == "success") {
-                            
+                           
+                            if (d.data.endorse.length > 1) {
+                                s.applicant = "applicants"
+                                s.is = "are"
+                            }
+                            else {
+                                s.applicant = "applicant"
+                                s.is = "is"
+                            }
                             s.endorse_list = d.data.endorse
                             $("#prepareEndorsement").modal("show")
                         }
@@ -488,6 +601,94 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
        
 
        
+    }
+
+
+    s.printEmailNotif = function (row_id, type) {
+      
+        var dt = s.Data_List[row_id]
+        var email = ""
+        var empl_id = ""
+        var app_ctrl_nbr = ""
+        var hiring_period = ""
+
+        console.log(dt)
+
+        s.employee_name_print = 'EMAIL REPORT';
+        var SaveName = "Crystal_Report";
+        var ReportType = "inline";
+        var ReportPath = "~/Reports/cryEmailPrinting/";
+        var ReportName = "";
+        var sp = "";
+
+        email = dt.email
+        empl_id = dt.empl_id
+        app_ctrl_nbr = dt.app_ctrl_nbr
+        hiring_period = dt.hiring_period
+
+        if (type == "4") {
+            swal_title = "Send Acknowledgement Email"
+
+            ReportName = "cryNotifRegret";
+            
+        } else if (type == "7") {
+
+            swal_title = "Not Qualified for Examination Email"
+
+            ReportName = "cryNotifCongratulatory";
+
+        }
+
+        if (dt.email == "" || dt.email == null) {
+            swal({ title: "This applicant has not provided an email address", icon: "error" })
+            cs.loading("hide")
+            return
+        }
+
+
+        ReportPath = ReportPath + "" + ReportName + ".rpt";
+        sp = "sp_send_email_notification_PRINT,p_email," + email + ",p_empl_id," + empl_id + ",p_app_ctrl_nbr," + app_ctrl_nbr + ",p_hiring_period," + hiring_period + ",p_email_type," + type;
+
+        cs.loading('show')
+
+        var iframe = document.getElementById('iframe_print_preview');
+        var iframe_page = $("#iframe_print_preview")[0];
+        iframe.style.visibility = "hidden";
+        s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+            + "&ReportName=" + ReportName
+            + "&SaveName=" + SaveName
+            + "&ReportType=" + ReportType
+            + "&ReportPath=" + ReportPath
+            + "&id=" + sp //+ parameters
+        console.log(s.embed_link)
+        if (!/*@cc_on!@*/0) { //if not IE
+            iframe.onload = function () {
+                iframe.style.visibility = "visible";
+                cs.loading('hide')
+            };
+        }
+        else if (iframe_page.innerHTML()) {
+            var ifTitle = iframe_page.contentDocument.title;
+            if (ifTitle.indexOf("404") >= 0) {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+            else if (ifTitle != "") {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+        }
+        else {
+            iframe.onreadystatechange = function () {
+                if (iframe.readyState == "complete") {
+                    iframe.style.visibility = "visible";
+                    //$("#modal_loading").modal("hide")
+                    cs.loading('hide')
+                }
+            };
+        }
+        iframe.src = s.embed_link;
+        $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
     }
 
 
@@ -579,8 +780,8 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                 iframe.src = s.embed_link;
                 $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
 
-                s.item_grid_List[s.selectedRow].endorsement_date = endorse_date
-                tab_table_data(s.item_grid_List)
+                //s.item_grid_List[s.selectedRow].endorsement_date = endorse_date
+                //tab_table_data(s.item_grid_List)
             }
             else {
                 swal(d.data.endorse.db_message, { icon: d.data.icon })

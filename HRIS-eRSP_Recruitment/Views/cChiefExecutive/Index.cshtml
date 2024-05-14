@@ -39,9 +39,11 @@
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
     }
+
     /*li a{
         height:35px !important;
     }*/
+
     .btn {
         vertical-align: auto;
     }
@@ -168,7 +170,7 @@
                     </div>
                     <div class="row no-padding" style="margin-top:-10px!important;">
                         <div class="col-lg-12 tabs-container m-b-md">
-                            <table id="item_Grid" class="table table-striped table-bordered table-hover">
+                            <table id="item_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th width="30%">ITEM NO</th>
@@ -342,7 +344,7 @@
                     </div>
                     <div class="row no-padding" style="margin-top:-10px!important;">
                         <div class="col-lg-12 tabs-container m-b-md">
-                            <table id="Panel_Grid" class="table table-striped table-bordered table-hover">
+                            <table id="Panel_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th width="">PANEL NAME</th>
@@ -446,22 +448,11 @@
     <div class="wrapper wrapper-content animated fadeIn">
         <div class="ibox-title">
             <div class="row">
-                <div class="col-sm-3 m-t-xs pull-left">
-                    <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Show</b></span>
-                    <select class="form-control field-select-sm setTableRow" style="width:30%;float:left;" ng-model="rowLen" tableref="Data_List_Grid">
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                    <span class="font-bold" style="float:left;margin-top:9px;margin-left:10px;"><b>Entries</b></span>
-                </div>
+               
                 <div class="col-sm-12 col-xs-12 col-md-7 col-lg-7 m-t-xs">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding" ng-show="firstGrid">
                         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 no-padding">
-                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HRMPSB DATE:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
+                            <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm font-13">HIRING YEAR:</span><span style="" class="fa fa-book pull-right m-r-sm m-t-xs"></span></button>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5  no-padding">
                             <select class="form-control disable-white removeReqOption" id="psb_ctrl_nbr" ng-model="psb_ctrl_nbr" ng-change="selectPsb_date(psb_ctrl_nbr)">
@@ -498,9 +489,19 @@
 
             </div>
             
-            <div ng-show="firstGrid" class="row no-padding table-responsive" style="margin-top:-10px!important;">
-                <div class="col-lg-12 tabs-container m-b-md  ">
-                    <table id="Data_item_Grid" class="table table-striped table-bordered table-hover">
+            <div ng-show="firstGrid" class="row no-padding table-responsive" style="margin-top:10px!important;">
+                <div class="col-lg-4 tabs-container m-b-md">
+                    <table id="Data_psbsched_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th width="65%">HRMPSB Schedules</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="col-lg-8 tabs-container m-b-md">
+                    <table id="Data_item_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="15%">Control Number</th>
@@ -511,10 +512,11 @@
                         <tbody></tbody>
                     </table>
                 </div>
+
             </div>
             <div ng-show="!firstGrid" class="row no-padding" style="margin-top:-10px!important;">
                 <div class="col-lg-12 tabs-container m-b-md">
-                    <table id="Data_List_Grid" class="table table-striped table-bordered table-hover">
+                    <table id="Data_List_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th width="5%"></th>

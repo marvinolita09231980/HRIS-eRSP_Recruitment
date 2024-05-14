@@ -119,15 +119,32 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
-        public ActionResult sp_hrmpsbscreening_item_list(string psb_ctrl_nbr)
+        public ActionResult sp_hrmpsbscreening_item_list(string year)
         {
             CheckSession();
-            Session["psb_psb_ctrl_nbr"] = psb_ctrl_nbr;
+          //  Session["psb_psb_ctrl_nbr"] = psb_ctrl_nbr;
            
             try
             {
-                var sp_exec_2bapprovedlist = db.sp_exec_2bapprovedlist(psb_ctrl_nbr).ToList();
-                return Json(new { message = fetch.success, icon = icon.success, sp_exec_2bapprovedlist }, JsonRequestBehavior.AllowGet);
+                //var sp_exec_2bapprovedlist = db.sp_exec_2bapprovedlist(psb_ctrl_nbr).ToList();
+                var sp_hrmps_sched_header_list = db.sp_hrmps_sched_header_list(year+"-2").ToList();
+                return Json(new { message = fetch.success, icon = icon.success, sp_hrmps_sched_header_list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult getItemIndorse(string psb_ctrl_nbr)
+        {
+            CheckSession();
+              Session["psb_psb_ctrl_nbr"] = psb_ctrl_nbr;
+
+            try
+            {
+                var getItemIndorse = db.sp_exec_2bapprovedlist(psb_ctrl_nbr).ToList();
+               
+                return Json(new { message = fetch.success, icon = icon.success, getItemIndorse }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -179,17 +196,20 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var date = DateTime.Now;
             try
             {
-
+                var approve_exist = db.selected_applicants_tbl.Where(a => a.item_no == item_no && a.psb_ctrl_nbr == psb_ctrl_nbr).ToList();
+                if (approve_exist.Count() > 0)
+                {
+                    throw new Exception("This item already has approved application!");
+                }
                 db.sp_update_transaction_in_approvalworkflow_tbl_RCT(data.approval_id, user_id, "F", "", data.app_ctrl_nbr, data.psb_ctrl_nbr, data.item_no,data.budget_code,data.employment_type);
-
-                //var indorseitem_applicant_list = db.sp_comparative_assessment_list(psb_ctrl_nbr, data.item_no, "4").ToList();
+                
                 db.sp_select_applicant_insert_update(data.app_ctrl_nbr, data.item_no, data.psb_ctrl_nbr, date, user_id, "F");
                 var chiefexecutive_list = db.sp_chiefexecutive_list(data.item_no, data.psb_ctrl_nbr, "4");
-                return Json(new { message = fetch.success, icon = icon.success, chiefexecutive_list }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = "Successfully approved!", icon = icon.success, chiefexecutive_list }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                return Json(new { message = DbEntityValidationExceptionError(e) }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = e.Message, icon="error" }, JsonRequestBehavior.AllowGet);
             }
         }
 

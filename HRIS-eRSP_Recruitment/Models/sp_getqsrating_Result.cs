@@ -23,5 +23,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public string ipcr_rating { get; set; }
         public string app_ctrl_nbr { get; set; }
         public string psb_ctrl_nbr { get; set; }
+        public string user_id { get; set; }
     }
 }

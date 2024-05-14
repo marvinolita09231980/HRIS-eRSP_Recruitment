@@ -13,7 +13,7 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
     s.present = false
     s.pageTitle = "Applicant Information"
     s.main_edit = false
-    s.dtl_edit = false
+    s.dtl_edit = false 
     s.dropzone = false
     s.editonly = false
     s.adddetails = false
@@ -60,7 +60,9 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
         ,app_status          : ""
         ,empl_id             : ""  
         ,appl_date_applied   : ""
-        ,appl_birth_date: ""
+        , appl_birth_date: ""
+        , mobile_no: ""
+        , email_address: ""
     }
 
     s.encode_idv = function (d, a, e, b, c, f) {
@@ -154,6 +156,7 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
             {
                 data: s.Applicant_List_Data,
                 sDom: 'rt<"bottom"p>',
+                order:[[1,"asc"]],
                 pageLength: 10,
                 initComplete: function () {
                     cs.loading("hide")
@@ -172,6 +175,7 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
                     },
 
                     {
+                        sortable:false,
                         "mData": "applicant_name",
                         "mRender": function (data, type, full, row) {
                             //return "<span><img alt='image'  class='img-circle grid-img' src='" + s.encode_idv(full["empl_photo_img"]) + "'></span>&nbsp;&nbsp;<span class='text-left'>" + data + "</span>"
@@ -209,10 +213,11 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
                         "mRender": function (data, type, full, row) {
 
                             return '<center><div class="btn-group">' +
-                                '<button  type="button" class="btn btn-success btn-sm action" data-toggle="tab" href="#tab-7" ng-click="add_to_review(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Add To Review">  <i class="fa fa-plus"></i></button >' +
-                                '<button  type="button" class="btn btn-info btn-sm action" data-toggle="tab" href="#tab-7" ng-click="btn_edit(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Edit">  <i class="fa fa-edit"></i></button >' +
-                                '<button  type="button" class="btn btn-warning btn-sm action" ng-click="btn_to_details(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Qualification">   <i id="det_row' + row["row"] + '" class="fa fa-bars"></i></button>' +
-                                '<button  type="button" class="btn btn-danger btn-sm action" ng-click="btn_del_row_main_grid(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Delete">   <i class="del_row' + row["row"] + ' fa fa-trash"></i></button>' +
+                                '<button  type="button" class="btn btn-info action" data-toggle="tab" ng-click="view_application(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="View applications">  <i class="fa fa-check"></i></button >' +
+                                '<button  type="button" class="btn btn-success action" data-toggle="tab" ng-click="add_to_review(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Add To Review">  <i class="fa fa-plus"></i></button >' +
+                                '<button  type="button" class="btn btn-info action" data-toggle="tab" ng-click="btn_edit(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Edit">  <i class="fa fa-edit"></i></button >' +
+                                '<button  type="button" class="btn btn-warning action" ng-click="btn_to_details(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Qualification">   <i id="det_row' + row["row"] + '" class="fa fa-bars"></i></button>' +
+                                '<button  type="button" class="btn btn-danger action" ng-click="btn_del_row_main_grid(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Delete">   <i class="del_row' + row["row"] + ' fa fa-trash"></i></button>' +
                                 '</div></center>';
                         }
                     }
@@ -228,7 +233,64 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
 
-   
+    var Init_Application_Grid = function (par_data) {
+        s.Application_Data = par_data;
+        s.Application_Table = $('#application_list_grid').dataTable(
+            {
+                data: s.Application_Data,
+                sDom: 'rt<"bottom"p>',
+                order: [[0, "asc"]],
+                pageLength: 10,
+                columns: [
+                    {
+                        sortable: false,
+                        "mData": "app_ctrl_nbr",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'>" + data + "</span>"
+                        }
+                    },
+
+                    {
+                       
+                        "mData": "item_no",
+                        "mRender": function (data, type, full, row) {
+                            
+                            return "<span class='text-left'>" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "position_long_title",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'>" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "department_name1",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'>" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "period_descr",
+                        "mRender": function (data, type, full, row) {
+
+                            return "<span class='text-center btn-block'>" + data + "</span>"
+                        }
+                    },
+                    
+                    
+                    //data-toggle="tab" href="#tab-7"
+                ],
+                "createdRow": function (row, data, index) {
+                    //$(row).addClass("dt-row");
+                    $compile(row)($scope);  //add this to compile the DOM
+                },
+
+            });
+
+        $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+    }
+
    
     s.ddl_educ_type = []
  
@@ -774,6 +836,7 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
     Init_select_applicant_Grid([]);
     Init_select_applicant_APL_Grid([]);
     Init_select_applicant_QS_Grid([]);
+    Init_Application_Grid([])
     init()
 
     s.AddApplicant = function () {
@@ -786,7 +849,7 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
             s.fd.info_ctrl_nbr_disp = cs.currentyear() + "-" + d.data.info_ctrl_nbr;
             s.info_ctrl_nbr = d.data.info_ctrl_nbr;
             $("#addApplicants").modal("show")
-            $("#applied_dttm").val(s.yr + "-" + s.mo + "-" + s.dy);
+            //$("#applied_dttm").val(s.yr + "-" + s.mo + "-" + s.dy);
         })
        
         //location.href = "cAddApplicants/Index";
@@ -1189,9 +1252,15 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
     function GetHiringPeriod() {
         var employment_type = s.itm.employment_type 
         var budget_code = s.itm.budget_code 
-        h.post("../cApplicantsInfo/getHiringPeriod", { employment_type: employment_type, budget_code: budget_code}).then(function (d) {
-            s.hiring_period = d.data.hiring_period
+        h.post("../cAddAvailableItemInAPL/Open_Items_Hdr", { budget_code: budget_code, employment_type: employment_type }).then(function (d) {
+
+            if (d.data.icon == "success") {
+                s.hiring_period= d.data.data_items_hdr.refreshTable("online_item_hdr_grid", "")
+            }
         })
+        //h.post("../cApplicantsInfo/getHiringPeriod", { employment_type: employment_type, budget_code: budget_code}).then(function (d) {
+        //    s.hiring_period = d.data.hiring_period
+        //})
     }
     s.fetchfromPDS = function () {
         var fetchbtncancel = "fetchbtncancel"
@@ -1618,8 +1687,8 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
 
         s.fd.birth_date = $("#birth_date").val()
         s.fd.applied_dttm = $("#applied_dttm").val()
-        
-        if (cs.ValidateFields(s.fd)) {
+        console.log(s.fd)
+        if (cs.validatesubmit("fd")) {
             h.post("../cApplicantsInfo/Save_Application", {
                 mo: s.mo,
                 yr: s.yr,
@@ -2118,6 +2187,20 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
                 }
             })
         }
+    }
+    s.view_application = function (row) {
+        var dt = s.Applicant_List_Data[row]
+        cs.loading("show")
+        h.post("../cApplicantsInfo/getApplications", {
+            info_ctrl_nbr: dt.info_ctrl_nbr
+        }).then(function (d) {
+            if (d.data.icon == "success") {
+                s.Application_Data = d.data.applications.refreshTable("application_list_grid", "")
+                cs.loading("hide")
+                $("#application_list_modal").modal("show")
+            }
+        })
+
     }
     
 })

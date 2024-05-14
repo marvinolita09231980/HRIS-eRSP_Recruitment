@@ -309,7 +309,7 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
-                        <table id="applicants_grid" class="table table-striped table-bordered table-hover">
+                        <table id="applicants_grid" style="width:100%" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th width="31%" rowspan="2">NAME</th>
@@ -636,6 +636,21 @@
                 </div>
                 <div class="modal-footer detail">
                     <div class="modal-footer detail">
+                        @*<div class="row m-top-20">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">HRMPSB Schedule:</span><span style="" class="fa fa-institution pull-right m-r-sm"></span></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <select class="form-control disable-white btn-block" id="psb_ctrl_nbr" ng-model="psb_ctrl_nbr">
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="l in psb_sked_hdr_list" value="{{l.psb_ctrl_nbr}}">{{l.psb_date}} - {{l.remarks_details}}</option>
+                                        
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>*@
                         <div class="row m-top-20">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -688,58 +703,7 @@
                                 </div>
                             </div>
                         </div>
-                        @*<div class="row m-top-20">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">EXAMINATION:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <input type="number" class="form-control text-center" min-max="0,100" id="score_rendered" ng-model="score_rendered" ng-value="" />
-                                </div>
-                            </div>
-                        </div>*@
-
-                        @*<div class="row m-top-20">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">EXAM DESCRIPTION:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <select class="form-control disable-white" id="exam_type_descr" ng-model="exam_type_descr">
-                                        <option value="" selected>--Select Here--</option>
-                                        <option value="Essay" selected>Essay</option>
-                                        <option value="Multiple Choice" selected>Multiple Choice</option>
-                                        <option value="Essay and Multiple Choice" selected>Essay and Multiple Choice</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>*@
-                        @*<div class="row m-top-20">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">EXAM DATE:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <div class="input-group date no-padding no-margins removeReqOption" data-provide="datepicker" style="margin-bottom:-2px!important;">
-                                        <input type="text" id="exam_date" ng-model="exam_date" class="form-control text-center" required />
-                                        <div class="input-group-addon birth_date">
-                                            <span class="fa fa-calendar"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-
-                        @*<div class="row m-top-20">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <button data-toggle="dropdown" class="btn btn-info btn-block"><span class="pull-left m-l-sm">IPCR Rating:</span><span style="" class="fa fa-edit pull-right m-r-sm"></span></button>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <input type="text" class="form-control text-center" min-max="0,5" id="ipcr_rating" ng-model="ipcr_rating" ng-value="" />
-                                </div>
-                            </div>
-                        </div>*@
+                        
 
                     </div>
                 </div>
@@ -751,7 +715,7 @@
                                 <i class="fa fa-close"></i>&nbsp;&nbsp;Close
                             </button>
 
-                            <button class=" btn btn-success font-bold" ng-click="saveRating(appctrlnbr,psbctrlnbr)">
+                            <button class=" btn btn-success font-bold" ng-click="saveRating(appctrlnbr)">
                                 <i class="fa fa-save"></i>&nbsp;&nbsp;Save
                             </button>
 

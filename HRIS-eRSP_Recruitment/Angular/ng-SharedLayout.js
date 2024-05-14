@@ -270,6 +270,14 @@ ng_eRSP_App.controller("SharedLayoutCtrlr", function ($scope, $http, $filter) {
             }
         })
     }
+
+    s.home = function () {
+        location.href = "../cMainPage/Index"
+    }
+
+
+  
+
     //***********************Functions end*************************************************************//
 
 

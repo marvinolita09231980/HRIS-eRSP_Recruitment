@@ -15,6 +15,17 @@
           <Property Name="img_file" Type="varbinary(max)" Nullable="false" />
           <Property Name="img_name" Type="varchar" MaxLength="150" Nullable="false" />
         </EntityType>
+        <EntityType Name="applicant_attachment_tbl">
+          <Key>
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="info_ctrl_nbr" />
+          </Key>
+          <Property Name="seq_no" Type="int" Nullable="false" />
+          <Property Name="info_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="doc_type" Type="varchar" MaxLength="2" />
+          <Property Name="file_path" Type="varchar" MaxLength="500" />
+          <Property Name="filedocs" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="available_item_hdr_tbl">
           <Key>
             <PropertyRef Name="ctrl_no" />
@@ -69,6 +80,22 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="middlename" Type="varchar" MaxLength="50" />
           <Property Name="user_id" Type="varchar" MaxLength="50" />
           <Property Name="user_password" Type="varchar" MaxLength="255" />
+          <Property Name="created_dttm" Type="datetime" />
+        </EntityType>
+        <EntityType Name="onlineAppliedItem_tbl">
+          <Key>
+            <PropertyRef Name="info_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="hiring_period" />
+          </Key>
+          <Property Name="info_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="created_dttm" Type="datetime" Nullable="false" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="hiring_period" Type="varchar" MaxLength="15" Nullable="false" />
         </EntityType>
         <EntityType Name="personnel_children_tbl">
           <Key>
@@ -252,7 +279,7 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="workexp_from" Type="varchar" MaxLength="20" />
           <Property Name="workexp_to" Type="varchar" MaxLength="20" />
           <Property Name="position_title" Type="varchar" MaxLength="150" />
-          <Property Name="dept_agncy_offc_co" Type="varchar" MaxLength="100" />
+          <Property Name="dept_agncy_offc_co" Type="varchar" MaxLength="500" />
           <Property Name="monthly_salary" Type="money" />
           <Property Name="salary_job_grade" Type="varchar" MaxLength="4" />
           <Property Name="appt_status" Type="varchar" MaxLength="30" />
@@ -292,6 +319,34 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="courtisy_title" Type="varchar" MaxLength="5" />
           <Property Name="postfix_name" Type="varchar" MaxLength="35" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_APL.dbo.vw_applieditems_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_applieditems_tbl">
+          <Key>
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="hiring_period" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="employee_name" Type="varchar" MaxLength="8000" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="hiring_period" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="department_name" Type="varchar" MaxLength="8000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_APL.dbo.VW_available_item_hdr_tbl_distinct' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_available_item_hdr_tbl_distinct">
+          <Key>
+            <PropertyRef Name="ctrl_no" />
+            <PropertyRef Name="descr" />
+          </Key>
+          <Property Name="ctrl_no" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="descr" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
         <Function Name="sp_activate_availableitemapl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_ctrl_no" Type="varchar" Mode="In" />
           <Parameter Name="p_item_no" Type="varchar" Mode="In" />
@@ -318,8 +373,10 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
         </Function>
         <EntityContainer Name="HRIS_APLModelStoreContainer">
           <EntitySet Name="adds_images_tbl" EntityType="Self.adds_images_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="applicant_attachment_tbl" EntityType="Self.applicant_attachment_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="available_item_hdr_tbl" EntityType="Self.available_item_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="onlineApplicants_register_tbl" EntityType="Self.onlineApplicants_register_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="onlineAppliedItem_tbl" EntityType="Self.onlineAppliedItem_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_children_tbl" EntityType="Self.personnel_children_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_conflict_tbl" EntityType="Self.personnel_conflict_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_contact_id_tbl" EntityType="Self.personnel_contact_id_tbl" Schema="dbo" store:Type="Tables" />
@@ -347,6 +404,23 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
     [available_item_tbl].[ctrl_no] AS [ctrl_no], 
     [available_item_tbl].[active_status] AS [active_status]
     FROM [dbo].[available_item_tbl] AS [available_item_tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_applieditems_tbl" EntityType="Self.vw_applieditems_tbl" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_applieditems_tbl].[employee_name] AS [employee_name], 
+    [vw_applieditems_tbl].[budget_code] AS [budget_code], 
+    [vw_applieditems_tbl].[employment_type] AS [employment_type], 
+    [vw_applieditems_tbl].[item_no] AS [item_no], 
+    [vw_applieditems_tbl].[hiring_period] AS [hiring_period], 
+    [vw_applieditems_tbl].[empl_id] AS [empl_id], 
+    [vw_applieditems_tbl].[department_name] AS [department_name]
+    FROM [dbo].[vw_applieditems_tbl] AS [vw_applieditems_tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_available_item_hdr_tbl_distinct" EntityType="Self.VW_available_item_hdr_tbl_distinct" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_available_item_hdr_tbl_distinct].[ctrl_no] AS [ctrl_no], 
+    [VW_available_item_hdr_tbl_distinct].[descr] AS [descr]
+    FROM [dbo].[VW_available_item_hdr_tbl_distinct] AS [VW_available_item_hdr_tbl_distinct]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -393,11 +467,15 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="onlineApplicants_register_tbl" EntityType="HRIS_APLModel.onlineApplicants_register_tbl" />
-          <EntitySet Name="personnel_tbl" EntityType="HRIS_APLModel.personnel_tbl" />
           <FunctionImport Name="sp_activate_availableitemapl_all">
           <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="adds_images_tbl" EntityType="HRIS_APLModel.adds_images_tbl" />
+          <EntitySet Name="VW_available_item_hdr_tbl_distinct" EntityType="HRIS_APLModel.VW_available_item_hdr_tbl_distinct" />
+          <EntitySet Name="onlineAppliedItem_tbl" EntityType="HRIS_APLModel.onlineAppliedItem_tbl" />
+          <EntitySet Name="vw_applieditems_tbl" EntityType="HRIS_APLModel.vw_applieditems_tbl" />
+          <EntitySet Name="personnel_tbl" EntityType="HRIS_APLModel.personnel_tbl" />
+          <EntitySet Name="applicant_attachment_tbl" EntityType="HRIS_APLModel.applicant_attachment_tbl" />
         </EntityContainer>
         <EntityType Name="personnel_children_tbl">
           <Key>
@@ -535,7 +613,7 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="workexp_from" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="workexp_to" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="position_title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="dept_agncy_offc_co" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="dept_agncy_offc_co" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="monthly_salary" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="salary_job_grade" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
           <Property Name="appt_status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -627,6 +705,56 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="middlename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="user_password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="adds_images_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="hiring_period" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="img_file" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="img_name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VW_available_item_hdr_tbl_distinct">
+          <Key>
+            <PropertyRef Name="ctrl_no" />
+            <PropertyRef Name="descr" />
+          </Key>
+          <Property Name="ctrl_no" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="descr" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="onlineAppliedItem_tbl">
+          <Key>
+            <PropertyRef Name="info_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="hiring_period" />
+          </Key>
+          <Property Name="info_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_applieditems_tbl">
+          <Key>
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="hiring_period" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="employee_name" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="department_name" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="personnel_tbl">
           <Key>
@@ -674,15 +802,16 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <Property Name="pwd_type_id" Type="Int32" />
           <Property Name="gender2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="adds_images_tbl">
+        <EntityType Name="applicant_attachment_tbl">
           <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="hiring_period" />
+            <PropertyRef Name="seq_no" />
+            <PropertyRef Name="info_ctrl_nbr" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="img_file" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-          <Property Name="img_name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="seq_no" Type="Int32" Nullable="false" />
+          <Property Name="info_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="doc_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="file_path" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="filedocs" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -905,6 +1034,7 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           <EntitySetMapping Name="onlineApplicants_register_tbl">
             <EntityTypeMapping TypeName="HRIS_APLModel.onlineApplicants_register_tbl">
               <MappingFragment StoreEntitySet="onlineApplicants_register_tbl">
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
                 <ScalarProperty Name="user_password" ColumnName="user_password" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="middlename" ColumnName="middlename" />
@@ -914,6 +1044,50 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="birthdate" ColumnName="birthdate" />
                 <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_activate_availableitemapl_all" FunctionName="HRIS_APLModel.Store.sp_activate_availableitemapl_all" />
+          <EntitySetMapping Name="adds_images_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.adds_images_tbl">
+              <MappingFragment StoreEntitySet="adds_images_tbl">
+                <ScalarProperty Name="img_name" ColumnName="img_name" />
+                <ScalarProperty Name="img_file" ColumnName="img_file" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_available_item_hdr_tbl_distinct">
+            <EntityTypeMapping TypeName="HRIS_APLModel.VW_available_item_hdr_tbl_distinct">
+              <MappingFragment StoreEntitySet="VW_available_item_hdr_tbl_distinct">
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="ctrl_no" ColumnName="ctrl_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="onlineAppliedItem_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.onlineAppliedItem_tbl">
+              <MappingFragment StoreEntitySet="onlineAppliedItem_tbl">
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_applieditems_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.vw_applieditems_tbl">
+              <MappingFragment StoreEntitySet="vw_applieditems_tbl">
+                <ScalarProperty Name="department_name" ColumnName="department_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -964,14 +1138,14 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_activate_availableitemapl_all" FunctionName="HRIS_APLModel.Store.sp_activate_availableitemapl_all" />
-          <EntitySetMapping Name="adds_images_tbl">
-            <EntityTypeMapping TypeName="HRIS_APLModel.adds_images_tbl">
-              <MappingFragment StoreEntitySet="adds_images_tbl">
-                <ScalarProperty Name="img_name" ColumnName="img_name" />
-                <ScalarProperty Name="img_file" ColumnName="img_file" />
-                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
-                <ScalarProperty Name="id" ColumnName="id" />
+          <EntitySetMapping Name="applicant_attachment_tbl">
+            <EntityTypeMapping TypeName="HRIS_APLModel.applicant_attachment_tbl">
+              <MappingFragment StoreEntitySet="applicant_attachment_tbl">
+                <ScalarProperty Name="filedocs" ColumnName="filedocs" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="doc_type" ColumnName="doc_type" />
+                <ScalarProperty Name="info_ctrl_nbr" ColumnName="info_ctrl_nbr" />
+                <ScalarProperty Name="seq_no" ColumnName="seq_no" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

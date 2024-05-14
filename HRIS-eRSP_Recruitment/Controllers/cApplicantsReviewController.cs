@@ -43,6 +43,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
        
         public ActionResult Initialize(string item_no,string employment_type,string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+
             CheckSession();
             psb_sked_item_nbrs pitm = new psb_sked_item_nbrs();
             assignToModel();
@@ -58,9 +61,12 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getApplication_status()
         {
+           
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var application_status = db2.application_status_tbl.ToList();
                 return JSON2(new{ application_status }, JsonRequestBehavior.AllowGet);
             }
@@ -75,8 +81,11 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var department = db2.sp_department_tbl_rct(hiring_period).ToList();
                 //var psb_sked_hdr = db2.vw_psb_sked_hdr_tbl.Where(a => a.hiring_period == hiring_period && a.psb_status < 2).ToList();
+
                 var psb_sked_hdr = db2.vw_psb_sked_hdr_tbl.Where(a => a.hiring_period == hiring_period).ToList();
                 return JSON2(new
                 {
@@ -97,6 +106,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 if (app_status == 1)
                 {
                     var del = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
@@ -137,6 +148,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var hiringperiodlist = db2.psb_hiring_period_tbl.Where(a => a.employment_type == employment_type && a.budget_code == budget_code).ToList();
                 return JSON2(new
                 {
@@ -159,7 +172,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
            
             try
             {
-                
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
+
                 budgetyear = db2.sp_budgetyears_tbl_combolist1_RCT(employment_type).ToList();
 
                 return JSON2(new
@@ -197,7 +212,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
             Session["s_budget_code"] = budget_code;
             try
             {
-               
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
+
                 var items = db.available_item_tbl.Where(a => a.budget_code == budget_code 
                 && a.employment_type == employment_type 
                 && a.department_code == department_code
@@ -219,6 +236,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             List<sp_review_applicant_tbl_list3_Result> review_list = new List<sp_review_applicant_tbl_list3_Result>();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var pitm = db2.vw_psb_sked_app_item_no_tbl.Where(a => a.item_no == item_no && a.budget_code == budget_code 
                 && a.employment_type == employment_type && a.hiring_period == hiring_period).FirstOrDefault();
 
@@ -245,7 +264,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
-                    var updatepds = db2.sp_update_rct_qs_frompds_2(empl_id, info_ctrl_nbr).FirstOrDefault();
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
+                var updatepds = db2.sp_update_rct_qs_frompds_2(empl_id, info_ctrl_nbr).FirstOrDefault();
                     
                     return JSON2(new { message = update.success, icon = icon.success, updatepds }, JsonRequestBehavior.AllowGet);
                 
@@ -260,6 +281,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var updateapl = db2.sp_update_rct_qs_fromapl_2(empl_id, info_ctrl_nbr).FirstOrDefault();
 
                 return JSON2(new { message = update.success, icon = icon.success, updateapl }, JsonRequestBehavior.AllowGet);
@@ -278,6 +301,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
              DateTime date = DateTime.Now; 
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var exm = db2.applicant_examination.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
                 if(exm == null)
                 {
@@ -309,6 +334,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var dtl = db2.sp_review_dtl_modal(app_ctrl_nbr).ToList();
                 var dtl_count = dtl.Count();
                 return JSON2(new { message = fetch.success, icon = icon.success, dtl, dtl_count}, JsonRequestBehavior.AllowGet);
@@ -324,6 +351,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             Session["s_employment_type"] = employment_type;
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var position_tbl = db2.sp_publicationvacant_combolist_RCT(IFNULL(budget_code, ""), IFNULL(employment_type, "")).ToList();
                 var budget_year = db2.sp_budgetyears_tbl_combolist1_RCT(employment_type).ToList();
                 return JSON2(new { icon = icon.success, budget_year, position_tbl }, JsonRequestBehavior.AllowGet);
@@ -338,6 +367,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var psb_ctrl_nbr = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).ToList();
                 var psb_ctrl_nbr_count = psb_ctrl_nbr.Count();
                 return JSON2(new { icon = icon.success, psb_ctrl_nbr_count }, JsonRequestBehavior.AllowGet);
@@ -354,6 +385,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var date = DateTime.Now;
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var exm = db2.applicant_examination.Where(a => a.app_ctrl_nbr == obj.app_ctrl_nbr).FirstOrDefault();
                 //var app = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == obj.app_ctrl_nbr).FirstOrDefault();
                 //app.item_no           = IFNULL(obj.item_no,"");
@@ -412,6 +445,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var icn = "";
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 psb_sked_app_tbl ps = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                 if (ps == null)
                 {
@@ -422,8 +457,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 ps.app_ctrl_nbr = app_ctrl_nbr;
                 db2.psb_sked_app_tbl.Add(ps);
 
-                var db = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-                db.app_status = "2";
+                var dbx = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                dbx.app_status = "2";
                 db2.SaveChanges();
                 message = "Successfully added to HRMPSB schedule";
                 icn = icon.success;
@@ -452,6 +487,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var icn = "";
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 psb_sked_app_tbl ps = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                 if (ps == null)
                 {
@@ -462,8 +499,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 ps.app_ctrl_nbr = app_ctrl_nbr;
                 db2.psb_sked_app_tbl.Add(ps);
 
-                var db = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-                db.app_status = "2";
+                var dbx = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                dbx.app_status = "2";
                 db2.SaveChanges();
                 message = "Successfully added to HRMPSB schedule";
                 icn = icon.success;
@@ -485,6 +522,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var icn = "";
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var inpsb = (from d in db2.psb_sked_app_tbl
                              join e in db2.psb_sked_hdr_tbl
                              on d.psb_ctrl_nbr equals e.psb_ctrl_nbr
@@ -525,6 +564,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var psbcshedmbr = db2.vw_psb_sked_mbr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).ToList();
                 return JSON2(new { message = update.success, icon = icon.success, psbcshedmbr }, JsonRequestBehavior.AllowGet);
             }
@@ -555,6 +596,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var user_id = Session["user_id"].ToString();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var returnUpdate = db2.sp_update_applicants_tbl(info_ctrl_nbr, empl_id, user_id, source).FirstOrDefault();
                 var review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
                 return JSON2(new { message = " ", icon = icon.success, returnUpdate, review_list }, JsonRequestBehavior.AllowGet);
@@ -582,6 +625,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
            var user = Session["user_id"].ToString();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 psb_sked_app_tbl psa = new psb_sked_app_tbl();
                 var dt = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
                 dt.app_status = ps;
@@ -622,6 +667,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 //if (password.Trim() != "")
                 //{
                 //    password = Cmn.DecryptString(password, Cmn.CONST_WORDENCRYPTOR);
@@ -649,6 +696,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 foreach (var x in emx)
                 {
                     aTimer = new System.Timers.Timer();
@@ -699,6 +748,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             DateTime dttm = DateTime.Now;
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
 
                 var middlename = email.middle_name == null ? "" : email.middle_name;
 
@@ -770,6 +821,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             DateTime dttm = DateTime.Now;
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var app = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == dt.app_ctrl_nbr).FirstOrDefault();
                 if (email_type == "1")
                 {
@@ -842,6 +895,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             DateTime dttm = DateTime.Now;
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
 
                 if (dt.middle_name == "")
                 {
@@ -987,7 +1042,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             DateTime dttm = DateTime.Now;    
             try
             {
-
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
 
 
                 var email_settup = db2.sp_send_email_notification(dt.email_address, dt.empl_id, dt.app_ctrl_nbr, dt.hiring_period, email_type).FirstOrDefault();
@@ -1109,6 +1165,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var user_id = Session["user_id"].ToString();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var returnUpdate = db2.sp_update_applicants_tbl(info_ctrl_nbr, empl_id, user_id, source).FirstOrDefault();
                
                 var review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
@@ -1135,6 +1193,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var user_id = Session["user_id"].ToString();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var returnUpdate = db2.sp_update_applicants_tbl(info_ctrl_nbr, empl_id, user_id, source).FirstOrDefault();
                 var review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
                 return JSON2(new { message = " ", icon = icon.success, returnUpdate, review_list }, JsonRequestBehavior.AllowGet);
@@ -1150,6 +1210,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var apl_list = db2.sp_reg_applicant_pdsID(empl_id).ToList();
                 return JSON2(new { message = delete.success, icon = icon.success, apl_list }, JsonRequestBehavior.AllowGet);
             }
@@ -1166,16 +1228,15 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var datenow = DateTime.Now;
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 List<sp_review_applicant_tbl_list3_Result> review_list = new List<sp_review_applicant_tbl_list3_Result>();
 
-                var ps = db2.vw_psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
-                if (ps != null)
-                {
-                    throw new Exception("The applicant has already been added to the HRMPSB screening!");
-                }
+                
+                
 
                 var ps2 = db2.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
-                if (ps2.psb_status >= 2)
+                if (ps2 != null && ps2.psb_status >= 2)
                 {
                     throw new Exception("Cannot add applicants from PSB schedule that is already concluded");
                 }
@@ -1185,22 +1246,24 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 //    throw new Exception("The applicant has already been notified for the HRMPSB screening!");
                 //}
 
-                var app = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
-                    if(app == null)
-                    {
-                        var prog = db2.applicant_qualified_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-                        prog.quali_hrmpsb = true;
-                        prog.quali_hrmpsb_by = user;
-                        prog.quali_hrmpsb_dttm = datenow;
+                
+                    var prog = db2.applicant_qualified_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                    prog.quali_hrmpsb = true;
+                    prog.quali_hrmpsb_by = user;
+                    prog.quali_hrmpsb_dttm = datenow;
 
+                    var ps = db2.vw_psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+                    if (ps == null)
+                    {
                         psb_sked_app_tbl ap = new psb_sked_app_tbl();
                         ap.app_ctrl_nbr = app_ctrl_nbr;
                         ap.psb_ctrl_nbr = psb_ctrl_nbr;
                         db2.psb_sked_app_tbl.Add(ap);
+                    }
 
-                        var apl = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-                        apl.app_status = "2";
-                        db2.SaveChanges();
+                    var apl = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                    apl.app_status = "2";
+                    db2.SaveChanges();
 
                         var inpsb = (from p in db2.psb_sked_item_nbrs
                                      where p.item_no == item_no
@@ -1233,15 +1296,100 @@ namespace HRIS_eRSP_Recruitment.Controllers
                        
                         message = "Applicants is successfully added to PSb schedule";
                         icn = "success";
-                       
-                    }
 
-                review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+                 db2.sp_psb_pnl_rtg_tbl_qsupdate(psb_ctrl_nbr, app_ctrl_nbr);
+
+                 review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
                 return JSON2(new { message = message, icon = icn, review_list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exp)
             {
                 return Json(new { message = exp.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult addToPSBAll(List<app_ctrl_nbr_list_2> data)
+        {
+            var message = "";
+            var icn = "";
+            var user = Session["user_id"].ToString();
+            var datenow = DateTime.Now;
+
+            var psb_ctrl_nbr = data[0].psb_ctrl_nbr;
+            var app_ctrl_nbr = data[0].app_ctrl_nbr;
+            var item_no = data[0].item_no;
+            var employment_type = data[0].employment_type;
+            var budget_code = data[0].budget_code;
+            var hiring_period = data[0].hiring_period;
+            List<app_ctrl_nbr_list_2> insert_failed_list = new List<app_ctrl_nbr_list_2>();
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            List<sp_review_applicant_tbl_list3_Result> review_list = new List<sp_review_applicant_tbl_list3_Result>();
+            try
+            {
+               
+
+                
+
+                var error_text = "";
+
+                for (var x=0;x<data.Count();x++)
+                {
+                    
+                    var x_psb_ctrl_nbr = data[x].psb_ctrl_nbr;
+                    var x_app_ctrl_nbr = data[x].app_ctrl_nbr;
+                    var x_item_no = data[x].item_no;
+                    var x_employment_type = data[x].employment_type;
+                    var x_budget_code = data[x].budget_code;
+                    var x_department_code = data[x].department_code;
+                    var x_hiring_period = data[x].hiring_period;
+
+                    var SQL_ST = db2.sp_add_to_hrmpsb(x_psb_ctrl_nbr, x_app_ctrl_nbr, x_item_no, x_employment_type, x_budget_code, x_hiring_period, x_department_code, user).FirstOrDefault();
+                    if (SQL_ST != null && SQL_ST.errorcode == "0")
+                    {
+                        if(SQL_ST.errormessage == "Cannot add applicants from HRMPSB schedule that is already concluded.")
+                        {
+                            throw new Exception(SQL_ST.errormessage);
+                        }
+                        insert_failed_list.Add(data[x]);
+                    }
+
+                }
+
+              
+
+                message = "Applicants is successfully added to PSb schedule";
+                icn = "success";
+
+
+
+                review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+                return JSON2(new { message = message, icon = icn, review_list, insert_failed_list}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exp)
+            {
+                review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+                return JSON2(new { message = exp.Message, icon = icon.error, review_list}, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult sp_psb_pnl_rtg_tbl_qsupdate(string app_ctrl_nbr, string psb_ctrl_nbr,string employment_type,string budget_code,string hiring_period,string item_no)
+        {
+            try
+            {
+              
+                db2.Database.CommandTimeout = Int32.MaxValue;
+                var sp_psb_pnl_rtg_tbl_qsupdate = db2.sp_psb_pnl_rtg_tbl_qsupdate(psb_ctrl_nbr, app_ctrl_nbr).FirstOrDefault();
+                if(sp_psb_pnl_rtg_tbl_qsupdate.db_code == "0")
+                {
+                    throw new Exception(sp_psb_pnl_rtg_tbl_qsupdate.db_message);
+                }
+                var review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+                return JSON2(new { icon = icon.success, review_list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -1251,7 +1399,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var icn = "";
             try
             {
-               
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
+
                 List<sp_review_applicant_tbl_list3_Result> review_list = new List<sp_review_applicant_tbl_list3_Result>();
 
                 
@@ -1264,7 +1414,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 }
 
                 var ps2 = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-                if (ps2.email_noti_hrmpsb_dttm != "")
+                if (ps2 != null && ps2.email_noti_hrmpsb_dttm != "")
                 {
                     throw new Exception("The applicant has already been notified for the HRMPSB screening!");
                 }
@@ -1322,6 +1472,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var psbskedhdr = db2.sp_psb_sked_hdr_tbl_list(employment_type,budget_code).ToList();
                 return JSON2(new { icon = icon.success, psbskedhdr }, JsonRequestBehavior.AllowGet);
             }
@@ -1335,6 +1487,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var examschedules = db2.sp_exam_schedule_tbl(app_ctrl_nbr).ToList();
                 return JSON2(new { icon = icon.success, examschedules }, JsonRequestBehavior.AllowGet);
             }
@@ -1343,7 +1497,22 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
-            
+
+        public ActionResult GetExamSchedulesAll()
+        {
+            try
+            {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
+                var examschedulesAll = db2.sp_exam_schedule_tbl_2().ToList();
+                return JSON2(new { icon = icon.success, examschedulesAll }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult SetExamSchedule(
              string app_ctrl_nbr
             ,string hiring_period
@@ -1355,6 +1524,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var ap_review_tbl  = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
                 if (ap_review_tbl != null)
                 {
@@ -1375,10 +1546,43 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult SetExamScheduleAll(
+            List<app_ctrl_nbr_list> app_ctrl_nbr_list
+          , string hiring_period
+          , string item_no
+          , string budget_code
+          , string employment_type
+          , int exam_id
+          )
+        {
+            try
+            {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
+                
+                for (var x = 0; x < app_ctrl_nbr_list.Count(); x++)
+                {
+                    var app_ctrl_nbr = app_ctrl_nbr_list[x].app_ctrl_nbr;
+                    var ap_review_tbl = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                    ap_review_tbl.exam_id = exam_id;
+                    db2.SaveChanges();
+                }
+                
+               var review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+               return JSON2(new { message = "Successfully set exam date", icon = icon.success, review_list }, JsonRequestBehavior.AllowGet);
+                
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult ViewDates(string app_ctrl_nbr)
         {
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var viewdates = db2.vw_applicants_review_dates_names.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).ToList();
                 return JSON2(new { icon = icon.success, viewdates}, JsonRequestBehavior.AllowGet);
             }
@@ -1391,6 +1595,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var viewexam = db2.vw_applicant_examination_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).ToList();
                 return JSON2(new { icon = icon.success, viewexam}, JsonRequestBehavior.AllowGet);
             }
@@ -1405,6 +1611,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var datenow = DateTime.Now;
                 var user = Session["user_id"].ToString();
                 var x = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
@@ -1446,11 +1654,84 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
+        public ActionResult AddToTop5ExamineesAll(List<app_ctrl_nbr_list_2> data)
+        {
+            CheckSession();
+
+            List<sp_review_applicant_tbl_list3_Result> review_list = new List<sp_review_applicant_tbl_list3_Result>();
+
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            var datenow = DateTime.Now;
+            var user = Session["user_id"].ToString();
+            var item_no = data[0].item_no;
+            var employment_type = data[0].employment_type;
+            var budget_code = data[0].budget_code;
+            var hiring_period = data[0].hiring_period;
+
+            try
+            {
+               
+
+               
+                for (var x = 0; x < data.Count(); x++)
+                {
+                    var app_ctrl_nbr = data[x].app_ctrl_nbr;
+                    var z = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                    if (z != null)
+                    {
+
+                        if (z.score_rendered == 0)
+                        {
+                            throw new Exception(" applicants have not received exam ratings yet!");
+                        }
+
+                        if (z.email_aknowldge_regret_dttm != "")
+                        {
+                            throw new Exception("The applicant has already been notified of disqualification from the exam!");
+                        }
+                    }
+
+                    var app = db2.applicant_qualified_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+
+                    if (app == null)
+                    {
+                        applicant_qualified_progress_tbl prog = new applicant_qualified_progress_tbl();
+                        prog.app_ctrl_nbr = data[x].app_ctrl_nbr;
+                        prog.top5examinees = true;
+                        prog.top5examinees_dttm = datenow;
+                        prog.top5examinees_by = user;
+                        //prog.congratulatory = false;
+                        db2.applicant_qualified_progress_tbl.Add(prog);
+                    }
+                    else
+                    {
+                        app.top5examinees = true;
+                        app.top5examinees_dttm = datenow;
+                        app.top5examinees_by = user;
+                    }
+                }
+
+                db2.SaveChanges();
+
+                review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+                return JSON(new { message = "Successfully added to top 5 examinees", icon = icon.success, review_list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                var message = e.Message;
+                review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+                return Json(new { message = message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult RemoveFromTop5Examinees(string app_ctrl_nbr)
         {
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var datenow = DateTime.Now;
                 var user = Session["user_id"].ToString();
                 var x = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
@@ -1476,7 +1757,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 db2.SaveChanges();
 
                 var review_list = db2.sp_review_applicant_tbl_list3(x.item_no, x.employment_type, x.budget_code, x.hiring_period).ToList();
-                return JSON(new { message = "Successfully added to top 5 examinees", icon = icon.success, review_list }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "Successfully remove from top 5 examinees", icon = icon.success, review_list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -1491,6 +1772,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var datenow = DateTime.Now;
                 var user = Session["user_id"].ToString();
                 var x = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
@@ -1528,6 +1811,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var datenow = DateTime.Now;
                 var user = Session["user_id"].ToString();
                 var x = db2.vw_applicants_progress_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
@@ -1572,9 +1857,37 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
+
                 var user = Session["user_id"].ToString();
                 var datenow = DateTime.Now;
+
+                var q1 = (from a in db2.applicants_review_tbl
+                         join b in db2.psb_sked_app_tbl
+                         on a.app_ctrl_nbr equals b.app_ctrl_nbr
+                         join c in db2.psb_sked_item_nbrs
+                         on new { b.psb_ctrl_nbr, a.item_no } equals new { c.psb_ctrl_nbr, c.item_no }
+                         where a.app_ctrl_nbr == app_ctrl_nbr
+                         select new
+                         {
+                              b.psb_ctrl_nbr
+                             ,c.item_no
+
+                         }).FirstOrDefault();
+                if (q1 != null)
+                {
+                    var approve_exist = db2.selected_applicants_tbl.Where(a => a.item_no == q1.item_no && a.psb_ctrl_nbr == q1.psb_ctrl_nbr).ToList();
+
+                    if (approve_exist.Count() > 0)
+                    {
+                        throw new Exception("This item already has approved application!, changes in rating is not permitted.");
+                    }
+                }
+               
+
                 var exam  = db2.applicant_examination.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+
                 if (exam == null)
                 {
                     applicant_examination exm = new applicant_examination();
@@ -1609,6 +1922,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             try
             {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
                 var user_id = Session["user_id"].ToString();
                 var datenow = DateTime.Now;
                 var dbquery = db2.insider_outsider_applicant_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
@@ -1637,6 +1952,84 @@ namespace HRIS_eRSP_Recruitment.Controllers
             catch (DbEntityValidationException exp)
             {
                 return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+       
+
+        public ActionResult ChangeItem(string app_ctrl_nbr, string item_no_previous, string hiring_period, string item_no_new)
+        {
+            try
+            {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
+                applicants_review_tbl CONT = new applicants_review_tbl();
+                var date = DateTime.Now;
+                var datestr = date.ToString();
+                var user_id = Session["user_id"].ToString();
+                var allow_change = db2.admin_authority_rct_tbl.Where(a => a.user_id == user_id && a.auth_code == 1).ToList();
+
+                if (allow_change.Count() == 0)
+                {
+                    throw new Exception("The user does not have the authority to change the item!"); 
+                }
+                var change_exist = db2.change_item_history_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.item_previous == item_no_previous && a.hiring_period == hiring_period).FirstOrDefault();
+
+                if (change_exist == null)
+                {
+                    change_item_history_tbl c = new change_item_history_tbl();
+                    c.app_ctrl_nbr = app_ctrl_nbr;
+                    c.item_previous = item_no_previous;
+                    c.item_new = item_no_new;
+                    c.hiring_period = hiring_period;
+                    c.created_by = user_id;
+                    c.created_dttm = datestr;
+                    c.updated_by = "";
+                    c.updated_dttm = "";
+                    db2.change_item_history_tbl.Add(c);
+                }
+                else {
+                    change_exist.item_new     = item_no_new;
+                    change_exist.updated_by   = user_id;
+                    change_exist.updated_dttm = datestr;
+
+                }
+                var app_item_change = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                if (app_item_change == null) {
+                    throw new Exception("The applicant was not found!");
+                }
+                else
+                {
+                    CONT = app_item_change;
+                    db2.applicants_review_tbl.Remove(app_item_change);
+                    db2.SaveChanges();
+
+                    CONT.item_no = item_no_new;
+                    db2.applicants_review_tbl.Add(CONT);
+                    db2.SaveChanges();
+                }
+               
+
+                var review_list = db2.sp_review_applicant_tbl_list3(item_no_new, app_item_change.employment_type, app_item_change.budget_code, hiring_period).ToList();
+                return JSON2(new { icon = icon.success, review_list}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exp)
+            {
+                return Json(new { message = exp.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult getAllApplicants(string budget_code,  string employment_type)
+        {
+            try
+            {
+                db.Database.CommandTimeout = Int32.MaxValue;
+                db2.Database.CommandTimeout = Int32.MaxValue;
+                var AllApplicants = db2.sp_review_applicant_tbl_list_all("", employment_type, budget_code, "").ToList();
+
+                return JSON2(new { icon = icon.success, AllApplicants }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exp)
+            {
+                return Json(new { message = exp.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
 

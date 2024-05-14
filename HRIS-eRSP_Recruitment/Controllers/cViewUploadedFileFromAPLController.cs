@@ -208,5 +208,22 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
+
+       
+        public ActionResult getPDFFile(string info_ctrl_nbr,string doc_type,string file_path)
+        {
+            CheckSession();
+            try
+            {
+
+                var pdf_file = db2.applicant_attachment_tbl.Where(a => a.info_ctrl_nbr == info_ctrl_nbr && a.doc_type == doc_type && a.file_path == file_path).FirstOrDefault();
+
+                return JSON(new { message = saved.success, icon = icon.success, pdf_file }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException exp)
+            {
+                return JSON(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

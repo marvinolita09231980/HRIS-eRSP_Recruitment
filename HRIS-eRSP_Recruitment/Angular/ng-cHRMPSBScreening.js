@@ -30,6 +30,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
     s.is_panel = false;
     s.btn_text3 = "PSB Concluded"
     s.Data_List_RAW = []
+    s.ToComparativeTempList = []
     s.psb_ctrl_nbr_toconcluded = ""
     s.profile_img = ""
     s.reactivate = false
@@ -109,6 +110,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
             {
                 data: s.Data_List,
                 sDom: 'rt<"bottom"p>',
+                order: [[2, "asc"]],
                 pageLength: 10,
                 columns: [
                     {
@@ -126,9 +128,10 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                         }
                     },
                     {
+                        sortable:false,
                         "mData": "applicant_name",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-left btn-block tabtxt'>" + data + "</span>"
+                            return "<h3 class='text-left btn-block tabtxt'>" + data + "</h3>" 
                         }
                     },
                     {
@@ -155,7 +158,18 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                             return "<span class='tabtxt'>&nbsp;&nbsp;&nbsp;&nbsp;" + data + "</span>"
                         }
                     },
-                    
+                    {
+                        "mData": "app_status",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='tabtxt'>&nbsp;&nbsp;&nbsp;&nbsp;" + changelabel_2(data) + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "app_status",
+                        "mRender": function (data, type, full, row) {
+                            return '<input ng-disabled="' + caAdded(data) + '" id="toComparativeCbRow' + row["row"] + '"  type="checkbox" class="form-control" ng-click="addToComparativeCB(' + row["row"] + ')"  ng-checked="' + caAdded(data) + '"/> '
+                        }
+                    },
                     {
                         "mData": "app_status",
                         "bSortable": false,
@@ -163,7 +177,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
 
                            return   '<div>' +
                                        '<button  type="button" class="btn btn-info btn-sm btn-grid" ng-click="psbrating_view(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Show Panel Ratings" ' + HSAD(full["hasSelected_approved"]) +'>RATE</button>' +
-                                       '<button  type="button"  class="btn btn-success btn-sm btn-grid" ng-click="pass_check_box(' + row["row"] + ',' + caAdded(data) + ')" data-toggle="tooltip" data-placement="left" title="Submit For Comparative">' +
+                               '<button  type="button"  class="btn ' + changeColorClass(data)+' btn-sm btn-grid" ng-click="pass_check_box(' + row["row"] + ',' + caAdded(data) + ')" data-toggle="tooltip" data-placement="left" title="Submit For Comparative">' +
                                        ''+ changelabel(data) + '' +
                                        '</button > '+
                                     '</div>'
@@ -190,12 +204,28 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
             return "fa-plus"
         }
     }
+    function changeColorClass(val) {
+        if (parseInt(val) >= 3) {
+            return "btn-danger"
+        }
+        else if (parseInt(val) < 3) {
+            return "btn-success"
+        }
+    }
     function changelabel(val) {
         if (parseInt(val) >= 3) {
-            return "Submitted"
+            return "Remove"
         }
         else if (parseInt(val) < 3) {
             return "Submit"
+        }
+    }
+    function changelabel_2(val) {
+        if (parseInt(val) >= 3) {
+            return "In comparative"
+        }
+        else if (parseInt(val) < 3) {
+            return "Not in comparative"
         }
     }
     function caAdded(val) {
@@ -446,7 +476,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
             
         }
 
-      
+        $("#addtoComparativeBtn").addClass("hidden")
 
     }
 
@@ -475,6 +505,40 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
           
             return ""
         }
+    }
+    
+    s.addToComparativeCB = function (row) {
+        var dt = s.Data_List[row]
+        var cbrow = $("#toComparativeCbRow" + row)[0].checked
+        
+        if (cbrow) {
+            var ex = s.ToComparativeTempList.filter(function (d) {
+                return d.app_ctrl_nbr == dt.app_ctrl_nbr
+            })
+            if (ex.length == 0) {
+
+                s.ToComparativeTempList.push(
+                    {
+                         "app_ctrl_nbr": dt.app_ctrl_nbr
+                        , "psb_ctrl_nbr": dt.psb_ctrl_nbr
+                    }
+                )
+            }
+        }
+        else {
+            s.ToComparativeTempList = s.ToComparativeTempList.filter(function (d) {
+                return d.app_ctrl_nbr != dt.app_ctrl_nbr
+            })
+        }
+
+
+        if (s.ToComparativeTempList.length > 0 ) {
+            $("#addtoComparativeBtn").removeClass("hidden")
+        }
+        else {
+            $("#addtoComparativeBtn").addClass("hidden")
+        }
+
     }
 
     s.getDialKnobValue = function (obj, form) {
@@ -635,7 +699,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
             var item_no = $("#item_no").val()
             h.post("../cHRMPSBScreening/GenerateRating",
                 {
-                    psb_ctrl_nbr: dt.psb_ctrl_nbr
+                      psb_ctrl_nbr: dt.psb_ctrl_nbr
                     , employment_type: dt.employment_type
                     , budget_code: dt.budget_code
                     , item_no: item_no
@@ -1015,6 +1079,35 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
             }
            
         }
+    }
+
+    s.addtoComparativeAll = function () {
+        s.ToComparativeTempList
+
+        cs.loading("show")
+        h.post("../cHRMPSBScreening/submit_to_comparative_All", { data: s.ToComparativeTempList }).then(function (d) {
+
+            s.rt_err_ntf = d.data.dbn
+
+            if (d.data.icon == "success") {
+             
+                s.Data_List = d.data.psblist.refreshTable("Data_List_Grid", "")
+                swal("Applicants is added for comparative assessment", { icon: "success", timer: 2000 })
+                cs.loading("hide")
+            }
+            else {
+                if (s.rt_err_ntf.psb_concluded == true) {
+                    $("#rating_err_notif").modal("show")
+                }
+                else {
+                    swal("This application can't proceed to comparative, HRMPSB screening is not yet concluded!", { icon: d.data.icon })
+                }
+
+                //swal(d.data.message, { icon: d.data.icon })
+
+                cs.loading("hide")
+            }
+        })
     }
 
 

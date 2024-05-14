@@ -12,6 +12,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
     public class cHRMPSBScreeningController : CustomController
     {
         HRIS_RCTEntities db = new HRIS_RCTEntities();
+        HRIS_APLEntities db2 = new HRIS_APLEntities();
         //User_Menu um = new User_Menu();
         RCT_Common rct = new RCT_Common();
         // GET: cHRMPSBScreening
@@ -340,6 +341,11 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 var psb = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                 psb.psb_status = 2;
                 db.SaveChanges();
+
+                var ap = db2.available_item_hdr_tbl.Where(a => a.ctrl_no == psb.hiring_period).FirstOrDefault();
+                ap.active_forpsb = false;
+                db2.SaveChanges();
+
                 var psb_status = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault().psb_status;
                 var psb_action_btn = db.sp_psb_action_list(psb_ctrl_nbr).ToList();
                 return JSON(new { psb_action_btn,message = fetch.success, icon = icon.success, psb_status}, JsonRequestBehavior.AllowGet);
@@ -498,6 +504,53 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return JSON(new { message = DbEntityValidationExceptionError(e), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
+        
+
+        public ActionResult submit_to_comparative_All(List<app_ctrl_nbr_list_2> data)
+        {
+
+            db.Database.CommandTimeout = Int32.MaxValue;
+            var user_id = Session["user_id"].ToString();
+            var item_no = Session["item_no"].ToString();
+            var message = "";
+            var icn = "";
+            var app_status = "";
+            var psb_ctrl_nbr = data[0].psb_ctrl_nbr;
+            List<sp_applicant_proceedto_CA_Result> d = new List<sp_applicant_proceedto_CA_Result>();
+            try
+            {
+                for(var x=0; x < data.Count(); x++)
+                {
+                    var x_psb_ctrl_nbr = data[x].psb_ctrl_nbr;
+                    var x_app_ctrl_nbr = data[x].app_ctrl_nbr;
+
+                    d = db.sp_applicant_proceedto_CA(x_psb_ctrl_nbr, x_app_ctrl_nbr).ToList();
+
+                    if (d[0].for_comparative == true)
+                    {
+                        var dbs = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == x_app_ctrl_nbr).FirstOrDefault();
+                        dbs.app_status = "3";
+                        app_status = "3";
+                        icn = icon.success;
+                    }
+                    else
+                    {
+                        throw new Exception(d[0].rating_error);
+                    }
+                    db.SaveChanges();
+                }
+
+                var  psblist = db.sp_hrmpsb_screening_list(psb_ctrl_nbr, "2", user_id).Where(a => a.item_no == item_no).ToList();
+                
+                return JSON(new { message, icon = icn, dbn = d[0], psblist, app_status }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                return JSON(new { message = e.Message, dbn = d[0], icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         public ActionResult submit_to_comparative(string app_ctrl_nbr, string psb_ctrl_nbr)
         {

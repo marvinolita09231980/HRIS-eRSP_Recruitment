@@ -15,6 +15,6 @@ namespace HRIS_eRSP_Recruitment.Models
     public partial class vw_personnel_tbl_image_RCT
     {
         public string empl_id { get; set; }
-        public byte[] empl_photo_img { get; set; }
+        public string empl_photo_img { get; set; }
     }
 }

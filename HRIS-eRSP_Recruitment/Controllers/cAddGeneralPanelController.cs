@@ -93,5 +93,20 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = ex.Message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult InactiveAllPanel()
+        {
+           
+            var user_id = Session["user_id"].ToString();
+            try
+            {
+                db.sp_inactive_all_panel();
+                var general_panel = db.vw_psb_panel_permanent_mbr_tbl.ToList();
+                return Json(new { message = "Successfully in-active all panels", icon = "success", general_panel }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { message = ex.Message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

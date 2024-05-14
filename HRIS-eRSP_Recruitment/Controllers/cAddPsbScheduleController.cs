@@ -112,6 +112,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 psb_sked_hdr_tbl psb = new psb_sked_hdr_tbl();
                 var psb_ctrl_nbr = db.sp_autogen_psb_ctrl_nbr().FirstOrDefault();
                 psb.psb_ctrl_nbr = psb_ctrl_nbr;
+                psb.psb_date = Convert.ToDateTime(data.psb_date);
                 psb.budget_code = data.budget_code;
                 psb.employment_type = data.employment_type;
                 psb.hiring_period = data.hiring_period;

@@ -24,5 +24,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public string position_short_title { get; set; }
         public string department_code { get; set; }
         public string department_name1 { get; set; }
+        public Nullable<int> combined_id { get; set; }
+        public int ranked { get; set; }
     }
 }

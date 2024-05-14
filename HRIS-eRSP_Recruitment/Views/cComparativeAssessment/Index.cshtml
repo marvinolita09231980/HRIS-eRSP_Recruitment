@@ -224,7 +224,7 @@
                 <div class="modal-footer">
                     <div class="row">
                         <div class="col-lg-12 tabs-container m-b-md">
-                            <table id="Data_List_Grid2" class="table table-striped table-bordered table-hover">
+                            <table id="Data_List_Grid2" style="width:100%;" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th width="25%">OFFICE</th>
@@ -502,7 +502,7 @@
                     </div>
                     <div class="row no-padding" style="margin-top:-10px!important;">
                         <div class="col-lg-12 tabs-container m-b-md">
-                            <table id="Panel_Grid" class="table table-striped table-bordered table-hover">
+                            <table id="Panel_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th width="30%">PANEL NAME</th>
@@ -699,28 +699,35 @@
                     <div class="tabs-container">
                         <ul class="nav nav-tabs">
                             <li ng-click="changeTab(1)" class="active"><a data-toggle="tab" href="#tab-1">Per Item Comparative</a></li>
-                            <li ng-click="changeTab(2)" class=""><a data-toggle="tab" href="#tab-2">Rank Items</a></li>
+                            @*<li ng-click="changeTab(2)" class=""><a data-toggle="tab" href="#tab-2">Rank Items</a></li>*@
                             <li ng-click="changeTab(3)" class=""><a data-toggle="tab" href="#tab-3">Ranked Items Comparative</a></li>
                         </ul>
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body">
                                     <div class="row no-padding" style="margin-top:-10px!important;">
-                                        <table id="Data_item_Grid" class="table table-striped table-bordered table-hover">
+                                        <table id="Data_item_Grid" style="width:100%"  class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <th width="15%">Control Number</th>
                                                     <th width="45%">Description</th>
                                                     <th width="20%">Endorse Status</th>
-                                                    <th width="20%">Action</th>
+                                                    <th width="4%">Details</th>
+                                                    <th width="4%">Combine</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
                                         </table>
                                     </div>
+                                    <div class="row">
+                                        <textarea id="combine_descr" class="form-control" placeholder="Type your description here..." required></textarea>
+                                    </div>
+                                    <div class="row">
+                                        <button class=" btn btn-info pull-right m-t-md" ng-click="combinedItems()">Rank Items</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div id="tab-2" class="tab-pane">
+                            @*<div id="tab-2" class="tab-pane">
                                 <div class="panel-body">
                                     <div class="row no-padding" style="margin-top:-10px!important;">
                                         <table id="Data_item_Grid2" class="table table-striped table-bordered table-hover">
@@ -747,11 +754,11 @@
                                 </div>
 
 
-                            </div>
+                            </div>*@
                             <div id="tab-3" class="tab-pane">
                                 <div class="panel-body">
                                     <div class="row no-padding" style="margin-top:-10px!important;">
-                                        <table id="Data_combined_Grid" class="table table-striped table-bordered table-hover">
+                                        <table id="Data_combined_Grid" style="width:100%"  class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <th width="15%">Control Number</th>
@@ -774,7 +781,7 @@
         </div>
 
     </div>
-
+    </div>
     <div class="modal fade" id="comparative_item_applicant" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lllg">
             <div class="modal-content animated slideInLeft">
@@ -808,7 +815,7 @@
 
                     <div class="row no-padding" style="margin-top:-10px!important;">
                         <div class="col-lg-12 tabs-container m-b-md">
-                            <table id="Data_List_Grid" class="table table-striped table-bordered table-hover">
+                            <table id="Data_List_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th width="5%"></th>
@@ -831,7 +838,7 @@
         </div>
     </div>
     <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-        <div class="modal-dialog modal-lg" style="width:90%!important;">
+        <div class="modal-dialog modal-lg" style="width:90%!important;height:90%!important">
             <div class="modal-content  modal-content-add-edit">
                 <div class="modal-header navy-bg text-white">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

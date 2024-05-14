@@ -17,4 +17,5 @@ namespace HRIS_eRSP_Recruitment.Models
         public string remarks_details { get; set; }
 
     }
+   
 }

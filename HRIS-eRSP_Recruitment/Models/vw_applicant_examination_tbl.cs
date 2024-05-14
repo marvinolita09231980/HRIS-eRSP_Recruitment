@@ -20,7 +20,7 @@ namespace HRIS_eRSP_Recruitment.Models
         public string exam_date { get; set; }
         public System.DateTime created_dttm { get; set; }
         public string created_by_user { get; set; }
-        public Nullable<System.DateTime> updated_dttm { get; set; }
+        public System.DateTime updated_dttm { get; set; }
         public string updated_by_user { get; set; }
     }
 }

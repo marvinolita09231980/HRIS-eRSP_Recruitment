@@ -126,6 +126,7 @@ ng_eRSP_App.controller("cAddGeneralPanel_Ctrlr", function (commonScript, $scope,
         s[id] = value
     }
     function bool2numstr(val) {
+       
         if (val) return "1"
         else return "0"
     }
@@ -334,10 +335,27 @@ ng_eRSP_App.controller("cAddGeneralPanel_Ctrlr", function (commonScript, $scope,
         })
     }
 
-    
-    
-    
-   
+    s.inActiveAll = function () {
+
+        swal({
+            title: "Are you sure you want to in-active all panels in the list?",
+            text: "Click Ok to proceed or Cancel to cancel",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then(function (willDelete) {
+                if (willDelete) {
+                    h.post("../cAddGeneralPanel/InactiveAllPanel").then(function (d) {
+                        s.PsbPanel_Data = d.data.general_panel.refreshTable("psb_panel", "")
+                        swal(d.data.message, { icon: d.data.icon })
+                    })
+                }
+
+            });
+
+    }
+
 })
 
 

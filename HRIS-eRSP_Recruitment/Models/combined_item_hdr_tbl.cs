@@ -22,5 +22,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public string descr { get; set; }
         public string combined_by { get; set; }
         public Nullable<System.DateTime> combined_dttm { get; set; }
+        public string item_no { get; set; }
     }
 }

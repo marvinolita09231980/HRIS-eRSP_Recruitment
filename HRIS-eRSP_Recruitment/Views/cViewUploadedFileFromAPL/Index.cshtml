@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
 
 }
 <style type="text/css">
@@ -89,6 +90,7 @@
         width: 20px;
         height: 20px;
     }
+
     .modal-xl {
         width: 90% !important;
     }
@@ -137,11 +139,16 @@
                                     View File&nbsp;<i id="add" class="fa fa-plus"></i>
                                 </button>
                                 @*<button class="btn btn-success font-bold" ng-click="downloadPdf(file_index)">
-                    Download File&nbsp;<i id="add" class="fa fa-download"></i>
-                </button>*@
+                                        Download File&nbsp;<i id="add" class="fa fa-download"></i>
+                                    </button>*@
                             </center>
                         </div>
-                        <img src="~/ResourcesImages/Screenshot 2023-12-06 105933.png" />
+                        <div class="col-sm-12">
+                            <center>
+
+                                <img src="~/ResourcesImages/pdf_icon.png" height="80" width="80" />
+                            </center>
+                        </div>
 
                     </div>
                 </div>
@@ -184,7 +191,7 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         @*<button ng-show="!dropzone" class="btn btn-danger {{attach}}" ng-click="changeZone(1,0)">Attach Files&nbsp;<i class="fa fa-paperclip"></i></button>
-                        <button ng-show="dropzone" class="btn btn-danger {{attach}}" ng-click="changeZone(2,0)">See Attached Files&nbsp;<i class="fa fa-paperclip"></i></button>*@
+                            <button ng-show="dropzone" class="btn btn-danger {{attach}}" ng-click="changeZone(2,0)">See Attached Files&nbsp;<i class="fa fa-paperclip"></i></button>*@
                         <div class="btn-group" style="margin-left:20px;">
                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle {{dropz}}">Document Type&nbsp;&nbsp;<span class="caret"></span></button>
                             <ul class="dropdown-menu">
@@ -204,23 +211,23 @@
                     </div>
 
                     @*<div class="ibox-content" ng-show="dropzone">
-                        <form id="my-awesome-dropzone" class="dropzone" action="#">
-                            <div class="dropzone-previews"></div>
-                            <button type="submit" id="submitFile" class="btn btn-primary pull-right">Submit Attachments!</button>
-                            <div class="col-12">Note: Upload PDF files only</div>
-                        </form>
-                    </div>*@
+                            <form id="my-awesome-dropzone" class="dropzone" action="#">
+                                <div class="dropzone-previews"></div>
+                                <button type="submit" id="submitFile" class="btn btn-primary pull-right">Submit Attachments!</button>
+                                <div class="col-12">Note: Upload PDF files only</div>
+                            </form>
+                        </div>*@
                     <div class="ibox-content" ng-show="!nofile">
                         <div class="dropzone">
                             <div class="col-sm-3 dropzone-previews" ng-repeat="l in att_dtl track by $index" ng-click="choose_file($index)">
-                                <img src="~/ResourcesImages/pdf_icon.png" alt="" height="136" width="114">
+                                <img src="~/ResourcesImages/pdf_icon.png" alt="" height="80" width="80">
                                 <div>{{split_filename(l.file_path)}}</div>
                             </div>
 
                             @*<div class="col-sm-3 dropzone-previews" ng-repeat="l in att_dtl track by $index" ng-click="choose_file($index)">
-                                <img src="{{l.file_path | docIcon}}" alt="" height="136" width="114">
-                                <div>{{l.file_path}}</div>
-                            </div>*@
+                                    <img src="{{l.file_path | docIcon}}" alt="" height="136" width="114">
+                                    <div>{{l.file_path}}</div>
+                                </div>*@
                         </div>
                     </div>
                     <div class="ibox-content" ng-show="nofile">
@@ -238,7 +245,7 @@
 
 <script src="~/Scripts/plugins/dropzone/dropzone.js"></script>
 <script>
-   
+
     function closeLoading() {
         $('#spinner_load').modal("hide");
     }

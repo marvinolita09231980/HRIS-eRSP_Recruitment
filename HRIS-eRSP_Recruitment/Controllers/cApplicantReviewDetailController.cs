@@ -39,7 +39,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public void assignToModel()
         {
-            
+          
             um.allow_add = (int)Session["allow_add"];
             //um.allow_delete = (int)Session["allow_delete"];
             //um.allow_edit = (int)Session["allow_edit"];
@@ -59,20 +59,30 @@ namespace HRIS_eRSP_Recruitment.Controllers
         public ActionResult Initialize()
         {
             CheckSession();
+            var psb_ctrl_nbr = "";
             var app_ctrl_nbr = rct.appControlNbr("cApplicantReview","Index");
-           
+            var user_id = Session["user_id"].ToString();
             assignToModel();
             try
             {
-               
 
-                
+
+                var hiring_period = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault().hiring_period;
+                var psb_exist = db2.vw_psb_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.hiring_period == hiring_period).ToList();
+                var psb_sked_hdr_list = db2.vw_psb_sked_hdr_tbl.Where(a => a.hiring_period == hiring_period).ToList();
+                if (psb_exist.Count() > 0)
+                {
+                    psb_ctrl_nbr = psb_exist[0].psb_ctrl_nbr;
+                }
 
                 return JSON(new {
                     message = fetch.success,
                     icon = icon.success
                    ,app_ctrl_nbr
-                   
+                   ,psb_ctrl_nbr
+                  ,psb_sked_hdr_list
+                   ,user_id
+
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -84,10 +94,18 @@ namespace HRIS_eRSP_Recruitment.Controllers
         public ActionResult setAppCtrlNbr(string app_ctrl_nbr)
         {
             CheckSession();
+            var psb_ctrl_nbr = "";
             Session["app_ctrl_nbr"] = app_ctrl_nbr;
             try
             {
-                return JSON(new{ message = fetch.success,  icon = icon.success}, JsonRequestBehavior.AllowGet);
+                var hiring_period = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault().hiring_period;
+                var psb_exist = db2.vw_psb_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.hiring_period == hiring_period).ToList();
+                var psb_sked_hdr_list = db2.vw_psb_sked_hdr_tbl.Where(a => a.hiring_period == hiring_period).ToList();
+                if (psb_exist.Count() > 0)
+                {
+                    psb_ctrl_nbr = psb_exist[0].psb_ctrl_nbr;
+                }
+                return JSON(new{ message = fetch.success,  icon = icon.success, psb_sked_hdr_list, psb_ctrl_nbr }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -465,7 +483,6 @@ namespace HRIS_eRSP_Recruitment.Controllers
          
         public ActionResult SaveRating(
             string app_ctrl_nbr,
-            string psb_ctrl_nbr,
             string educ_rating,
             string wexp_rating,
             string lnd_rating,
@@ -486,22 +503,58 @@ namespace HRIS_eRSP_Recruitment.Controllers
             //updated_dttm
             try
             {
-
+                var psb_ctrl_nbr = "";
                 var user_id = Session["user_id"].ToString();
 
+                var appx = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                var item_no = appx.item_no;
+                var budget_year = appx.budget_code.Substring(0, 4);
+                var approve_exist = db2.selected_applicants_tbl.Where(a => a.item_no == item_no && a.psb_ctrl_nbr == psb_ctrl_nbr && a.app_ctrl_nbr == app_ctrl_nbr).ToList();
                 var app = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-                if(Convert.ToInt32(app.app_status) >= 3)
+
+                if (approve_exist.Count() > 0)
                 {
-                    return JSON(new { message ="Cannot add your rating, Application already in comparative assessment", icon = icon.warning }, JsonRequestBehavior.AllowGet);
+                    throw new Exception("Changes in rating not permitted, this item already has approved application!");
+                }
+
+                if (Convert.ToInt32(app.app_status) >= 3)
+                {
+                    throw new Exception("Cannot add your rating, Application already in comparative assessment");
+                   
+                }
+
+                
+                    var psb_exist = db2.vw_psb_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+
+                //if (psb_exist.Count() == 0)
+                //{
+                //    psb_sked_app_tbl p = new psb_sked_app_tbl();
+                //    p.app_ctrl_nbr = app_ctrl_nbr;
+                //    p.psb_ctrl_nbr = psb_ctrl_nbr;
+                //    db2.psb_sked_app_tbl.Add(p);
+                //}
+                if (psb_exist == null)
+                {
+                    psb_ctrl_nbr = app_ctrl_nbr;
                 }
                 else
                 {
+                    psb_ctrl_nbr = psb_exist.psb_ctrl_nbr;
+                }
+
                     var dbe = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_cat_subcode == "001").FirstOrDefault();
                     if (dbe != null)
                     {
-                        dbe.psb_pnl_rating = Convert.ToDouble(educ_rating);
-                        dbe.user_id = user_id;
-                        dbe.updated_dttm = DateTime.Now;
+                        if(dbe.user_id == user_id)
+                        {
+                            dbe.psb_pnl_rating = Convert.ToDouble(educ_rating);
+                            //dbe.user_id = user_id;
+                            dbe.updated_dttm = DateTime.Now;
+                        }
+                        else
+                        {
+                            throw new Exception("You cannot edit this rating, Please contact the person who created this rating, User id number:"+ dbe.user_id);
+                        }
 
                     }
                     else
@@ -520,9 +573,17 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     var dbe2 = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_cat_subcode == "002").FirstOrDefault();
                     if (dbe2 != null)
                     {
-                        dbe2.psb_pnl_rating = Convert.ToDouble(lnd_rating);
-                        dbe2.user_id = user_id;
-                        dbe2.updated_dttm = DateTime.Now;
+                        if (dbe2.user_id == user_id)
+                        {
+                            dbe2.psb_pnl_rating = Convert.ToDouble(lnd_rating);
+                            //dbe2.user_id = user_id;
+                            dbe2.updated_dttm = DateTime.Now;
+                        }
+                        else
+                        {
+                            throw new Exception("You cannot edit this rating, Please contact the person who created this rating, User id number:" + dbe2.user_id);
+                        }
+                    
 
                     }
                     else
@@ -541,10 +602,16 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     var dbe3 = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_cat_subcode == "003").FirstOrDefault();
                     if (dbe3 != null)
                     {
-
-                        dbe3.psb_pnl_rating = Convert.ToDouble(wexp_rating);
-                        dbe3.user_id = user_id;
-                        dbe3.updated_dttm = DateTime.Now;
+                        if (dbe3.user_id == user_id)
+                        {
+                            dbe3.psb_pnl_rating = Convert.ToDouble(wexp_rating);
+                            //dbe3.user_id = user_id;
+                            dbe3.updated_dttm = DateTime.Now;
+                        }
+                        else
+                        {
+                            throw new Exception("You cannot edit this rating, Please contact the person who created this rating, User id number:" + dbe3.user_id);
+                        }
 
                     }
                     else
@@ -564,11 +631,15 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     var dbe4 = db2.psb_pnl_rtg_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_cat_subcode == "004").FirstOrDefault();
                     if (dbe4 != null)
                     {
-
-                        dbe4.psb_pnl_rating = Convert.ToDouble(elig_rating);
-                        dbe4.user_id = user_id;
-                        dbe4.updated_dttm = DateTime.Now;
-
+                        if (dbe4.user_id == user_id)
+                        {
+                            dbe4.psb_pnl_rating = Convert.ToDouble(elig_rating);
+                            dbe4.updated_dttm = DateTime.Now;
+                        }
+                        else
+                        {
+                            throw new Exception("You cannot edit this rating, Please contact the person who created this rating, User id number:" + dbe3.user_id);
+                        }
                     }
                     else
                     {
@@ -585,53 +656,19 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     }
                     db2.SaveChanges();
 
-                    //var exam = db2.applicant_examination.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
-
-                    //if (exam != null)
-                    //{
-                    //    if (Convert.ToDouble(score_rendered) > 0)
-                    //    {
-                    //        exam.score_rendered = Convert.ToDouble(score_rendered);
-                    //        exam.exam_type_descr = exam_type_descr;
-                    //        exam.exam_date = Convert.ToDateTime(exam_date);
-                    //        exam.ipcr_rating = ipcr_rating.ToString();
-                    //        exam.updated_dttm = DateTime.Now;
-                    //        exam.updated_by_user = user_id;
-                    //        db2.SaveChanges();
-                    //    }
-
-                    //}
-                    //else
-                    //{
-                    //    if (Convert.ToDouble(score_rendered) > 0)
-                    //    {
-                    //        applicant_examination exm = new applicant_examination();
-                    //        exm.app_ctrl_nbr = app_ctrl_nbr;
-                    //        exm.exam_type_descr = exam_type_descr;
-                    //        exm.score_rendered = Convert.ToDouble(score_rendered);
-                    //        exm.exam_date = Convert.ToDateTime(exam_date == "" ? "1900-01-01 00:00:00" : exam_date);
-                    //        exm.created_dttm = DateTime.Now;
-                    //        exm.created_by_user = user_id;
-                    //        exm.updated_dttm = Convert.ToDateTime("1900-01-01 00:00:00");
-                    //        exm.updated_by_user = "";
-                    //        exm.ipcr_rating = ipcr_rating.ToString();
-                    //        db2.applicant_examination.Add(exm);
-                    //        db2.SaveChanges();
-                    //    }
-
-                    //}
-
+                   
                    
 
                     var reviewer_list = db2.sp_reviewer_screening_list(app_ctrl_nbr).ToList();
                     var rtn = db2.sp_getqsrating(app_ctrl_nbr).FirstOrDefault();
                     return JSON(new { message = update.success, icon = icon.success, reviewer_list, rtn }, JsonRequestBehavior.AllowGet);
-                }
+                
               
             }
-            catch (DbEntityValidationException exp)
+            catch (Exception exp)
             {
-                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
+
+                return Json(new { message = exp.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
 

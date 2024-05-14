@@ -371,7 +371,7 @@
                 <div class="modal-footer">
                     <div class="row no-padding" style="margin-top:-10px!important;">
                         <div class="col-lg-12 tabs-container m-b-md">
-                            <table id="psbrating_table_Grid" class="table table-striped table-bordered table-hover">
+                            <table id="psbrating_table_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th width="10%">USER ID</th>
@@ -796,7 +796,7 @@
                                 <li ng-repeat="lst in psb_action_btn">
                                     <a ng-if="lst.psb_status == 0" ng-click="start_psb_modal()">{{lst.psb_button_label}}</a>
                                     <a ng-if="lst.psb_status == 1" ng-click="ongoing_psb_modal()">{{lst.psb_button_label}}</a>
-                                    <a ng-if="lst.psb_status == 2" ng-click="reactivateHRMPSB()">{{lst.psb_button_label}}</a>
+                                    <a ng-click="reactivateHRMPSB()">{{lst.psb_button_label}}</a>
                                     <a ng-if="lst.psb_status == 3" >{{lst.psb_button_label}}</a>
                                 </li>
                             </ul>
@@ -852,23 +852,29 @@
         </div>
            
         <div class="row no-padding">
-                <div class="col-lg-12 tabs-container m-b-md">
-                    <table id="Data_List_Grid" class="table table-striped table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th width="32%">OFFICE</th>
-                                <th width="7%">ITEM NO</th>
-                                <th width="31%">NAME</th>
-                                <th width="5%">EXAM</th>
-                                <th width="5%">QS</th>
-                                <th width="5%">CBI</th>
-                                <th width="5%">TOTAL</th>
-                                <th width="10%">ACTION</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+               
+            <div class="col-lg-12 tabs-container m-b-md">
+                <div class="col-lg-12">
+                    <button id="addtoComparativeBtn" class="btn btn-info pull-right" type="button" ng-click="addtoComparativeAll()" title="Click for more action">Add to Comparative</button>
                 </div>
+                <table id="Data_List_Grid" style="width:100%;" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="20%">OFFICE</th>
+                            <th width="7%">ITEM NO</th>
+                            <th width="20%">NAME</th>
+                            <th width="5%">EXAM</th>
+                            <th width="5%">QS</th>
+                            <th width="5%">CBI</th>
+                            <th width="5%">TOTAL</th>
+                            <th width="5%">STATUS</th>
+                            <th width="5%"></th>
+                            <th width="10%">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
             </div>
     </div>
     <div class="modal fade" id="rating_err_notif" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">

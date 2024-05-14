@@ -216,12 +216,15 @@
     </div>
     <div class="wrapper wrapper-content animated fadeIn">
         <div class="ibox-title">
-            <div class="row">
-                <button class="btn btn-info pull-right" ng-click="printComparative()">Print Comparative</button>
-                <button class="btn btn-success pull-right" ng-click="prepareEndorsement()">View Enodorsment</button>
+            <div class="row m-b-md">
+
+                <button class="btn btn-info pull-right m-r-sm" ng-click="printComparative()">Print Comparative</button>
+                <button class="btn btn-success pull-right m-r-sm" ng-click="prepareEndorsement()">View Enodorsment</button>
+                <button id="addToComparativeBtn" class="btn btn-info pull-right m-r-sm" type="button" ng-click="approvedComparativeAll()" title="Click for more action">Add for Endorsement</button>
             </div>
-            <div class="row no-padding">
-                <table id="Data_List_Grid" class="table table-responsive table-striped table-bordered table-hover">
+            <div class="row m-t-md">
+                
+                <table id="Data_List_Grid" style="width:100%;" class="table table-responsive table-striped table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -231,13 +234,14 @@
                             <th class="no-padding no-margin" width="5%">Experience<br>25%</th>
                             <th class="no-padding no-margin" width="5%">Eligibility<br>25%</th>
                             <th class="no-padding no-margin" width="5%">QS<br>100%</th>
-                            <th class="no-padding no-margin" width="5%">QS<br>25%</th>
+                            <th class="no-padding no-margin" width="5%">QS<br>50%</th>
                             <th class="no-padding no-margin" width="5%">Exam<br>100%</th>
                             <th class="no-padding no-margin" width="5%">Exam<br>25%</th>
                             <th class="no-padding no-margin" width="5%">CBI<br />100%</th>
                             <th class="no-padding no-margin" width="5%">CBI<br />25%</th>
                             <th class="no-padding no-margin" width="5%">Over-All<br /> Total</th>
                             <th class="no-padding no-margin" width="5%">Rank</th>
+                            <th class="no-padding no-margin" width="5%"></th>
                             <th class="no-padding no-margin" width="4%">Send Email</th>
                             <th class="no-padding no-margin" width="4%">Action</th>
                         </tr>
@@ -273,24 +277,7 @@
                                 </div>
                             </div>
                         </div>
-                        @*<div class="row m-t-md">
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-block"><span class="pull-left m-l-sm">ENDORSE BY:</span><span style="" class="fa fa-calendar pull-right m-r-sm"></span></button>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                        <div class="input-group date no-padding no-margins" style="margin-bottom:-2px!important;">
-                                            <select class="form-control disable-white text-left norequired  no-padding" id="endorse_by" ng-model="endorse_by" required>
-                                                <option value="">-- --</option>
-                                                <option value="U10601"> GRACELYN M. MABIDA</option>
-                                                <option value="U0027">	LARA ZAPHIRE KRISTY N. BERMEJO </option>
-                                                <option value="U0028"> JANET I. TANHUECO</option>
-                                                <option value="U0644">SHERYL S. MACALDE</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>*@
+                       
                     </form>
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
@@ -307,8 +294,8 @@
                             </div>
                             <div class="endorsement">
                                 <p style="text-align:center !important; font-size:15px;">Endorsement</p>
-                                <p class="justified" style="max-width:600px;margin:0 auto;text-indent:0">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The applicant below who is vying for the position of <b>{{endorse_position}}</b>, <b>SG-{{endorse_salary_grade}}</b>
+                                <p class="justified" style="text-align: justify;text-justify: inter-word;max-width:600px;margin:0 auto;text-indent:0">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The {{applicant}} below who {{is}} vying for the position of <b>{{endorse_position}}</b>, <b>SG-{{endorse_salary_grade}}</b>
                                     with <b>item no. {{endorse_item_no}}</b> at <b>{{endorse_department_name1}}</b> has complied with the minimum requirements and passed the screening
                                     of the Human Resource Merit Promotion and Selection Board (HRMPSB). His/her application is respectfully endorsed to
                                     the Honorable Governor for her final action/appointment:
