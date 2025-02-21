@@ -1999,28 +1999,41 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     c.updated_by = "";
                     c.updated_dttm = "";
                     db2.change_item_history_tbl.Add(c);
+                    db2.SaveChanges();
                 }
                 else {
                     change_exist.item_new     = item_no_new;
                     change_exist.updated_by   = user_id;
                     change_exist.updated_dttm = datestr;
+                    db2.SaveChanges();
 
                 }
+
+
                 var app_item_change = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
                 if (app_item_change == null) {
                     throw new Exception("The applicant was not found!");
                 }
                 else
                 {
-                    app_item_change.item_no = item_no_new;
-                    app_item_change.department_code = department_code;
-                    app_item_change.position_code = position_code;
-                    app_item_change.hiring_period = hiring_period;
+                    CONT = app_item_change;
 
+                    var rmv = db2.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
+                    db2.applicants_review_tbl.Remove(rmv);
                     db2.SaveChanges();
-                    
+
+                    CONT.item_no = item_no_new;
+                    CONT.department_code = department_code;
+                    CONT.position_code = position_code;
+                    CONT.hiring_period = hiring_period;
+                    db2.applicants_review_tbl.Add(CONT);
+                    db2.SaveChanges();
+
+
+
                 }
-               
+
+
 
                 var review_list = db2.sp_review_applicant_tbl_list3(item_no_new, app_item_change.employment_type, app_item_change.budget_code, hiring_period).ToList();
                 return JSON2(new { icon = icon.success, review_list}, JsonRequestBehavior.AllowGet);

@@ -2600,7 +2600,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                 swal({ title: d.data.message, icon: d.data.icon })
                             }
                             else {
-                                swal({ title: "Successfully Updated!", icon: d.data.icon })
+                                swal({ title: "Change item unsuccessful!", icon: d.data.icon })
                             }
                             cs.loading("hide")
                           
