@@ -2597,7 +2597,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                 tab_table_data(d.data.review_list)
 
                                 $("#item_nbr1").val(item_no_new)
-                                swal({ title: d.data.message, icon: d.data.icon })
+                                swal({ title: "Change item successful!", icon: d.data.icon })
                             }
                             else {
                                 swal({ title: "Change item unsuccessful!", icon: d.data.icon })
