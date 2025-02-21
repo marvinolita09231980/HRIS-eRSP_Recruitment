@@ -49,6 +49,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Initialize(string year, string month)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             um = rct.GetAllowAccess();
             try
@@ -71,6 +73,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public void assignToModel()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             um.allow_add = (int)Session["allow_add"];
             //um.allow_delete = (int)Session["allow_delete"];
             //um.allow_edit = (int)Session["allow_edit"];
@@ -105,6 +109,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult DeleteApplicants(string info_ctrl_nbr,string year, string month)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -119,6 +125,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult UpdateDataFrom(string info_ctrl_nbr, string empl_id, string source, string year, string month)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             try
@@ -134,6 +142,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult UpdateDataFrom2(string info_ctrl_nbr, string empl_id, string source, string year, string month)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             try
@@ -150,6 +160,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult DeleteAppDetails(string info_ctrl_nbr,int seq,int dtl)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var message = "";
             
@@ -191,6 +203,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getApplicantList(string month,string year)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -208,6 +222,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         
         public ActionResult addToReviewTable(string info_ctrl_nbr, items item)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user = Session["user_id"].ToString();
             var message = "";
@@ -320,6 +336,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         //}
         public ActionResult getBudgetYear(string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
              {
@@ -334,7 +352,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getItems(string ctrl_nbr)
         {
-            
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+
             CheckSession();
             try
             {
@@ -349,6 +369,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Save_Application(string mo, string yr,string savebtn, applicants_tbl app, string info_ctrl_nbr_disp)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var info = info_ctrl_nbr_disp.ToString().Split(new char[] { '-' });
@@ -401,7 +423,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult checkApplicantsReview(string info_ctrl_nbr, string ctrl_nbr)
         {
-           
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+
             var user_id = Session["user_id"].ToString();
             var message = "";
             try
@@ -425,6 +449,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult FetchFromPDS(string empl_id, string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var message = "";
@@ -449,6 +475,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult FetchFromPDS2(string empl_id, string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var message = "";
@@ -473,6 +501,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult FindPersonnel(string empl_id)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var message = "";
             try
@@ -490,6 +520,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult GetApplicationNbr()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -505,6 +537,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult InitializeDetails(string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -528,6 +562,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         //EDUCATION DETAILS*************************************************START
         public ActionResult DeleteEduc(string info_ctrl_nbr, int seq_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -544,6 +580,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult AddEduc(applicant_educ_tbl ed, string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -562,6 +600,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult EditEduc(applicant_educ_tbl ed, string info_ctrl_nbr, int seq_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -589,6 +629,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         //ELIGIBILITY DETAILS***********************************************START
         public ActionResult EditElig(applicant_eligibilty_tbl el, string info_ctrl_nbr, int seq_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -610,6 +652,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult AddElig(applicant_eligibilty_tbl el, string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -628,6 +672,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult DeleteElig(string info_ctrl_nbr, int seq_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -648,6 +694,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult EditWexp(applicant_workexprnce_tbl wx, string info_ctrl_nbr, int seq_no,bool gov)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             
             try
@@ -672,6 +720,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult AddWexp(applicant_workexprnce_tbl wx, string info_ctrl_nbr,bool gov)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -691,6 +741,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult DeleteWexp(string info_ctrl_nbr, int seq_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -714,6 +766,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         //TRAINING DETAILS**************************************************START
         public ActionResult EditLnD(applicant_learnanddevt_tbl ld, string info_ctrl_nbr, int seq_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -735,6 +789,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult AddLnD(applicant_learnanddevt_tbl ld, string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -753,6 +809,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult DeleteLnD(string info_ctrl_nbr, int seq_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -773,6 +831,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getNewInfoCtrlNbr()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -786,6 +846,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getEmployeeId(sp_applicant_tbl_list_Result data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -799,6 +861,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getApplicantFromAPL(sp_applicant_tbl_list_Result data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -813,6 +877,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
       
         public ActionResult getApplicantFromPDS(string first_name, string last_name, string birth_date, string gender)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -826,6 +892,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult search_applicant(string search_name, string search_option)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
 
             try
@@ -840,6 +908,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult searchByLastname(string lastname)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -854,6 +924,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult searchByid(string id)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -869,7 +941,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getHiringPeriod(string employment_type, string budget_code)
         {
-           
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+
             try
             {
                 var hiring_period = db2.psb_hiring_period_tbl.Where(a => a.employment_type == employment_type && a.budget_code == budget_code).ToList();
@@ -883,6 +957,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getApplications(string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
 
             try
             {

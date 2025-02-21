@@ -31,6 +31,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Initialize(string start_with)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             um = rct.GetAllowAccess();
             try
@@ -46,6 +47,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult AddUserInitialize()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             bool edit = false;
             List<vw_guest_user_info_tbl> ob = new List<vw_guest_user_info_tbl>();
@@ -75,6 +77,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult saveGuestUserInfo(guest_user_info_tbl gu, bool bit)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var password = "Password1.";
              bool edit = false;
@@ -122,6 +125,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getUsers(string start_with)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -143,6 +147,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult DeleteGuestUser(string g_user_id, string start_with)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {

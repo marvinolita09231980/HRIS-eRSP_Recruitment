@@ -73,6 +73,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     var budget_year_jo = []
 
     s.selectedAppRow4Top5 = []
+    s.qualifiedForExamList = []
     s.selectedAppRow4HRMPSB = []
 
     s.show
@@ -969,6 +970,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             if (d.data.icon = "success") {
                 if (d.data.viewexam.length > 0) {
                     addvalue("exam_app_ctrl_nbr", dt.app_ctrl_nbr)
+                    
                     addvalue("score_rendered2", parseFloat((d.data.viewexam[0].score_rendered * 100)/25))
                     addvalue("exam_type_descr2", d.data.viewexam[0].exam_type_descr)
                     addvalue("exam_date2", d.data.viewexam[0].exam_date)
@@ -1014,10 +1016,19 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
 
     s.saveExamRating = function () {
+      
         if (cs.validatesubmit("exam_fields")) {
+            var exam_app_ctrl_nbr = $("#exam_app_ctrl_nbr").val()
+            var score_rendered2 = 0.00
             var score = $("#score_rendered2").val()
-            var exam_app_ctrl_nbr  = $("#exam_app_ctrl_nbr").val()
-            var score_rendered2    = ((parseFloat(score) * 25) / 100) 
+            if (score > 25) {
+                var score_rendered2 = ((parseFloat(score) * 25) / 100)
+            }
+            else {
+                var score_rendered2 = $("#score_rendered2").val()
+            }
+
+
             var exam_type_descr2   = $("#exam_type_descr2 ").val()
             var exam_date2         = $("#exam_date2       ").val()
             h.post("../cApplicantsReview/SaveExam", {
@@ -1160,7 +1171,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                                     tab_table_data(d.data.review_list)
                                 }
 
-                                swal({ title: d.data.message, icon: d.data.icon })
+                                swal(d.data.message, {icon: d.data.icon })
                                 cs.loading("hide")
                             })
                         }
@@ -1184,28 +1195,60 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
 
     s.addToTop5CB = function (row) {
+       // s.qualifiedForExamList
         var dt = s.Applicant_OnlineExam_Data[row]
+        console.log(dt)
         var cbrow = $("#top5CbRow" + row)[0].checked
         var activeTab = $(".nav-tabs li.active").prop("id")
         if (cbrow) {
-            var ex = s.selectedAppRow4Top5.filter(function (d) {
-                return d.app_ctrl_nbr == dt.app_ctrl_nbr
-            })
-            if (ex.length == 0) {
-               
-                s.selectedAppRow4Top5.push(
-                    {
-                        "app_ctrl_nbr"      : dt.app_ctrl_nbr
-                        ,"item_no"          : dt.item_no        
-                        ,"employment_type"  : dt.employment_type
-                        ,"budget_code"      : dt.budget_code    
-                        ,"hiring_period"    : dt.hiring_period  
-                    }
-                )
+            //insert list qualified for top 5
+            if (dt.score_rendered == "0"||dt.score_rendered == 0 ||dt.score_rendered == null || dt.score_rendered == "" || dt.score_rendered == undefined) {
             }
+            else {
+                var ex = s.selectedAppRow4Top5.filter(function (d) {
+                    return d.app_ctrl_nbr == dt.app_ctrl_nbr
+                })
+                if (ex.length == 0) {
+
+                    s.selectedAppRow4Top5.push(
+                        {
+                            "app_ctrl_nbr": dt.app_ctrl_nbr
+                            , "item_no": dt.item_no
+                            , "employment_type": dt.employment_type
+                            , "budget_code": dt.budget_code
+                            , "hiring_period": dt.hiring_period
+                        }
+                    )
+                }
+            }
+
+
+            //insert list qualified for top 5
+            if (dt.score_rendered == "0" || dt.score_rendered == 0 || dt.score_rendered == null || dt.score_rendered == "" || dt.score_rendered == undefined) {
+                var ex = s.qualifiedForExamList.filter(function (d) {
+                    return d.app_ctrl_nbr == dt.app_ctrl_nbr
+                })
+                if (ex.length == 0) {
+
+                    s.qualifiedForExamList.push(
+                        {
+                             "app_ctrl_nbr": dt.app_ctrl_nbr
+                            , "item_no": dt.item_no
+                            , "employment_type": dt.employment_type
+                            , "budget_code": dt.budget_code
+                            , "hiring_period": dt.hiring_period
+                        }
+                    )
+                }
+            }
+            
         }
         else {
+
             s.selectedAppRow4Top5 = s.selectedAppRow4Top5.filter(function (d) {
+                return d.app_ctrl_nbr != dt.app_ctrl_nbr
+            })
+            s.qualifiedForExamList = s.qualifiedForExamList.filter(function (d) {
                 return d.app_ctrl_nbr != dt.app_ctrl_nbr
             })
         }
@@ -1215,6 +1258,13 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         }
         else {
             $("#addToTop5Btn").addClass("hidden")
+        }
+
+        if (s.qualifiedForExamList.length > 0 && activeTab == "2") {
+            $("#assignexamAll").removeClass("hidden")
+        }
+        else {
+            $("#assignexamAll").addClass("hidden")
         }
     }
 
@@ -2506,12 +2556,19 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
     }
     s.changeItem = function () {
+
         if (cs.validatesubmit("change_item")) {
+            var position_code = "";
+           
             var app_ctrl_nbr = $("#change_item_app_ctrl_nbr").val()
             var item_no_previous = $("#change_item_previous").val()
             var department_code = $("#change_item_department_code").val()
             var hiring_period = $("#change_item_hiring_period").val()
             var item_no_new = $("#change_item_new").val()
+            var position_code = s.change_item_items.filter(function (d) {
+                return d.item_no == item_no_new
+            })[0].position_code;
+            
             //currentPageNumber();
             swal({
                 title: "Change Applicants Item",
@@ -2528,6 +2585,8 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
                             , item_no_previous: item_no_previous
                             , hiring_period: hiring_period
                             , item_no_new: item_no_new
+                            , position_code: position_code
+                            , department_code: department_code
                         }).then(function (d) {
 
                             if (d.data.icon == "success") {
@@ -3955,6 +4014,9 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
         // *******************************************************
     }
     s.changeTab = function (tab) {
+        s.selectedAppRow4Top5 = []
+        s.qualifiedForExamList = []
+        s.selectedAppRow4HRMPSB = []
         $("#addToHRMPSBBtn").addClass("hidden")
         
         if (tab == 1) {
@@ -3972,7 +4034,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
             $("#tab-3").removeClass("active");
             $("#tab-2").addClass("active");
 
-            $("#assignexamAll").removeClass("hidden")
+            //$("#assignexamAll").removeClass("hidden")
         }
         else if (tab == 3) {
             
@@ -4049,12 +4111,14 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
     }
 
     s.assignExamScheduleToAll = function () {
+        var payload_data = s.qualifiedForExamList
 
-        if (cs.Validate1Field("item_nbr1")) {
+        if (s.qualifiedForExamList.length > 0) {
+            if (cs.Validate1Field("item_nbr1")) {
 
-            
-               
-            h.post("../cApplicantsReview/GetExamSchedulesAll").then(function (d) {
+
+
+                h.post("../cApplicantsReview/GetExamSchedulesAll").then(function (d) {
                     if (d.data.icon == "success") {
                         s.ExamSchedule_Data_All = d.data.examschedulesAll.refreshTable("examschedule_grid_All", "")
                         $("#examScheduleGridModal_All").modal("show")
@@ -4067,6 +4131,10 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
 
 
+            }
+        }
+        else {
+            alert("You have not selected applicants")
         }
     }
 
@@ -4091,7 +4159,7 @@ ng_eRSP_App.controller("cApplicantsReview_Ctrlr", function (commonScript, $scope
 
 
             h.post("../cApplicantsReview/SetExamScheduleAll", {
-                  app_ctrl_nbr_list: app_ctrl_nbr_list
+                  app_ctrl_nbr_list: s.selectedAppRow4Top5
                 , hiring_period: hiring_period
                 , item_no: item_no
                 , budget_code: budget_code

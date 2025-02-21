@@ -14,11 +14,9 @@ namespace HRIS_eRSP_Recruitment.Models
     
     public partial class adds_images_tbl
     {
-        public string budget_code { get; set; }
-        public string employment_type { get; set; }
-        public string item_no { get; set; }
-        public string img_file_name { get; set; }
-        public string file_path { get; set; }
-        public string file_url { get; set; }
+        public int id { get; set; }
+        public string hiring_period { get; set; }
+        public byte[] img_file { get; set; }
+        public string img_name { get; set; }
     }
 }

@@ -54,6 +54,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Initialize()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+           
             CheckSession();
           
             var user_id = Session["user_id"].ToString();
@@ -77,6 +79,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult sp_hrmpsb_screening_list(string item_no, string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -90,6 +93,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult sp_psbSched_item(string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
 
             try

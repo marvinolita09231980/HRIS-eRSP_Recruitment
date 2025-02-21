@@ -18,6 +18,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult GetGeneralPanelList()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+           
             var general_panel = db.vw_psb_panel_permanent_mbr_tbl.ToList();
             return Json(new { message = "Success", icon = "success", general_panel}, JsonRequestBehavior.AllowGet);
         }
@@ -28,6 +30,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult editPSBPanel(psb_panel_permanent_mbr_tbl2 data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var edit = db.psb_panel_permanent_mbr_tbl.Where(a => a.psb_user_id == data.epsb_user_id).FirstOrDefault();
@@ -47,6 +50,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult gen_panel_delete(vw_psb_panel_permanent_mbr_tbl data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var edit = db.psb_panel_permanent_mbr_tbl.Where(a => a.psb_user_id == data.psb_user_id).FirstOrDefault();
@@ -62,6 +66,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult SavePSBPanel(psb_panel_permanent_mbr_tbl3 data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             int exist = 0;
             var user_id = Session["user_id"].ToString();
             try
@@ -95,7 +100,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult InactiveAllPanel()
         {
-           
+            db.Database.CommandTimeout = Int32.MaxValue;
+
             var user_id = Session["user_id"].ToString();
             try
             {

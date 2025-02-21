@@ -33,6 +33,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Initialize(string year, string month)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             //Session["comparative_psb_ctrl_nbr"] = psb_ctrl_nbr;
             //Session["comparative_item_no"] = item_no;
             //Session["comparative_budget_code"] = budget_code;
@@ -76,6 +77,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getPSBSchedule(string month, string year)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -90,6 +92,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getPSBComparativeRating(string app_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -105,6 +108,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getBudgetYear(string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
 
             try
@@ -121,6 +125,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getPositions(string employment_type, string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -136,6 +141,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult SubmitToExec(List<items_added2> data, string psb_ctrl_nbr, string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var message = "";
@@ -171,6 +177,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult UpdateEndorseCount(string psb_ctrl_nbr, string item_no, int submitcount, int endorse_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var message = "";
@@ -217,6 +224,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         //}
         public ActionResult sp_get_psbschedule_dropdown(string employment_type, string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["psb_budget_code"] = budget_code;
             Session["psb_psb_ctrl_nbr"] = "";
@@ -235,6 +243,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult set_Item_no(string item_no, string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -250,6 +259,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult sp_hrmpsbscreening_item_list(string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["ca_psb_ctrl_nbr"] = psb_ctrl_nbr;
 
@@ -267,6 +277,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         //ComparativeAssessmentPass
         public ActionResult ComparativeAssessmentPass(string item_no, string psb_ctrl_nbr, string pass, string app_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -284,6 +295,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult sp_psb_item_list(string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -300,6 +312,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
        
         public ActionResult comparative_item_applicant(string psb_ctrl_nbr,string item_no,string budget_code,string employment_type,string salary_grade,bool ranked)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -328,6 +341,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult SetHistoryPage(string reporttype, string psb_ctrl_nbr, string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             int sp_row_count = 0;
             try
@@ -358,6 +372,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult approved_comparative(string app_ctrl_nbr, string approval_id,string psb_ctrl_nbr, string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var app_status = "";
             var user_id = Session["user_id"].ToString();
@@ -381,6 +396,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult approvedComparativeAll(List<comparativeTempList> data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var app_status = "";
             var user_id = Session["user_id"].ToString();
@@ -424,6 +440,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult remove_comparative(string app_ctrl_nbr, string approval_id, string psb_ctrl_nbr, string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var app_status = "";
             var user_id = Session["user_id"].ToString();
@@ -447,6 +464,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult sendEmailNotification(sp_comparative_assessment_list_Result dt, string email_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var email_subject = "";
             var user_id = Session["user_id"].ToString();
@@ -551,6 +569,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult prepareEndorsement(string psb_ctrl_nbr, string item_no,bool ranked)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var message = "";
@@ -597,6 +616,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult printEndorsement(string psb_ctrl_nbr, string item_no, string endorse_date, string endorse_by)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var message = "";
@@ -619,6 +639,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult CombinedItems(List<sp_psb_item_list_Result> sp_psb_item_list,string combine_descr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var data = sp_psb_item_list;
             var user_id = Session["user_id"].ToString();
@@ -667,6 +688,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult DeleteCombinedItems(sp_combined_item_tbl_Result row_data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var message = "";
@@ -701,8 +723,44 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
 
+        public ActionResult AssignItemComparative(string item_no, string app_ctrl_nbr, string psb_ctrl_nbr)
+        {
+            try
+            {
+                var user = Session["user_id"].ToString();
+                var datenow = DateTime.Now;
+                var qry = db.comparative_item_assigned_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+                if (qry == null)
+                {
+                    comparative_item_assigned_tbl insert_qry = new comparative_item_assigned_tbl();
+                    insert_qry.item_no = item_no;
+                    insert_qry.app_ctrl_nbr = app_ctrl_nbr;
+                    insert_qry.psb_ctrl_nbr = psb_ctrl_nbr;
+                    insert_qry.created_dttm = datenow;
+                    insert_qry.created_userby = user;
+                    db.comparative_item_assigned_tbl.Add(insert_qry);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    qry.item_no = item_no;
+                    qry.updated_dttm = datenow;
+                    qry.updated_userby = user;
+                    db.SaveChanges();
+                }
+                var message = "Item successfully assigned!";
+               
+                return JSON(new { message, icon = icon.success}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         protected JsonResult JSON2(object data, JsonRequestBehavior behavior)
         {
+            
 
             return new JsonResult()
             {

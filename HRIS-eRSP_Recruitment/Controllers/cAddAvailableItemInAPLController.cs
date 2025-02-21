@@ -29,6 +29,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
       
         public ActionResult Initialize()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var employment_type = Session["employment_type"] == null ? "" : Session["employment_type"].ToString();
             var budget_code = Session["budget_code"] == null ? "" : Session["budget_code"].ToString();
@@ -51,6 +53,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Data_Items(string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -65,6 +69,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult addItemToOnlineRecruitment(string active_dttm,string expiry_dttm,string descr,string budget_code,string employment_type,List<sp_open_publication_items_RCT_Result> item_list)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             DateTime date = DateTime.Now;
             var user_id = Session["user_id"].ToString();
@@ -125,6 +131,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult addItemToAPLHDR(string ctrl_no, List<sp_open_publication_items_RCT_Result> item_list)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             try
@@ -155,6 +163,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult addItemToavailable_item_hdr_tbl(string active_dttm,string expiry_dttm,string descr,string budget_code,string employment_type,List<sp_open_publication_items_RCT_Result> item_list)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             try
@@ -200,6 +210,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult removeItemToOnlineRecruitment(List<sp_available_item_tbl_apl_Result> item_list)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -222,6 +234,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult removEAllItemToOnlineRecruitment(string budget_code, string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -237,6 +251,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Open_Items(string budget_code,string employment_type,string ctrl_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["employment_type"] = employment_type;
             Session["budget_code"] = budget_code;
@@ -255,6 +271,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getPositions(string budget_code, string employment_type,string department_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["employment_type"] = employment_type;
             Session["budget_code"] = budget_code;
@@ -273,6 +291,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Open_Items_Hdr(string budget_code, string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["employment_type"] = employment_type;
             Session["budget_code"] = budget_code;
@@ -289,6 +309,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult aplheaderdata(string ctrl_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -302,6 +324,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult fn_aplitemdeactive(string ctrl_no,string item_no, string budget_code, string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -318,6 +342,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult fn_aplitemdactivate(string ctrl_no, string item_no, string budget_code, string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -333,6 +359,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult fn_aplitemremove(string ctrl_no, string item_no, string budget_code, string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -347,6 +375,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult fn_addAPLItemHDR(string ctrl_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -361,6 +391,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult fn_deactiveAPLItemHDR(string ctrl_no, string employment_type, string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -376,6 +408,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult fn_activeForPSB(string ctrl_no,string employment_type,string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -393,6 +427,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult fn_GetAvailableItem_HDR(string ctrl_no, string employment_type, string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -407,6 +443,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult fn_inactiveForPSB(string ctrl_no, string employment_type, string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -424,6 +462,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult fn_activeallItemHDR(string ctrl_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -438,6 +478,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult activateitem(sp_open_publication_items_RCT_Result data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var control_no = "";
             try
@@ -462,6 +504,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getOnlineAvailableItem()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -475,6 +519,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult CheckItemOnline(string budget_code, string employment_type, string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -510,6 +556,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult GetItemPerCtrlNo(string budget_code, string employment_type, string ctrl_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -525,6 +573,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult addSingleItem(sp_open_publication_items_RCT_Result data,string ctrl_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -556,6 +606,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult deleteSingleItem(sp_open_publication_items_RCT_Result data, string ctrl_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -577,7 +629,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult deleteItemHdr(string ctrl_no)
         {
-          
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+
             try
             {
                 var del = db.sp_delete_online_items_hdr_APL(ctrl_no).FirstOrDefault();

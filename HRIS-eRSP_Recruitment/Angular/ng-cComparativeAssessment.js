@@ -968,6 +968,7 @@ ng_eRSP_App.controller("cComparativeAssessment_Ctrlr", function (commonScript, $
             s.item_grid_List = dt3.refreshTable("Data_item_Grid", "")
             s.item_grid_List2 = dt.refreshTable("Data_item_Grid2", "")
             s.combined_grid_List = dt2.refreshTable("Data_combined_Grid", "")
+            $("#combine_descr").val()
         }
 
     }

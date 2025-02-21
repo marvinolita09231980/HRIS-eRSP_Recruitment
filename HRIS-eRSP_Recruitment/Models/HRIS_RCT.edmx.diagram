@@ -110,11 +110,15 @@
         <EntityTypeShape EntityType="HRIS_RCTModel.bi_respondent_tbl" Width="1.5" PointX="32.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.admin_authority_rct_tbl" Width="1.5" PointX="3.375" PointY="32.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.change_item_history_tbl" Width="1.5" PointX="32.375" PointY="5.75" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.prescreen_tbl" Width="1.5" PointX="32.375" PointY="9.75" />
-        <EntityTypeShape EntityType="HRIS_RCTModel.vw_personnel_tbl_image_RCT" Width="1.5" PointX="9.375" PointY="32.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.applicant_attachment_tbl" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_applicants_progress_tbl" Width="1.5" PointX="17.375" PointY="30.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.prescreen_tbl" Width="1.5" PointX="25.375" PointY="30.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_personnel_tbl_image_RCT" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.comparative_item_assigned_tbl" Width="1.5" PointX="32.375" PointY="9.75" />
         <EntityTypeShape EntityType="HRIS_RCTModel.vw_combined_item_tbl" Width="1.5" PointX="19.375" PointY="30.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_available_item_hdr_tbl" Width="1.5" PointX="9.375" PointY="32.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_combined_item_hdr_tbl" Width="1.5" PointX="11.375" PointY="32.75" />
+        <EntityTypeShape EntityType="HRIS_RCTModel.vw_plantilla_tbl_RCT" Width="1.5" PointX="32.375" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

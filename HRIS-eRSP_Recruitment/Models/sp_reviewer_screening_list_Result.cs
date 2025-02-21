@@ -49,11 +49,11 @@ namespace HRIS_eRSP_Recruitment.Models
         public double experience_rating { get; set; }
         public double eligibility_rating { get; set; }
         public double exam_rating { get; set; }
-        public decimal qs_total_100perc { get; set; }
-        public Nullable<int> qs_total_50perc { get; set; }
+        public double qs_total_100perc { get; set; }
+        public double qs_total_50perc { get; set; }
         public double exam_100perc { get; set; }
-        public decimal cbi_100rating { get; set; }
+        public string cbi_100rating { get; set; }
         public string cbi_rating { get; set; }
-        public decimal total_rating { get; set; }
+        public string total_rating { get; set; }
     }
 }

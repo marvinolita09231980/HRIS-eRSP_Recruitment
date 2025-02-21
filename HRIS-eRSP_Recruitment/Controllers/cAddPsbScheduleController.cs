@@ -29,6 +29,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         
         public ActionResult Initialize()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             um = rct.GetAllowAccess();
             try
@@ -51,6 +52,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getAvailable_item_tbl(string psb_ctrl_nbr, string budget_code, string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -65,6 +67,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getBudgetYear(string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -78,6 +81,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult selectDepartment(string psb_ctrl_nbr, string department_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var appls_in_items = db.sp_applicant_In_ItemAdded_list2(psb_ctrl_nbr, department_code).ToList();
@@ -91,6 +95,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
       
         public ActionResult getDepartment()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -105,6 +110,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
        
         public ActionResult savePSBSchedule(psb_data data, string employment_type, string budget_code,string psb_time)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -133,6 +139,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getHiringPeriod(string employment_type, string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -146,6 +153,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult editPSBSchedule(string psb_ctrl_nbr, psb_data data, string employment_type, string budget_code,string psb_time)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -167,6 +175,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult isDateExist(psb_sked_hdr_tbl data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             int exist = 0;
             try
@@ -190,6 +199,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getPSBSchedule(string budget_code, string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["employmenttype"] = employment_type;
             Session["budgetcode"] = budget_code;
@@ -205,6 +215,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult findUser(string user_id, string user_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -278,7 +289,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         
         public ActionResult savePSBPanel(psb_sked_mbr_tbl data, string inhouse, string department_name,string branch)
-        { 
+        {
+            db.Database.CommandTimeout = Int32.MaxValue;
 
             var panel_role = "";
             CheckSession();
@@ -424,6 +436,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult deletePSBSchedule(string psb_ctrl_nbr, string budget_code, string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             object sched = new object();
             try
@@ -443,6 +456,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult DisablePSBForRating(string psb_ctrl_nbr, string budget_code, string employment_type,bool disabled_rating)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             object sched = new object();
             try
@@ -464,6 +478,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getPsbPanel(string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
 
             try
@@ -479,6 +494,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult verifyAllowDeletePanel(string panel_user_id, string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -493,6 +509,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult deletePanel(string panel_user_id, string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -506,6 +523,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getPsbAppList(string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -520,6 +538,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult DeleteAppPsb(string psb_ctrl_nbr, string app_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -536,6 +555,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getItemsforPanel(string budget_code, string employment_type, string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -558,6 +578,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getItems(string budget_code, string employment_type, string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -583,6 +604,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult savePSBItems(string psb_ctrl_nbr, string budget_code, string employment_type, sp_applicantsreviewtbl_items_list_2_Result added_item)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var add = 0;
@@ -631,6 +653,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult RefreshPanelList(string psb_ctrl_nbr, string budget_code, string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
 
             var user_id = Session["user_id"].ToString();
@@ -653,6 +676,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult removePSBItems(string psb_ctrl_nbr, string employment_type, string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -690,6 +714,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult removePSBItems_2(string psb_ctrl_nbr, string employment_type, string budget_code, string item_no, string department_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             try
@@ -715,6 +740,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult ApplicantInItemAdded(string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -731,6 +757,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult addAppsToPsb(String psb_ctrl_nbr, List<sp_applicant_In_ItemAdded_list_Result> appls_in_items)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var message = "";
             var add = 0;
@@ -810,6 +837,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getForScoreSheetParam(string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -825,6 +853,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult SetHistoryPage(string employmenttype,string budgetcode)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -845,8 +874,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult ReactivateHRMPSB(string psb_ctrl_nbr)
         {
-            CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            CheckSession();
+           
             try
             {
                 var psb = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();

@@ -177,7 +177,7 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
 
                            return   '<div>' +
                                        '<button  type="button" class="btn btn-info btn-sm btn-grid" ng-click="psbrating_view(' + row["row"] + ')" data-toggle="tooltip" data-placement="left" title="Show Panel Ratings" ' + HSAD(full["hasSelected_approved"]) +'>RATE</button>' +
-                               '<button  type="button"  class="btn ' + changeColorClass(data)+' btn-sm btn-grid" ng-click="pass_check_box(' + row["row"] + ',' + caAdded(data) + ')" data-toggle="tooltip" data-placement="left" title="Submit For Comparative">' +
+                               '<button  type="button"  class="btn ' + changeColorClass(data) + ' btn-sm btn-grid" ng-click="pass_check_box(' + row["row"] + ',' + caAdded(data) + ')" data-toggle="tooltip" data-placement="left" title="' + changetitle(data)+'">' +
                                        ''+ changelabel(data) + '' +
                                        '</button > '+
                                     '</div>'
@@ -228,8 +228,16 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
             return "Not in comparative"
         }
     }
+    function changetitle(val) {
+        if (parseInt(val) >= 3) {
+            return "Remove from comparative"
+        }
+        else if (parseInt(val) < 3) {
+            return "Submit for comparative"
+        }
+    }
     function caAdded(val) {
-        if (parseInt(val) == 3) {
+        if (parseInt(val) >= 3) {
             return true
         }
         else if (parseInt(val) < 3) {
@@ -784,6 +792,8 @@ ng_eRSP_App.controller("cHRMPSBScreening_Ctrlr", function (commonScript, $scope,
                     localStorage["psb_action_btn"] = JSON.stringify(d.data.psb_action_btn)
                     s.psb_status = d.data.psb_status
                     s.Data_List_RAW = d.data.psblist
+
+                    console.log(d.data.psblist)
                     s.Data_List = d.data.psblist.refreshTable("Data_List_Grid", "")
                 } else {
                     console.log(d.data.message)

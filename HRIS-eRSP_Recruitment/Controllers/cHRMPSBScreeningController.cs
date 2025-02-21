@@ -37,7 +37,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
-            
+            db2.Database.CommandTimeout = Int32.MaxValue;
+
             var user_id = Session["user_id"].ToString();
 
             try
@@ -176,6 +177,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             //Session["psb_budget_code"] = budget_code;
             //Session["psb_psb_ctrl_nbr"] = "";
             //Session["item_no"] = "";
@@ -196,6 +198,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             int psb_status = 0;
             Session["psb_psb_ctrl_nbr"] = psb_ctrl_nbr;
@@ -223,6 +226,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             var psb_status = 0 ;
             List<sp_hrmpsb_screening_list_Result> psblist = new List<sp_hrmpsb_screening_list_Result>();
@@ -249,6 +253,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user = Session["user_id"].ToString();
             try
             {
@@ -266,6 +271,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user = Session["user_id"].ToString();
             try
             {
@@ -283,6 +289,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             //Session["psb_employment_type"] = employment_type;
             //Session["psb_budget_code"] = "";
             //Session["psb_psb_ctrl_nbr"] = "";
@@ -336,6 +343,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var psb = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
@@ -360,6 +368,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 
@@ -377,6 +386,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var psb = db.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
@@ -394,6 +404,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             try
             {
@@ -410,9 +421,10 @@ namespace HRIS_eRSP_Recruitment.Controllers
        {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
-           
+            db2.Database.CommandTimeout = Int32.MaxValue;
 
-           var user_id = Session["user_id"].ToString();
+
+            var user_id = Session["user_id"].ToString();
            try
            {
                 var inf = db.applicants_review_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr).FirstOrDefault();
@@ -438,6 +450,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = "";
             if (is_panel == true ) 
             {
@@ -510,6 +523,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
 
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             var item_no = Session["item_no"].ToString();
             var message = "";
@@ -556,6 +570,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
            
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             var item_no = Session["item_no"].ToString();
             var message = "";
@@ -593,6 +608,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             var icn = "";
             var app_status = "";
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             var psb_ctrl_nbr = Session["psb_psb_ctrl_nbr"].ToString();
             var item_no = Session["item_no"].ToString();
@@ -629,6 +645,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             var data_count = data.Count();
             var submit_count = 0;
@@ -682,6 +699,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             try
             {
@@ -704,6 +722,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             var psb_ctrl_nbr = data[0].psb_ctrl_nbr;
             try
@@ -738,6 +757,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             try
             {
@@ -754,6 +774,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             try
             {
@@ -768,6 +789,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         public ActionResult getPanel(string psb_ctrl_nbr){
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var panels = db.psb_sked_mbr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).ToList();
@@ -782,6 +804,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             try
             {
@@ -799,6 +822,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             try
             {
@@ -815,6 +839,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             try
             {
@@ -832,6 +857,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
             CheckSession();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             try
             {

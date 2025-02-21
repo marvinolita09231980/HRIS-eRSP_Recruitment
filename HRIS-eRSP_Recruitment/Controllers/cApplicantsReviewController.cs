@@ -1252,7 +1252,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     prog.quali_hrmpsb_by = user;
                     prog.quali_hrmpsb_dttm = datenow;
 
-                    var ps = db2.vw_psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+                    var ps = db2.psb_sked_app_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
                     if (ps == null)
                     {
                         psb_sked_app_tbl ap = new psb_sked_app_tbl();
@@ -1300,12 +1300,16 @@ namespace HRIS_eRSP_Recruitment.Controllers
                  db2.sp_psb_pnl_rtg_tbl_qsupdate(psb_ctrl_nbr, app_ctrl_nbr);
 
                  review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
-                return JSON2(new { message = message, icon = icn, review_list }, JsonRequestBehavior.AllowGet);
+                return JSON2(new {message, icon = icn, review_list }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception exp)
+            catch (DbEntityValidationException exp)
             {
-                return Json(new { message = exp.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = DbEntityValidationExceptionError(exp), icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
+            //catch (Exception exp)
+            //{
+            //    return Json(new { message = exp.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
+            //}
         }
         public ActionResult addToPSBAll(List<app_ctrl_nbr_list_2> data)
         {
@@ -1326,36 +1330,39 @@ namespace HRIS_eRSP_Recruitment.Controllers
             List<sp_review_applicant_tbl_list3_Result> review_list = new List<sp_review_applicant_tbl_list3_Result>();
             try
             {
-               
-
-                
-
                 var error_text = "";
 
-                for (var x=0;x<data.Count();x++)
+                var psb= db2.psb_sked_hdr_tbl.Where(a => a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+                if (psb != null)
                 {
-                    
-                    var x_psb_ctrl_nbr = data[x].psb_ctrl_nbr;
-                    var x_app_ctrl_nbr = data[x].app_ctrl_nbr;
-                    var x_item_no = data[x].item_no;
-                    var x_employment_type = data[x].employment_type;
-                    var x_budget_code = data[x].budget_code;
-                    var x_department_code = data[x].department_code;
-                    var x_hiring_period = data[x].hiring_period;
-
-                    var SQL_ST = db2.sp_add_to_hrmpsb(x_psb_ctrl_nbr, x_app_ctrl_nbr, x_item_no, x_employment_type, x_budget_code, x_hiring_period, x_department_code, user).FirstOrDefault();
-                    if (SQL_ST != null && SQL_ST.errorcode == "0")
+                    if (psb.psb_status < 2)
                     {
-                        if(SQL_ST.errormessage == "Cannot add applicants from HRMPSB schedule that is already concluded.")
+                        for (var x = 0; x < data.Count(); x++)
                         {
-                            throw new Exception(SQL_ST.errormessage);
+
+                            var x_psb_ctrl_nbr = data[x].psb_ctrl_nbr;
+                            var x_app_ctrl_nbr = data[x].app_ctrl_nbr;
+                            var x_item_no = data[x].item_no;
+                            var x_employment_type = data[x].employment_type;
+                            var x_budget_code = data[x].budget_code;
+                            var x_department_code = data[x].department_code;
+                            var x_hiring_period = data[x].hiring_period;
+
+                            var SQL_ST = db2.sp_add_to_hrmpsb(x_psb_ctrl_nbr, x_app_ctrl_nbr, x_item_no, x_employment_type, x_budget_code, x_hiring_period, x_department_code, user).FirstOrDefault();
+
+                            if (SQL_ST != null && SQL_ST.errorcode == "0")
+                            {
+                                insert_failed_list.Add(data[x]);
+                            }
+
                         }
-                        insert_failed_list.Add(data[x]);
                     }
-
+                    else
+                    {
+                        throw new Exception("Cannot add applicants from HRMPSB schedule that is already concluded.");
+                    }
                 }
-
-              
+                
 
                 message = "Applicants is successfully added to PSb schedule";
                 icn = "success";
@@ -1365,10 +1372,16 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
                 return JSON2(new { message = message, icon = icn, review_list, insert_failed_list}, JsonRequestBehavior.AllowGet);
             }
+            //catch (DbEntityValidationException exp)
+            //{
+            //    message = DbEntityValidationExceptionError(exp);
+            //    review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
+            //    return JSON2(new { message = message, icon = icon.error, review_list }, JsonRequestBehavior.AllowGet);
+            //}
             catch (Exception exp)
             {
                 review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
-                return JSON2(new { message = exp.Message, icon = icon.error, review_list}, JsonRequestBehavior.AllowGet);
+                return JSON2(new { message = exp.Message, icon = icon.error, review_list }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -1385,7 +1398,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                     throw new Exception(sp_psb_pnl_rtg_tbl_qsupdate.db_message);
                 }
                 var review_list = db2.sp_review_applicant_tbl_list3(item_no, employment_type, budget_code, hiring_period).ToList();
-                return JSON2(new { icon = icon.success, review_list }, JsonRequestBehavior.AllowGet);
+                return JSON2(new { message="Successfully added!", icon = icon.success, review_list }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException exp)
             {
@@ -1547,7 +1560,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             }
         }
         public ActionResult SetExamScheduleAll(
-            List<app_ctrl_nbr_list> app_ctrl_nbr_list
+            List<app_ctrl_nbr_list_2> app_ctrl_nbr_list
           , string hiring_period
           , string item_no
           , string budget_code
@@ -1956,7 +1969,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
        
 
-        public ActionResult ChangeItem(string app_ctrl_nbr, string item_no_previous, string hiring_period, string item_no_new)
+        public ActionResult ChangeItem(string app_ctrl_nbr, string item_no_previous, string hiring_period, string item_no_new, string position_code, string department_code)
         {
             try
             {
@@ -1999,13 +2012,13 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 }
                 else
                 {
-                    CONT = app_item_change;
-                    db2.applicants_review_tbl.Remove(app_item_change);
-                    db2.SaveChanges();
+                    app_item_change.item_no = item_no_new;
+                    app_item_change.department_code = department_code;
+                    app_item_change.position_code = position_code;
+                    app_item_change.hiring_period = hiring_period;
 
-                    CONT.item_no = item_no_new;
-                    db2.applicants_review_tbl.Add(CONT);
                     db2.SaveChanges();
+                    
                 }
                
 

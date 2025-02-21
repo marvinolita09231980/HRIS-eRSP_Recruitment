@@ -28,7 +28,8 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
     s.email_settup = {}
     s.row_for_email = ""
     s.type_for_email = ""
-    
+
+    s.budget_year_list = []
     s.addfetch_row = []
     s.prescreenDataTempList = []
     s.alphabet_list = [
@@ -39,6 +40,28 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
        { alpha_name: 'S' }, { alpha_name: 'T' }, { alpha_name: 'U' }, { alpha_name: 'V' }, { alpha_name: 'W' }, { alpha_name: 'X' },
        { alpha_name: 'Y' }, { alpha_name: 'Z' }
     ]
+
+    function createBudgetYearList() {
+        var datenow = new Date();
+        var yearNow = datenow.getFullYear();
+        var start_year = 2018
+        var end_year = yearNow + 1
+        var thisyear = start_year 
+        
+       
+        do {
+            
+            s.budget_year_list.push({ "budget_code": thisyear.toString() + "-2", "budget_description": thisyear.toString() + " Budget Year - Actual" })
+            thisyear += 1
+
+        } while (thisyear <= end_year);
+
+       
+        console.log(s.budget_year_list)
+    }
+
+
+
     function val(id,lang)
     {
         if(lang == "jq")
@@ -1061,6 +1084,9 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
     function init()
     {
+
+        createBudgetYearList()
+
         
         Init_APL_List_Grid([])
         cs.loading("show")
@@ -1186,10 +1212,9 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
     s.selectEmploymentType = function (employment_type) {
         var ls_array = []
-        cs.loading("show")
         s.clearFilter(1)
         s.clearFetch()
-        cs.loading("show")
+       
         addvalue("dd_department", "")
         addvalue("budget_code", "")
         addvalue("hiring_period", "")
@@ -1197,15 +1222,13 @@ ng_eRSP_App.controller("cOnlineApplicantsList_Ctrlr", function (commonScript, $s
 
         var employment_type = s.employment_type
         localStorage['employment_type'] = s.employment_type
-
-        
-            h.post("../cOnlineApplicantsList/selectEmploymentType", { employment_type: employment_type, start: val("startwith", "jq") }).then(function (d) {
-                s.budget_year = d.data.budget_year;
-                localStorage['budget_year'] = JSON.stringify(d.data.budget_year);
-                $("#APL_List_Grid").dataTable().fnClearTable();
-                cs.loading("hide")
-            })
-        
+            //h.post("../cOnlineApplicantsList/selectEmploymentType", { employment_type: employment_type, start: val("startwith", "jq") }).then(function (d) {
+            //    s.budget_year = d.data.budget_year;
+            //    localStorage['budget_year'] = JSON.stringify(d.data.budget_year);
+              
+            //    cs.loading("hide")
+            //})
+        $("#APL_List_Grid").dataTable().fnClearTable();
     }
 
 

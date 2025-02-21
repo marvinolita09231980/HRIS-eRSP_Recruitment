@@ -27,6 +27,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Initialize(string employment_type,string approval_status)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+           
             CheckSession();
             um = rct.GetAllowAccess();
             var user_id = Session["user_id"].ToString();
@@ -46,6 +48,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getItem(string month, string year)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -60,6 +63,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
        
         public ActionResult getExcutiveList(string item_no, string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -73,6 +77,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getPSBComparativeRating(string app_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -89,6 +94,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult toBeApprovedPosition(string employment_type,string approval_status)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
 
@@ -106,6 +112,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getItemListInPosition(string position_code, string budget_code, string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -121,6 +128,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult sp_hrmpsbscreening_item_list(string year)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
           //  Session["psb_psb_ctrl_nbr"] = psb_ctrl_nbr;
            
@@ -137,6 +145,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getItemIndorse(string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
               Session["psb_psb_ctrl_nbr"] = psb_ctrl_nbr;
 
@@ -153,6 +162,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult set_Item_no(string item_no, string psb_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -167,8 +177,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
 
        public ActionResult ApproveExec(items_added2 data, string comment, string psb_ctrl_nbr, string item_no)
-       {
-           CheckSession();
+        {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            CheckSession();
            var user_id = Session["user_id"].ToString();
            if (comment == "" || comment == null)
            {
@@ -190,6 +201,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult ApproveExec2(items_added2 data,string psb_ctrl_nbr, string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var app_status = "";
             var user_id = Session["user_id"].ToString();
@@ -214,8 +226,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
 
        public ActionResult RevertApprove(items_added2   data, string comment, string psb_ctrl_nbr, string item_no)
-       {
-           CheckSession();
+        {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            CheckSession();
            var user_id = Session["user_id"].ToString();
            if (comment == "" || comment == null)
            {
@@ -235,6 +248,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult RevertApprove2(items_added2 data, string psb_ctrl_nbr, string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var app_status = "";
             var user_id = Session["user_id"].ToString();
@@ -257,6 +271,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult GET_LIST(string psb_ctrl_nbr, string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
            try
            {
@@ -271,6 +286,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult indorseitem_applicant_list(string psb_ctrl_nbr, string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {

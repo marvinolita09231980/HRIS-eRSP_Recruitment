@@ -60,6 +60,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Login_Validation(string username, string password)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+           
             var message = "";
             var success = 0;
             object cred = new object();
@@ -97,6 +99,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult logout()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             Session.Clear();
             if (Session["user_id"] == null)
             {

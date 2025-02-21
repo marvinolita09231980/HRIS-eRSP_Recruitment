@@ -33,6 +33,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult InitializeAttache(string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -47,6 +49,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult CheckFile(string doc, string file, string employment_type, string budget_code, string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var fileXs = 0;
             var ctrl_nbr = employment_type + "-" + budget_code + "-" + item_no;
@@ -199,7 +203,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         [HttpPost]
         public ActionResult DeleteAttachements(int seq_no, string info_ctrl_nbr)
         {
-
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             try
             {
 
@@ -221,6 +226,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getBudgetCode(string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -237,6 +244,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getEmployment_Type(string employment_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {

@@ -1096,7 +1096,7 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
         h.post("../cApplicantReviewDetail/Initialize").then(function (d) {
             s.psb_ctrl_nbr      = d.data.psb_ctrl_nbr
             s.psb_sked_hdr_list = d.data.psb_sked_hdr_list 
-
+            appctrlnbr = d.data.app_ctrl_nbr
             s.user_id = d.data.user_id
             app_ctrl_nbr = d.data.app_ctrl_nbr
             s.sp_reviewer_screening_list2()
@@ -1177,6 +1177,7 @@ ng_eRSP_App.controller("cApplicantsReviewDetails_Ctrlr", function (commonScript,
         cs.loading("show")
         var dt = s.Applicant_grid_Data[row]
         var app_ctrl_nbr = dt.app_ctrl_nbr
+        appctrlnbr = dt.app_ctrl_nbr
         h.post("../cApplicantReviewDetail/setAppCtrlNbr", {
             app_ctrl_nbr: app_ctrl_nbr
         }).then(function (d) {

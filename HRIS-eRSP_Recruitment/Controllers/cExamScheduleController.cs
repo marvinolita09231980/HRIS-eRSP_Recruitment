@@ -26,6 +26,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult GetExamSchedulePeryear(string year)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var examschedules = db.vw_exam_schedule_tbl.Where(a => a.exam_year == year).ToList();
@@ -39,6 +40,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult SaveExamSchedule(string year, exam_shcedule_tbl exam_data, string exam_time)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
             try
             {
@@ -69,8 +71,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult EditExamSchedule(string exam_rowindex, string year, exam_shcedule_tbl exam_data,string exam_time)
         {
-            
-           
+            db.Database.CommandTimeout = Int32.MaxValue;
+
             var user_id = Session["user_id"].ToString();
             
             try
@@ -112,6 +114,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult DeleteExamSchedule(int exam_id, string year)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             var user_id = Session["user_id"].ToString();
           
             try

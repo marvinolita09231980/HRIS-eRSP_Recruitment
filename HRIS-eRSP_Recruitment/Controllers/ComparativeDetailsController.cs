@@ -21,7 +21,15 @@ namespace HRIS_eRSP_Recruitment.Controllers
         // GET: ComparativeDetails
         public ActionResult Index()
         {
+
+            if (Session["user_id"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
             return View();
+        
         }
         public ActionResult Initialize()
         {
@@ -110,6 +118,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 return Json(new { message = e.Message, icon = icon.error }, JsonRequestBehavior.AllowGet);
             }
         }
+
         public ActionResult GetEmailNotification2(sp_comparative_assessment_list_container dt, string email_type)
         {
             db.Database.CommandTimeout = Int32.MaxValue;
@@ -345,6 +354,48 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
 
                 return JSON2(new { employee_name, message = "Applicants is successfully notified!", icon = "success", se }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AssignItemComparative(string item_no,string app_ctrl_nbr, string psb_ctrl_nbr)
+        {
+            try
+            {
+                var user = Session["user_id"].ToString();
+                var datenow = DateTime.Now;
+                var ca_item_no = Session["ca_item_no"].ToString();
+
+                var combined_id = Convert.ToInt32(ca_item_no);
+
+                var qry = db.comparative_item_assigned_tbl.Where(a => a.app_ctrl_nbr == app_ctrl_nbr && a.psb_ctrl_nbr == psb_ctrl_nbr).FirstOrDefault();
+
+                if(qry == null)
+                {
+                    comparative_item_assigned_tbl query = new comparative_item_assigned_tbl();
+                        query.item_no         = item_no;
+                        query.app_ctrl_nbr    = app_ctrl_nbr;
+                        query.psb_ctrl_nbr    = psb_ctrl_nbr;
+                        query.created_dttm    = datenow;
+                        query.created_userby  = user;
+                        query.updated_dttm    = null;
+                        query.updated_userby  = null;
+                        db.comparative_item_assigned_tbl.Add(query);
+                }
+                else
+                {
+                    qry.item_no = item_no;
+                    qry.updated_dttm = datenow;
+                    qry.updated_userby = user;
+                }
+
+                db.SaveChanges();
+                var comparative = db.sp_comparative_assessment_list_ranked(psb_ctrl_nbr, combined_id, "3").ToList();
+                return JSON2(new {  message = "Item successfully assigned!", icon = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

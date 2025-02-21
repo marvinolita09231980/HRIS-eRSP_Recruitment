@@ -38,6 +38,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Initialize()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var app_ctrl_nbr = Session["app_ctrl_nbr_apldocs"].ToString();
             var origin = Session["origin"].ToString();
@@ -98,6 +100,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult CheckFile(string doc, string file)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var info_ctrl_nbr = rct.infoControlNbr();
             var fileXs = 0;
@@ -124,6 +128,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Copyfiles(sp_get_uploadedfile_from_APL_Result data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var sourcePath = "";
             string destFile = "";
@@ -181,6 +187,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getUploadedFileOnline(string empl_id)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -195,6 +203,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult PreviousPage()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -212,6 +222,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
        
         public ActionResult getPDFFile(string info_ctrl_nbr,string doc_type,string file_path)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {

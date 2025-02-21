@@ -542,6 +542,19 @@
           <Property Name="combined_by" Type="varchar" MaxLength="10" />
           <Property Name="combined_dttm" Type="datetime" />
         </EntityType>
+        <EntityType Name="comparative_item_assigned_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="psb_ctrl_nbr" />
+          </Key>
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="app_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="psb_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="created_dttm" Type="datetime" Nullable="false" />
+          <Property Name="created_userby" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_userby" Type="varchar" MaxLength="6" />
+        </EntityType>
         <EntityType Name="document_type_tbl">
           <Key>
             <PropertyRef Name="doc_type" />
@@ -1142,9 +1155,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_applicant_workexprnce_tbl_list' do
           <Property Name="workexp_to" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="period" Type="varchar" MaxLength="63" Nullable="false" />
           <Property Name="position_title" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="dept_agncy_offc_co" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="dept_agncy_offc_co" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="monthly_salary" Type="money" Nullable="false" />
-          <Property Name="salary_job_grade" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="salary_job_grade" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="appt_status" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="gov_srvc" Type="bit" Nullable="false" />
           <Property Name="psb_selected" Type="bit" />
@@ -1347,6 +1360,24 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_applicants_review_tbl_dates' does 
           <Property Name="email_aknowldge_dttm" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_RCT.dbo.vw_available_item_hdr_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_available_item_hdr_tbl">
+          <Key>
+            <PropertyRef Name="ctrl_no" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="active_status" />
+          </Key>
+          <Property Name="ctrl_no" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="budget_code" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="276" />
+          <Property Name="active_dttm" Type="varchar" MaxLength="30" />
+          <Property Name="expiry_dttm" Type="varchar" MaxLength="30" />
+          <Property Name="active_forpsb" Type="bit" />
+          <Property Name="active_status" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_RCT.dbo.vw_available_item_tbl_active' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_available_item_tbl_active">
           <Key>
@@ -1416,6 +1447,21 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_combined_item_dtl_tbl' does not ha
           <Property Name="employment_type" Type="varchar" MaxLength="2" />
           <Property Name="department_code" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="position_code" Type="varchar" MaxLength="4" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_RCT.dbo.vw_combined_item_hdr_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_combined_item_hdr_tbl">
+          <Key>
+            <PropertyRef Name="combined_id" />
+            <PropertyRef Name="item_no" />
+          </Key>
+          <Property Name="combined_id" Type="int" Nullable="false" />
+          <Property Name="psb_ctrl_nbr" Type="varchar" MaxLength="10" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" />
+          <Property Name="descr" Type="varchar" MaxLength="100" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_RCT.dbo.vw_combined_item_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1587,7 +1633,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_personnel_tbl_image_RCT' does not 
             <PropertyRef Name="empl_id" />
           </Key>
           <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
-          <Property Name="empl_photo_img" Type="varchar(max)" />
+          <Property Name="empl_photo_img" Type="image" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_RCT.dbo.vw_personnelnames_tbl_RCT' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1624,6 +1670,33 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_plantilla_items' does not have a p
           <Property Name="position_code" Type="varchar" MaxLength="4" />
           <Property Name="division_code" Type="varchar" MaxLength="3" />
           <Property Name="employment_status" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_RCT.dbo.vw_plantilla_tbl_RCT' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_plantilla_tbl_RCT">
+          <Key>
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="subdepartment_code" />
+            <PropertyRef Name="division_code" />
+            <PropertyRef Name="section_code" />
+            <PropertyRef Name="department_name1" />
+            <PropertyRef Name="subdepartment_name1" />
+            <PropertyRef Name="division_name1" />
+            <PropertyRef Name="section_name1" />
+          </Key>
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="division_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="section_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="department_name1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="subdepartment_name1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="division_name1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="section_name1" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_RCT.dbo.vw_positions_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1759,8 +1832,8 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_psb_sked_mbr_tbl' does not have a 
           <Property Name="panel_user_id" Type="varchar" MaxLength="8" />
           <Property Name="psb_mbr_role" Type="varchar" MaxLength="2" />
           <Property Name="mbr_role_descr" Type="varchar" MaxLength="255" />
-          <Property Name="psb_name" Type="varchar" MaxLength="100" />
-          <Property Name="agency" Type="varchar" MaxLength="500" />
+          <Property Name="psb_name" Type="varchar" MaxLength="50" />
+          <Property Name="agency" Type="varchar" MaxLength="50" />
           <Property Name="created_by_user" Type="varchar" MaxLength="8" />
           <Property Name="created_dttm" Type="datetime" />
           <Property Name="btn_disabled" Type="int" Nullable="false" />
@@ -1773,6 +1846,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_return_compentency' does not have 
             <PropertyRef Name="item_no" />
             <PropertyRef Name="budget_code" />
             <PropertyRef Name="employment_type" />
+            
           </Key>
           <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
@@ -1780,7 +1854,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_return_compentency' does not have 
           <Property Name="position_code" Type="varchar" MaxLength="4" />
           <Property Name="department_code" Type="varchar" MaxLength="2" />
           <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
-          <Property Name="competency_required" Type="nvarchar" MaxLength="1431" />
+          <Property Name="competency_required" Type="nvarchar" MaxLength="1424" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_RCT.dbo.vw_salary_grade_list' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1906,9 +1980,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_score_sheet_details_wexp_rpt' does
           <Property Name="workexp_from" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="workexp_to" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="position_title" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="dept_agncy_offc_co" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="dept_agncy_offc_co" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="monthly_salary" Type="money" Nullable="false" />
-          <Property Name="salary_job_grade" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="salary_job_grade" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="appt_status" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="gov_srvc" Type="bit" Nullable="false" />
           <Property Name="wexp_period" Type="nvarchar" MaxLength="4000" />
@@ -2498,7 +2572,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
         <Function Name="sp_exam_schedule_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="app_ctrl_nbr" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_exam_schedule_tbl_2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_exec_2bapprovedlist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
         </Function>
@@ -2593,9 +2666,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_hrmps_sched_header_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="p_budget_code" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="sp_hrmpsb_screening_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
           <Parameter Name="p_app_status" Type="varchar" Mode="In" />
@@ -2622,7 +2692,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
         <Function Name="sp_if_employee_exist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_inactive_all_panel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_insert_ads_images" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_budget_code" Type="varchar" Mode="In" />
           <Parameter Name="p_employment_type" Type="varchar" Mode="In" />
@@ -3119,6 +3188,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="change_item_history_tbl" EntityType="Self.change_item_history_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="combined_item_dtl_tbl" EntityType="Self.combined_item_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="combined_item_hdr_tbl" EntityType="Self.combined_item_hdr_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="comparative_item_assigned_tbl" EntityType="Self.comparative_item_assigned_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="document_type_tbl" EntityType="Self.document_type_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="email_and_approve_dates_tbl" EntityType="Self.email_and_approve_dates_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="endorsement_print_dtl_tbl" EntityType="Self.endorsement_print_dtl_tbl" Schema="dbo" store:Type="Tables" />
@@ -3374,6 +3444,18 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
     [vw_applicants_review_tbl_dates].[email_aknowldge_dttm] AS [email_aknowldge_dttm]
     FROM [dbo].[vw_applicants_review_tbl_dates] AS [vw_applicants_review_tbl_dates]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_available_item_hdr_tbl" EntityType="Self.vw_available_item_hdr_tbl" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_available_item_hdr_tbl].[ctrl_no] AS [ctrl_no], 
+    [vw_available_item_hdr_tbl].[budget_code] AS [budget_code], 
+    [vw_available_item_hdr_tbl].[employment_type] AS [employment_type], 
+    [vw_available_item_hdr_tbl].[descr] AS [descr], 
+    [vw_available_item_hdr_tbl].[active_dttm] AS [active_dttm], 
+    [vw_available_item_hdr_tbl].[expiry_dttm] AS [expiry_dttm], 
+    [vw_available_item_hdr_tbl].[active_forpsb] AS [active_forpsb], 
+    [vw_available_item_hdr_tbl].[active_status] AS [active_status]
+    FROM [dbo].[vw_available_item_hdr_tbl] AS [vw_available_item_hdr_tbl]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_available_item_tbl_active" EntityType="Self.vw_available_item_tbl_active" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_available_item_tbl_active].[item_no] AS [item_no], 
@@ -3421,6 +3503,17 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
     [vw_combined_item_dtl_tbl].[department_code] AS [department_code], 
     [vw_combined_item_dtl_tbl].[position_code] AS [position_code]
     FROM [dbo].[vw_combined_item_dtl_tbl] AS [vw_combined_item_dtl_tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_combined_item_hdr_tbl" EntityType="Self.vw_combined_item_hdr_tbl" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_combined_item_hdr_tbl].[combined_id] AS [combined_id], 
+    [vw_combined_item_hdr_tbl].[psb_ctrl_nbr] AS [psb_ctrl_nbr], 
+    [vw_combined_item_hdr_tbl].[position_code] AS [position_code], 
+    [vw_combined_item_hdr_tbl].[employment_type] AS [employment_type], 
+    [vw_combined_item_hdr_tbl].[budget_code] AS [budget_code], 
+    [vw_combined_item_hdr_tbl].[descr] AS [descr], 
+    [vw_combined_item_hdr_tbl].[item_no] AS [item_no]
+    FROM [dbo].[vw_combined_item_hdr_tbl] AS [vw_combined_item_hdr_tbl]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_combined_item_tbl" EntityType="Self.vw_combined_item_tbl" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -3552,6 +3645,21 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
     [vw_plantilla_items].[division_code] AS [division_code], 
     [vw_plantilla_items].[employment_status] AS [employment_status]
     FROM [dbo].[vw_plantilla_items] AS [vw_plantilla_items]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_plantilla_tbl_RCT" EntityType="Self.vw_plantilla_tbl_RCT" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_plantilla_tbl_RCT].[item_no] AS [item_no], 
+    [vw_plantilla_tbl_RCT].[budget_code] AS [budget_code], 
+    [vw_plantilla_tbl_RCT].[employment_type] AS [employment_type], 
+    [vw_plantilla_tbl_RCT].[department_code] AS [department_code], 
+    [vw_plantilla_tbl_RCT].[subdepartment_code] AS [subdepartment_code], 
+    [vw_plantilla_tbl_RCT].[division_code] AS [division_code], 
+    [vw_plantilla_tbl_RCT].[section_code] AS [section_code], 
+    [vw_plantilla_tbl_RCT].[department_name1] AS [department_name1], 
+    [vw_plantilla_tbl_RCT].[subdepartment_name1] AS [subdepartment_name1], 
+    [vw_plantilla_tbl_RCT].[division_name1] AS [division_name1], 
+    [vw_plantilla_tbl_RCT].[section_name1] AS [section_name1]
+    FROM [dbo].[vw_plantilla_tbl_RCT] AS [vw_plantilla_tbl_RCT]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_positions_tbl" EntityType="Self.vw_positions_tbl" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -4355,9 +4463,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="workexp_to" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="period" Type="String" MaxLength="63" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="position_title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="dept_agncy_offc_co" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dept_agncy_offc_co" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="monthly_salary" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="salary_job_grade" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="salary_job_grade" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="appt_status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="gov_srvc" Type="Boolean" Nullable="false" />
           <Property Name="psb_selected" Type="Boolean" />
@@ -4574,8 +4682,8 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="panel_user_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="psb_mbr_role" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="mbr_role_descr" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="psb_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="agency" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="psb_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="agency" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="created_by_user" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="created_dttm" Type="DateTime" Precision="3" />
           <Property Name="btn_disabled" Type="Int32" Nullable="false" />
@@ -4593,7 +4701,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
           <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="competency_required" Type="String" MaxLength="1431" FixedLength="false" Unicode="true" />
+          <Property Name="competency_required" Type="String" MaxLength="1424" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="vw_salary_grade_list">
           <Key>
@@ -4709,9 +4817,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="workexp_from" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="workexp_to" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="position_title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="dept_agncy_offc_co" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dept_agncy_offc_co" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="monthly_salary" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="salary_job_grade" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="salary_job_grade" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="appt_status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="gov_srvc" Type="Boolean" Nullable="false" />
           <Property Name="wexp_period" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
@@ -5741,12 +5849,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <FunctionImport Name="sp_position_tbl_list_all" ReturnType="Collection(HRIS_RCTModel.sp_position_tbl_list_all_Result)">
           <Parameter Name="p_hiring_period" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="prescreen_tbl" EntityType="HRIS_RCTModel.prescreen_tbl" />
-          <FunctionImport Name="sp_user_login_RCT" ReturnType="Collection(HRIS_RCTModel.sp_user_login_RCT_Result)">
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
-            <Parameter Name="par_user_password" Mode="In" Type="String" />
-          </FunctionImport>
-          <EntitySet Name="vw_personnel_tbl_image_RCT" EntityType="HRIS_RCTModel.vw_personnel_tbl_image_RCT" />
           <FunctionImport Name="sp_exam_schedule_tbl_2" ReturnType="Collection(HRIS_RCTModel.sp_exam_schedule_tbl_2_Result)" />
           <FunctionImport Name="sp_inactive_all_panel" />
           <FunctionImport Name="sp_psb_pnl_rtg_tbl_qsupdate" ReturnType="Collection(HRIS_RCTModel.sp_psb_pnl_rtg_tbl_qsupdate_Result)">
@@ -5758,6 +5860,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           </FunctionImport>
           <EntitySet Name="applicant_attachment_tbl" EntityType="HRIS_RCTModel.applicant_attachment_tbl" />
           <EntitySet Name="vw_applicants_progress_tbl" EntityType="HRIS_RCTModel.vw_applicants_progress_tbl" />
+          <FunctionImport Name="sp_exec_2bapprovedlist" ReturnType="Collection(HRIS_RCTModel.sp_exec_2bapprovedlist_Result)">
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="sp_add_to_hrmpsb" ReturnType="Collection(HRIS_RCTModel.sp_add_to_hrmpsb_Result)">
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
@@ -5768,13 +5873,20 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_department_code" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="prescreen_tbl" EntityType="HRIS_RCTModel.prescreen_tbl" />
           <FunctionImport Name="sp_reviewer_screening_list" ReturnType="Collection(HRIS_RCTModel.sp_reviewer_screening_list_Result)">
           <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="vw_combined_item_tbl" EntityType="HRIS_RCTModel.vw_combined_item_tbl" />
-          <FunctionImport Name="sp_exec_2bapprovedlist" ReturnType="Collection(HRIS_RCTModel.sp_exec_2bapprovedlist_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <FunctionImport Name="sp_user_login_RCT" ReturnType="Collection(HRIS_RCTModel.sp_user_login_RCT_Result)">
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_user_password" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="vw_personnel_tbl_image_RCT" EntityType="HRIS_RCTModel.vw_personnel_tbl_image_RCT" />
+          <EntitySet Name="comparative_item_assigned_tbl" EntityType="HRIS_RCTModel.comparative_item_assigned_tbl" />
+          <EntitySet Name="vw_combined_item_tbl" EntityType="HRIS_RCTModel.vw_combined_item_tbl" />
+          <EntitySet Name="vw_available_item_hdr_tbl" EntityType="HRIS_RCTModel.vw_available_item_hdr_tbl" />
+          <EntitySet Name="vw_combined_item_hdr_tbl" EntityType="HRIS_RCTModel.vw_combined_item_hdr_tbl" />
+          <EntitySet Name="vw_plantilla_tbl_RCT" EntityType="HRIS_RCTModel.vw_plantilla_tbl_RCT" />
         </EntityContainer>
         <ComplexType Name="sp_add_available_items_to_RCT_Result">
           <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
@@ -8765,42 +8877,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="Int32" Name="with_pwd" Nullable="true" />
           <Property Type="Int32" Name="for_review" Nullable="true" />
         </ComplexType>
-        <EntityType Name="prescreen_tbl">
-          <Key>
-            <PropertyRef Name="empl_id" />
-            <PropertyRef Name="item_no" />
-            <PropertyRef Name="hiring_period" />
-          </Key>
-          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="prescreen_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="created_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="created_by_dttm" Type="DateTime" Precision="3" />
-          <Property Name="updated_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="updated_by_dttm" Type="DateTime" Precision="3" />
-          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <ComplexType Name="sp_user_login_RCT_Result">
-          <Property Type="String" Name="user_id" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="false" MaxLength="211" />
-          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
-          <Property Type="Boolean" Name="locked_account" Nullable="true" />
-          <Property Type="Int32" Name="change_password" Nullable="true" />
-          <Property Type="String" Name="role_id" Nullable="false" MaxLength="3" />
-          <Property Type="String" Name="log_in_flag" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="panel_mbr_flag" Nullable="true" />
-        </ComplexType>
-        <EntityType Name="vw_personnel_tbl_image_RCT">
-          <Key>
-            <PropertyRef Name="empl_id" />
-          </Key>
-          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="empl_photo_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-        </EntityType>
         <ComplexType Name="sp_exam_schedule_tbl_2_Result">
           <Property Type="Int32" Name="exam_id" Nullable="false" />
           <Property Type="String" Name="exam_date" Nullable="true" MaxLength="20" />
@@ -8870,10 +8946,40 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="score_rendered" Type="Double" Nullable="false" />
           <Property Name="email_add" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="sp_exec_2bapprovedlist_Result">
+          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="psb_date" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
+          <Property Type="Int32" Name="psb_status" Nullable="true" />
+          <Property Type="String" Name="item_no" Nullable="true" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="position_short_title" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="combined_id" Nullable="true" />
+          <Property Type="Int32" Name="ranked" Nullable="false" />
+        </ComplexType>
         <ComplexType Name="sp_add_to_hrmpsb_Result">
           <Property Type="String" Name="errorcode" Nullable="true" MaxLength="1" />
           <Property Type="String" Name="errormessage" Nullable="true" MaxLength="150" />
         </ComplexType>
+        <EntityType Name="prescreen_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="hiring_period" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="prescreen_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="created_by_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="updated_by_dttm" Type="DateTime" Precision="3" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="hiring_period" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
         <ComplexType Name="sp_reviewer_screening_list_Result">
           <Property Type="String" Name="app_ctrl_nbr" Nullable="false" MaxLength="6" />
           <Property Type="String" Name="info_ctrl_nbr" Nullable="false" MaxLength="6" />
@@ -8911,13 +9017,47 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="Double" Name="experience_rating" Nullable="false" />
           <Property Type="Double" Name="eligibility_rating" Nullable="false" />
           <Property Type="Double" Name="exam_rating" Nullable="false" />
-          <Property Type="Decimal" Name="qs_total_100perc" Nullable="false" Precision="19" />
-          <Property Type="Int32" Name="qs_total_50perc" Nullable="true" />
+          <Property Type="Double" Name="qs_total_100perc" Nullable="false" />
+          <Property Type="Double" Name="qs_total_50perc" Nullable="false" />
           <Property Type="Double" Name="exam_100perc" Nullable="false" />
-          <Property Type="Decimal" Name="cbi_100rating" Nullable="false" Precision="19" />
+          <Property Type="String" Name="cbi_100rating" Nullable="false" MaxLength="4000" />
           <Property Type="String" Name="cbi_rating" Nullable="false" MaxLength="4000" />
-          <Property Type="Decimal" Name="total_rating" Nullable="false" Precision="19" />
+          <Property Type="String" Name="total_rating" Nullable="false" MaxLength="4000" />
         </ComplexType>
+        <ComplexType Name="sp_user_login_RCT_Result">
+          <Property Type="String" Name="user_id" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="false" MaxLength="211" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="Boolean" Name="locked_account" Nullable="true" />
+          <Property Type="Int32" Name="change_password" Nullable="true" />
+          <Property Type="String" Name="role_id" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="log_in_flag" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="panel_mbr_flag" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="vw_personnel_tbl_image_RCT">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="empl_photo_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="comparative_item_assigned_tbl">
+          <Key>
+            <PropertyRef Name="app_ctrl_nbr" />
+            <PropertyRef Name="psb_ctrl_nbr" />
+          </Key>
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="app_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="psb_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="created_userby" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_userby" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="vw_combined_item_tbl">
           <Key>
             <PropertyRef Name="combined_id" />
@@ -8934,21 +9074,60 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="combined_dttm" Type="DateTime" Precision="3" />
           <Property Name="hiring_period" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="sp_exec_2bapprovedlist_Result">
-          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="psb_date" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="budget_code" Nullable="true" MaxLength="6" />
-          <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
-          <Property Type="Int32" Name="psb_status" Nullable="true" />
-          <Property Type="String" Name="item_no" Nullable="true" />
-          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="position_short_title" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="combined_id" Nullable="true" />
-          <Property Type="Int32" Name="ranked" Nullable="false" />
-        </ComplexType>
+        <EntityType Name="vw_available_item_hdr_tbl">
+          <Key>
+            <PropertyRef Name="ctrl_no" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="active_status" />
+          </Key>
+          <Property Name="ctrl_no" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="descr" Type="String" MaxLength="276" FixedLength="false" Unicode="true" />
+          <Property Name="active_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="expiry_dttm" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="active_forpsb" Type="Boolean" />
+          <Property Name="active_status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_combined_item_hdr_tbl">
+          <Key>
+            <PropertyRef Name="combined_id" />
+            <PropertyRef Name="item_no" />
+          </Key>
+          <Property Name="combined_id" Type="Int32" Nullable="false" />
+          <Property Name="psb_ctrl_nbr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="descr" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_plantilla_tbl_RCT">
+          <Key>
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="subdepartment_code" />
+            <PropertyRef Name="division_code" />
+            <PropertyRef Name="section_code" />
+            <PropertyRef Name="department_name1" />
+            <PropertyRef Name="subdepartment_name1" />
+            <PropertyRef Name="division_name1" />
+            <PropertyRef Name="section_name1" />
+          </Key>
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="division_code" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="section_code" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="department_name1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_name1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="division_name1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="section_name1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -13376,81 +13555,11 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="prescreen_tbl">
-            <EntityTypeMapping TypeName="HRIS_RCTModel.prescreen_tbl">
-              <MappingFragment StoreEntitySet="prescreen_tbl">
-                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
-                <ScalarProperty Name="updated_by_dttm" ColumnName="updated_by_dttm" />
-                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
-                <ScalarProperty Name="created_by_dttm" ColumnName="created_by_dttm" />
-                <ScalarProperty Name="created_by" ColumnName="created_by" />
-                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_user_login_RCT" FunctionName="HRIS_RCTModel.Store.sp_user_login_RCT">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_user_login_RCT_Result">
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="locked_account" ColumnName="locked_account" />
-                <ScalarProperty Name="change_password" ColumnName="change_password" />
-                <ScalarProperty Name="role_id" ColumnName="role_id" />
-                <ScalarProperty Name="log_in_flag" ColumnName="log_in_flag" />
-                <ScalarProperty Name="last_name" ColumnName="last_name" />
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="panel_mbr_flag" ColumnName="panel_mbr_flag" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="vw_personnel_tbl_image_RCT">
-            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_personnel_tbl_image_RCT">
-              <MappingFragment StoreEntitySet="vw_personnel_tbl_image_RCT">
-                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_exam_schedule_tbl_2" FunctionName="HRIS_RCTModel.Store.sp_exam_schedule_tbl_2">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_exam_schedule_tbl_2_Result">
-                <ScalarProperty Name="exam_id" ColumnName="exam_id" />
-                <ScalarProperty Name="exam_date" ColumnName="exam_date" />
-                <ScalarProperty Name="exam_time" ColumnName="exam_time" />
-                <ScalarProperty Name="exam_type" ColumnName="exam_type" />
-                <ScalarProperty Name="exam_year" ColumnName="exam_year" />
-                <ScalarProperty Name="exam_location" ColumnName="exam_location" />
-                <ScalarProperty Name="zoom_link" ColumnName="zoom_link" />
-                <ScalarProperty Name="zoom_meeting_id" ColumnName="zoom_meeting_id" />
-                <ScalarProperty Name="zoom_passcode" ColumnName="zoom_passcode" />
-                <ScalarProperty Name="exam_status" ColumnName="exam_status" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_inactive_all_panel" FunctionName="HRIS_RCTModel.Store.sp_inactive_all_panel" />
           <FunctionImportMapping FunctionImportName="sp_psb_pnl_rtg_tbl_qsupdate" FunctionName="HRIS_RCTModel.Store.sp_psb_pnl_rtg_tbl_qsupdate">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_psb_pnl_rtg_tbl_qsupdate_Result">
                 <ScalarProperty Name="db_code" ColumnName="db_code" />
                 <ScalarProperty Name="db_message" ColumnName="db_message" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_hrmps_sched_header_list" FunctionName="HRIS_RCTModel.Store.sp_hrmps_sched_header_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_hrmps_sched_header_list_Result">
-                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
-                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
-                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
-                <ScalarProperty Name="descr" ColumnName="descr" />
-                <ScalarProperty Name="active_dttm" ColumnName="active_dttm" />
-                <ScalarProperty Name="expiry_dttm" ColumnName="expiry_dttm" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -13486,6 +13595,25 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_exec_2bapprovedlist" FunctionName="HRIS_RCTModel.Store.sp_exec_2bapprovedlist">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_exec_2bapprovedlist_Result">
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="combined_id" ColumnName="combined_id" />
+                <ScalarProperty Name="ranked" ColumnName="ranked" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_add_to_hrmpsb" FunctionName="HRIS_RCTModel.Store.sp_add_to_hrmpsb">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_add_to_hrmpsb_Result">
@@ -13494,6 +13622,20 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="prescreen_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.prescreen_tbl">
+              <MappingFragment StoreEntitySet="prescreen_tbl">
+                <ScalarProperty Name="hiring_period" ColumnName="hiring_period" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="updated_by_dttm" ColumnName="updated_by_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_by_dttm" ColumnName="created_by_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="prescreen_dttm" ColumnName="prescreen_dttm" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_reviewer_screening_list" FunctionName="HRIS_RCTModel.Store.sp_reviewer_screening_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_reviewer_screening_list_Result">
@@ -13542,6 +13684,45 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_user_login_RCT" FunctionName="HRIS_RCTModel.Store.sp_user_login_RCT">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_user_login_RCT_Result">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="locked_account" ColumnName="locked_account" />
+                <ScalarProperty Name="change_password" ColumnName="change_password" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="log_in_flag" ColumnName="log_in_flag" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="panel_mbr_flag" ColumnName="panel_mbr_flag" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vw_personnel_tbl_image_RCT">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_personnel_tbl_image_RCT">
+              <MappingFragment StoreEntitySet="vw_personnel_tbl_image_RCT">
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="comparative_item_assigned_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.comparative_item_assigned_tbl">
+              <MappingFragment StoreEntitySet="comparative_item_assigned_tbl">
+                <ScalarProperty Name="updated_userby" ColumnName="updated_userby" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_userby" ColumnName="created_userby" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="app_ctrl_nbr" ColumnName="app_ctrl_nbr" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="vw_combined_item_tbl">
             <EntityTypeMapping TypeName="HRIS_RCTModel.vw_combined_item_tbl">
               <MappingFragment StoreEntitySet="vw_combined_item_tbl">
@@ -13558,25 +13739,50 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_exec_2bapprovedlist" FunctionName="HRIS_RCTModel.Store.sp_exec_2bapprovedlist">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_exec_2bapprovedlist_Result">
-                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
-                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
+          <EntitySetMapping Name="vw_available_item_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_available_item_hdr_tbl">
+              <MappingFragment StoreEntitySet="vw_available_item_hdr_tbl">
+                <ScalarProperty Name="active_status" ColumnName="active_status" />
+                <ScalarProperty Name="active_forpsb" ColumnName="active_forpsb" />
+                <ScalarProperty Name="expiry_dttm" ColumnName="expiry_dttm" />
+                <ScalarProperty Name="active_dttm" ColumnName="active_dttm" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="ctrl_no" ColumnName="ctrl_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_combined_item_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_combined_item_hdr_tbl">
+              <MappingFragment StoreEntitySet="vw_combined_item_hdr_tbl">
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="budget_code" ColumnName="budget_code" />
                 <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="psb_status" ColumnName="psb_status" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
                 <ScalarProperty Name="position_code" ColumnName="position_code" />
-                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
                 <ScalarProperty Name="combined_id" ColumnName="combined_id" />
-                <ScalarProperty Name="ranked" ColumnName="ranked" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_plantilla_tbl_RCT">
+            <EntityTypeMapping TypeName="HRIS_RCTModel.vw_plantilla_tbl_RCT">
+              <MappingFragment StoreEntitySet="vw_plantilla_tbl_RCT">
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="subdepartment_name1" ColumnName="subdepartment_name1" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

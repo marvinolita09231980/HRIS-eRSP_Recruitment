@@ -21,8 +21,11 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult GetMenuList()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             List<sp_budgetyears_tbl_combolist1_RCT_Result> budgetyear = new List<sp_budgetyears_tbl_combolist1_RCT_Result>();
+            List<sp_user_menu_access_role_list_RCT_Result> data = new List<sp_user_menu_access_role_list_RCT_Result>();
             //menulst = (List<Object>)Session["menu"];
             if (Session["user_id"] != null)
             {
@@ -64,11 +67,21 @@ namespace HRIS_eRSP_Recruitment.Controllers
                 {
                     budgetyear = db.sp_budgetyears_tbl_combolist1_RCT(employment_type).ToList();
                 }
-                var data = db.sp_user_menu_access_role_list_RCT(Session["user_id"].ToString(), 11).ToList();
+
+
+                if (HttpContext.Session["sp_user_menu_access_role_list_RCT"] == null)
+                {
+                    data = db.sp_user_menu_access_role_list_RCT(Session["user_id"].ToString(), 11).ToList();
+                    HttpContext.Session["sp_user_menu_access_role_list_RCT"] = data;
+                }
+                else
+                {
+                    data = (List<sp_user_menu_access_role_list_RCT_Result>)HttpContext.Session["sp_user_menu_access_role_list_RCT"];
+                }
 
                 var User_Name = Session["first_name"].ToString() + " " + Session["last_name"];
 
-                return JSON(new { budgetyear, employment_type, budget_code, data = data, photo = imgDataURL, success = 1, username = User_Name }, JsonRequestBehavior.AllowGet);
+                return JSON(new { budgetyear, employment_type, budget_code, data, photo = imgDataURL, success = 1, username = User_Name }, JsonRequestBehavior.AllowGet);
                 //if (Session["expanded"] != null)
                 //    return JSON(new { budgetyear,  employment_type, budget_code, data = data, expanded = Session["expanded"], photo = imgDataURL, success = 1, username = User_Name }, JsonRequestBehavior.AllowGet);
                 //else return JSON(new {budgetyear, employment_type, budget_code, data = data, expanded = 0, photo = imgDataURL, success = 1, username = User_Name }, JsonRequestBehavior.AllowGet);
@@ -93,6 +106,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getUserImageId()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var empl_id = Session["empl_id"].ToString();
             var emp_photo_byte_arr = db.vw_personnel_tbl_image_RCT.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
@@ -103,6 +118,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Budget_Code(string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var page = Session["page"].ToString();
             Session["budget_code"] = budget_code;
@@ -124,6 +141,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult expandedAdd(string id, int menulevel)
         {
+           
             CheckSession();
             List<String> ls = new List<string>();
             List<String> ls2 = new List<string>();

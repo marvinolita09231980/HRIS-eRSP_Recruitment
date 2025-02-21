@@ -228,8 +228,7 @@ ng_eRSP_App.run(function () {
         if (id != "") {
             
             for (var x = 1; x <= $("#" + table).DataTable().page.info().pages; x++) {
-                console.log($("#" + table).DataTable().page.info().pages)
-                console.log(get_page(id, table))
+                
                 if (get_page(id,table) == false) {
                     $("#" + table).dataTable().fnPageChange(x);
                 }

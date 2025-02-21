@@ -33,6 +33,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult Initialize()
        {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var psb_ctrl_nbr = Session["sp_psb_ctrl_nbr"].ToString();
            var item_no = Session["sp_item_no"].ToString();

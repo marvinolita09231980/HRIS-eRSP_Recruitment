@@ -1107,17 +1107,17 @@
                     <div class="row m-t-lg">
                         <div class="col-lg-12 m-b-md">
                             <div class="tabs-container">
+                                <div class"col-lg-12">
+                                    <button id="addToTop5Btn" class="btn btn-info pull-right" type="button" ng-click="addtoTop5All()" title="Click for more action">Add to Top 5 </button>
+                                    <button id="addToHRMPSBBtn" class="btn btn-info pull-right" type="button" ng-click="addtoHRMPSBAll()" title="Click for more action">Add to HRMPSB</button>
+                                    <button id="assignexamAll" class="btn btn-success pull-right  m-r-sm" type="button" ng-click="assignExamScheduleToAll()" title="Click for more action">Assign Exam Schedule To ALL</button>
+                                </div>
                                 <ul class="nav nav-tabs">
                                     <li id="1" ng-click="changeTab(1)" class="active"><a data-toggle="tab" href="#tab-1">Review</a></li>
                                     <li id="2" ng-click="changeTab(2)" class=""><a data-toggle="tab" href="#tab-2">Qualified For Exam</a></li>
                                     <li id="3" ng-click="changeTab(3)" class=""><a data-toggle="tab" href="#tab-3">Top 5 Examinees</a></li>
                                     <li id="4" ng-click="changeTab(4)" class=""><a data-toggle="tab" href="#tab-4">For HRMPSB Screening</a></li>
-                                    <li class="">
-                                        <button id="addToTop5Btn" class="btn btn-info pull-right" type="button" ng-click="addtoTop5All()" title="Click for more action">Add to Top 5 </button>
-                                        <button id="addToHRMPSBBtn" class="btn btn-info pull-right" type="button" ng-click="addtoHRMPSBAll()" title="Click for more action">Add to HRMPSB</button>
-                                        <button id="assignexamAll" class="btn btn-success pull-right  m-r-sm" type="button" ng-click="assignExamScheduleToAll()" title="Click for more action">Assign Exam Schedule To ALL</button>
-
-                                    </li>
+                                   
 
                                     @*<div class="btn-group">
                                             <button class="btn btn-danger btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">MORE...</button>

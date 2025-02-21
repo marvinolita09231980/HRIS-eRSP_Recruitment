@@ -79,6 +79,12 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
                         }
                     },
                     {
+                        "mData": "item_no",
+                        "mRender": function (data, type, full, row) {
+                            return "<button class='text-center btn btn-warning btn-block' style='text-transform:uppercase' ng-click='AssignItemNo(" + row["row"] +")'><strong>" + data + "</strong></button>"
+                        }
+                    },
+                    {
                         "mData": "gender",
                         "mRender": function (data, type, full, row) {
                             return "<span class='text-left btn-block' style='text-transform:uppercase'><strong>" + data + "</strong></span>"
@@ -250,6 +256,25 @@ ng_eRSP_App.controller("cComparativeDetails_Ctrlr", function (commonScript, $sco
         else {
             return "btn-info"
         }
+    }
+
+
+
+    s.AssignItemNo = function (row) {
+        var item = s.Data_List[row];
+
+        $("#assigncomparativeitem").modal("show");
+        return
+        h.post("../ComparativeDetails/AssignItemComparative", {
+            item_no: item.item_no,
+            app_ctrl_nbr: item.app_ctrl_nbr,
+            psb_ctrl_nbr: item.psb_ctrl_nbr
+        }).then(function (d) {
+            if (d.data.icon = "success") {
+                s.Data_List = d.data.comparative.refreshTable("Data_List_Grid", "")
+            }
+            swal(d.data.message, {icon:d.data.icon})
+        })
     }
 
 

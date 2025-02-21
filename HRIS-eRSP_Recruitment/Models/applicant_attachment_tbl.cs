@@ -18,5 +18,6 @@ namespace HRIS_eRSP_Recruitment.Models
         public string info_ctrl_nbr { get; set; }
         public string doc_type { get; set; }
         public string file_path { get; set; }
+        public byte[] filedocs { get; set; }
     }
 }

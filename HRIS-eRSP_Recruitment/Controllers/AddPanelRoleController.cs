@@ -33,12 +33,14 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Initialize()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var prole = db.psb_mbr_role_tbl.ToList();
             return Json(new { prole }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult getLastId()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var role_id = db.sp_generate_key("psb_mbr_role_tbl", "psb_mbr_role", 2);
             return Json(new { role_id }, JsonRequestBehavior.AllowGet);
@@ -46,6 +48,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         
         public ActionResult SavePanelRole(string psb_mbr_role ,string mbr_role_descr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var message = "";
             var icon = "";
@@ -76,6 +79,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
        
         public ActionResult EditPanelRole(string psb_mbr_role, string mbr_role_descr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var message = "";
             var icon = "";
@@ -102,6 +106,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult deletePanelRole(string psb_mbr_role)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var message = "";
             var icon = "";

@@ -29,6 +29,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Initialize()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             if (Session["user_id"] == null)
             {
                 return RedirectToAction("Index", "Login");
@@ -47,6 +49,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult GetApplicants(string ctrl_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             if (Session["user_id"] == null)
             {
                 return RedirectToAction("Index", "Login");
@@ -64,6 +68,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult SaveRespondent(bi_respondent_tbl repondent_data,string app_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
             var rd = repondent_data;
             if (Session["user_id"] == null)
             {

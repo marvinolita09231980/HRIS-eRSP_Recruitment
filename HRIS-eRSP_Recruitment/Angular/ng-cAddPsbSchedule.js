@@ -1116,41 +1116,68 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
 					}
 				})
 			}
-			else {
-				h.post("../cAddPsbSchedule/isDateExist", { data: data }).then(function (d) {
-					if (d.data.exist < 1) {
-						h.post("../cAddPsbSchedule/savePSBSchedule",
-						{
-                            data: psb_data,
-							employment_type: s.employmenttype,
-                            budget_code: s.budgetcode,
-                            psb_time: psb_time
-						}).then(function (d) {
-                            if (d.data.icon == "success") {
-                                s.psb_ctrl_nbr = d.data.psb_ctrl_nbr
-                                getPSBSchedule()
-                                localStorage["items"] = JSON.stringify(d.data.sched_itemlist)
-                                console.log(d.data.sched_itemlist)
-                                s.items = d.data.sched_itemlist
-                                s.PsbItem_Data2_Orig = s.items
-                                s.PsbItem_Data2 = s.PsbItem_Data2_Orig.refreshTable("psb_items2", "")
-								swal(d.data.message, { icon: d.data.icon })
+            else {
+                h.post("../cAddPsbSchedule/savePSBSchedule",
+                    {
+                        data: psb_data,
+                        employment_type: s.employmenttype,
+                        budget_code: s.budgetcode,
+                        psb_time: psb_time
+                    }).then(function (d) {
+                        if (d.data.icon == "success") {
+                            s.psb_ctrl_nbr = d.data.psb_ctrl_nbr
+                            getPSBSchedule()
+                            localStorage["items"] = JSON.stringify(d.data.sched_itemlist)
+                            console.log(d.data.sched_itemlist)
+                            s.items = d.data.sched_itemlist
+                            s.PsbItem_Data2_Orig = s.items
+                            s.PsbItem_Data2 = s.PsbItem_Data2_Orig.refreshTable("psb_items2", "")
+                            swal(d.data.message, { icon: d.data.icon })
+
+                            $('.nav-tabs a[href="#tab-B"]').tab('show');
+                            var tabB = "tabB"
+                            var tabC = "tabC"
+                            tabB.removeClass("hidden")
+                            tabC.removeClass("hidden")
+                        }
+                        else {
+                            console.log(d.data.message)
+                        }
+                    })
+				//h.post("../cAddPsbSchedule/isDateExist", { data: data }).then(function (d) {
+				//	if (d.data.exist < 1) {
+				//		h.post("../cAddPsbSchedule/savePSBSchedule",
+				//		{
+    //                        data: psb_data,
+				//			employment_type: s.employmenttype,
+    //                        budget_code: s.budgetcode,
+    //                        psb_time: psb_time
+				//		}).then(function (d) {
+    //                        if (d.data.icon == "success") {
+    //                            s.psb_ctrl_nbr = d.data.psb_ctrl_nbr
+    //                            getPSBSchedule()
+    //                            localStorage["items"] = JSON.stringify(d.data.sched_itemlist)
+    //                            console.log(d.data.sched_itemlist)
+    //                            s.items = d.data.sched_itemlist
+    //                            s.PsbItem_Data2_Orig = s.items
+    //                            s.PsbItem_Data2 = s.PsbItem_Data2_Orig.refreshTable("psb_items2", "")
+				//				swal(d.data.message, { icon: d.data.icon })
 							
-                                $('.nav-tabs a[href="#tab-B"]').tab('show');
-                                var tabB = "tabB"
-                                var tabC = "tabC"
-                                tabB.removeClass("hidden")
-                                tabC.removeClass("hidden")
-							}
-							else {
-								console.log(d.data.message)
-							}
-						})
-					}
-					else {
-						swal("Schedule already exist!", { icon: "warning" })
-					}
-				})
+    //                            $('.nav-tabs a[href="#tab-B"]').tab('show');
+    //                            var tabB = "tabB"
+    //                            var tabC = "tabC"
+    //                            tabB.removeClass("hidden")
+    //                            tabC.removeClass("hidden")
+				//			}
+				//			else {
+				//				console.log(d.data.message)
+				//			}
+				//		})
+				//	}
+				//	else {
+				//		swal("Schedule already exist!", { icon: "warning" })
+				//	}
+				//})
 			}
 		}
 	}

@@ -34,7 +34,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Index()
         {
-
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             if (Session["user_id"] == null)
             {
                 return RedirectToAction("Index", "Login");
@@ -48,6 +50,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Initialize(bool departmentcount)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             List<sp_applied_item_from_APL2_Result> item_nbrs = new List<sp_applied_item_from_APL2_Result>();
             List<sp_department_tbl_rct_Result> departments = new List<sp_department_tbl_rct_Result>();
@@ -104,6 +109,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult selectEmploymentType(string employment_type, string start)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["employment_type"] = employment_type;
             try
@@ -137,6 +145,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getAPLApplicants(string employment_type, string budget_code,string item_no, string hiring_period)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["budget_code"] = budget_code;
             List<sp_get_applicantlist_from_APL_Result> APL_list = new List<sp_get_applicantlist_from_APL_Result>();
@@ -157,6 +168,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult EditFetchDate(string app_ctrl_nbr, string item_no, string employment_type, string budget_code, string hiring_period,string fetch_dttm)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["budget_code"] = budget_code;
             var user_id = Session["user_id"].ToString();
@@ -180,6 +194,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult EditPrescreenDate(string app_ctrl_nbr, string item_no, string employment_type, string budget_code, string hiring_period, string fetch_dttm,string empl_id)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["budget_code"] = budget_code;
 
@@ -240,6 +257,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult AddPrescreenDateAll(string prescreen_dttm, List<prescreenAllData> data)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["budget_code"] = data[0].budget_code;
 
@@ -311,6 +331,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult RemovePrescreenDate(string app_ctrl_nbr, string item_no, string employment_type, string budget_code, string hiring_period, string fetch_dttm, string empl_id)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             Session["budget_code"] = budget_code;
 
@@ -353,6 +376,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getItemNumbers(string employment_type, string budget_code, string department_code,string hiring_period)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
 
             Session["budget_code"] = budget_code;
@@ -370,6 +396,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getHiringPeriod(string employment_type, string budget_code)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
 
             Session["budget_code"] = budget_code;
@@ -387,6 +416,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getDepartments(string hiring_period)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
 
             Session["hiring_period"] = hiring_period;
@@ -441,6 +473,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
             CheckSession();
             var user_id = Session["user_id"].ToString();
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 foreach (var l in data)
@@ -471,6 +505,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult findOnlineApplicant(string data, string start, string hiring_period)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -486,6 +523,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult StartsWith(string employment_type, string budget_code, string item_no, string start, string hiring_period)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -500,6 +540,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult SendToEmail(List<emails> emails, string subject, string body)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             aTimer = new System.Timers.Timer();
             aTimer.Interval = 2000;
             CheckSession();
@@ -543,6 +586,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult GetEmailNotification(sp_get_applicantlist_from_APL_Result dt, string email_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
         
             var user_id = Session["user_id"].ToString();
@@ -564,6 +610,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult sendEmailNotification(sp_get_applicantlist_from_APL_Result dt, string email_type)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var email_subject = "";
 
@@ -680,6 +729,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult sendEmailNotification2(sp_get_applicantlist_from_APL_Result dt, string email_type, sp_send_email_notification_Result email_settup)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var email_subject = "";
 
@@ -786,6 +838,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult fetch_education(string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var fetched_education = db2.personnel_educ_tbl.Where(a => a.empl_id == info_ctrl_nbr).ToList();
@@ -799,6 +854,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult fetch_eligibility(string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var fetched_eligibility = db2.personnel_csceligibilty_tbl.Where(a => a.empl_id == info_ctrl_nbr).ToList();
@@ -812,6 +870,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult fetch_experience(string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var fetched_experience = db2.personnel_workexprnce_tbl.Where(a => a.empl_id == info_ctrl_nbr).ToList();
@@ -825,6 +886,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult fetch_trainings(string info_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                 var fetched_trainings = db2.personnel_learnanddevt_tbl.Where(a => a.empl_id == info_ctrl_nbr).ToList();
@@ -838,6 +902,9 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult verifyinReview(sp_get_applicantlist_from_APL_Result dt)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
+            db3.Database.CommandTimeout = Int32.MaxValue;
             try
             {
                  
@@ -875,6 +942,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
          
         public ActionResult SetHistoryPage1(string employment_type,string budget_code,string hiring_period,string department_code,string item_no)
         {
+            
             CheckSession();
             try
             {

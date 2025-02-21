@@ -58,6 +58,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult set_Item_no(string item_no)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var psb_ctrl_nbr = Session["ss_psb_ctrl_nbr"].ToString();
             var panel_user_id = Session["ss_userid"].ToString();
@@ -77,6 +78,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         //public ActionResult SetHistoryPage(string empl_id, string username, string password, string account_type)
         public ActionResult SetHistoryPage()
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {

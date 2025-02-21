@@ -27,6 +27,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         
         public ActionResult Initialize(string employment_type)
         {
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             um = rct.GetAllowAccess() ;
           
@@ -44,6 +45,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult FindPersonnel(string empl_id)
         {
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var message = "";
             try
@@ -77,6 +79,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult Save_Application( applicants_tbl app, string info_ctrl_nbr_disp)
         {
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var info = info_ctrl_nbr_disp.ToString().Split(new char[] { '-' });
@@ -105,6 +108,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult GetApplicationNbr()
         {
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -120,6 +124,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult FetchFromPDS(string empl_id, string info_ctrl_nbr)
         {
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var message = "";
@@ -144,6 +149,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult fetchAppCtrlNbr()
         {
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -159,6 +165,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult getBudgetYear(string employment_type)
         {
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             try
             {
@@ -172,6 +179,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         }
         public ActionResult getPositionFromPublication(string budget_code, string employment_type)
         {
+            db2.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
              try
             {

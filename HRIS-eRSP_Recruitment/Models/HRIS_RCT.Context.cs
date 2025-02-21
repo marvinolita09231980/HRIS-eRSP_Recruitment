@@ -132,11 +132,15 @@ namespace HRIS_eRSP_Recruitment.Models
         public virtual DbSet<bi_respondent_tbl> bi_respondent_tbl { get; set; }
         public virtual DbSet<admin_authority_rct_tbl> admin_authority_rct_tbl { get; set; }
         public virtual DbSet<change_item_history_tbl> change_item_history_tbl { get; set; }
-        public virtual DbSet<prescreen_tbl> prescreen_tbl { get; set; }
-        public virtual DbSet<vw_personnel_tbl_image_RCT> vw_personnel_tbl_image_RCT { get; set; }
         public virtual DbSet<applicant_attachment_tbl> applicant_attachment_tbl { get; set; }
         public virtual DbSet<vw_applicants_progress_tbl> vw_applicants_progress_tbl { get; set; }
+        public virtual DbSet<prescreen_tbl> prescreen_tbl { get; set; }
+        public virtual DbSet<vw_personnel_tbl_image_RCT> vw_personnel_tbl_image_RCT { get; set; }
+        public virtual DbSet<comparative_item_assigned_tbl> comparative_item_assigned_tbl { get; set; }
         public virtual DbSet<vw_combined_item_tbl> vw_combined_item_tbl { get; set; }
+        public virtual DbSet<vw_available_item_hdr_tbl> vw_available_item_hdr_tbl { get; set; }
+        public virtual DbSet<vw_combined_item_hdr_tbl> vw_combined_item_hdr_tbl { get; set; }
+        public virtual DbSet<vw_plantilla_tbl_RCT> vw_plantilla_tbl_RCT { get; set; }
     
         [DbFunction("HRIS_RCTEntities", "func_psb_sked_mbr_tbl_distinct")]
         public virtual IQueryable<func_psb_sked_mbr_tbl_distinct_Result> func_psb_sked_mbr_tbl_distinct()
@@ -3103,19 +3107,6 @@ namespace HRIS_eRSP_Recruitment.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_position_tbl_list_all_Result>("sp_position_tbl_list_all", p_hiring_periodParameter);
         }
     
-        public virtual ObjectResult<sp_user_login_RCT_Result> sp_user_login_RCT(string par_user_id, string par_user_password)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            var par_user_passwordParameter = par_user_password != null ?
-                new ObjectParameter("par_user_password", par_user_password) :
-                new ObjectParameter("par_user_password", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_user_login_RCT_Result>("sp_user_login_RCT", par_user_idParameter, par_user_passwordParameter);
-        }
-    
         public virtual ObjectResult<sp_exam_schedule_tbl_2_Result> sp_exam_schedule_tbl_2()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_exam_schedule_tbl_2_Result>("sp_exam_schedule_tbl_2");
@@ -3146,6 +3137,15 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("p_budget_code", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_hrmps_sched_header_list_Result>("sp_hrmps_sched_header_list", p_budget_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_exec_2bapprovedlist_Result> sp_exec_2bapprovedlist(string p_psb_ctrl_nbr)
+        {
+            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
+                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
+                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_exec_2bapprovedlist_Result>("sp_exec_2bapprovedlist", p_psb_ctrl_nbrParameter);
         }
     
         public virtual ObjectResult<sp_add_to_hrmpsb_Result> sp_add_to_hrmpsb(string p_psb_ctrl_nbr, string p_app_ctrl_nbr, string p_item_no, string p_employment_type, string p_budget_code, string p_hiring_period, string p_department_code, string p_user_id)
@@ -3194,13 +3194,17 @@ namespace HRIS_eRSP_Recruitment.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_reviewer_screening_list_Result>("sp_reviewer_screening_list", p_app_ctrl_nbrParameter);
         }
     
-        public virtual ObjectResult<sp_exec_2bapprovedlist_Result> sp_exec_2bapprovedlist(string p_psb_ctrl_nbr)
+        public virtual ObjectResult<sp_user_login_RCT_Result> sp_user_login_RCT(string par_user_id, string par_user_password)
         {
-            var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
-                new ObjectParameter("p_psb_ctrl_nbr", p_psb_ctrl_nbr) :
-                new ObjectParameter("p_psb_ctrl_nbr", typeof(string));
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_exec_2bapprovedlist_Result>("sp_exec_2bapprovedlist", p_psb_ctrl_nbrParameter);
+            var par_user_passwordParameter = par_user_password != null ?
+                new ObjectParameter("par_user_password", par_user_password) :
+                new ObjectParameter("par_user_password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_user_login_RCT_Result>("sp_user_login_RCT", par_user_idParameter, par_user_passwordParameter);
         }
     }
 }

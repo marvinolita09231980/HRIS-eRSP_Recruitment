@@ -51,6 +51,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
             int appx_permanent = 0;
             int appx_casual = 0;
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
 
 
             var nof_applicants = db.sp_number_applicants(year + "-2").ToList();
@@ -76,6 +77,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         public ActionResult barchart2(string year)
         {
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
 
             int disbx_permanent = 0;
             int disbx_casual = 0;
@@ -104,6 +106,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
 
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
 
 
             var appx_insider_outsider = db.sp_number_appx_insider_outsider(year + "-2").ToList();
@@ -124,6 +127,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
 
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
 
 
             var appx_per_gender = db.sp_number_appx_per_gender(year + "-2").ToList();
@@ -139,6 +143,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
 
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
 
 
             var appx_per_civil_status = db.sp_number_appx_per_civilstatus(year + "-2").ToList();
@@ -154,6 +159,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
 
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
 
 
             var appx_per_religion = db.sp_number_appx_per_religion(year + "-2").ToList();
@@ -170,6 +176,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
         {
 
             db.Database.CommandTimeout = Int32.MaxValue;
+            db2.Database.CommandTimeout = Int32.MaxValue;
 
 
             var appx_per_ethnicity = db.sp_number_appx_per_ethnicity(year + "-2").ToList();

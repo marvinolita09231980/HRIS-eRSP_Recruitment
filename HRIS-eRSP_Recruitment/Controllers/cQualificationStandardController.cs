@@ -36,7 +36,8 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
        public ActionResult Initialize(string employment_type)
        {
-           CheckSession();
+            db.Database.CommandTimeout = Int32.MaxValue;
+            CheckSession();
            string imgBase64Data = "";
            string imgDataURL = "";
            var psb_status = 0;
@@ -83,6 +84,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult SaveRating(List<sp_slide_rating_Result> dial, string app_ctrl_nbr)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             var user_id = Session["user_id"].ToString();
             var date = DateTime.Now;
@@ -129,6 +131,7 @@ namespace HRIS_eRSP_Recruitment.Controllers
 
         public ActionResult showDetails(string info_ctrl_nbr, int seq_no, int detail)
         {
+            db.Database.CommandTimeout = Int32.MaxValue;
             CheckSession();
             object obj = new object();
             try
