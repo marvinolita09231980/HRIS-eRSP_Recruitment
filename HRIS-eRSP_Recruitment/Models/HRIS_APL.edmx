@@ -174,12 +174,12 @@ warning 6002: The table/view 'HRIS_APL.dbo.available_item_tbl' does not have a p
           </Key>
           <Property Name="seq_no" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
-          <Property Name="learn_devt_title" Type="varchar" MaxLength="255" />
+          <Property Name="learn_devt_title" Type="varchar" MaxLength="500" />
           <Property Name="learn_devt_from" Type="varchar" MaxLength="20" />
           <Property Name="learn_devt_to" Type="varchar" MaxLength="20" />
           <Property Name="no_of_hrs" Type="float" />
           <Property Name="learn_devt_type" Type="varchar" MaxLength="50" />
-          <Property Name="conducted_by" Type="varchar" MaxLength="150" />
+          <Property Name="conducted_by" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="personnel_register_tbl">
           <Key>
@@ -554,12 +554,12 @@ warning 6002: The table/view 'HRIS_APL.dbo.VW_available_item_hdr_tbl_distinct' d
           </Key>
           <Property Name="seq_no" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="learn_devt_title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="learn_devt_title" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="learn_devt_from" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="learn_devt_to" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="no_of_hrs" Type="Double" />
           <Property Name="learn_devt_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="conducted_by" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="conducted_by" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="personnel_register_tbl">
           <Key>

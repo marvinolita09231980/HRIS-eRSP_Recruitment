@@ -3130,15 +3130,6 @@ namespace HRIS_eRSP_Recruitment.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_psb_pnl_rtg_tbl_qsupdate_Result>("sp_psb_pnl_rtg_tbl_qsupdate", p_psb_ctrl_nbrParameter, p_app_ctrl_nbrParameter);
         }
     
-        public virtual ObjectResult<sp_hrmps_sched_header_list_Result> sp_hrmps_sched_header_list(string p_budget_code)
-        {
-            var p_budget_codeParameter = p_budget_code != null ?
-                new ObjectParameter("p_budget_code", p_budget_code) :
-                new ObjectParameter("p_budget_code", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_hrmps_sched_header_list_Result>("sp_hrmps_sched_header_list", p_budget_codeParameter);
-        }
-    
         public virtual ObjectResult<sp_exec_2bapprovedlist_Result> sp_exec_2bapprovedlist(string p_psb_ctrl_nbr)
         {
             var p_psb_ctrl_nbrParameter = p_psb_ctrl_nbr != null ?
@@ -3205,6 +3196,15 @@ namespace HRIS_eRSP_Recruitment.Models
                 new ObjectParameter("par_user_password", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_user_login_RCT_Result>("sp_user_login_RCT", par_user_idParameter, par_user_passwordParameter);
+        }
+    
+        public virtual ObjectResult<sp_hrmps_sched_header_list_Result> sp_hrmps_sched_header_list(string p_budget_code)
+        {
+            var p_budget_codeParameter = p_budget_code != null ?
+                new ObjectParameter("p_budget_code", p_budget_code) :
+                new ObjectParameter("p_budget_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_hrmps_sched_header_list_Result>("sp_hrmps_sched_header_list", p_budget_codeParameter);
         }
     }
 }

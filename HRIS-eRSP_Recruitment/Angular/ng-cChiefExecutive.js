@@ -229,7 +229,15 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
                      //data-toggle="tab" href="#tab-7"
                 ],
                 "createdRow": function (row, data, index) {
-                    //$(row).addClass("dt-row");
+
+                    if (data.approval_status === "F") {
+                        $(row).addClass("danger");
+                        // apply to cells, not row
+                    } else {
+                        $(row).removeClass("danger");
+                      
+                    }
+                   // add Bootstrap 'warning' class to the row
                     $compile(row)($scope);  //add this to compile the DOM
                 },
 
@@ -306,9 +314,33 @@ ng_eRSP_App.controller("cChiefExecutive_Ctrlr", function (commonScript, $scope, 
 
 
     }
+
+    function addbtnwarning(full) { //IF ALREADY SELECTED ITEM DISABLE BUTTON
+        console.log(full.selected_approved)
+        if (full.selected_approved == true) {
+
+            var retval = ""
+
+            if (full.approval_status == "F") {
+                retval = "danger"
+            }
+            else {
+                retval = ""
+            }
+            return retval
+
+        }
+        else {
+            return ""
+
+        }
+
+
+
+    }
     function hidebtnifapprovedx(full) { //IF ALREADY SELECTED ITEM DISABLE BUTTON
         var retval = true
-
+      
         if (full.selected_approved == true) {
 
             if (full.approval_status == "F") {

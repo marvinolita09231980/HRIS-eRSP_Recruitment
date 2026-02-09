@@ -102,7 +102,7 @@
           </Key>
           <Property Name="seq_no" Type="int" Nullable="false" />
           <Property Name="info_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
-          <Property Name="learn_devt_title" Type="varchar" MaxLength="255" />
+          <Property Name="learn_devt_title" Type="varchar" MaxLength="500" />
           <Property Name="learn_devt_from" Type="date" />
           <Property Name="learn_devt_to" Type="date" />
           <Property Name="no_of_hrs" Type="float" />
@@ -2666,6 +2666,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_hrmps_sched_header_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_budget_code" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_hrmpsb_screening_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_psb_ctrl_nbr" Type="varchar" Mode="In" />
           <Parameter Name="p_app_status" Type="varchar" Mode="In" />
@@ -3929,7 +3932,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           </Key>
           <Property Name="seq_no" Type="Int32" Nullable="false" />
           <Property Name="info_ctrl_nbr" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="learn_devt_title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="learn_devt_title" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="learn_devt_from" Type="DateTime" Precision="0" />
           <Property Name="learn_devt_to" Type="DateTime" Precision="0" />
           <Property Name="no_of_hrs" Type="Double" />
@@ -4927,11 +4930,11 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="vw_vacant_position_list" EntityType="Self.vw_vacant_position_list" />
           <FunctionImport Name="func_psb_sked_mbr_tbl_distinct" IsComposable="true" ReturnType="Collection(HRIS_RCTModel.func_psb_sked_mbr_tbl_distinct_Result)" />
           <FunctionImport Name="STRING_SPLIT" IsComposable="true" ReturnType="Collection(HRIS_RCTModel.STRING_SPLIT_Result)">
-            <Parameter Name="string" Mode="In" Type="String" />
+          <Parameter Name="string" Mode="In" Type="String" />
             <Parameter Name="separator" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_add_available_items_hdr_APL">
-            <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+          <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
             <Parameter Name="p_descr" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
@@ -4940,7 +4943,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_expiry_dttm" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="sp_add_available_items_to_APL">
-            <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+          <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
@@ -4955,7 +4958,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="par_budget_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_add_psbPanelMember">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_panel_user_id" Mode="In" Type="String" />
             <Parameter Name="p_psb_mbr_role" Mode="In" Type="String" />
@@ -4965,13 +4968,13 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_create_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
             <Parameter Name="version" Mode="In" Type="Int32" />
             <Parameter Name="definition" Mode="In" Type="Binary" />
           </FunctionImport>
           <FunctionImport Name="sp_apl_item_applicant_report" ReturnType="Collection(HRIS_RCTModel.sp_apl_item_applicant_report_Result)">
-            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+          <Parameter Name="par_budget_code" Mode="In" Type="String" />
             <Parameter Name="par_department_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_item_no" Mode="In" Type="String" />
@@ -4983,7 +4986,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicant_In_ItemAdded_list2" ReturnType="Collection(HRIS_RCTModel.sp_applicant_In_ItemAdded_list2_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_department_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicant_in_psb" ReturnType="Collection(HRIS_RCTModel.sp_applicant_in_psb_Result)">
@@ -4996,7 +4999,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_lastname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicant_proceedto_CA" ReturnType="Collection(HRIS_RCTModel.sp_applicant_proceedto_CA_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicant_qs_educ_tbl_list" ReturnType="Collection(HRIS_RCTModel.sp_applicant_qs_educ_tbl_list_Result)">
@@ -5012,41 +5015,41 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicant_rating" ReturnType="Collection(HRIS_RCTModel.sp_applicant_rating_Result)">
-            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicant_tbl_list" ReturnType="Collection(HRIS_RCTModel.sp_applicant_tbl_list_Result)">
-            <Parameter Name="p_month" Mode="In" Type="String" />
+          <Parameter Name="p_month" Mode="In" Type="String" />
             <Parameter Name="p_year" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicant_tbl_list_2" ReturnType="Collection(HRIS_RCTModel.sp_applicant_tbl_list_2_Result)">
-            <Parameter Name="p_month" Mode="In" Type="String" />
+          <Parameter Name="p_month" Mode="In" Type="String" />
             <Parameter Name="p_year" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicant_tbl_list_3" ReturnType="Collection(HRIS_RCTModel.sp_applicant_tbl_list_3_Result)">
-            <Parameter Name="p_month" Mode="In" Type="String" />
+          <Parameter Name="p_month" Mode="In" Type="String" />
             <Parameter Name="p_year" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicantlist_forpsbprinting" ReturnType="Collection(HRIS_RCTModel.sp_applicantlist_forpsbprinting_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicantsreviewtbl_items_casual_list" ReturnType="Collection(HRIS_RCTModel.sp_applicantsreviewtbl_items_casual_list_Result)">
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+          <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicantsreviewtbl_items_list" ReturnType="Collection(HRIS_RCTModel.sp_applicantsreviewtbl_items_list_Result)">
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+          <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applicantsreviewtbl_items_list_2" ReturnType="Collection(HRIS_RCTModel.sp_applicantsreviewtbl_items_list_2_Result)">
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+          <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
@@ -5054,28 +5057,28 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applied_item_from_APL" ReturnType="Collection(HRIS_RCTModel.sp_applied_item_from_APL_Result)">
-            <Parameter Name="p_employment_type" Mode="In" Type="String" />
+          <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_applied_item_from_APL2" ReturnType="Collection(HRIS_RCTModel.sp_applied_item_from_APL2_Result)">
-            <Parameter Name="p_employment_type" Mode="In" Type="String" />
+          <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_department_code" Mode="In" Type="String" />
             <Parameter Name="p_hiring_period" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_autogen_ctrl_nbr" ReturnType="Collection(String)">
-            <Parameter Name="p_table_name" Mode="In" Type="String" />
+          <Parameter Name="p_table_name" Mode="In" Type="String" />
             <Parameter Name="p_charlen" Mode="In" Type="Int32" />
             <Parameter Name="P_column_name" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_autogen_ctrl_nbr_APL" ReturnType="Collection(String)">
-            <Parameter Name="p_table_name" Mode="In" Type="String" />
+          <Parameter Name="p_table_name" Mode="In" Type="String" />
             <Parameter Name="p_charlen" Mode="In" Type="Int32" />
             <Parameter Name="P_column_name" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_autogen_psb_ctrl_nbr" ReturnType="Collection(String)" />
           <FunctionImport Name="sp_available_item_tbl_apl" ReturnType="Collection(HRIS_RCTModel.sp_available_item_tbl_apl_Result)">
-            <Parameter Name="p_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
@@ -5087,47 +5090,47 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="panel_user" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_checkIfExec_HasSelected" ReturnType="Collection(Boolean)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_comaparative_asessment_rpt" ReturnType="Collection(HRIS_RCTModel.sp_comaparative_asessment_rpt_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
             <Parameter Name="version" Mode="In" Type="Int32" />
             <Parameter Name="definition" Mode="In" Type="Binary" />
           </FunctionImport>
           <FunctionImport Name="sp_current_empl_data" ReturnType="Collection(String)">
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+          <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_current_empl_data2" ReturnType="Collection(String)">
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+          <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_delete_ads_images" ReturnType="Collection(HRIS_RCTModel.sp_delete_ads_images_Result)">
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+          <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_img_file_name" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_delete_app_psb" ReturnType="Collection(HRIS_RCTModel.sp_delete_app_psb_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_delete_applicantsInfo" ReturnType="Collection(HRIS_RCTModel.sp_delete_applicantsInfo_Result)">
-            <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_month" Mode="In" Type="String" />
             <Parameter Name="p_year" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_delete_available_items_hdr_APL">
-            <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+          <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
@@ -5138,11 +5141,11 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="par_ctrl_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_delete_panel_in_schedule" ReturnType="Collection(HRIS_RCTModel.sp_delete_panel_in_schedule_Result)">
-            <Parameter Name="p_panel_user_id" Mode="In" Type="String" />
+          <Parameter Name="p_panel_user_id" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_delete_psbPanelMember_item">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_panel_user_id" Mode="In" Type="String" />
             <Parameter Name="p_psb_mbr_role" Mode="In" Type="String" />
@@ -5155,35 +5158,35 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_executive_position_dropdown_list" ReturnType="Collection(HRIS_RCTModel.sp_executive_position_dropdown_list_Result)">
-            <Parameter Name="p_approval_status" Mode="In" Type="String" />
+          <Parameter Name="p_approval_status" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_fetch_ads_images_RCT" ReturnType="Collection(HRIS_RCTModel.sp_fetch_ads_images_RCT_Result)" />
           <FunctionImport Name="sp_forscheduleitem_list" ReturnType="Collection(HRIS_RCTModel.sp_forscheduleitem_list_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_forscheduleitem_list_toremove" ReturnType="Collection(HRIS_RCTModel.sp_forscheduleitem_list_toremove_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_generate_key" ReturnType="Collection(HRIS_RCTModel.sp_generate_key_Result)">
-            <Parameter Name="p_table_name" Mode="In" Type="String" />
+          <Parameter Name="p_table_name" Mode="In" Type="String" />
             <Parameter Name="p_key_field" Mode="In" Type="String" />
             <Parameter Name="p_key_size" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_generate_panel" ReturnType="Collection(HRIS_RCTModel.sp_generate_panel_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_generate_panelforpsb" ReturnType="Collection(HRIS_RCTModel.sp_generate_panelforpsb_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_department_code" Mode="In" Type="String" />
@@ -5193,23 +5196,23 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_get_available_items_hdr_APL">
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+          <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_get_empl_photo_img" ReturnType="Collection(HRIS_RCTModel.sp_get_empl_photo_img_Result)">
           <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_get_employee_id_info" ReturnType="Collection(HRIS_RCTModel.sp_get_employee_id_info_Result)">
-            <Parameter Name="p_firstname" Mode="In" Type="String" />
+          <Parameter Name="p_firstname" Mode="In" Type="String" />
             <Parameter Name="p_lastname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_get_next_guest_userid" ReturnType="Collection(String)" />
           <FunctionImport Name="sp_get_psbschedule_dropdown" ReturnType="Collection(HRIS_RCTModel.sp_get_psbschedule_dropdown_Result)">
-            <Parameter Name="p_employment_type" Mode="In" Type="String" />
+          <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_get_psbschedule_list" ReturnType="Collection(HRIS_RCTModel.sp_get_psbschedule_list_Result)">
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+          <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_get_uploadedfile_from_APL" ReturnType="Collection(HRIS_RCTModel.sp_get_uploadedfile_from_APL_Result)">
@@ -5228,15 +5231,15 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="start_with" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(HRIS_RCTModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(HRIS_RCTModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_hrmpsb_screening_list_inItem" ReturnType="Collection(HRIS_RCTModel.sp_hrmpsb_screening_list_inItem_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
@@ -5251,7 +5254,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_empl_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_insert_ads_images" ReturnType="Collection(HRIS_RCTModel.sp_insert_ads_images_Result)">
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+          <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_img_file_name" Mode="In" Type="String" />
@@ -5259,7 +5262,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_file_path2" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_insert_in_applicant_workexprnce_tbl" ReturnType="Collection(String)">
-            <Parameter Name="p_seq_no" Mode="In" Type="Int32" />
+          <Parameter Name="p_seq_no" Mode="In" Type="Int32" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_workexp_from" Mode="In" Type="String" />
             <Parameter Name="p_workexp_to" Mode="In" Type="String" />
@@ -5273,7 +5276,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_ctrl_nbr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_insert_in_applicant_workexprnce_temp_tbl" ReturnType="Collection(String)">
-            <Parameter Name="p_ctrl_nbr" Mode="In" Type="Int32" />
+          <Parameter Name="p_ctrl_nbr" Mode="In" Type="Int32" />
             <Parameter Name="p_seq_no" Mode="In" Type="Int32" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_workexp_from" Mode="In" Type="String" />
@@ -5286,7 +5289,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_gov_srvc" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="sp_insert_psb_hiring_period_tbl" ReturnType="Collection(HRIS_RCTModel.sp_insert_psb_hiring_period_tbl_Result)">
-            <Parameter Name="p_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_period_from" Mode="In" Type="String" />
             <Parameter Name="p_period_to" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
@@ -5296,23 +5299,23 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_period_descr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_insert_transaction_to_approvalworkflow_tbl_RCT" ReturnType="Collection(String)">
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
+          <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="par_transaction_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_insertin_userroles_tbl_RCT" ReturnType="Collection(String)">
-            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          <Parameter Name="p_user_id" Mode="In" Type="String" />
             <Parameter Name="p_role_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_item_list_bypsbscheduledate" ReturnType="Collection(HRIS_RCTModel.sp_item_list_bypsbscheduledate_Result)">
-            <Parameter Name="p_month" Mode="In" Type="String" />
+          <Parameter Name="p_month" Mode="In" Type="String" />
             <Parameter Name="p_year" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_item_psb_schedule" ReturnType="Collection(HRIS_RCTModel.sp_item_psb_schedule_Result)">
           <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_itemlist_in_position" ReturnType="Collection(HRIS_RCTModel.sp_itemlist_in_position_Result)">
-            <Parameter Name="p_position_code" Mode="In" Type="String" />
+          <Parameter Name="p_position_code" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
@@ -5321,19 +5324,19 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           </FunctionImport>
           <FunctionImport Name="sp_items_per_psbschedule2" ReturnType="Collection(HRIS_RCTModel.sp_items_per_psbschedule2_Result)" />
           <FunctionImport Name="sp_items_position_inReview" ReturnType="Collection(HRIS_RCTModel.sp_items_position_inReview_Result)">
-            <Parameter Name="p_employment_type" Mode="In" Type="String" />
+          <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_budgetcode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_online_items_hdr_APL" ReturnType="Collection(HRIS_RCTModel.sp_online_items_hdr_APL_Result)">
-            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+          <Parameter Name="par_budget_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_open_publication_items_RCT" ReturnType="Collection(HRIS_RCTModel.sp_open_publication_items_RCT_Result)">
-            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+          <Parameter Name="par_budget_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_open_publication_per_item_hdr" ReturnType="Collection(HRIS_RCTModel.sp_open_publication_per_item_hdr_Result)">
-            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+          <Parameter Name="par_budget_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_ctrL_nbr" Mode="In" Type="String" />
           </FunctionImport>
@@ -5344,23 +5347,23 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_panel_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_panel_verify_hasrated" ReturnType="Collection(Boolean)">
-            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          <Parameter Name="p_user_id" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_psb_cat_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_panelapplicantlist_inschedule">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_panel_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_panelrating_all_applicant_list" ReturnType="Collection(HRIS_RCTModel.sp_panelrating_all_applicant_list_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_panel_user_id" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_panelrating_perapplicant_list" ReturnType="Collection(HRIS_RCTModel.sp_panelrating_perapplicant_list_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_csc_level" Mode="In" Type="String" />
@@ -5369,7 +5372,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_panel_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_pds_data_fromAPL_2">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
@@ -5379,7 +5382,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_department_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_pds_data_fromAPL_TEST" ReturnType="Collection(HRIS_RCTModel.sp_pds_data_fromAPL_TEST_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
@@ -5389,16 +5392,16 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_department_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_position_tbl_RCT" ReturnType="Collection(HRIS_RCTModel.sp_position_tbl_RCT_Result)">
-            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+          <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employement_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_positions_tbl_rct" ReturnType="Collection(HRIS_RCTModel.sp_positions_tbl_rct_Result)">
-            <Parameter Name="p_department_code" Mode="In" Type="String" />
+          <Parameter Name="p_department_code" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_postedOnline_items_ctrlNo_RCT">
-            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+          <Parameter Name="par_budget_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_ctrl_no" Mode="In" Type="String" />
           </FunctionImport>
@@ -5412,43 +5415,43 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_psb_name_info" ReturnType="Collection(HRIS_RCTModel.sp_psb_name_info_Result)">
-            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          <Parameter Name="p_user_id" Mode="In" Type="String" />
             <Parameter Name="p_user_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_psb_sked_mbr_tbl" ReturnType="Collection(HRIS_RCTModel.sp_psb_sked_mbr_tbl_Result)">
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_psbitem_forpanel" ReturnType="Collection(HRIS_RCTModel.sp_psbitem_forpanel_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_psbschedule_list_bydate" ReturnType="Collection(HRIS_RCTModel.sp_psbschedule_list_bydate_Result)">
-            <Parameter Name="p_month" Mode="In" Type="String" />
+          <Parameter Name="p_month" Mode="In" Type="String" />
             <Parameter Name="p_year" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_psbsked_panel_list" ReturnType="Collection(HRIS_RCTModel.sp_psbsked_panel_list_Result)">
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_publicationvacant_combolist_RCT" ReturnType="Collection(HRIS_RCTModel.sp_publicationvacant_combolist_RCT_Result)">
-            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+          <Parameter Name="par_budget_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_refresh_panellist" ReturnType="Collection(HRIS_RCTModel.sp_refresh_panellist_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_reg_applicant_apl" ReturnType="Collection(HRIS_RCTModel.sp_reg_applicant_apl_Result)">
-            <Parameter Name="p_firstname" Mode="In" Type="String" />
+          <Parameter Name="p_firstname" Mode="In" Type="String" />
             <Parameter Name="p_lastname" Mode="In" Type="String" />
             <Parameter Name="p_birthdate" Mode="In" Type="String" />
             <Parameter Name="p_gender" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_reg_applicant_pds" ReturnType="Collection(HRIS_RCTModel.sp_reg_applicant_pds_Result)">
-            <Parameter Name="p_firstname" Mode="In" Type="String" />
+          <Parameter Name="p_firstname" Mode="In" Type="String" />
             <Parameter Name="p_lastname" Mode="In" Type="String" />
             <Parameter Name="p_birthdate" Mode="In" Type="String" />
             <Parameter Name="p_gender" Mode="In" Type="String" />
@@ -5457,23 +5460,23 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_empl_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_remove_available_item_tbl_apl">
-            <Parameter Name="par_item_no" Mode="In" Type="String" />
+          <Parameter Name="par_item_no" Mode="In" Type="String" />
             <Parameter Name="par_budget_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_remove_item_in_psbsched" ReturnType="Collection(HRIS_RCTModel.sp_remove_item_in_psbsched_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_remove_panelforpsb" ReturnType="Collection(String)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_department_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
@@ -5481,21 +5484,21 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_location" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_review_applicant_tbl_active" ReturnType="Collection(HRIS_RCTModel.sp_review_applicant_tbl_active_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_employmenttype" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_review_applicant_tbl_list" ReturnType="Collection(HRIS_RCTModel.sp_review_applicant_tbl_list_Result)">
-            <Parameter Name="p_year" Mode="In" Type="String" />
+          <Parameter Name="p_year" Mode="In" Type="String" />
             <Parameter Name="p_month" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_review_applicant_tbl_list2">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_employmenttype" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_review_applicant_tbl_list4" ReturnType="Collection(HRIS_RCTModel.sp_review_applicant_tbl_list4_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_employmenttype" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_hiring_period" Mode="In" Type="String" />
@@ -5504,27 +5507,27 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_reviewer_screening_list2" ReturnType="Collection(HRIS_RCTModel.sp_reviewer_screening_list2_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_employmenttype" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_hiring_period" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_score_sheet_rpt" ReturnType="Collection(HRIS_RCTModel.sp_score_sheet_rpt_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_position_code" Mode="In" Type="String" />
             <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
             <Parameter Name="p_panel_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_search_applicant_tbl_list" ReturnType="Collection(HRIS_RCTModel.sp_search_applicant_tbl_list_Result)">
-            <Parameter Name="p_search_name" Mode="In" Type="String" />
+          <Parameter Name="p_search_name" Mode="In" Type="String" />
             <Parameter Name="p_search_option" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_set_psbscreening_start" ReturnType="Collection(Int32)">
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_slide_rating" ReturnType="Collection(HRIS_RCTModel.sp_slide_rating_Result)">
-            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
@@ -5532,12 +5535,12 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_position_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_sub_competencies_required_rpt" ReturnType="Collection(HRIS_RCTModel.sp_sub_competencies_required_rpt_Result)">
-            <Parameter Name="p_position_code" Mode="In" Type="String" />
+          <Parameter Name="p_position_code" Mode="In" Type="String" />
             <Parameter Name="p_department_code" Mode="In" Type="String" />
             <Parameter Name="p_sub_department_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_subreport_competencies_required_rpt" ReturnType="Collection(HRIS_RCTModel.sp_subreport_competencies_required_rpt_Result)">
-            <Parameter Name="p_position_code" Mode="In" Type="String" />
+          <Parameter Name="p_position_code" Mode="In" Type="String" />
             <Parameter Name="p_department_code" Mode="In" Type="String" />
             <Parameter Name="p_subdepartment_code" Mode="In" Type="String" />
           </FunctionImport>
@@ -5545,26 +5548,26 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_summaryofprofile_list" ReturnType="Collection(HRIS_RCTModel.sp_summaryofprofile_list_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_unmerge_exp" ReturnType="Collection(HRIS_RCTModel.sp_unmerge_exp_Result)">
-            <Parameter Name="p_ctrl_nbr" Mode="In" Type="Int32" />
+          <Parameter Name="p_ctrl_nbr" Mode="In" Type="Int32" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_update_apl_data_from_pds" ReturnType="Collection(String)">
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+          <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_update_applicants_tbl" ReturnType="Collection(String)">
-            <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
             <Parameter Name="p_source" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_update_available_items_hdr_APL">
-            <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
+          <Parameter Name="p_ctrl_no" Mode="In" Type="String" />
             <Parameter Name="p_descr" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
@@ -5573,27 +5576,27 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
             <Parameter Name="p_expiry_dttm" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="sp_update_psb_sked_item_nbrs" ReturnType="Collection(String)">
-            <Parameter Name="par_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="par_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="par_item_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_update_rct_qs_fromapl">
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+          <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_update_rct_qs_fromapl_2" ReturnType="Collection(HRIS_RCTModel.sp_update_rct_qs_fromapl_2_Result)">
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+          <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_update_rct_qs_frompds">
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+          <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_update_rct_qs_frompds_2" ReturnType="Collection(HRIS_RCTModel.sp_update_rct_qs_frompds_2_Result)">
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+          <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_update_transaction_in_approvalworkflow_tbl_RCT" ReturnType="Collection(Boolean)">
-            <Parameter Name="par_approval_id" Mode="In" Type="String" />
+          <Parameter Name="par_approval_id" Mode="In" Type="String" />
             <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_approval_status" Mode="In" Type="String" />
             <Parameter Name="par_comments" Mode="In" Type="String" />
@@ -5605,7 +5608,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="sp_user_menu_access_role_list_RCT" ReturnType="Collection(HRIS_RCTModel.sp_user_menu_access_role_list_RCT_Result)">
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
+          <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_module_id" Mode="In" Type="Byte" />
           </FunctionImport>
           <FunctionImport Name="sp_department_tbl_rct" ReturnType="Collection(HRIS_RCTModel.sp_department_tbl_rct_Result)">
@@ -5621,7 +5624,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="info_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_pds_data_fromAPL" ReturnType="Collection(String)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_info_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
@@ -5639,11 +5642,11 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="applicants_review_tbl" EntityType="HRIS_RCTModel.applicants_review_tbl" />
           <EntitySet Name="psb_sked_hdr_tbl" EntityType="HRIS_RCTModel.psb_sked_hdr_tbl" />
           <FunctionImport Name="sp_psb_sked_hdr_tbl_list" ReturnType="Collection(HRIS_RCTModel.sp_psb_sked_hdr_tbl_list_Result)">
-            <Parameter Name="p_employment_type" Mode="In" Type="String" />
+          <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_send_email_notification" ReturnType="Collection(HRIS_RCTModel.sp_send_email_notification_Result)">
-            <Parameter Name="p_email" Mode="In" Type="String" />
+          <Parameter Name="p_email" Mode="In" Type="String" />
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_hiring_period" Mode="In" Type="String" />
@@ -5652,7 +5655,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="endorsement_print_dtl_tbl" EntityType="HRIS_RCTModel.endorsement_print_dtl_tbl" />
           <EntitySet Name="endorsement_print_hdr_tbl" EntityType="HRIS_RCTModel.endorsement_print_hdr_tbl" />
           <FunctionImport Name="sp_endorsement_hdr_insert_tbl" ReturnType="Collection(HRIS_RCTModel.sp_endorsement_hdr_insert_tbl_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
             <Parameter Name="p_endorse_date" Mode="In" Type="String" />
@@ -5665,7 +5668,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_hrmpsb_screening_list" ReturnType="Collection(HRIS_RCTModel.sp_hrmpsb_screening_list_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
@@ -5675,7 +5678,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="vw_applicants_review_tbl_dates" EntityType="HRIS_RCTModel.vw_applicants_review_tbl_dates" />
           <EntitySet Name="vw_applicants_review_tbl" EntityType="HRIS_RCTModel.vw_applicants_review_tbl" />
           <FunctionImport Name="sp_get_applicantlist_from_APL" ReturnType="Collection(HRIS_RCTModel.sp_get_applicantlist_from_APL_Result)">
-            <Parameter Name="p_online_apl_id" Mode="In" Type="String" />
+          <Parameter Name="p_online_apl_id" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
@@ -5688,12 +5691,12 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="bi_rating_questiontype_tbl" EntityType="HRIS_RCTModel.bi_rating_questiontype_tbl" />
           <EntitySet Name="bi_rating_scale_tbl" EntityType="HRIS_RCTModel.bi_rating_scale_tbl" />
           <FunctionImport Name="sp_chiefexecutive_list" ReturnType="Collection(HRIS_RCTModel.sp_chiefexecutive_list_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_select_applicant_insert_update" ReturnType="Collection(HRIS_RCTModel.sp_select_applicant_insert_update_Result)">
-            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_selected_dttm" Mode="In" Type="DateTime" />
@@ -5703,18 +5706,18 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="selected_applicants_tbl" EntityType="HRIS_RCTModel.selected_applicants_tbl" />
           <EntitySet Name="bi_criteria1_tbl" EntityType="HRIS_RCTModel.bi_criteria1_tbl" />
           <FunctionImport Name="sp_applicants_bi_questions_list" ReturnType="Collection(HRIS_RCTModel.sp_applicants_bi_questions_list_Result)">
-            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_question_type" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="func_applicant_rank2" IsComposable="true" ReturnType="Collection(HRIS_RCTModel.func_applicant_rank2_Result)">
-            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="func_cscitem_count" IsComposable="true" ReturnType="Collection(String)">
           <Parameter Name="psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="func_panels_perapplicant" IsComposable="true" ReturnType="Collection(String)">
-            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
@@ -5723,7 +5726,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="bi_respondent_2_hdr_tbl" EntityType="HRIS_RCTModel.bi_respondent_2_hdr_tbl" />
           <EntitySet Name="bi_respondent_3_hdr_tbl" EntityType="HRIS_RCTModel.bi_respondent_3_hdr_tbl" />
           <FunctionImport Name="sp_bi_criteria1_tbl" ReturnType="Collection(HRIS_RCTModel.sp_bi_criteria1_tbl_Result)">
-            <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_question_type" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="vw_bi_criteria1_tbl" EntityType="HRIS_RCTModel.vw_bi_criteria1_tbl" />
@@ -5746,13 +5749,13 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_hiring_period" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_hrmpsb_screening_list_V2" ReturnType="Collection(HRIS_RCTModel.sp_hrmpsb_screening_list_V2_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_review_applicant_tbl_list3" ReturnType="Collection(HRIS_RCTModel.sp_review_applicant_tbl_list3_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_employmenttype" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_hiring_period" Mode="In" Type="String" />
@@ -5768,12 +5771,12 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           </FunctionImport>
           <EntitySet Name="combined_item_dtl_tbl" EntityType="HRIS_RCTModel.combined_item_dtl_tbl" />
           <FunctionImport Name="sp_endorsename_list" ReturnType="Collection(HRIS_RCTModel.sp_endorsename_list_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_endorsement_list_rpt" ReturnType="Collection(HRIS_RCTModel.sp_endorsement_list_rpt_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
             <Parameter Name="p_endorse_no" Mode="In" Type="String" />
@@ -5782,18 +5785,18 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_comaparative_asessment_rpt_ranked" ReturnType="Collection(HRIS_RCTModel.sp_comaparative_asessment_rpt_ranked_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_endorsement_list_rpt_ranked" ReturnType="Collection(String)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
             <Parameter Name="p_endorse_no" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_endorsename_list_ranked" ReturnType="Collection(HRIS_RCTModel.sp_endorsename_list_ranked_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
           </FunctionImport>
@@ -5827,21 +5830,21 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           </FunctionImport>
           <EntitySet Name="vw_psb_app_tbl" EntityType="HRIS_RCTModel.vw_psb_app_tbl" />
           <FunctionImport Name="sp_comparative_assessment_list_ranked" ReturnType="Collection(HRIS_RCTModel.sp_comparative_assessment_list_ranked_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_combined_id" Mode="In" Type="Int32" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="combined_item_hdr_tbl" EntityType="HRIS_RCTModel.combined_item_hdr_tbl" />
           <EntitySet Name="bi_respondent_tbl" EntityType="HRIS_RCTModel.bi_respondent_tbl" />
           <FunctionImport Name="sp_comparative_assessment_list" ReturnType="Collection(HRIS_RCTModel.sp_comparative_assessment_list_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_app_status" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="admin_authority_rct_tbl" EntityType="HRIS_RCTModel.admin_authority_rct_tbl" />
           <EntitySet Name="change_item_history_tbl" EntityType="HRIS_RCTModel.change_item_history_tbl" />
           <FunctionImport Name="sp_review_applicant_tbl_list_all" ReturnType="Collection(HRIS_RCTModel.sp_review_applicant_tbl_list_all_Result)">
-            <Parameter Name="p_item_no" Mode="In" Type="String" />
+          <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_employmenttype" Mode="In" Type="String" />
             <Parameter Name="p_budget_code" Mode="In" Type="String" />
             <Parameter Name="p_hiring_period" Mode="In" Type="String" />
@@ -5852,11 +5855,8 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <FunctionImport Name="sp_exam_schedule_tbl_2" ReturnType="Collection(HRIS_RCTModel.sp_exam_schedule_tbl_2_Result)" />
           <FunctionImport Name="sp_inactive_all_panel" />
           <FunctionImport Name="sp_psb_pnl_rtg_tbl_qsupdate" ReturnType="Collection(HRIS_RCTModel.sp_psb_pnl_rtg_tbl_qsupdate_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_hrmps_sched_header_list" ReturnType="Collection(HRIS_RCTModel.sp_hrmps_sched_header_list_Result)">
-          <Parameter Name="p_budget_code" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="applicant_attachment_tbl" EntityType="HRIS_RCTModel.applicant_attachment_tbl" />
           <EntitySet Name="vw_applicants_progress_tbl" EntityType="HRIS_RCTModel.vw_applicants_progress_tbl" />
@@ -5864,7 +5864,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_add_to_hrmpsb" ReturnType="Collection(HRIS_RCTModel.sp_add_to_hrmpsb_Result)">
-            <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
+          <Parameter Name="p_psb_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="p_item_no" Mode="In" Type="String" />
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
@@ -5878,7 +5878,7 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Parameter Name="p_app_ctrl_nbr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_user_login_RCT" ReturnType="Collection(HRIS_RCTModel.sp_user_login_RCT_Result)">
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
+          <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_user_password" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="vw_personnel_tbl_image_RCT" EntityType="HRIS_RCTModel.vw_personnel_tbl_image_RCT" />
@@ -5887,6 +5887,9 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <EntitySet Name="vw_available_item_hdr_tbl" EntityType="HRIS_RCTModel.vw_available_item_hdr_tbl" />
           <EntitySet Name="vw_combined_item_hdr_tbl" EntityType="HRIS_RCTModel.vw_combined_item_hdr_tbl" />
           <EntitySet Name="vw_plantilla_tbl_RCT" EntityType="HRIS_RCTModel.vw_plantilla_tbl_RCT" />
+          <FunctionImport Name="sp_hrmps_sched_header_list" ReturnType="Collection(HRIS_RCTModel.sp_hrmps_sched_header_list_Result)">
+            <Parameter Name="p_budget_code" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_add_available_items_to_RCT_Result">
           <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
@@ -8893,15 +8896,6 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="db_message" Nullable="false" MaxLength="30" />
         </ComplexType>
-        <ComplexType Name="sp_hrmps_sched_header_list_Result">
-          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="psb_date" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="remarks_details" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="descr" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="active_dttm" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="expiry_dttm" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="9" />
-        </ComplexType>
         <EntityType Name="applicant_attachment_tbl">
           <Key>
             <PropertyRef Name="seq_no" />
@@ -9128,6 +9122,15 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
           <Property Name="division_name1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="section_name1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="sp_hrmps_sched_header_list_Result">
+          <Property Type="String" Name="psb_ctrl_nbr" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="psb_date" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="remarks_details" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="descr" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="active_dttm" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="expiry_dttm" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="9" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -13783,6 +13786,19 @@ warning 6002: The table/view 'HRIS_RCT.dbo.vw_vacant_position_list' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_hrmps_sched_header_list" FunctionName="HRIS_RCTModel.Store.sp_hrmps_sched_header_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_RCTModel.sp_hrmps_sched_header_list_Result">
+                <ScalarProperty Name="psb_ctrl_nbr" ColumnName="psb_ctrl_nbr" />
+                <ScalarProperty Name="psb_date" ColumnName="psb_date" />
+                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="active_dttm" ColumnName="active_dttm" />
+                <ScalarProperty Name="expiry_dttm" ColumnName="expiry_dttm" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -811,6 +811,9 @@
     <Compile Include="Models\sp_hrmpsb_screening_profile_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_hrmps_sched_header_list1_Result.cs">
+      <DependentUpon>HRIS_RCT.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_hrmps_sched_header_list_Result.cs">
       <DependentUpon>HRIS_RCT.tt</DependentUpon>
     </Compile>

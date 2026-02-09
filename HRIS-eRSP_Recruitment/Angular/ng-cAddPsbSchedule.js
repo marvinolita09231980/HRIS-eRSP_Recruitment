@@ -141,11 +141,18 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
                                            '<li><a ng-click="show_panel(' + row["row"] + ',' + data + ')">SHOW PANEL FOR THIS HRMPSB</a></li>' +
                                            '<li><a ng-click="psb_app_list(' + row["row"] + ',' + data + ')">SHOW APPLICANTS FOR THIS HRMPSB</a></li>' +
                                            '<li><a ng-disabled="' + full["edit_disabled"] +'" ng-click="btn_edit(' + row["row"] + ')">EDIT HRMPSB SCHEDULE</a></li>' +
-                                            '<li><a ng-disabled="' + full["edit_disabled"] + '"  ng-click="btn_refreshPanelList(' + row["row"] + ')">REFRESH PANEL LIST</a></li>' +
-                                '<li><a ng-show="' + data + '== 2"  ng-click="reactivateHRMPSB(' + row["row"] + ')">REACTIVATE HRMPSB SCHEDULE</a></li>' +
+                                           '<li><a ng-disabled="' + full["edit_disabled"] + '"  ng-click="btn_refreshPanelList(' + row["row"] + ')">REFRESH PANEL LIST</a></li>' +
                                            '</ul>' +
                                        '</div>' +
                                        '<button  type="button" ng-disabled="' + full["del_disabled"] + '" class="btn btn-danger btn-sm btn-grid" data-toggle="tooltip" data-placement="top" title="Delete PSB Schedule" ng-click="psb_sched_del(' + row["row"] + ')" ng-disabled="' + data + '==2">Delete</button>' +
+                                        '<div class="btn-group">' +
+                                            '<button class="btn btn-warning btn-sm dropdown-toggle btn-grid" type="button" data-toggle="dropdown" data-placement="top" title="Click for more action">START</button>' +
+                                            '<ul class="dropdown-menu ">' +
+                                            '<li><a ng-click="start_psb('+ row["row"] + ')">START HRMPSB SCHEDULE</a></li>' +
+                                            '<li><a ng-click="conclude_psb('+ row["row"] +')">CONCLUDE HRMPSB SCHEDULE</a></li>' +
+                                            '<li><a ng-click="reactivateHRMPSB('+ row["row"] +')">REACTIVATE HRMPSB SCHEDULE</a></li>' +
+                                            '</ul>' +
+                                        '</div>' +
                                    '</div>';
 
                                 
@@ -163,7 +170,167 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
 		$("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
     }
 
-   
+    s.start_psb = function (row_id) {
+        var dt = s.PsbSchedule_Data[row_id]
+        swal({
+            title: "Are you sure you want to Start this HRMPSB schedule?",
+            text: "",
+            icon: "warning",
+            buttons: ["No", "Yes"],
+            dangerMode: true,
+        }).then(function (yes) {
+            if (yes) {
+                cs.loading("show")
+                var psb_ctrl_nbr = dt.psb_ctrl_nbr;
+
+                h.post("../cHRMPSBScreening/SetPSBToStart", {
+                    psb_ctrl_nbr: psb_ctrl_nbr,
+                }).then(function (d) {
+                    if (d.data.icon == "success") {
+                        var budget_code = dt.budget_code
+                        var employment_type = dt.employment_type
+                        h.post("../cAddPsbSchedule/getPSBSchedule", {
+                            budget_code: budget_code
+                            , employment_type: employment_type
+                        }).then(function (d2) {
+                            if (d2.data.icon == "success") {
+                                localStorage['PsbSchedule_Data'] = JSON.stringify(d2.data.psb_sched)
+                                s.PsbSchedule_Data = d2.data.psb_sched.refreshTable("psbschedule_grid", psb_ctrl_nbr)
+                                swal("HRMPSB Screening has started!", { icon: "success" })
+                                cs.loading("hide")
+                            }
+                            else {
+                                cs.loading("hide")
+                                swal(d2.data.message, { icon: "error" })
+                            }
+                           
+                        })
+                    }
+                    else {
+
+                        swal(d.data.message, { icon: d.data.icon });
+                        cs.loading("hide")
+                    }
+                })
+
+            }
+            else {
+                cs.loading("hide")
+            }
+        })
+    }
+
+    s.conclude_psb = function (row_id) {
+        var dt = s.PsbSchedule_Data[row_id]
+
+        swal({
+            title: "Are you sure you want to conclude this HRMPSB schedule?",
+            text: "",
+            icon: "warning",
+            buttons: ["No", "Yes"],
+            dangerMode: true,
+        }).then(function (yes) {
+            if (yes) {
+                
+                var psb_ctrl_nbr = dt.psb_ctrl_nbr;
+
+                cs.loading("show");
+
+                h.post("../cHRMPSBScreening/SetPSBToConcluded", {
+                    psb_ctrl_nbr: psb_ctrl_nbr
+                }).then(function (d) {
+                    if (d.data.icon == "success") {
+                        var budget_code = dt.budget_code
+                        var employment_type = dt.employment_type
+                        console.log(psb_ctrl_nbr)
+                        h.post("../cAddPsbSchedule/getPSBSchedule", {
+                              budget_code: budget_code
+                            , employment_type: employment_type
+                        }).then(function (d2) {
+                            if (d.data.icon == "success") {
+                                localStorage['PsbSchedule_Data'] = JSON.stringify(d2.data.psb_sched)
+                                s.PsbSchedule_Data = d2.data.psb_sched.refreshTable("psbschedule_grid", psb_ctrl_nbr)
+                                swal("HRMPSB Screening has concluded!", { icon: "success" })
+                                cs.loading("hide")
+                            }
+                            else {
+                                cs.loading("hide")
+                                swal(d2.data.message, { icon: "error" })
+                            }
+                           
+                        })
+                    }
+                    else {
+                        swal(d.data.message, { icon: d.data.icon });
+                        cs.loading("hide")
+                    }
+                    
+                    
+                })
+
+            }
+            else {
+                cs.loading("hide")
+            }
+       })
+    }
+
+
+    s.reactivateHRMPSB = function (row_id) {
+        var dt = s.PsbSchedule_Data[row_id]
+        alert("test")
+        swal({
+            title: "Are you sure you want to re-activate this HRMPSB Schedule?",
+            text: "",
+            icon: "warning",
+            buttons: ["No", "Yes"],
+            dangerMode: true,
+        }).then(function (yes) {
+            if (yes) {
+                var psb_ctrl_nbr = dt.psb_ctrl_nbr;
+                
+                h.post("../cHRMPSBScreening/ReactivateHRMPSB", {
+                    psb_ctrl_nbr: psb_ctrl_nbr
+                }).then(function (d) {
+
+                    if (d.data.icon == "success") {
+
+                       
+                        var budget_code = dt.budget_code
+                        var employment_type = dt.employment_type
+
+                        h.post("../cAddPsbSchedule/getPSBSchedule", {
+                            budget_code: budget_code
+                            , employment_type: employment_type
+                        }).then(function (d2) {
+                            if (d.data.icon == "success") {
+                                localStorage['PsbSchedule_Data'] = JSON.stringify(d2.data.psb_sched)
+                                s.PsbSchedule_Data = d2.data.psb_sched.refreshTable("psbschedule_grid", psb_ctrl_nbr)
+                                swal("HRMPSB Screening has reactivated!", { icon: "success" })
+                                cs.loading("hide")
+                            }
+                            else {
+                                cs.loading("hide")
+                                swal(d2.data.message, { icon: "error" })
+                            }
+
+                        })
+                    }
+                    else {
+                        swal(d.data.message, { icon: d.data.icon });
+                        cs.loading("hide")
+                    }
+                   
+                })
+            }
+            else {
+                cs.loading("hide")
+            }
+        });
+
+
+
+    }
 
     s.fn_disabled_rating = function (data) {
         if (data == true) {
@@ -780,39 +947,7 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
         }
     }
 
-
-    s.reactivateHRMPSB = function (row) {
-        cs.loading("show")
-        var psb_ctrl_nbr = s.PsbSchedule_Data[row].psb_ctrl_nbr
-                    swal({
-                        title: "Are you sure you want to re-activate this PSB Schedule?",
-                        text: "",
-                        icon: "warning",
-                        buttons: ["No", "Yes"],
-                        dangerMode: true,
-                    }).then(function (willDelete) {
-                        if (willDelete) {
-                            h.post("../cHRMPSBScreening/ReactivateHRMPSB", {
-                                psb_ctrl_nbr: psb_ctrl_nbr
-                            }).then(function (d) {
-                                if (d.data.icon == "success") {
-                                    s.PsbSchedule_Data[row].psb_status = d.data.psb_status
-
-                                    s.PsbSchedule_Data = s.PsbSchedule_Data.refreshTable("psbschedule_grid","");
-                                }
-                                else {
-                                    swal(d.data.message, { icon: d.data.icon });
-                                }
-                                
-                                })
-                            cs.loading("hide")
-                        }
-                        else {
-                            cs.loading("hide")
-                        }
-                    });
-         
-    }
+    
 
     s.getItemsforPanel = function (budget_code, employment_type, psb_ctrl_nbr) {
         h.post("../cAddPsbSchedule/getItemsforPanel", { budget_code: budget_code, employment_type: employment_type, psb_ctrl_nbr: psb_ctrl_nbr }).then(function (d) {
@@ -992,7 +1127,7 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
         var budget_code = s.budgetcode 
         var employment_type = s.employmenttype
         h.post("../cAddPsbSchedule/getPSBSchedule", {
-             budget_code: budget_code
+              budget_code: budget_code
             , employment_type: employment_type
         }).then(function (d) {
             if (d.data.icon == "success") {
@@ -1012,7 +1147,7 @@ ng_eRSP_App.controller("cAddPsbSchedule_Ctrlr", function (commonScript, $scope, 
        
         h.post("../cAddAvailableItemInAPL/Open_Items_Hdr", { budget_code: budget_code, employment_type: employment_type }).then(function (d) {
             s.hiring_periods = d.data.data_items_hdr
-            console.log(d.data.data_items_hdr)
+            
         })
     }
 

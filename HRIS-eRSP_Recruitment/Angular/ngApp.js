@@ -135,6 +135,7 @@ ng_eRSP_App.run(function () {
             }
             rowx++;
         });
+        console.log(nakit_an)
         return nakit_an;
     }
 
@@ -192,6 +193,7 @@ ng_eRSP_App.run(function () {
         $('#' + table + ' tr').each(function () {
             $.each(this.cells, function (cells) {
                 if (cells == 0) {
+                    
                     if ($(this).text() == id) {
                         nakit_an = true;
                         return false;

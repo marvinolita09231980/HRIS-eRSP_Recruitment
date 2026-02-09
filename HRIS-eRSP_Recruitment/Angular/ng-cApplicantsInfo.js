@@ -1189,7 +1189,7 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
        
         if (val.length >= 4) {
             icon_spinner1.removeClass("hidden")
-            current_empl_id.disabled()
+           // current_empl_id.disabled()
             h.post("../cApplicantsInfo/FindPersonnel", { empl_id: val }).then(function (d) {
                 
                 if ( d.data.icon == "success") {
@@ -1262,6 +1262,13 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
         //    s.hiring_period = d.data.hiring_period
         //})
     }
+
+    function getSemester(month) {
+        var m = parseInt(month, 10); // handles "01", "09", etc.
+
+        // First semester: January (1) to June (6)
+        return (m >= 1 && m <= 6) ? 1 : 2;
+    }
     s.fetchfromPDS = function () {
         var fetchbtncancel = "fetchbtncancel"
         var iconfetchpds = "iconfetchpds"
@@ -1275,8 +1282,10 @@ ng_eRSP_App.controller("cApplicantsInfo_Ctrlr", function (commonScript,$scope, $
         h.post("../cApplicantsInfo/FetchFromPDS", { empl_id: id, info_ctrl_nbr: s.info_ctrl_nbr }).then(function (d) {
          
             if (d.data.DatafrmPDS[0] == "Data successfully inserted") {
-                
-                    h.post("../cApplicantsInfo/getApplicantList", { month: s.mo, year: s.yr }).then(function (d) {
+
+                var sem = getSemester(s.mo);
+
+                h.post("../cApplicantsInfo/getApplicantList", { month: sem, year: s.yr }).then(function (d) {
                         if (d.data.icon == "success") {
                             var dt = d.data.list.select(infoctrlnbr, "info_ctrl_nbr")
                             dt.populateFields(s.fd, 0)

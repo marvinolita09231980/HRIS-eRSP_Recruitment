@@ -630,7 +630,7 @@ ng_eRSP_App.controller("cHRMPSBRating_Ctrlr", function (commonScript, $scope, $h
         var disabled_rating = s.profile2.disabled_rating
         var title = ""
         if (disabled_rating) {
-            swal("No Allowed!","Admin has disabled rating action for this applicant. Please contact HR - Recruitment, Selection and Placement Section ", {icon:"error"})
+            swal("Not Allowed!","Rating is disabled for this applicant. Please contact HR – RSP Section.", {icon:"error"})
             return 
         }
         var psb_ctrl_nbr = s.psb_ctrl_nbr
